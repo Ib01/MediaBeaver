@@ -1,0 +1,120 @@
+body 
+{
+	text-align: center;
+	padding: 0px; 
+	margin: 0px;
+	color: #484848;
+	font-family: "Open Sans",sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+}
+
+input[type="text"] 
+{ 
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+}
+textarea 
+{ 
+    font-family: "Open Sans",sans-serif; 
+}
+
+#bodyDiv 
+{
+	width: 800px;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+}
+
+#contentDiv
+{
+	width: 100%;
+	height: 100%;
+	margin: 10px;
+}
+
+H2
+{
+	color: #484848;
+}
+
+#headerDiv
+{
+	width: 100%;
+	height: 50px;
+	background-color:#555555; 
+	color: white;
+	font-family: "Comic Sans MS";
+	font-size: 36px;
+	padding: 3px;
+	
+}
+#footerDiv
+{
+	width: 100%;
+	height: 50px;
+}
+
+.shadowBox
+{
+	box-shadow: 10px 10px 5px #888888;
+	background-color: #F1F1F1;
+	width: 700px;
+	padding: 5px;
+	
+}
+
+.shadowBoxHeader
+{
+	background-color: #8d8d8d; 
+	width: 695px; 
+	font-size: 18px; 
+	font-weight: bold; 
+	color: white; 
+	padding: 3px;
+}
+.shadowBoxHelp
+{
+	cursor: hand;
+}
+
+.errorBox
+{
+	border: solid 1px #484848; 
+	padding: 1px; 
+	display:none; 
+}
+
+.errorBox div
+{
+	background-color: red; 
+	padding: 1px; 
+	color: white; 
+}
+
+
+/* orange color #FF8A00; */
+
+.formLableCell
+{
+	width: 120px;	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
