@@ -20,7 +20,7 @@ public class HibernateRequestInterceptor implements HandlerInterceptor
 			s.beginTransaction();
 		
 		return true;
-	}
+	} 
 
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, 
 			Object handler, ModelAndView modelAndView) throws Exception 
