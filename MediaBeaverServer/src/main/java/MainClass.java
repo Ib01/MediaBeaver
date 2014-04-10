@@ -17,47 +17,53 @@ import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.webapp.WebAppContext;
 
+import com.ibus.mediaBeaverServer.data.DataInitialiser;
 import com.ibus.mediaBeaverServer.data.Repository;
 import com.ibus.mediaBeaverServer.entity.MediaTransformConfig;
+import com.ibus.mediaBeaverServer.util.Args;
+import com.ibus.mediaBeaverServer.util.WebServer;
 
 
-public class MainClass {
+public class MainClass 
+{
+	
 
 	public static void main(String[] args) 
 	{
-		try {
-			
-			System.out.println("Starting Jetty");
-			
-			startJetty();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		DataInitialiser.Initialise();
+		String action = Args.getAction(args);
+		
+		if(action.equals(Args.StartServer))
+		{
+			WebServer.start();
 		}
+		else if(action.equals(Args.ProcessMedia)){
+			processMedia();	
+		} 
 		
 	}
 
 	
-	private static void startJetty() throws Exception 
-	{
-		Server server = new Server();
-
-	    SelectChannelConnector connector = new SelectChannelConnector();
-	    connector.setPort(8080);
-	    server.addConnector(connector);
-
-	    ProtectionDomain domain = MainClass.class.getProtectionDomain();
-	    URL location = domain.getCodeSource().getLocation();
-	    
-	    WebAppContext webapp = new WebAppContext();
-	    webapp.setContextPath("/");
-	    webapp.setWar(location.toExternalForm());
-	    
-	    server.setHandler(webapp);
-	    server.start();
-	    server.join();
 	
+	
+	
+	public static void processMedia()
+	{
+		
+		System.out.println("processMedia");
+		
 	}
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
 	
 	/*public static void WriteFile()
 	{

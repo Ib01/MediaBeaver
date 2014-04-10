@@ -15,9 +15,7 @@ public class HibernateRequestInterceptor implements HandlerInterceptor
 			HttpServletResponse response, Object handler) throws Exception 
 	{
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-		
-		if(!s.getTransaction().isActive())
-			s.beginTransaction();
+		s.beginTransaction();
 		
 		return true;
 	}  
