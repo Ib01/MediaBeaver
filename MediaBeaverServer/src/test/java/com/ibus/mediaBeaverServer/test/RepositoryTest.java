@@ -1,14 +1,13 @@
 package com.ibus.mediaBeaverServer.test;
 
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.annotation.Bean;
-
-import static org.junit.Assert.*;
 
 import com.ibus.mediaBeaverServer.data.HibernateRequestInterceptor;
 import com.ibus.mediaBeaverServer.data.HibernateUtil;

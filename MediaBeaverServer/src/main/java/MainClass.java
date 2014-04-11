@@ -1,35 +1,26 @@
 
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.security.ProtectionDomain;
-import java.util.List;
-
-import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.server.handler.HandlerList;
-import org.eclipse.jetty.server.nio.SelectChannelConnector;
-import org.eclipse.jetty.util.thread.QueuedThreadPool;
-import org.eclipse.jetty.webapp.WebAppContext;
-
 import com.ibus.mediaBeaverServer.data.DataInitialiser;
-import com.ibus.mediaBeaverServer.data.Repository;
-import com.ibus.mediaBeaverServer.entity.MediaTransformConfig;
 import com.ibus.mediaBeaverServer.util.Args;
+import com.ibus.mediaBeaverServer.util.MediaManager;
 import com.ibus.mediaBeaverServer.util.WebServer;
 
 
 public class MainClass 
 {
-	
+	//static Logger log;
 
 	public static void main(String[] args) 
 	{
+		/*LogManager.resetConfiguration();
+		//BasicConfigurator.configure();
+		PropertyConfigurator.configure("log4j.properties");
+		
+		log = Logger.getLogger(MainClass.class.getName());
+		
+		log.info("******************** Testing *************************");*/
+	
+		
 		DataInitialiser.Initialise();
 		String action = Args.getAction(args);
 		
@@ -37,8 +28,10 @@ public class MainClass
 		{
 			WebServer.start();
 		}
-		else if(action.equals(Args.ProcessMedia)){
-			processMedia();	
+		else if(action.equals(Args.ProcessMedia))
+		{
+			MediaManager m = new MediaManager();
+			m.MoveMedia();
 		} 
 		
 	}
@@ -47,12 +40,6 @@ public class MainClass
 	
 	
 	
-	public static void processMedia()
-	{
-		
-		System.out.println("processMedia");
-		
-	}
 	
 	
 	
