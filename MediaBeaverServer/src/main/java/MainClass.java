@@ -1,9 +1,9 @@
+import java.net.URL;
+import java.security.ProtectionDomain;
 
-
-import com.ibus.mediaBeaverServer.data.DataInitialiser;
-import com.ibus.mediaBeaverServer.util.Args;
-import com.ibus.mediaBeaverServer.util.MediaManager;
-import com.ibus.mediaBeaverServer.util.WebServer;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.nio.SelectChannelConnector;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 
 public class MainClass 
@@ -21,8 +21,8 @@ public class MainClass
 		log.info("******************** Testing *************************");*/
 	
 		
-		DataInitialiser.Initialise();
-		String action = Args.getAction(args);
+		//DataInitialiser.Initialise();
+		/*String action = Args.getAction(args);
 		
 		if(action.equals(Args.StartServer))
 		{
@@ -32,10 +32,48 @@ public class MainClass
 		{
 			MediaManager m = new MediaManager();
 			m.MoveMedia();
-		} 
+		} */
+		
+		startJetty();
 		
 	}
 
+	public static void startJetty()
+	{
+		try 
+		{
+			System.out.println("Starting Jetty Server");
+			System.out.println("***************************************");
+			
+			Server server = new Server();
+
+		    SelectChannelConnector connector = new SelectChannelConnector();
+		    connector.setPort(8080);
+		    server.addConnector(connector);
+
+		    ProtectionDomain domain = MainClass.class.getProtectionDomain();
+		    URL location = domain.getCodeSource().getLocation();
+		    
+		    WebAppContext webapp = new WebAppContext();
+		    webapp.setContextPath("/");
+		    webapp.setWar(location.toExternalForm());
+
+		    /*HandlerList handlers = new HandlerList();
+		    handlers.setHandlers(new Handler[] {webapp, new ShutdownHandler(server, ShutdownPassword)});
+		    server.setHandler(handlers);*/
+		    
+		    server.setHandler(webapp);
+		    server.start();
+		    server.join();
+		    System.out.println("***************************************");
+		    System.out.println("Jetty Server Started Successfully");	
+
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
 	
 	
 	
