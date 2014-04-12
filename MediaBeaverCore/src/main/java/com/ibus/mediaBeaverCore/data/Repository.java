@@ -1,4 +1,4 @@
-package com.ibus.mediaBeaverServer.data;
+package com.ibus.mediaBeaverCore.data;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
@@ -7,9 +7,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import com.ibus.mediaBeaverServer.entity.Entity;
-import com.ibus.mediaBeaverServer.entity.MediaTransformConfig;
-import com.ibus.mediaBeaverServer.entity.MovieRegEx;
+import com.ibus.mediaBeaverCore.entity.Entity;
+import com.ibus.mediaBeaverCore.entity.MediaTransformConfig;
+import com.ibus.mediaBeaverCore.entity.MovieRegEx;
 
 public class Repository 
 {

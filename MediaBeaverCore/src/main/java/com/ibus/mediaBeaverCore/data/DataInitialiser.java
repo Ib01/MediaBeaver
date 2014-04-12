@@ -1,15 +1,15 @@
-package com.ibus.mediaBeaverServer.data;
+package com.ibus.mediaBeaverCore.data;
 
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.ibus.mediaBeaverServer.entity.MediaTransformConfig;
-import com.ibus.mediaBeaverServer.entity.MediaType;
-import com.ibus.mediaBeaverServer.entity.MovieRegEx;
-import com.ibus.mediaBeaverServer.entity.RenamingService;
-import com.ibus.mediaBeaverServer.entity.TransformAction;
+import com.ibus.mediaBeaverCore.entity.MediaTransformConfig;
+import com.ibus.mediaBeaverCore.entity.MediaType;
+import com.ibus.mediaBeaverCore.entity.MovieRegEx;
+import com.ibus.mediaBeaverCore.entity.RenamingService;
+import com.ibus.mediaBeaverCore.entity.TransformAction;
 
 public class DataInitialiser 
 {

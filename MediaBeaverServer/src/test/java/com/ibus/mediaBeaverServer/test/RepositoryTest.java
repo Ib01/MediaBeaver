@@ -9,12 +9,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.ibus.mediaBeaverCore.data.HibernateUtil;
+import com.ibus.mediaBeaverCore.data.Repository;
+import com.ibus.mediaBeaverCore.entity.MediaTransformConfig;
+import com.ibus.mediaBeaverCore.entity.MovieRegEx;
+import com.ibus.mediaBeaverCore.entity.RenamingService;
 import com.ibus.mediaBeaverServer.data.HibernateRequestInterceptor;
-import com.ibus.mediaBeaverServer.data.HibernateUtil;
-import com.ibus.mediaBeaverServer.data.Repository;
-import com.ibus.mediaBeaverServer.entity.MediaTransformConfig;
-import com.ibus.mediaBeaverServer.entity.MovieRegEx;
-import com.ibus.mediaBeaverServer.entity.RenamingService;
 
 
 

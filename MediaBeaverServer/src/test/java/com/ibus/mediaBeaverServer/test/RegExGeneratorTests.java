@@ -3,8 +3,10 @@ package com.ibus.mediaBeaverServer.test;
 import java.util.List;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
-import com.ibus.mediaBeaverServer.util.RegExGenerator;
+
+import com.ibus.mediaBeaverCore.util.RegExGenerator;
 
 public class RegExGeneratorTests 
 {

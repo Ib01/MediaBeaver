@@ -1,4 +1,4 @@
-package com.ibus.mediaBeaverServer.entity;
+package com.ibus.mediaBeaverCore.entity;
 
 public interface Entity 
 {

@@ -1,4 +1,4 @@
-package com.ibus.mediaBeaverServer.entity;
+package com.ibus.mediaBeaverCore.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import javax.validation.Valid;
 
 
 @Entity(name="Movie_Reg_Ex")
-public class MovieRegEx implements Serializable, com.ibus.mediaBeaverServer.entity.Entity
+public class MovieRegEx implements Serializable, com.ibus.mediaBeaverCore.entity.Entity
 {
 	private static final long serialVersionUID = 1L;
 	

@@ -8,8 +8,26 @@
 	<description>bla</description>
 	<packaging>war</packaging>
 
+
+
+	<parent>
+		<groupId>parent</groupId>
+		<artifactId>mediaBeaver</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../MediaBeaver/pom.xml</relativePath>
+	</parent>
+
+
+
 	<dependencies>
 
+		<dependency>
+			<groupId>com.ibus</groupId>
+			<artifactId>mediaBeaverCore</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		
 		<!-- Jetty -->
 		<dependency>
 			<groupId>org.eclipse.jetty.aggregate</groupId>
@@ -50,28 +68,6 @@
 			<artifactId>jsp-api-2.1-glassfish</artifactId>
 			<version>2.1.v20100127</version>
 		</dependency>
-
-		<!-- H2 db -->
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>1.3.175</version>
-		</dependency>
-
-		<!-- hibernate -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>4.1.9.Final</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>4.2.0.Final</version>
-		</dependency>
-
-
 		<!-- Spring framework -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -96,32 +92,6 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>2.2.3</version>
 		</dependency>
-
-		<!-- log4j -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
-
-		<!-- Junit -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- <dependency>
-			<groupId>com.ibus</groupId>
-			<artifactId>mediaBeaverCore</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency> -->
-
-
-
-		<!-- <dependency>jackson <groupId>org.codehaus.jackson</groupId> <artifactId>jackson-mapper-asl</artifactId><version>1.4.2</version> 
-			</dependency> -->
 
 	</dependencies>
 
@@ -203,7 +173,9 @@
 							<!-- <includeGroupIds>org.eclipse.jetty,javax.servlet</includeGroupIds> 
 								<excludeArtifactIds>jsp-api,jstl</excludeArtifactIds> -->
 
-							<includeGroupIds>org.eclipse.jetty.aggregate,org.eclipse.jetty,org.mortbay.jetty,org.eclipse.jdt.core.compiler,com.h2database,org.hibernate,org.springframework,junit</includeGroupIds>
+							<!-- <includeArtifactIds>mediaBeaverCore</includeArtifactIds> -->
+							<!-- <includeGroupIds>org.eclipse.jetty.aggregate,org.eclipse.jetty,org.mortbay.jetty, 
+								org.eclipse.jdt.core.compiler,com.h2database,org.hibernate,org.springframework,junit</includeGroupIds> -->
 
 							<excludes>META-INF/ECLIPSEF.*</excludes>
 							<outputDirectory>
@@ -213,6 +185,31 @@
 					</execution>
 				</executions>
 			</plugin>
+
+
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-shade-plugin</artifactId> 
+				<version>1.4</version> <executions> <execution> <phase>package</phase> <goals> 
+				<goal>shade</goal> </goals> <configuration> <artifactSet> signed jars <excludes> 
+				<exclude>bouncycastle:bcprov-jdk15</exclude> </excludes> </artifactSet> <transformers> 
+				<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> 
+				Main class <mainClass>com.ibus.mediaBeaverBackend.Main</mainClass> </transformer> 
+				Use resource transformers to prevent file overwrites <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer"> 
+				<resource>properties.properties</resource> </transformer> <transformer implementation="org.apache.maven.plugins.shade.resource.XmlAppendingTransformer"> 
+				<resource>applicationContext.xml</resource> </transformer> <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer"> 
+				<resource>META-INF/cxf/cxf.extension</resource> </transformer> <transformer 
+				implementation="org.apache.maven.plugins.shade.resource.XmlAppendingTransformer"> 
+				<resource>META-INF/cxf/bus-extensions.xml</resource> </transformer> </transformers> 
+				</configuration> </execution> </executions> </plugin> -->
+
+
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-jar-plugin</artifactId> 
+				<configuration> <archive> <manifest> <addDefaultImplementationEntries>false</addDefaultImplementationEntries> 
+				<addClasspath>true</addClasspath> <mainClass>ConsoleMain</mainClass> </manifest> 
+				<manifestEntries> <Class-Path>../conf/</Class-Path> </manifestEntries> </archive> 
+				</configuration> <executions> <execution> <id>make-a-jar</id> <phase>compile</phase> 
+				<goals> <goal>jar</goal> </goals> </execution> </executions> </plugin> -->
 
 
 

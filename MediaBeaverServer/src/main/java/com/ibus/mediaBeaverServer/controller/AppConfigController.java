@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ibus.mediaBeaverServer.data.Repository;
-import com.ibus.mediaBeaverServer.entity.MediaTransformConfig;
-import com.ibus.mediaBeaverServer.entity.RenamingService;
+import com.ibus.mediaBeaverCore.data.Repository;
+import com.ibus.mediaBeaverCore.entity.MediaTransformConfig;
+import com.ibus.mediaBeaverCore.entity.RenamingService;
 
 @Controller
 @RequestMapping(value = "/config")

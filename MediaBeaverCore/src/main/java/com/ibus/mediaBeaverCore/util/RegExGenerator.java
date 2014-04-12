@@ -1,4 +1,4 @@
-package com.ibus.mediaBeaverServer.util;
+package com.ibus.mediaBeaverCore.util;
 
 import java.util.ArrayList;
 import java.util.List;

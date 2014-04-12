@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ibus.mediaBeaverServer.data.Repository;
-import com.ibus.mediaBeaverServer.entity.JsonError;
-import com.ibus.mediaBeaverServer.entity.MediaTransformConfig;
-import com.ibus.mediaBeaverServer.entity.MovieRegEx;
-import com.ibus.mediaBeaverServer.entity.RenamingService;
-import com.ibus.mediaBeaverServer.util.RegExGenerator;
+import com.ibus.mediaBeaverCore.data.Repository;
+import com.ibus.mediaBeaverCore.entity.JsonError;
+import com.ibus.mediaBeaverCore.entity.MediaTransformConfig;
+import com.ibus.mediaBeaverCore.entity.MovieRegEx;
+import com.ibus.mediaBeaverCore.entity.RenamingService;
+import com.ibus.mediaBeaverCore.util.RegExGenerator;
 
 @Controller
 @RequestMapping(value = "/movieRegEx")

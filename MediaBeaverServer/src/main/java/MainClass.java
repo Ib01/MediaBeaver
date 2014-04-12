@@ -1,10 +1,9 @@
 import java.net.URL;
 import java.security.ProtectionDomain;
-
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
-
+import com.ibus.mediaBeaverCore.util.MediaManager;
 
 public class MainClass 
 {
@@ -12,7 +11,11 @@ public class MainClass
 
 	public static void main(String[] args) 
 	{
-		//com.ibus.mediaBeaverCore.util
+		MediaManager m;
+		
+		/*MediaManager h = new MediaManager();
+		h.MoveMedia();*/
+
 		
 		/*com.ibus.mediaBeaverCore.util
 		

@@ -1,4 +1,4 @@
-package com.ibus.mediaBeaverServer.entity;
+package com.ibus.mediaBeaverCore.entity;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
@@ -62,7 +62,7 @@ else
 */
 
 @Entity(name="Media_Transform_Config")
-public class MediaTransformConfig implements Serializable, com.ibus.mediaBeaverServer.entity.Entity
+public class MediaTransformConfig implements Serializable, com.ibus.mediaBeaverCore.entity.Entity
 {
 	private static final long serialVersionUID = 1L;
 	

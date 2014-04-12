@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ibus.mediaBeaverServer.data.HibernateUtil;
+import com.ibus.mediaBeaverCore.data.HibernateUtil;
 
 @ControllerAdvice
 public class GlobalExceptionHandler 

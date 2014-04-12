@@ -8,6 +8,8 @@ import org.hibernate.Transaction;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ibus.mediaBeaverCore.data.HibernateUtil;
+
 public class HibernateRequestInterceptor implements HandlerInterceptor  
 {
 	

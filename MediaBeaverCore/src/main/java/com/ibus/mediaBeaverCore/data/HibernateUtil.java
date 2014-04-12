@@ -1,4 +1,4 @@
-package com.ibus.mediaBeaverServer.data;
+package com.ibus.mediaBeaverCore.data;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
