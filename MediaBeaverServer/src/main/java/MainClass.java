@@ -12,6 +12,12 @@ public class MainClass
 
 	public static void main(String[] args) 
 	{
+		//com.ibus.mediaBeaverCore.util
+		
+		/*com.ibus.mediaBeaverCore.util
+		
+		MediaManager*/
+		
 		/*LogManager.resetConfiguration();
 		//BasicConfigurator.configure();
 		PropertyConfigurator.configure("log4j.properties");

@@ -1,4 +1,4 @@
-package com.ibus.mediaBeaverServer.util;
+package com.ibus.mediaBeaverCore.util;
 
 public class MediaManager 
 {

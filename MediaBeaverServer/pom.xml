@@ -112,7 +112,11 @@
 			<scope>test</scope>
 		</dependency>
 
-
+		<!-- <dependency>
+			<groupId>com.ibus</groupId>
+			<artifactId>mediaBeaverCore</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency> -->
 
 
 
@@ -123,17 +127,10 @@
 
 	<build>
 		<plugins>
-		
-			<!-- <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
- -->
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> 
+				<version>3.1</version> <configuration> <source>1.6</source> <target>1.6</target> 
+				</configuration> </plugin> -->
 
 			<!-- Create the war during the package phase. Note: MainClass must be 
 				in the default package. if it is in the default package it will end up under 
