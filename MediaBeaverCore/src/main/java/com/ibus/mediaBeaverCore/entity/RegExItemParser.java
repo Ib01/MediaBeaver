@@ -33,7 +33,7 @@ public class RegExItemParser implements Serializable
 	 * this reg ex will be applied recursively over assembledItem 
 	 */
 	@Column
-	private String recursiveRegEx;
+	private String cleaningRegEx;
 
 	
 	public String getAssembledItem() {
@@ -48,10 +48,16 @@ public class RegExItemParser implements Serializable
 	public void setRemoveCharacters(String removeCharacters) {
 		this.removeCharacters = removeCharacters;
 	}
-	public String getRecursiveRegEx() {
-		return recursiveRegEx;
+	public String getCleaningRegEx() {
+		return cleaningRegEx;
 	}
-	public void setRecursiveRegEx(String recursiveRegEx) {
-		this.recursiveRegEx = recursiveRegEx;
+	public void setCleaningRegEx(String recursiveRegEx) {
+		this.cleaningRegEx = recursiveRegEx;
+	}
+	
+	
+	public boolean hasCleaner()
+	{
+		return (cleaningRegEx != null && cleaningRegEx.length() > 0);
 	}
 }

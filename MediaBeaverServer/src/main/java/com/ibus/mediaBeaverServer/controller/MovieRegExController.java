@@ -1,5 +1,8 @@
 package com.ibus.mediaBeaverServer.controller;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -90,17 +93,37 @@ public class MovieRegExController
 		String name  = reg.assembleString(caps, model.getNameParser().getAssembledItem());
 		String year  = reg.assembleString(caps, model.getYearParser().getAssembledItem());
 		
-		if(model.getNameParser().getRecursiveRegEx() != null && model.getNameParser().getRecursiveRegEx().length() > 0)
-			name = reg.cleanString(model.getNameParser().getRecursiveRegEx(), name, " ");
+		if(model.getNameParser().getCleaningRegEx() != null && model.getNameParser().getCleaningRegEx().length() > 0)
+			name = reg.cleanString(model.getNameParser().getCleaningRegEx(), name, " ");
 		
-		if(model.getYearParser().getRecursiveRegEx() != null && model.getYearParser().getRecursiveRegEx().length() > 0)
-			year = reg.cleanString(model.getYearParser().getRecursiveRegEx(), name, " ");
+		if(model.getYearParser().getCleaningRegEx() != null && model.getYearParser().getCleaningRegEx().length() > 0)
+			year = reg.cleanString(model.getYearParser().getCleaningRegEx(), name, " ");
 		
 		model.setGeneratedName(name);
 		model.setGeneratedYear(year);
 		
 		return model;
 	}
+	
+	/*public static void WriteFile()
+	{
+		PrintWriter writer;
+		try 
+		{
+			writer = new PrintWriter("C:\\DeleteMe.txt", "UTF-8");
+			writer.println("The first line");
+			writer.println("The second line");
+			writer.close();
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}*/
 	
 	
 	

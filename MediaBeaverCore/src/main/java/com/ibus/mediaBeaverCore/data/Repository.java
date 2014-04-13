@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import com.ibus.mediaBeaverCore.entity.Entity;
 import com.ibus.mediaBeaverCore.entity.MediaTransformConfig;
@@ -58,6 +59,51 @@ public class Repository
 		T c = (T)s.get(cls, id);
 		return c;
 	}
+	
+	public static <T> T getInTransaction(QueryTransactable<T> transactable)
+	{
+		T result;
+		Transaction tx = null; 
+		try
+		{
+			Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+			tx = s.beginTransaction();
+
+			result = transactable.run();
+			
+			tx.commit();
+		}
+		catch(RuntimeException e)
+		{
+			tx.rollback();
+			throw e;
+		}	
+		
+		return result;
+	}
+
+	
+	/*public static <T> T getInTransaction(Transactable<T> transactable)
+	{
+		T result;
+		Transaction tx = null; 
+		try
+		{
+			Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+			tx = s.beginTransaction();
+
+			result = transactable.run();
+			
+			tx.commit();
+		}
+		catch(RuntimeException e)
+		{
+			tx.rollback();
+			throw e;
+		}	
+		
+		return result;
+	}	*/
 	
 	
 }

@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.ibus.mediaBeaverBackend.utility.MediaManager;
+import com.ibus.mediaBeaverCore.data.DataInitialiser;
 import com.ibus.mediaBeaverCore.data.HibernateUtil;
 
 public class Main
@@ -13,17 +14,15 @@ public class Main
 	
 	public static void main(String[] args)
 	{
+		log.debug("initialising data");
+		DataInitialiser.Initialise();
+		
+		
+		log.debug("Starting media movement");
 		MediaManager h = new MediaManager();
-		h.MoveMedia();
-
-		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction tx = s.beginTransaction();
-
-
-		tx.commit();
+		h.moveMedia();
 
 		
-		System.out.println("succeess");
 	}
 
 }

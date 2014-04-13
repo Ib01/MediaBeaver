@@ -215,10 +215,10 @@ public class RepositoryTest
 		MovieRegEx re = new MovieRegEx();
 		re.setExpression("1");
 		re.getNameParser().setAssembledItem("2");
-		re.getNameParser().setRecursiveRegEx("3");
+		re.getNameParser().setCleaningRegEx("3");
 		re.getNameParser().setRemoveCharacters("4");
 		re.getYearParser().setAssembledItem("5");
-		re.getYearParser().setRecursiveRegEx("6");
+		re.getYearParser().setCleaningRegEx("6");
 		re.getYearParser().setRemoveCharacters("7");
 		re.setTestFileName("8");
 		re.setGeneratedName("9");
@@ -232,10 +232,10 @@ public class RepositoryTest
 	{
 		assertTrue(re.getExpression().equals("1"));
 		assertTrue(re.getNameParser().getAssembledItem().equals("2"));
-		assertTrue(re.getNameParser().getRecursiveRegEx().equals("3"));
+		assertTrue(re.getNameParser().getCleaningRegEx().equals("3"));
 		assertTrue(re.getNameParser().getRemoveCharacters().equals("4"));
 		assertTrue(re.getYearParser().getAssembledItem().equals("5"));
-		assertTrue(re.getYearParser().getRecursiveRegEx().equals("6"));
+		assertTrue(re.getYearParser().getCleaningRegEx().equals("6"));
 		assertTrue(re.getYearParser().getRemoveCharacters().equals("7"));
 		assertTrue(re.getTestFileName().equals("8"));
 		assertTrue(re.getGeneratedName().equals("9"));

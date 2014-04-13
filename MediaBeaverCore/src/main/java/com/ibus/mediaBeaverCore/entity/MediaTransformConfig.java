@@ -109,6 +109,9 @@ public class MediaTransformConfig implements Serializable, com.ibus.mediaBeaverC
 	@Column
 	private String destinationFolder;
 	
+	@Column
+	//private String storeMovieInFolder;
+	
 	
 	public int getId() {
 		return id;  
