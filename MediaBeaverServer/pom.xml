@@ -114,7 +114,7 @@
 					<warName>${project.artifactId}-${project.version}</warName>
 					<archive>
 						<manifest>
-							<mainClass>MainClass</mainClass>
+							<mainClass>Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -143,7 +143,7 @@
 								<move
 									todir="${project.build.directory}/${project.artifactId}-${project.version}/">
 									<fileset dir="${project.build.directory}/classes/">
-										<include name="MainClass.class" />
+										<include name="Main.class" />
 									</fileset>
 								</move>
 							</tasks>
@@ -176,6 +176,9 @@
 							<!-- <includeArtifactIds>mediaBeaverCore</includeArtifactIds> -->
 							<!-- <includeGroupIds>org.eclipse.jetty.aggregate,org.eclipse.jetty,org.mortbay.jetty, 
 								org.eclipse.jdt.core.compiler,com.h2database,org.hibernate,org.springframework,junit</includeGroupIds> -->
+							
+							<!-- we need to unpack and copy some dependencies to the root of the war so we can boot jetty. yes this is a bit ugly -->
+							<includeGroupIds>log4j,org.eclipse.jetty,org.mortbay.jetty</includeGroupIds>
 
 							<excludes>META-INF/ECLIPSEF.*</excludes>
 							<outputDirectory>

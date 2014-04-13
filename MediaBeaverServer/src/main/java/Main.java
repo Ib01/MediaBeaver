@@ -1,35 +1,19 @@
 import java.net.URL;
 import java.security.ProtectionDomain;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
-import com.ibus.mediaBeaverCore.util.MediaManager;
 
-public class MainClass 
+public class Main 
 {
-	//static Logger log;
+	static Logger log = Logger.getLogger(Main.class.getName());
 
 	public static void main(String[] args) 
-	{
-		MediaManager m;
-		
-		/*MediaManager h = new MediaManager();
-		h.MoveMedia();*/
-
-		
-		/*com.ibus.mediaBeaverCore.util
-		
-		MediaManager*/
-		
-		/*LogManager.resetConfiguration();
-		//BasicConfigurator.configure();
-		PropertyConfigurator.configure("log4j.properties");
-		
-		log = Logger.getLogger(MainClass.class.getName());
-		
-		log.info("******************** Testing *************************");*/
-	
-		
+	{	
 		//DataInitialiser.Initialise();
 		/*String action = Args.getAction(args);
 		
@@ -51,16 +35,14 @@ public class MainClass
 	{
 		try 
 		{
-			System.out.println("Starting Jetty Server");
-			System.out.println("***************************************");
-			
+			log.debug("Starting Jetty Server");
 			Server server = new Server();
 
 		    SelectChannelConnector connector = new SelectChannelConnector();
 		    connector.setPort(8080);
 		    server.addConnector(connector);
 
-		    ProtectionDomain domain = MainClass.class.getProtectionDomain();
+		    ProtectionDomain domain = Main.class.getProtectionDomain();
 		    URL location = domain.getCodeSource().getLocation();
 		    
 		    WebAppContext webapp = new WebAppContext();
@@ -73,14 +55,12 @@ public class MainClass
 		    
 		    server.setHandler(webapp);
 		    server.start();
+			
+		    log.debug("Joinging Jetty Server");
 		    server.join();
-		    System.out.println("***************************************");
-		    System.out.println("Jetty Server Started Successfully");	
-
-		
+		    		
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("En error occured while starting the jetty web server", e);
 		}	
 	}
 	

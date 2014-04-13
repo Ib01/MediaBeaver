@@ -34,9 +34,10 @@
         
         
         
-		<mapping class="com.ibus.mediaBeaverServer.entity.MediaTransformConfig"/>
-		<mapping class="com.ibus.mediaBeaverServer.entity.MovieRegEx"/>
-		<mapping class="com.ibus.mediaBeaverServer.entity.RegExItemParser"/>
+		<mapping class="com.ibus.mediaBeaverCore.entity.MediaTransformConfig"/>
+		<mapping class="com.ibus.mediaBeaverCore.entity.MovieRegEx"/>
+		<mapping class="com.ibus.mediaBeaverCore.entity.RegExItemParser"/>
+		
 		
 		
 		
