@@ -7,10 +7,9 @@
 	<name>com.ibus.mediaBeaverBackend</name>
 
 	<parent>
-		<groupId>parent</groupId>
+		<groupId>com.ibus</groupId>
 		<artifactId>mediaBeaver</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../MediaBeaver/pom.xml</relativePath>
 	</parent>
 
 

@@ -4,3 +4,7 @@ bin/
 
 # ignore all target directories
 target/
+.project
+.classpath
+/.settings
+
