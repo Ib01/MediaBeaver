@@ -58,14 +58,26 @@ else
 	
 	if(selection == regular expression)
 	{
-		main expression
-		
-		
+		3 operations: capture, capture recursively, assemble
 	
+		main expression
+		test file name
+		
+		list<RegExCapture>
+		- name
+		- assembled variable
+		- cleaning expression  
+		- cleaning concatenation string
 	
 		Naming Service (used to confirm media)  
+		- service selection: 
 			+TMDB
 			+TVDB
+		-variable 1 assignment ...
+		
+	
+		
+		
 		
 		destination folder: eg {Tv Series}\Season {Season number}
 	} 
