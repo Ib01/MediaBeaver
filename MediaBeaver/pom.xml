@@ -9,9 +9,9 @@
 
 
 	<modules>
-		<module>../MediaBeaverCore</module>
-		<module>../MediaBeaverServer</module>
-		<module>../MediaBeaverBackend</module>
+		<module>./MediaBeaverCore</module>
+		<module>./MediaBeaverServer</module>
+		<module>./MediaBeaverBackend</module>
 	</modules>
 
 
