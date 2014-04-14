@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+
+		<property name="hibernate.connection.driver_class">org.h2.Driver</property>
+		<property name="hibernate.connection.url">jdbc:h2:~/test3;AUTO_SERVER=TRUE</property>
+		<property name="hibernate.default_schema">PUBLIC</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
+
+
+
+
+
+		<!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">create</property>
+        
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="current_session_context_class">thread</property>
+        
+        
+        <!-- JDBC connection pool (use the built-in) -->
+        <!-- <property name="connection.pool_size">1</property> -->
+
+        <!-- Disable the second-level cache  -->
+        <!-- <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property> -->
+        
+        
+        
+		<mapping class="com.ibus.mediaBeaverCore.entity.MediaTransformConfig"/>
+		<mapping class="com.ibus.mediaBeaverCore.entity.MovieRegEx"/>
+		<mapping class="com.ibus.mediaBeaverCore.entity.RegExItemParser"/>
+		
+		
+		
+    </session-factory>
+
+</hibernate-configuration>
+

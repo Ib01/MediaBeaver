@@ -1,0 +1,231 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.ibus</groupId>
+	<artifactId>mediaBeaverServer</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>com.ibus.mediaBeaverServer</name>
+	<description>bla</description>
+	<packaging>war</packaging>
+
+
+
+	<parent>
+		<groupId>parent</groupId>
+		<artifactId>mediaBeaver</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../MediaBeaver/pom.xml</relativePath>
+	</parent>
+
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.ibus</groupId>
+			<artifactId>mediaBeaverCore</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		
+		<!-- Jetty -->
+		<dependency>
+			<groupId>org.eclipse.jetty.aggregate</groupId>
+			<artifactId>jetty-all-server</artifactId>
+			<version>8.1.0.RC5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jetty.aggregate</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<version>8.1.0.RC5</version>
+		</dependency>
+
+		<!-- JSP Support -->
+
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jsp-2.1</artifactId>
+			<version>7.5.0.RC2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-util</artifactId>
+			<version>8.1.0.RC5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jsp-2.1-glassfish</artifactId>
+			<version>2.1.v20100127</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jdt.core.compiler</groupId>
+			<artifactId>ecj</artifactId>
+			<version>3.7.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jsp-api-2.1-glassfish</artifactId>
+			<version>2.1.v20100127</version>
+		</dependency>
+		<!-- Spring framework -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>4.0.2.RELEASE</version>
+		</dependency>
+
+
+		<!-- Enables ajax to be used with mvc -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.2.3</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> 
+				<version>3.1</version> <configuration> <source>1.6</source> <target>1.6</target> 
+				</configuration> </plugin> -->
+
+			<!-- Create the war during the package phase. Note: MainClass must be 
+				in the default package. if it is in the default package it will end up under 
+				/MainClass in the war; otherwise it will end up under /{package}/MainClass 
+				and this is no good because when we run the war from the command line java 
+				expects to find the main class under the root -->
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<warName>${project.artifactId}-${project.version}</warName>
+					<archive>
+						<manifest>
+							<mainClass>Main</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>default-war</id>
+						<phase>package</phase>
+						<goals>
+							<goal>war</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<!-- Copy the main file to the build directory so it is picked up and 
+				added to our war. -->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>main-class-placement</id>
+						<phase>prepare-package</phase>
+						<configuration>
+							<tasks>
+								<move
+									todir="${project.build.directory}/${project.artifactId}-${project.version}/">
+									<fileset dir="${project.build.directory}/classes/">
+										<include name="Main.class" />
+									</fileset>
+								</move>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<!-- include our dependencies in our war. I think the classes are extracted 
+				out of their archives and put in to this one archive -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<id>jetty-classpath</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>unpack-dependencies</goal>
+						</goals>
+						<configuration>
+							<!-- <includeGroupIds>org.eclipse.jetty,javax.servlet</includeGroupIds> 
+								<excludeArtifactIds>jsp-api,jstl</excludeArtifactIds> -->
+
+							<!-- <includeArtifactIds>mediaBeaverCore</includeArtifactIds> -->
+							<!-- <includeGroupIds>org.eclipse.jetty.aggregate,org.eclipse.jetty,org.mortbay.jetty, 
+								org.eclipse.jdt.core.compiler,com.h2database,org.hibernate,org.springframework,junit</includeGroupIds> -->
+							
+							<!-- we need to unpack and copy some dependencies to the root of the war so we can boot jetty. yes this is a bit ugly -->
+							<includeGroupIds>log4j,org.eclipse.jetty,org.mortbay.jetty</includeGroupIds>
+
+							<excludes>META-INF/ECLIPSEF.*</excludes>
+							<outputDirectory>
+								${project.build.directory}/${project.artifactId}-${project.version}
+							</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-shade-plugin</artifactId> 
+				<version>1.4</version> <executions> <execution> <phase>package</phase> <goals> 
+				<goal>shade</goal> </goals> <configuration> <artifactSet> signed jars <excludes> 
+				<exclude>bouncycastle:bcprov-jdk15</exclude> </excludes> </artifactSet> <transformers> 
+				<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> 
+				Main class <mainClass>com.ibus.mediaBeaverBackend.Main</mainClass> </transformer> 
+				Use resource transformers to prevent file overwrites <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer"> 
+				<resource>properties.properties</resource> </transformer> <transformer implementation="org.apache.maven.plugins.shade.resource.XmlAppendingTransformer"> 
+				<resource>applicationContext.xml</resource> </transformer> <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer"> 
+				<resource>META-INF/cxf/cxf.extension</resource> </transformer> <transformer 
+				implementation="org.apache.maven.plugins.shade.resource.XmlAppendingTransformer"> 
+				<resource>META-INF/cxf/bus-extensions.xml</resource> </transformer> </transformers> 
+				</configuration> </execution> </executions> </plugin> -->
+
+
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-jar-plugin</artifactId> 
+				<configuration> <archive> <manifest> <addDefaultImplementationEntries>false</addDefaultImplementationEntries> 
+				<addClasspath>true</addClasspath> <mainClass>ConsoleMain</mainClass> </manifest> 
+				<manifestEntries> <Class-Path>../conf/</Class-Path> </manifestEntries> </archive> 
+				</configuration> <executions> <execution> <id>make-a-jar</id> <phase>compile</phase> 
+				<goals> <goal>jar</goal> </goals> </execution> </executions> </plugin> -->
+
+
+
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-shade-plugin</artifactId> 
+				<version>2.2</version> <executions> <execution> <phase>package</phase> <goals> 
+				<goal>shade</goal> </goals> <configuration> <transformers> <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> 
+				<manifestEntries> <Main-Class>daba.MainClass</Main-Class> <Build-Number>123</Build-Number> 
+				</manifestEntries> </transformer> </transformers> </configuration> </execution> 
+				</executions> </plugin> -->
+
+
+		</plugins>
+	</build>
+
+</project>

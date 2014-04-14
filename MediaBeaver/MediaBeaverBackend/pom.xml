@@ -1,0 +1,92 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.ibus</groupId>
+	<artifactId>mediaBeaverBackend</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>com.ibus.mediaBeaverBackend</name>
+
+	<parent>
+		<groupId>parent</groupId>
+		<artifactId>mediaBeaver</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../MediaBeaver/pom.xml</relativePath>
+	</parent>
+
+
+	<dependencies>
+
+		<!-- Internal dependencies -->
+		<dependency>
+			<groupId>com.ibus</groupId>
+			<artifactId>mediaBeaverCore</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+	</dependencies>
+
+
+
+	<build>
+		<plugins>
+
+
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<artifactSet>
+								<!-- signed jars -->
+								<!-- <excludes> <exclude>bouncycastle:bcprov-jdk15</exclude> </excludes> -->
+							</artifactSet>
+
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<!-- Main class -->
+									<mainClass>com.ibus.mediaBeaverBackend.Main</mainClass>
+								</transformer>
+								<!-- Use resource transformers to prevent file overwrites -->
+								<!-- <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer"> 
+									<resource>properties.properties</resource> </transformer> <transformer implementation="org.apache.maven.plugins.shade.resource.XmlAppendingTransformer"> 
+									<resource>applicationContext.xml</resource> </transformer> <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer"> 
+									<resource>META-INF/cxf/cxf.extension</resource> </transformer> <transformer 
+									implementation="org.apache.maven.plugins.shade.resource.XmlAppendingTransformer"> 
+									<resource>META-INF/cxf/bus-extensions.xml</resource> </transformer> -->
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+
+
+
+
+
+			<!-- <plugin> Build an executable JAR <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-jar-plugin</artifactId> <configuration> <archive> <manifest> 
+				<addClasspath>true</addClasspath> <mainClass>com.ibus.mediaBeaverBackend.Main</mainClass> 
+				</manifest> </archive> </configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-dependency-plugin</artifactId> <version>2.3</version> <executions> 
+				<execution> <id>jetty-classpath</id> <phase>prepare-package</phase> <goals> 
+				<goal>unpack-dependencies</goal> </goals> <configuration> <includeGroupIds>org.eclipse.jetty,javax.servlet</includeGroupIds> 
+				<excludeArtifactIds>jsp-api,jstl</excludeArtifactIds> <includeGroupIds>com.ibus</includeGroupIds> 
+				<includeArtifactIds>mediaBeaverCore</includeArtifactIds> <includeGroupIds>org.eclipse.jetty.aggregate,org.eclipse.jetty,org.mortbay.jetty,org.eclipse.jdt.core.compiler,com.h2database,org.hibernate,org.springframework,junit</includeGroupIds> 
+				<excludes>META-INF/ECLIPSEF.*</excludes> <outputDirectory> ${project.build.directory}/${project.artifactId}-${project.version} 
+				</outputDirectory> </configuration> </execution> </executions> </plugin> -->
+
+		</plugins>
+	</build>
+
+
+</project>
