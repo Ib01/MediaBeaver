@@ -26,17 +26,20 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 /*
-Operation Description: e.g. move all movies
+Config Description: e.g. move all movies
 Target Directory: \bla\movies
 
 Action
 	- Delete
 	- move
 
+PROBABLY DONT NEED THIS.
+-------------------------
 Media Type: 
 	- Movie
 	- Tv Episode
 	- Song
+----------------------
 
 if(delete)
 {
@@ -53,11 +56,19 @@ else
 		+ extension
 		+ reg ex
 	
-	Naming Service (used to confirm media)  
-		+TMDB
-		+TVDB
+	if(selection == regular expression)
+	{
+		main expression
+		
+		
 	
-	destination folder: eg {Tv Series}\Season {Season number} 
+	
+		Naming Service (used to confirm media)  
+			+TMDB
+			+TVDB
+		
+		destination folder: eg {Tv Series}\Season {Season number}
+	} 
 }
 */
 
