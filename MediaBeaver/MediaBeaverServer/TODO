@@ -29,3 +29,9 @@ output variables
 	...
 
 renamed file name 			author: {author}. {movie name} (movie year).mkv
+
+
+========================================
+
+apply select logic to folder as well as file?
+movie reg ex needs to accomodate cd descriptor
