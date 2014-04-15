@@ -1,0 +1,31 @@
+expression				(.+)[\(\[\{]([0-9]{4})[\)\]\}]
+
+name 					movie name 
+group assembly				{1}
+remove characters
+replace character
+
+name 					movie year 
+group assembly				{2}
+remove characters
+replace character
+
+...
+
+
+test file 				Iron-Man (1992) asdf af asdf.mkv
+movie name
+movie year
+
+
+media lookup service
+input variables
+	name assignment:		movie name
+	year assignment: 		movie year
+output variables
+	name
+	year 
+	author
+	...
+
+renamed file name 			author: {author}. {movie name} (movie year).mkv
