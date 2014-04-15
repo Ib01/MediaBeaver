@@ -8,7 +8,7 @@
 
  	
  	<!-- maps all annotated controlers under specified package --> 
- 	<context:component-scan base-package="com.ibus.mediaBeaverServer.controller" />
+ 	<context:component-scan base-package="com.ibus.mediabeaver.server.controller" />
  	
  	<!-- provides support functionality for things such as parsing incomming types on controler methods  -->   
  	<mvc:annotation-driven />
@@ -25,7 +25,7 @@
  
 	<!-- adds interceptors which can intercept requests as they land at the server allowing you to do work before and after a request --> 
     <mvc:interceptors>
-    	<bean class="com.ibus.mediaBeaverServer.data.HibernateRequestInterceptor" />
+    	<bean class="com.ibus.mediabeaver.server.data.HibernateRequestInterceptor" />
 	</mvc:interceptors>
 	
 	<!-- maps views to resources using view names specified in the controlers and the prifix and suffix --> 
