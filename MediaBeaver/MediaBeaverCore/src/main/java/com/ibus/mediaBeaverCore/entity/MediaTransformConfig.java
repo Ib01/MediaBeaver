@@ -132,7 +132,7 @@ public class MediaTransformConfig implements Serializable, com.ibus.mediaBeaverC
 	@Column
 	private String destinationFolder;
 	
-	@Column
+	//@Column
 	//private String storeMovieInFolder;
 	
 	
