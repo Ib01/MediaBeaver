@@ -1,3 +1,90 @@
+Config Description: e.g. move all movies
+
+Action
+	- Delete
+	- move
+
+Source Directory: \bla\movies
+
+variables 
+	"name"
+	"year"
+
+Select file and assign variables
+	-- if variables defined one of below must be added --  
+	+ open subtitles hash  
+		- map output to variables
+	+ List<reg ex>
+		- map regex groups to variables
+	------------------------------------------------------  
+	+ extension
+	+ all files 
+	+ all folders
+	+ empty folders
+
+
+confirm selection with media service
++TMDB
+	-map variables to required fields
++TVD
+	-map variables to required fields
+	
+
+destination path with variables: \{name} (year)\{name} (year).mkv
+create all dirs if they do not exist: y/n
+
+
+======================================================
+
+foreach file
+{
+	foreach config
+	{
+		fileProcessed = config.dowork(file);	
+		if(fileProcessed)
+			break
+	}
+
+}
+
+	
+config.dowork(file)
+{
+	if(delete)
+	{
+		delete files in our Source Directory that are selected by our selection rules
+		return;
+	}
+
+	List<string> variables= get varaibles from 
+	foreach(selection rule)
+	{
+		if(rule.isTarget(file))
+		{
+			variables = rule.getVariables() 
+		}
+	}
+
+}
+
+
+
+
+
+
+
+
+///////////////////// do we need this///////////////////// 
+Media Type: 
+	- Movie
+	- Tv Episode
+	- Song
+///////////////////// do we need this///////////////////// 
+
+
+
+
+
 expression				(.+)[\(\[\{]([0-9]{4})[\)\]\}]
 
 name 					movie name 
