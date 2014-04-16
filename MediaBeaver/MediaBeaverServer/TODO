@@ -56,12 +56,17 @@ config.dowork(file)
 		return;
 	}
 
-	List<string> variables= get varaibles from 
 	foreach(selection rule)
 	{
 		if(rule.isTarget(file))
 		{
 			variables = rule.getVariables() 
+			
+			if(need to confirm selection with media service)
+				if(file not found in media service)
+					continue;
+			
+			
 		}
 	}
 
