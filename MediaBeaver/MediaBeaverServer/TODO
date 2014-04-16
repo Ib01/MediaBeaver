@@ -33,7 +33,7 @@ confirm selection with media service
 destination path with variables: \{name} (year)\{name} (year).mkv
 create all dirs if they do not exist: y/n
 
-
+  
 ======================================================
 
 foreach file
