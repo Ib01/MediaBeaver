@@ -85,7 +85,7 @@ else
 */
 
 @Entity(name="Media_Transform_Config")
-public class MediaTransformConfig implements Serializable, com.ibus.mediabeaver.core.entity.Entity
+public class MediaTransformConfig implements Serializable, com.ibus.mediabeaver.core.entity.Persistable
 {
 	private static final long serialVersionUID = 1L;
 	

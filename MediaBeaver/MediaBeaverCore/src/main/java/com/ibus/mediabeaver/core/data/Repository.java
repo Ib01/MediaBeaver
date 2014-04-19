@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.ibus.mediabeaver.core.entity.Entity;
+import com.ibus.mediabeaver.core.entity.Persistable;
 import com.ibus.mediabeaver.core.entity.MediaTransformConfig;
 import com.ibus.mediabeaver.core.entity.MovieRegEx;
 
@@ -36,7 +36,7 @@ public class Repository
 	}
 
 	
-	public static <T extends Entity> int updateEntity(T obj)
+	public static <T extends Persistable> int updateEntity(T obj)
 	{
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		s.update(obj);
@@ -44,7 +44,7 @@ public class Repository
 	}
 	
 	
-	public static <T extends Entity> int addEntity(T item) 
+	public static <T extends Persistable> int addEntity(T item) 
 	{
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		s.save(item);
@@ -52,7 +52,7 @@ public class Repository
 	}
 	
 	
-	public static <T extends Entity> T getEntity(Class cls, int id) 
+	public static <T extends Persistable> T getEntity(Class cls, int id) 
 	{
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		@SuppressWarnings("unchecked")

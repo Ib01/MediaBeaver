@@ -1,0 +1,90 @@
+package com.ibus.mediabeaver.core.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+@Entity(name = "RegEx_Capture")
+public class RegExVariable extends PersistentObject
+{
+	private static final long serialVersionUID = 1L;
+
+	@Column
+	private String variableName;
+
+	/**
+	 * the item assembled form regex groups found in parent regex expression
+	 */
+	@NotEmpty(message = "This field cannot be left empty")
+	@Column
+	private String groupAssembly;
+
+	/**
+	 * these characters will be removed from assembledItem
+	 */
+	@Column
+	private String toReplaceChars;
+
+	/**
+	 * this reg ex will be applied recursively over assembledItem
+	 */
+	@Column
+	private String replaceWithCharacter;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	private RegExSelector regExSelector;
+
+	public String getVariableName()
+	{
+		return variableName;
+	}
+
+	public void setVariableName(String variable)
+	{
+		this.variableName = variable;
+	}
+
+	public String getGroupAssembly()
+	{
+		return groupAssembly;
+	}
+
+	public void setGroupAssembly(String groupAssembly)
+	{
+		this.groupAssembly = groupAssembly;
+	}
+
+	public String getReplaceCharacters()
+	{
+		return toReplaceChars;
+	}
+
+	public void setReplaceCharacters(String replaceCharacters)
+	{
+		this.toReplaceChars = replaceCharacters;
+	}
+
+	public String getReplaceWithCharacter()
+	{
+		return replaceWithCharacter;
+	}
+
+	public void setReplaceWithCharacter(String replaceWithCharacter)
+	{
+		this.replaceWithCharacter = replaceWithCharacter;
+	}
+
+	public RegExSelector getRegExSelector()
+	{
+		return regExSelector;
+	}
+
+	public void setRegExSelector(RegExSelector selector)
+	{
+		this.regExSelector = selector;
+	}
+
+}

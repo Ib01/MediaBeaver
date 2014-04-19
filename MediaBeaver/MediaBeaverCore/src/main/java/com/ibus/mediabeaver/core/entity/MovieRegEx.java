@@ -21,7 +21,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity(name = "Movie_Reg_Ex")
 public class MovieRegEx implements Serializable,
-		com.ibus.mediabeaver.core.entity.Entity {
+		com.ibus.mediabeaver.core.entity.Persistable {
+	
+	@Transient
 	private static final long serialVersionUID = 1L;
 
 	@Id

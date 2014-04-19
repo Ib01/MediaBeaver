@@ -14,7 +14,7 @@ import com.ibus.mediabeaver.core.entity.MediaTransformConfig;
 import com.ibus.mediabeaver.core.entity.MediaType;
 import com.ibus.mediabeaver.core.entity.MovieRegEx;
 import com.ibus.mediabeaver.core.entity.TransformAction;
-import com.ibus.mediabeaver.core.util.RegExGenerator;
+import com.ibus.mediabeaver.core.util.RegExHelper;
 
 import org.apache.commons.io.*;
 
@@ -81,17 +81,17 @@ public class MediaManager
 				//use regular expressions to determine if this is a movie file
 				if(config.getSelectExpressions().size() > 0)
 				{
-					RegExGenerator rex = new RegExGenerator();
+					RegExHelper rex = new RegExHelper();
 					for(MovieRegEx exp : config.getSelectExpressions())
 					{
 						List<String> fileParts = rex.captureStrings(exp.getExpression(), fso.getName());
-						String movieName = rex.assembleString(fileParts, exp.getNameParser().getAssembledItem());
-						String movieYear = rex.assembleString(fileParts, exp.getYearParser().getAssembledItem());
+						String movieName = rex.assembleRegExVariable(fileParts, exp.getNameParser().getAssembledItem());
+						String movieYear = rex.assembleRegExVariable(fileParts, exp.getYearParser().getAssembledItem());
 						
 						if(exp.getNameParser().hasCleaner())
-							movieName = rex.cleanString(exp.getNameParser().getCleaningRegEx(), movieName, " ");
+							movieName = rex.cleanStringRegEx(exp.getNameParser().getCleaningRegEx(), movieName, " ");
 						if(exp.getYearParser().hasCleaner())
-							movieYear = rex.cleanString(exp.getYearParser().getCleaningRegEx(), movieYear, " ");
+							movieYear = rex.cleanStringRegEx(exp.getYearParser().getCleaningRegEx(), movieYear, " ");
 						
 						if(config.getRenamingService() != null)
 						{

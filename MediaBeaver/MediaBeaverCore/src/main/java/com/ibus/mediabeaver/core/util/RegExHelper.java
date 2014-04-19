@@ -2,10 +2,13 @@ package com.ibus.mediabeaver.core.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegExGenerator 
+import com.ibus.mediabeaver.core.entity.ConfigVariable;
+
+public class RegExHelper 
 {
 	/**
 	 * Capture text from a regular expression. the regular expression must contain capture groups 
@@ -37,7 +40,7 @@ public class RegExGenerator
 	 * @param text
 	 * @return
 	 */
-	public String cleanString(String keepExpression, String text, String joinString)
+	public String cleanStringRegEx(String keepExpression, String text, String joinString)
 	{
 		Pattern pattern = Pattern.compile(keepExpression);
 		Matcher matcher = pattern.matcher(text);
@@ -58,7 +61,7 @@ public class RegExGenerator
 	}
 	
 	
-	public String assembleString(List<String> capturedStrings, String assemblyString)
+	public String assembleRegExVariable(List<String> capturedStrings, String assemblyString)
 	{
 		String s = assemblyString;
 		for(int i=0; i < capturedStrings.size(); i++)
@@ -76,6 +79,35 @@ public class RegExGenerator
 		
 		return matcher.find();
 	}
+	                                          
+	public String cleanString(String toClean, String replaceChars, String replaceWith)
+	{
+		if(replaceChars == null || replaceWith == null)
+			return toClean;
+		
+		String cs = toClean;
+		for(int i = 0; i < replaceChars.length(); i++)
+		{
+			String s = new StringBuilder().append(replaceChars.charAt(i)).toString();
+			cs = cs.replace(s, replaceWith);
+		}
+		
+		return cs;
+	}
+	
+	
+	public String assembleFileName(Set<ConfigVariable> variables, String assemblyString)
+	{
+		String s = assemblyString;
+		for(ConfigVariable v : variables)
+		{
+			s = s.replace(String.format("{%s}", v.getName()), v.getValue());
+		}
+		
+		return s;
+	}
+	
+	
 	
 }
 

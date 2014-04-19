@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.JsonError;
 import com.ibus.mediabeaver.core.entity.MovieRegEx;
-import com.ibus.mediabeaver.core.util.RegExGenerator;
+import com.ibus.mediabeaver.core.util.RegExHelper;
 
 @Controller
 @RequestMapping(value = "/movieRegEx")
@@ -48,7 +48,7 @@ public class MovieRegExController {
 	public @ResponseBody
 	MovieRegEx saveRegEx(@Valid @RequestBody MovieRegEx model,
 			BindingResult result) {
-		RegExGenerator reg = new RegExGenerator();
+		RegExHelper reg = new RegExHelper();
 
 		if (addErrors(reg, model, result))
 			return model;
@@ -63,26 +63,26 @@ public class MovieRegExController {
 	public @ResponseBody
 	MovieRegEx testRegEx(@Valid @RequestBody MovieRegEx model,
 			BindingResult result) {
-		RegExGenerator reg = new RegExGenerator();
+		RegExHelper reg = new RegExHelper();
 		List<String> caps = reg.captureStrings(model.getExpression(),
 				model.getTestFileName());
 
 		if (addErrors(reg, model, result))
 			return model;
 
-		String name = reg.assembleString(caps, model.getNameParser()
+		String name = reg.assembleRegExVariable(caps, model.getNameParser()
 				.getAssembledItem());
-		String year = reg.assembleString(caps, model.getYearParser()
+		String year = reg.assembleRegExVariable(caps, model.getYearParser()
 				.getAssembledItem());
 
 		if (model.getNameParser().getCleaningRegEx() != null
 				&& model.getNameParser().getCleaningRegEx().length() > 0)
-			name = reg.cleanString(model.getNameParser().getCleaningRegEx(),
+			name = reg.cleanStringRegEx(model.getNameParser().getCleaningRegEx(),
 					name, " ");
 
 		if (model.getYearParser().getCleaningRegEx() != null
 				&& model.getYearParser().getCleaningRegEx().length() > 0)
-			year = reg.cleanString(model.getYearParser().getCleaningRegEx(),
+			year = reg.cleanStringRegEx(model.getYearParser().getCleaningRegEx(),
 					name, " ");
 
 		model.setGeneratedName(name);
@@ -104,7 +104,7 @@ public class MovieRegExController {
 	 * }
 	 */
 
-	private boolean addErrors(RegExGenerator reg, MovieRegEx model,
+	private boolean addErrors(RegExHelper reg, MovieRegEx model,
 			BindingResult result) {
 		boolean ret = false;
 
