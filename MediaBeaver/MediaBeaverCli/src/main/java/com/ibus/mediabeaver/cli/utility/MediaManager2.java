@@ -2,24 +2,30 @@ package com.ibus.mediabeaver.cli.utility;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
+
 import com.ibus.mediabeaver.cli.Main;
 import com.ibus.mediabeaver.core.entity.ConfigVariable;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.RegExSelector;
 import com.ibus.mediabeaver.core.entity.RegExVariable;
 import com.ibus.mediabeaver.core.entity.TransformAction;
+import com.ibus.mediabeaver.core.exception.MediaBeaverConfigurationException;
 import com.ibus.mediabeaver.core.util.RegExHelper;
 
 public class MediaManager2
 {
 	private Logger log = Logger.getLogger(Main.class.getName());
 	private RegExHelper regExHelper = new RegExHelper();
-
+	private FileSystem fileSys = new FileSystem();
+	
 	public void processConfigs(List<MediaConfig> configs)
 	{
 		for (MediaConfig c : configs)
@@ -97,8 +103,11 @@ public class MediaManager2
 				for(RegExVariable rev : selector.getRegExVariables())
 				{
 					ConfigVariable cv = getConfigVariable(config.getConfigVariables(), rev.getVariableName());
-					if(cv == null) //our UI should ensure this should never happens
+					if(cv == null){
+						 //our UI should ensure this should never happens
 						log.error("An exception occured: no corresponding ConfigVariable for RegExVariable");
+						throw new MediaBeaverConfigurationException("An exception occured: no corresponding ConfigVariable for RegExVariable");
+					}
 					
 					String uncleanVariable = regExHelper.assembleRegExVariable(captures, rev.getGroupAssembly());	
 					String cleanVariable = regExHelper.cleanString(uncleanVariable, rev.getReplaceCharacters(), rev.getReplaceWithCharacter());
@@ -129,6 +138,33 @@ public class MediaManager2
 	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
