@@ -1,19 +1,17 @@
 package com.ibus.mediabeaver.server.test;
 
 import static org.junit.Assert.assertTrue;
-
 import java.util.List;
-
+import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.MediaTransformConfig;
 import com.ibus.mediabeaver.core.entity.MovieRegEx;
 import com.ibus.mediabeaver.core.entity.RenamingService;
-import com.ibus.mediabeaver.server.data.HibernateRequestInterceptor;
+
 
 public class RepositoryTest {
 	@BeforeClass
@@ -21,42 +19,50 @@ public class RepositoryTest {
 	}
 
 	@Before
-	public void InitialiseTest() {
+	public void beforeTest() {
 		// start with a fresh schema
 		HibernateUtil.createSchema();
 	}
 
+	public void StartTransaction()
+	{
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		s.beginTransaction();
+	}
+	
+	public void EndTransaction()
+	{
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		s.getTransaction().commit();
+	}
+	
+	
 	@Test
 	public void addMediaTransformConfigTest() throws Exception {
 		// add entity
 		int cfgId = addMediaTransformConfig();
 
-		// check it was addeed
-		HibernateRequestInterceptor inteceptor = new HibernateRequestInterceptor();
-		inteceptor.preHandle(null, null, null);
-
-		MediaTransformConfig cfg = Repository.getEntity(
-				MediaTransformConfig.class, cfgId);
+		StartTransaction();
+		
+		MediaTransformConfig cfg = Repository.getEntity(MediaTransformConfig.class, cfgId);
 		assertTrue(cfg != null);
 
-		inteceptor.postHandle(null, null, null, null);
+		EndTransaction();
 	}
 
 	@Test
 	public void getAllMediaTransformConfigTest() throws Exception {
 		// add entity
 		addMediaTransformConfig();
-
-		// check we can get it with get all method
-		HibernateRequestInterceptor inteceptor = new HibernateRequestInterceptor();
-		inteceptor.preHandle(null, null, null);
+		
+		StartTransaction();
 
 		List<MediaTransformConfig> configs = Repository
 				.getAllMediaTransformConfig();
 		assertTrue(configs.size() > 0);
 		validateMediaTransformConfig(configs.get(0));
 
-		inteceptor.postHandle(null, null, null, null);
+		EndTransaction();
 	}
 
 	@Test
@@ -64,15 +70,13 @@ public class RepositoryTest {
 		// add entity
 		int rexId = addMovieRegEx();
 
-		// check entity was added
-		HibernateRequestInterceptor inteceptor = new HibernateRequestInterceptor();
-		inteceptor.preHandle(null, null, null);
-
+		StartTransaction();
+		
 		MovieRegEx rex = Repository.getEntity(MovieRegEx.class, rexId);
 		assertTrue(rex != null);
 		validateMovieRegEx(rex);
 
-		inteceptor.postHandle(null, null, null, null);
+		EndTransaction();
 	}
 
 	/*
@@ -87,23 +91,21 @@ public class RepositoryTest {
 		int id = addMovieRegEx();
 
 		// get the item out and update it
-		HibernateRequestInterceptor inteceptor = new HibernateRequestInterceptor();
-		inteceptor.preHandle(null, null, null);
+		StartTransaction();
 
 		MovieRegEx rex = Repository.getEntity(MovieRegEx.class, id);
 		rex.setExpression("updateMovieRegExTest");
 		Repository.updateEntity(rex);
 
-		inteceptor.postHandle(null, null, null, null);
+		EndTransaction();
 
 		// get the item out and check its updated value
-		inteceptor = new HibernateRequestInterceptor();
-		inteceptor.preHandle(null, null, null);
+		StartTransaction();
 
 		MovieRegEx rex2 = Repository.getEntity(MovieRegEx.class, id);
 		assertTrue(rex2.getExpression().equals("updateMovieRegExTest"));
 
-		inteceptor.postHandle(null, null, null, null);
+		EndTransaction();
 	}
 
 	@Test
@@ -112,14 +114,13 @@ public class RepositoryTest {
 		int cfgId = addMediaTransformConfig();
 
 		// check that child was added as well as parent
-		HibernateRequestInterceptor inteceptor = new HibernateRequestInterceptor();
-		inteceptor.preHandle(null, null, null);
+		StartTransaction();
 
 		MediaTransformConfig config = Repository.getEntity(
 				MediaTransformConfig.class, cfgId);
 		assertTrue(config.getSelectExpressions().size() > 0);
 
-		inteceptor.postHandle(null, null, null, null);
+		EndTransaction();
 	}
 
 	@Test
@@ -128,8 +129,7 @@ public class RepositoryTest {
 		int cfgId = addMediaTransformConfig();
 
 		// remove entity form config
-		HibernateRequestInterceptor inteceptor = new HibernateRequestInterceptor();
-		inteceptor.preHandle(null, null, null);
+		StartTransaction();
 
 		MediaTransformConfig config = Repository.getEntity(
 				MediaTransformConfig.class, cfgId);
@@ -137,18 +137,17 @@ public class RepositoryTest {
 		config.removeSelectExpression(config.getSelectExpressions().get(0));
 		Repository.updateEntity(config);
 
-		inteceptor.postHandle(null, null, null, null);
+		EndTransaction();
 
 		// check that regex is removed from config and is not in db
-		inteceptor = new HibernateRequestInterceptor();
-		inteceptor.preHandle(null, null, null);
+		StartTransaction();
 
 		config = Repository.getEntity(MediaTransformConfig.class, cfgId);
 		assertTrue(config.getSelectExpressions().size() == 0);
 		MovieRegEx rex2 = Repository.getEntity(MovieRegEx.class, rexId);
 		assertTrue(rex2 == null);
 
-		inteceptor.postHandle(null, null, null, null);
+		EndTransaction();
 	}
 
 	@Test
@@ -157,8 +156,7 @@ public class RepositoryTest {
 		int cfgId = addMediaTransformConfig();
 
 		// update entity through parent
-		HibernateRequestInterceptor inteceptor = new HibernateRequestInterceptor();
-		inteceptor.preHandle(null, null, null);
+		StartTransaction();
 
 		MediaTransformConfig config = Repository.getEntity(
 				MediaTransformConfig.class, cfgId);
@@ -166,11 +164,10 @@ public class RepositoryTest {
 		rex.setExpression("updateMovieRegExThroughParentTest");
 		Repository.updateEntity(config);
 
-		inteceptor.postHandle(null, null, null, null);
+		EndTransaction();
 
 		// check that rex has changed
-		inteceptor = new HibernateRequestInterceptor();
-		inteceptor.preHandle(null, null, null);
+		StartTransaction();
 
 		config = Repository.getEntity(MediaTransformConfig.class, cfgId);
 		rex = config.getSelectExpressions().get(0);
@@ -178,15 +175,14 @@ public class RepositoryTest {
 		assertTrue(rex.getExpression().equals(
 				"updateMovieRegExThroughParentTest"));
 
-		inteceptor.postHandle(null, null, null, null);
+		EndTransaction();
 
 	}
 
 	public int addMovieRegEx() throws Exception {
-		HibernateRequestInterceptor inteceptor = new HibernateRequestInterceptor();
-		inteceptor.preHandle(null, null, null);
+		StartTransaction();
 		int cfgId = Repository.addEntity(getMovieRegEx());
-		inteceptor.postHandle(null, null, null, null);
+		EndTransaction();
 
 		return cfgId;
 	}
@@ -222,10 +218,9 @@ public class RepositoryTest {
 	}
 
 	public int addMediaTransformConfig() throws Exception {
-		HibernateRequestInterceptor inteceptor = new HibernateRequestInterceptor();
-		inteceptor.preHandle(null, null, null);
+		StartTransaction();
 		int cfgId = Repository.addEntity(getMediaTransformConfig());
-		inteceptor.postHandle(null, null, null, null);
+		EndTransaction();
 
 		return cfgId;
 	}
