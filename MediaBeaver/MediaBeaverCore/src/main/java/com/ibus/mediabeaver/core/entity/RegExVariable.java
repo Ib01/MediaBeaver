@@ -26,7 +26,7 @@ public class RegExVariable extends PersistentObject
 	 * these characters will be removed from assembledItem
 	 */
 	@Column
-	private String toReplaceChars;
+	private String replaceExpression;
 
 	/**
 	 * this reg ex will be applied recursively over assembledItem
@@ -57,14 +57,14 @@ public class RegExVariable extends PersistentObject
 		this.groupAssembly = groupAssembly;
 	}
 
-	public String getReplaceCharacters()
+	public String getRreplaceExpression()
 	{
-		return toReplaceChars;
+		return replaceExpression;
 	}
 
-	public void setReplaceCharacters(String replaceCharacters)
+	public void setReplaceExpression(String replaceCharacters)
 	{
-		this.toReplaceChars = replaceCharacters;
+		this.replaceExpression = replaceCharacters;
 	}
 
 	public String getReplaceWithCharacter()

@@ -80,7 +80,7 @@ public class RegExHelper
 		return matcher.find();
 	}
 	                                          
-	public String cleanString(String toClean, String replaceChars, String replaceWith)
+	/*public String cleanString(String toClean, String replaceChars, String replaceWith)
 	{
 		if(replaceChars == null || replaceWith == null)
 			return toClean;
@@ -93,7 +93,19 @@ public class RegExHelper
 		}
 		
 		return cs;
+	}*/
+	
+	public String cleanString(String toClean, String regEx, String replaceWith)
+	{
+		if(regEx == null || replaceWith == null)
+			return toClean;
+		
+		String cs = toClean;
+		cs = cs.replaceAll(regEx, replaceWith);
+		
+		return cs;
 	}
+	
 	
 	
 	public String assembleFileName(Set<ConfigVariable> variables, String assemblyString)

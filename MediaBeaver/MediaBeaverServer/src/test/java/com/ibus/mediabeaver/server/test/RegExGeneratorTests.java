@@ -91,10 +91,10 @@ public class RegExGeneratorTests {
 	{
 		RegExHelper rgen = new RegExHelper();
 		
-		String before = "asdf!@#$%^&*()_-+=xxxx";
-		String expectedResult = "asdf              xxxx";
+		String before = "asdf-_-_-_-_-xxxx";
+		String expectedResult = "asdf xxxx";
 
-		String result = rgen.cleanString(before, "!@#$%^&*()_-+=", " ");
+		String result = rgen.cleanString(before, "[-_]+", " ");
 		
 		assertTrue(result.equals(expectedResult));
 		
