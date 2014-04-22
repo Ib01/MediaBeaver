@@ -2,7 +2,9 @@ package com.ibus.mediabeaver.core.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.junit.Before;
@@ -49,7 +51,7 @@ public class RepositoryTest
 	
 	//Tests //////////////////////////////////////////////////////
 
-	@Test
+	/*@Test
 	public void addMediaTransformConfigTest() throws Exception
 	{
 		// add entity
@@ -95,11 +97,11 @@ public class RepositoryTest
 		EndTransaction();
 	}
 
-	/*
+	
 	 * test case handled above
 	 * 
 	 * @Test public void getMovieRegExTest() throws Exception{}
-	 */
+	 
 
 	@Test
 	public void updateMovieRegExTest() throws Exception
@@ -198,12 +200,10 @@ public class RepositoryTest
 		EndTransaction();
 
 	}
-
-	
-	//V2 ///////////////////////////////////////////////////////////////
+*/
 	
 	@Test
-	public void addMediaconfig()
+	public void addMediaconfigTest()
 	{
 		StartTransaction();
 		
@@ -211,11 +211,19 @@ public class RepositoryTest
 		
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		s.save(c);
-		String ss = c.getId();
-		
-		assertTrue(true);
+		String id = c.getId();
 		
 		EndTransaction();
+		
+		
+		StartTransaction();
+		
+		s = HibernateUtil.getSessionFactory().getCurrentSession();
+		c = (MediaConfig) s.get(MediaConfig.class, id);
+		assertConfigValid(c);
+		
+		EndTransaction();
+		
 	}
 	
 	
@@ -271,25 +279,111 @@ public class RepositoryTest
 	}
 	
 	
+	private void assertConfigValid(MediaConfig config)
+	{
+		String movieNameVar = "MovieName";
+		String movieYearVar = "MovieYear";
+		String movieExtensionVar = "movieExtension";
+		
+		assertTrue(config.getAction().equals(TransformAction.Move));
+		assertTrue(config.getDescription().equals("Move Movie files"));
+		assertTrue(config.getSourceDirectory().equals("D:\\MediabeaverTests\\Source"));
+		assertTrue(containsConfigVariable(config.getConfigVariables(), new ConfigVariable(movieNameVar)));
+		assertTrue(containsConfigVariable(config.getConfigVariables(), new ConfigVariable(movieYearVar)));
+		assertTrue(containsConfigVariable(config.getConfigVariables(), new ConfigVariable(movieExtensionVar)));
+		assertTrue(config.getDestinationRoot().equals("D:\\MediabeaverTests\\Destination\\Movies"));
+		assertTrue(config.getRelativeDestinationPath().equals(
+				String.format("{%s} ({%s})\\{%s} ({%s}).{%s}", movieNameVar, movieYearVar, movieNameVar, movieYearVar, movieExtensionVar)));
+
+		//create variables
+		RegExVariable nameVar = new RegExVariable();
+		nameVar.setVariableName(movieNameVar);
+		nameVar.setGroupAssembly("{1}");
+		nameVar.setReplaceExpression("[\\.-]+");
+		nameVar.setReplaceWithCharacter(" ");
+		
+		RegExVariable yearVar = new RegExVariable();
+		yearVar.setVariableName(movieYearVar);
+		yearVar.setGroupAssembly("{2}");
+
+		RegExVariable extensionVar = new RegExVariable();
+		extensionVar.setVariableName(movieExtensionVar);
+		extensionVar.setGroupAssembly("{3}");
+		
+		
+		RegExSelector res = config.getRegExSelectors().iterator().next();
+		assertTrue(res.getExpression().equals("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}].+\\.([a-zA-Z]+)"));
+		
+		containsRegExVariable(res.getRegExVariables(), nameVar);
+		containsRegExVariable(res.getRegExVariables(), yearVar);
+		containsRegExVariable(res.getRegExVariables(), extensionVar);
+		
+	}
+	
+	
+	
+	public boolean containsRegExVariable(Set<RegExVariable> variables, RegExVariable var)
+	{
+		for (RegExVariable rv : variables)
+		{
+			if (
+					nullablesAreEqual(rv.getVariableName(), var.getVariableName()) && 
+					nullablesAreEqual(rv.getGroupAssembly(), var.getGroupAssembly()) && 
+					nullablesAreEqual(rv.getRreplaceExpression(), var.getRreplaceExpression()) &&
+					nullablesAreEqual(rv.getReplaceWithCharacter(), var.getReplaceWithCharacter())) 
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	
+	}
+	
+	
+	
+	public boolean containsConfigVariable(Set<ConfigVariable> configVariables, ConfigVariable var)
+	{
+		for (ConfigVariable cv : configVariables)
+		{
+			if (
+					nullablesAreEqual(cv.getName(), var.getName()) && 
+					nullablesAreEqual(cv.getValue(), var.getValue()) && 
+					cv.isRequired() == var.isRequired())
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	
+	private boolean nullablesAreEqual(Object obj1, Object obj2)
+	{
+		if(obj1 != null)
+		{
+			if(obj2 != null)
+			{
+				if(!obj1.equals(obj2))
+						return false;
+			}
+			else
+				return false;		
+		}
+		else
+		{
+			if(obj2 != null)
+				return false;
+		}
+		
+		return true;
+	}
 	
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/*
 
 	public int addMovieRegEx() throws Exception
 	{
@@ -368,5 +462,5 @@ public class RepositoryTest
 		}
 
 	}
-
+*/
 }
