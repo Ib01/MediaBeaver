@@ -2,14 +2,19 @@ package com.ibus.mediabeaver.core.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
 import java.util.List;
+
 import org.junit.Test;
+
 import com.ibus.mediabeaver.core.util.RegExHelper;
 
-public class RegExGeneratorTests {
+public class RegExGeneratorTests
+{
 
 	@Test
-	public void captureStringsTest() {
+	public void captureStringsTest()
+	{
 		String fileName = "Iron-Man (1992).mkv";
 		String exp = "(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}]";
 
@@ -24,7 +29,8 @@ public class RegExGeneratorTests {
 	}
 
 	@Test
-	public void cleanStringRegExTest() {
+	public void cleanStringRegExTest()
+	{
 		String fileName = "Iron-Man (1992).mkv";
 		String exp = "(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}]";
 		String movieNameCleanerExpression = "([a-z,A-Z']+)";
@@ -45,7 +51,8 @@ public class RegExGeneratorTests {
 	}
 
 	@Test
-	public void assembleStringTest() {
+	public void assembleStringTest()
+	{
 		// assertTrue(true);
 
 		String fileName = "Iron-Man (1992).mkv";
@@ -70,13 +77,14 @@ public class RegExGeneratorTests {
 		assertTrue(name.equals("name: Iron-Man "));
 		assertTrue(year.equals("1992"));
 
-		String cleanedName = rgen.cleanStringRegEx(movieNameCleanerExpression, name,
-				joinString);
+		String cleanedName = rgen.cleanStringRegEx(movieNameCleanerExpression,
+				name, joinString);
 		assertTrue(cleanedName.equals("name Iron Man"));
 	}
 
 	@Test
-	public void containsCaptureGroupTest() {
+	public void containsCaptureGroupTest()
+	{
 		RegExHelper rgen = new RegExHelper();
 
 		assertTrue(rgen.containsCaptureGroup("{1} asdf {2}"));
@@ -84,35 +92,19 @@ public class RegExGeneratorTests {
 		assertFalse(rgen.containsCaptureGroup(" asdf asdf "));
 
 	}
-	
-	
+
 	@Test
-	public void cleanStringTest() 
+	public void cleanStringTest()
 	{
 		RegExHelper rgen = new RegExHelper();
-		
+
 		String before = "asdf-_-_-_-_-xxxx";
 		String expectedResult = "asdf xxxx";
 
 		String result = rgen.cleanString(before, "[-_]+", " ");
-		
+
 		assertTrue(result.equals(expectedResult));
-		
+
 	}
-	
-	
-	
-	
 
 }
-
-
-
-
-
-
-
-
-
-
-

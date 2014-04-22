@@ -5,8 +5,13 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 
-@Entity(name = "RegEx_Selector")
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+@Entity(name = "Media_Config")
 public class MediaConfig extends PersistentObject
 {
 	private static final long serialVersionUID = 1L;
@@ -21,15 +26,21 @@ public class MediaConfig extends PersistentObject
 	private String sourceDirectory;
 	
 	@Column
+	@OneToMany(fetch = FetchType.EAGER, mappedBy= "parentConfig", orphanRemoval = true)
+	@Cascade({CascadeType.ALL})
 	private Set<ConfigVariable> configVariables = new HashSet<ConfigVariable>();
 	
 	@Column
 	private boolean useOpenSubtitlesThumbprintService;
 	
 	@Column
+	@OneToMany(fetch = FetchType.EAGER, mappedBy= "parentConfig", orphanRemoval = true)
+	@Cascade({CascadeType.ALL})
 	private Set<OpenSubtitlesFieldMap> openSubtitlesFieldMaps = new HashSet<OpenSubtitlesFieldMap>(); 
 
 	@Column
+	@OneToMany(fetch = FetchType.EAGER, mappedBy= "parentConfig", orphanRemoval = true)
+	@Cascade({CascadeType.ALL})
 	private Set<RegExSelector> regExSelectors = new HashSet<RegExSelector>(); 
 	
 	@Column

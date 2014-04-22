@@ -8,7 +8,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity(name = "RegEx_Selector")
@@ -16,11 +19,13 @@ public class RegExSelector extends PersistentObject
 {
 	private static final long serialVersionUID = 1L;
 
-	@NotEmpty(message = "This field cannot be left empty")
 	@Column
+	@NotEmpty(message = "This field cannot be left empty")
 	private String expression;
 
 	@Column
+	@OneToMany(fetch = FetchType.EAGER, mappedBy= "regExSelector", orphanRemoval = true)
+	@Cascade({CascadeType.ALL})
 	private Set<RegExVariable> variables = new HashSet<RegExVariable>();
 
 	@ManyToOne(fetch = FetchType.EAGER)

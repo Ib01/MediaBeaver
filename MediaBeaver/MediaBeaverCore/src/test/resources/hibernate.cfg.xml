@@ -14,8 +14,6 @@
 
 
 
-
-
 		<!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
 
@@ -43,6 +41,8 @@
 		<mapping class="com.ibus.mediabeaver.core.entity.OpenSubtitlesFieldMap"/>
 		<mapping class="com.ibus.mediabeaver.core.entity.RegExSelector"/>
 		<mapping class="com.ibus.mediabeaver.core.entity.RegExVariable"/>
+		
+		
 		
     </session-factory>
 

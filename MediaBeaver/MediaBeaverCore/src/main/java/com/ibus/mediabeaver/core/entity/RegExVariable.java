@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-@Entity(name = "RegEx_Capture")
+@Entity(name = "RegEx_Variable")
 public class RegExVariable extends PersistentObject
 {
 	private static final long serialVersionUID = 1L;
@@ -18,8 +18,8 @@ public class RegExVariable extends PersistentObject
 	/**
 	 * the item assembled form regex groups found in parent regex expression
 	 */
-	@NotEmpty(message = "This field cannot be left empty")
 	@Column
+	@NotEmpty(message = "This field cannot be left empty")
 	private String groupAssembly;
 
 	/**

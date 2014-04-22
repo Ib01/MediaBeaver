@@ -1,25 +1,35 @@
-package com.ibus.mediabeaver.server.test;
+package com.ibus.mediabeaver.core.test;
 
 import static org.junit.Assert.assertTrue;
+
 import java.util.List;
+
 import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
+import com.ibus.mediabeaver.core.entity.ConfigVariable;
+import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.MediaTransformConfig;
 import com.ibus.mediabeaver.core.entity.MovieRegEx;
+import com.ibus.mediabeaver.core.entity.RegExSelector;
+import com.ibus.mediabeaver.core.entity.RegExVariable;
 import com.ibus.mediabeaver.core.entity.RenamingService;
+import com.ibus.mediabeaver.core.entity.TransformAction;
 
-
-public class RepositoryTest {
+public class RepositoryTest
+{
 	@BeforeClass
-	public static void initialiseClass() {
+	public static void initialiseClass()
+	{
 	}
 
 	@Before
-	public void beforeTest() {
+	public void beforeTest()
+	{
 		// start with a fresh schema
 		HibernateUtil.createSchema();
 	}
@@ -29,7 +39,7 @@ public class RepositoryTest {
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		s.beginTransaction();
 	}
-	
+
 	public void EndTransaction()
 	{
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -37,24 +47,29 @@ public class RepositoryTest {
 	}
 	
 	
+	//Tests //////////////////////////////////////////////////////
+
 	@Test
-	public void addMediaTransformConfigTest() throws Exception {
+	public void addMediaTransformConfigTest() throws Exception
+	{
 		// add entity
 		int cfgId = addMediaTransformConfig();
 
 		StartTransaction();
-		
-		MediaTransformConfig cfg = Repository.getEntity(MediaTransformConfig.class, cfgId);
+
+		MediaTransformConfig cfg = Repository.getEntity(
+				MediaTransformConfig.class, cfgId);
 		assertTrue(cfg != null);
 
 		EndTransaction();
 	}
 
 	@Test
-	public void getAllMediaTransformConfigTest() throws Exception {
+	public void getAllMediaTransformConfigTest() throws Exception
+	{
 		// add entity
 		addMediaTransformConfig();
-		
+
 		StartTransaction();
 
 		List<MediaTransformConfig> configs = Repository
@@ -66,12 +81,13 @@ public class RepositoryTest {
 	}
 
 	@Test
-	public void addMovieRegExTest() throws Exception {
+	public void addMovieRegExTest() throws Exception
+	{
 		// add entity
 		int rexId = addMovieRegEx();
 
 		StartTransaction();
-		
+
 		MovieRegEx rex = Repository.getEntity(MovieRegEx.class, rexId);
 		assertTrue(rex != null);
 		validateMovieRegEx(rex);
@@ -86,7 +102,8 @@ public class RepositoryTest {
 	 */
 
 	@Test
-	public void updateMovieRegExTest() throws Exception {
+	public void updateMovieRegExTest() throws Exception
+	{
 		// add entity
 		int id = addMovieRegEx();
 
@@ -109,7 +126,8 @@ public class RepositoryTest {
 	}
 
 	@Test
-	public void addMovieRegExThroughParentTest() throws Exception {
+	public void addMovieRegExThroughParentTest() throws Exception
+	{
 		// add entity and child
 		int cfgId = addMediaTransformConfig();
 
@@ -124,7 +142,8 @@ public class RepositoryTest {
 	}
 
 	@Test
-	public void removeMovieRegExThroughParentTest() throws Exception {
+	public void removeMovieRegExThroughParentTest() throws Exception
+	{
 		// add config
 		int cfgId = addMediaTransformConfig();
 
@@ -151,7 +170,8 @@ public class RepositoryTest {
 	}
 
 	@Test
-	public void updateMovieRegExThroughParentTest() throws Exception {
+	public void updateMovieRegExThroughParentTest() throws Exception
+	{
 		// add config
 		int cfgId = addMediaTransformConfig();
 
@@ -179,7 +199,100 @@ public class RepositoryTest {
 
 	}
 
-	public int addMovieRegEx() throws Exception {
+	
+	//V2 ///////////////////////////////////////////////////////////////
+	
+	@Test
+	public void addMediaconfig()
+	{
+		StartTransaction();
+		
+		MediaConfig c = getMediaConfig();
+		
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		s.save(c);
+		String ss = c.getId();
+		
+		assertTrue(true);
+		
+		EndTransaction();
+	}
+	
+	
+	
+	
+	//Utilities //////////////////////////////////////////////////////
+	
+	
+	
+	private MediaConfig getMediaConfig()
+	{
+		String movieNameVar = "MovieName";
+		String movieYearVar = "MovieYear";
+		String movieExtensionVar = "movieExtension";
+
+		//create variables
+		RegExVariable nameVar = new RegExVariable();
+		nameVar.setVariableName(movieNameVar);
+		nameVar.setGroupAssembly("{1}");
+		nameVar.setReplaceExpression("[\\.-]+");
+		nameVar.setReplaceWithCharacter(" ");
+
+		RegExVariable yearVar = new RegExVariable();
+		yearVar.setVariableName(movieYearVar);
+		yearVar.setGroupAssembly("{2}");
+
+		RegExVariable extensionVar = new RegExVariable();
+		extensionVar.setVariableName(movieExtensionVar);
+		extensionVar.setGroupAssembly("{3}");
+		
+		//create selector and add variables to it
+		RegExSelector sel = new RegExSelector();
+		sel.setExpression("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}].+\\.([a-zA-Z]+)");
+		sel.addRegExVariable(nameVar);
+		sel.addRegExVariable(yearVar);
+		sel.addRegExVariable(extensionVar);
+		
+		//add media config and add selector to it
+		MediaConfig config = new MediaConfig();
+		config.setAction(TransformAction.Move);
+		config.setDescription("Move Movie files");
+		config.setSourceDirectory("D:\\MediabeaverTests\\Source");
+		
+		config.addConfigVariables(new ConfigVariable(movieNameVar));
+		config.addConfigVariables(new ConfigVariable(movieYearVar));
+		config.addConfigVariables(new ConfigVariable(movieExtensionVar));
+		
+		config.setDestinationRoot("D:\\MediabeaverTests\\Destination\\Movies");
+		config.setRelativeDestinationPath(String.format("{%s} ({%s})\\{%s} ({%s}).{%s}", movieNameVar, movieYearVar, movieNameVar, movieYearVar, movieExtensionVar));
+		config.addRegExSelector(sel);
+
+		return config;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	public int addMovieRegEx() throws Exception
+	{
 		StartTransaction();
 		int cfgId = Repository.addEntity(getMovieRegEx());
 		EndTransaction();
@@ -187,7 +300,8 @@ public class RepositoryTest {
 		return cfgId;
 	}
 
-	public MovieRegEx getMovieRegEx() {
+	public MovieRegEx getMovieRegEx()
+	{
 		MovieRegEx re = new MovieRegEx();
 		re.setExpression("1");
 		re.getNameParser().setAssembledItem("2");
@@ -203,7 +317,8 @@ public class RepositoryTest {
 		return re;
 	}
 
-	public void validateMovieRegEx(MovieRegEx re) {
+	public void validateMovieRegEx(MovieRegEx re)
+	{
 		assertTrue(re.getExpression().equals("1"));
 		assertTrue(re.getNameParser().getAssembledItem().equals("2"));
 		assertTrue(re.getNameParser().getCleaningRegEx().equals("3"));
@@ -217,7 +332,8 @@ public class RepositoryTest {
 
 	}
 
-	public int addMediaTransformConfig() throws Exception {
+	public int addMediaTransformConfig() throws Exception
+	{
 		StartTransaction();
 		int cfgId = Repository.addEntity(getMediaTransformConfig());
 		EndTransaction();
@@ -225,7 +341,8 @@ public class RepositoryTest {
 		return cfgId;
 	}
 
-	public MediaTransformConfig getMediaTransformConfig() {
+	public MediaTransformConfig getMediaTransformConfig()
+	{
 		MediaTransformConfig it = new MediaTransformConfig();
 		it.setName("ello");
 		it.setProcessOrder(1);
@@ -237,14 +354,16 @@ public class RepositoryTest {
 		return it;
 	}
 
-	public void validateMediaTransformConfig(MediaTransformConfig config) {
+	public void validateMediaTransformConfig(MediaTransformConfig config)
+	{
 		assertTrue(config.getName().equals("ello"));
 		assertTrue(config.getProcessOrder() == 1);
 		assertTrue(config.getSelectExpressions().size() > 0);
 		assertTrue(config.selectAllContent() == true);
 		assertTrue(config.getRenamingService() == RenamingService.TMDB);
 
-		for (MovieRegEx it : config.getSelectExpressions()) {
+		for (MovieRegEx it : config.getSelectExpressions())
+		{
 			validateMovieRegEx(it);
 		}
 
