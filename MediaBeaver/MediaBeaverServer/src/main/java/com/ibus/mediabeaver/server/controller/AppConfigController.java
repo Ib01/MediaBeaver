@@ -1,5 +1,7 @@
 package com.ibus.mediabeaver.server.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,25 +11,44 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.ibus.mediabeaver.core.entity.MediaTransformConfig;
+import com.ibus.mediabeaver.core.entity.ConfigVariable;
+import com.ibus.mediabeaver.core.entity.MediaConfig;
+import com.ibus.mediabeaver.core.entity.TransformAction;
 
 @Controller
 @RequestMapping(value = "/config")
-public class AppConfigController {
+public class AppConfigController
+{
 	@ModelAttribute("config")
-	public MediaTransformConfig getInitialisedModel() {
-		MediaTransformConfig config = new MediaTransformConfig();
-		config.setName("asdf");
+	public MediaConfig getInitialisedModel()
+	{
+		MediaConfig config = new MediaConfig();
+		config.setDescription("Move movie files");
+		config.addConfigVariable(new ConfigVariable("MovieName"));
+		config.addConfigVariable(new ConfigVariable("MovieYear"));
+		
+		//config.getAction().
+		
 		return config;
 	}
+	
+	@ModelAttribute("actions")
+	public TransformAction[] getActions()
+	{
+		return TransformAction.values();
+	}
+	
+	
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String config() {
+	public String config()
+	{
 		return "AppConfig";
 	}
 
 	@RequestMapping(value = "/{configId}", method = RequestMethod.GET)
-	public String editConfig(@PathVariable int configId, Model model) {
+	public String editConfig(@PathVariable int configId, Model model)
+	{
 		return "AppConfig";
 
 		/*
@@ -43,9 +64,8 @@ public class AppConfigController {
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String saveConfig(
-			@Validated @ModelAttribute("config") MediaTransformConfig config,
-			BindingResult result, Model model) {
+	public String saveConfig(@Validated @ModelAttribute("config") MediaConfig config, BindingResult result, Model model)
+	{
 
 		model.addAttribute("config", config);
 
@@ -56,17 +76,7 @@ public class AppConfigController {
 		// return new ModelAndView("AppConfig", "command", config);
 	}
 
-	/*
-	 * public int addMediaTransformConfig() { MediaTransformConfig it = new
-	 * MediaTransformConfig(); it.setName("ello"); it.setProcessOrder(1);
-	 * it.getSelectExpressions().add("exp one");
-	 * it.getSelectExpressions().add("exp two");
-	 * it.getSelectExtensions().add("ext one"); it.setSelectAllContent(true);
-	 * it.setSelectEmptyFolders(true); it.setDeleteSelection(true);
-	 * it.setRenamingService(RenamingService.TMDB);
-	 * 
-	 * return Repository.addMediaTransformConfig(it); }
-	 */
+	
 
 	/*
 	 * @RequestMapping("/greeting") public String
@@ -90,6 +100,7 @@ public class AppConfigController {
 	/*
 	 * @RequestMapping(value="/owners/{ownerId}/pets/{petId}/edit", method =
 	 * RequestMethod.POST) public String processSubmit(@Validated
+	 * 
 	 * @ModelAttribute("pet") Pet pet, BindingResult result) {
 	 * 
 	 * if (result.hasErrors()) { return "petForm"; }

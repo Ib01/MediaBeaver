@@ -108,7 +108,7 @@ public class MediaConfig extends PersistentObject
 		return configVariables;
 	}
 
-	public void addConfigVariables(ConfigVariable variable)
+	public void addConfigVariable(ConfigVariable variable)
 	{
 		configVariables.add(variable);
 		variable.setParentConfig(this);

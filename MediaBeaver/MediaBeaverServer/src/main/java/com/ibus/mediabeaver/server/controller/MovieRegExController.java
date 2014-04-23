@@ -20,9 +20,11 @@ import com.ibus.mediabeaver.core.util.RegExHelper;
 
 @Controller
 @RequestMapping(value = "/movieRegEx")
-public class MovieRegExController {
+public class MovieRegExController
+{
 	@ModelAttribute("regEx")
-	public MovieRegEx getInitialisedModel() {
+	public MovieRegEx getInitialisedModel()
+	{
 		MovieRegEx re = new MovieRegEx();
 		re.setExpression("expression");
 		re.getNameParser().setAssembledItem("assembledItem");
@@ -30,7 +32,8 @@ public class MovieRegExController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String movieRegEx() {
+	public String movieRegEx()
+	{
 		return "MovieRegEx";
 	}
 
@@ -45,9 +48,8 @@ public class MovieRegExController {
 	// @RequestBody
 
 	@RequestMapping(value = "/Save", method = RequestMethod.POST)
-	public @ResponseBody
-	MovieRegEx saveRegEx(@Valid @RequestBody MovieRegEx model,
-			BindingResult result) {
+	public @ResponseBody MovieRegEx saveRegEx(@Valid @RequestBody MovieRegEx model, BindingResult result)
+	{
 		RegExHelper reg = new RegExHelper();
 
 		if (addErrors(reg, model, result))
@@ -60,9 +62,9 @@ public class MovieRegExController {
 	}
 
 	@RequestMapping(value = "/Test", method = RequestMethod.POST)
-	public @ResponseBody
-	MovieRegEx testRegEx(@Valid @RequestBody MovieRegEx model,
-			BindingResult result) {
+	public @ResponseBody MovieRegEx testRegEx(@Valid @RequestBody MovieRegEx model,
+			BindingResult result)
+	{
 		RegExHelper reg = new RegExHelper();
 		List<String> caps = reg.captureStrings(model.getExpression(),
 				model.getTestFileName());
@@ -77,13 +79,13 @@ public class MovieRegExController {
 
 		if (model.getNameParser().getCleaningRegEx() != null
 				&& model.getNameParser().getCleaningRegEx().length() > 0)
-			name = reg.cleanStringRegEx(model.getNameParser().getCleaningRegEx(),
-					name, " ");
+			name = reg.cleanStringRegEx(model.getNameParser()
+					.getCleaningRegEx(), name, " ");
 
 		if (model.getYearParser().getCleaningRegEx() != null
 				&& model.getYearParser().getCleaningRegEx().length() > 0)
-			year = reg.cleanStringRegEx(model.getYearParser().getCleaningRegEx(),
-					name, " ");
+			year = reg.cleanStringRegEx(model.getYearParser()
+					.getCleaningRegEx(), name, " ");
 
 		model.setGeneratedName(name);
 		model.setGeneratedYear(year);
@@ -105,12 +107,14 @@ public class MovieRegExController {
 	 */
 
 	private boolean addErrors(RegExHelper reg, MovieRegEx model,
-			BindingResult result) {
+			BindingResult result)
+	{
 		boolean ret = false;
 
 		List<FieldError> errors = result.getFieldErrors();
 
-		for (FieldError error : errors) {
+		for (FieldError error : errors)
+		{
 			model.getErrors().add(
 					new JsonError(error.getField(), error.getDefaultMessage()));
 			ret = true;
@@ -119,7 +123,8 @@ public class MovieRegExController {
 		// throw error if assembled name does not contain a group number
 		if (!model.fieldHasError("nameParser.assembledItem")
 				&& !reg.containsCaptureGroup(model.getNameParser()
-						.getAssembledItem())) {
+						.getAssembledItem()))
+		{
 			model.getErrors()
 					.add(new JsonError(
 							"nameParser.assembledItem",
@@ -130,7 +135,8 @@ public class MovieRegExController {
 		// throw error if assembled name does not contain a group number
 		if (!model.fieldHasError("yearParser.assembledItem")
 				&& !reg.containsCaptureGroup(model.getYearParser()
-						.getAssembledItem())) {
+						.getAssembledItem()))
+		{
 			model.getErrors()
 					.add(new JsonError(
 							"yearParser.assembledItem",
@@ -154,6 +160,7 @@ public class MovieRegExController {
 	// return Person object as json
 	/*
 	 * @RequestMapping(value="/Test2", method = RequestMethod.GET) public
+	 * 
 	 * @ResponseBody MovieRegEx post(HttpServletResponse res) {
 	 * 
 	 * 

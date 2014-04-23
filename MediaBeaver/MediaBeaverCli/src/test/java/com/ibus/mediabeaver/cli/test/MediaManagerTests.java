@@ -89,9 +89,9 @@ public class MediaManagerTests
 		config.setAction(TransformAction.Move);
 		config.setDescription("Move Movie files");
 		config.setSourceDirectory("D:\\MediabeaverTests\\Source");
-		config.addConfigVariables(new ConfigVariable(movieNameVar));
-		config.addConfigVariables(new ConfigVariable(movieYearVar));
-		config.addConfigVariables(new ConfigVariable(movieExtensionVar));
+		config.addConfigVariable(new ConfigVariable(movieNameVar));
+		config.addConfigVariable(new ConfigVariable(movieYearVar));
+		config.addConfigVariable(new ConfigVariable(movieExtensionVar));
 		config.setDestinationRoot("D:\\MediabeaverTests\\Destination\\Movies");
 		config.setRelativeDestinationPath(String.format("{%s} ({%s})\\{%s} ({%s}).{%s}", movieNameVar, movieYearVar, movieNameVar, movieYearVar, movieExtensionVar));
 		config.addRegExSelector(sel);
