@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.ConfigVariable;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.MovieRegEx;
 import com.ibus.mediabeaver.core.entity.TransformAction;
+import com.ibus.mediabeaver.core.util.RegExHelper;
 
 @Controller
 @RequestMapping(value = "/config")
@@ -36,7 +38,10 @@ public class AppConfigController
 		MediaConfig config = new MediaConfig();
 		config.setDescription("Move movie files");
 		config.addConfigVariable(new ConfigVariable("MovieName"));
-		config.addConfigVariable(new ConfigVariable("MovieYear"));
+		
+		ConfigVariable v = new ConfigVariable("MovieYear");
+		v.setRequired(true);
+		config.addConfigVariable(v);
 		
 		return config;
 	}
@@ -56,6 +61,17 @@ public class AppConfigController
 		
 		return "AppConfig";
 	}
+	
+	
+	@RequestMapping(value = "/Save2", method = RequestMethod.POST)
+	public @ResponseBody MediaConfig save(@Valid @RequestBody MediaConfig model, BindingResult result)
+	{
+		return model;
+	}
+	
+	
+	
+	
 
 	@RequestMapping(value = "/{configId}", method = RequestMethod.GET)
 	public String editConfig(@PathVariable int configId, Model model)
@@ -77,23 +93,20 @@ public class AppConfigController
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String saveConfig(@Validated @ModelAttribute("config") MediaConfig config, BindingResult result, Model model, HttpServletRequest request,  SessionStatus sessionStatus)
 	{
-		MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+	
 		
-		sessionStatus.setComplete();
-		
+		/*MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		sessionStatus.setComplete();*/
 		//request.getSession().setAttribute("MediaConfigModel", config);
-		
-		
-		
-		model.addAttribute("config", config);
-
-		// addMediaTransformConfig();
 
 		return "AppConfig";
-
-		// return new ModelAndView("AppConfig", "command", config);
 	}
 
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value = "/ajaxTest", method = RequestMethod.GET)
 	public @ResponseBody MediaConfig ajaxTest()

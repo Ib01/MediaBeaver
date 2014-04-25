@@ -12,7 +12,7 @@
 			$("#addExpression").click(function() 
 			{
 
-				getModel();
+				sendAjax("/config/Save2/", getModel()); 
 				//sendAjax("/config/addRegEx/");
 			});
 			
@@ -26,35 +26,23 @@
 				description: $("#description").val(),
 				action: $("#action").val(),
 				configVariables: getConfigVariables(),
-				sourceDirectory: $("#sourceDirectory").val(), 
-			};
-			
-			
-			var hh = JSON.stringify(config);
-			
-			alert(hh);
-			
-			//alert(JSON.stringify(vars));
-			
-			
+				sourceDirectory: $("#sourceDirectory").val(),
 				
-			//var configVariable = {"name":$("#nameParser\\.assembledItem").val()} 
-			
-			
-			/* var np = {"assembledItem": $("#nameParser\\.assembledItem").val(), "recursiveRegEx": $("#nameParser\\.recursiveRegEx").val()};
-			var yp = {"assembledItem": $("#yearParser\\.assembledItem").val(), "recursiveRegEx": $("#yearParser\\.recursiveRegEx").val()};	
-			var model = 
-			{
-				"id": $("#id").val(), 
-				"expression": $("#expression").val(),
-				"nameParser":  np, 
-				"yearParser": yp,
-				"testFileName": $("#testFileName").val(),
-				"generatedName": $("#generatedName").val(),
-				"generatedYear": $("#generatedYear").val()
 			};
-			 */
-			return JSON.stringify(model);
+			
+			//useOpenSubtitlesThumbprintService: 
+			//openSubtitlesFieldMaps
+			//regExSelectors
+			//extensionsSelector;
+			//selectAllFiles;
+			//selectAllFolders;
+			//selectAllEmptyFolders;
+			//destinationRoot;
+			//relativeDestinationPath;
+ 			
+			alert(JSON.stringify(config));
+			
+			return JSON.stringify(config);
 		}
 		
 		function getConfigVariables()
@@ -66,13 +54,35 @@
 			{
 				vars[i] ={
 						"id":$("#configVariables"+ i +"\\.id").val(),
-						"name":$("#configVariables"+ i +"\\.name").val(),
-						"required":$("#configVariables"+ i +"\\.required1").is(':checked')
+						"name":$("#configVariables"+ i +"\\.name").val()
 						};
 				++i;
 			} 
 			
+			
+			/* ,
+			"required":$("#configVariables"+ i +"\\.required1").is(':checked') */
+			
 			return vars;
+		}
+		
+		function sendAjax(url, model) 
+		{
+			$.ajax({ 
+			    url: url, 
+			    type: 'POST', 
+			    dataType: 'json', 
+			    data: model, 
+			    contentType: 'application/json',
+			    mimeType: 'application/json',
+			    success: function(data) 
+			    { 
+			    	alert("done");
+			    },
+			    error:function(data,status,er) { 
+			        alert("erro occured");
+			    }
+			}); 
 		}
 		
 		
@@ -86,7 +96,6 @@
 		<form:hidden path="id"/>
 	
 		<div class="shadowBox">
-		
 			<form:label path="description">Description</form:label>
 			<form:input path="description" style="width: 550px" />
 			<br>
@@ -102,11 +111,9 @@
 			<br>
 			
 		</div>
-	
 		<br>
 		
 		<div class="shadowBox">
-			
 			<div class="shadowBoxHeader">Configuration Variables 
 		   		<span style="float: right;" class="shadowBoxHelp">
 			   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
@@ -123,9 +130,9 @@
 		    </c:forEach>
 		
 		</div>
+		<br>
 		
 		<div class="shadowBox">
-			
 			<div class="shadowBoxHeader">File Selectors 
 		   		<span style="float: right;" class="shadowBoxHelp">
 			   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
@@ -133,7 +140,7 @@
 		   		</span>
 	   		</div>
 		
-			<%-- <c:forEach items="${config.configVariables}" varStatus="i">
+			<%-- <c:forEach items="${config.regExSelectors}" varStatus="i">
 				<form:label path="configVariables[${i.index}].name">Variable Name</form:label>
 				<form:input path="configVariables[${i.index}].name" style="width:350px"/>
 				<form:checkbox path="configVariables[${i.index}].required" label="Required"/>
