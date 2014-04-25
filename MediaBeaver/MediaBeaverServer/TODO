@@ -9,7 +9,7 @@ Source Directory: \bla\movies
 variables 
 	"name"
 	"year"
-
+  
 Select file and assign variables
 	-- if variables defined one of below must be added --  
 	+ open subtitles hash  
