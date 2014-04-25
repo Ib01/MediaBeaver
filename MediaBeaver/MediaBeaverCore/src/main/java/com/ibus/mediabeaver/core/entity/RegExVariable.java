@@ -7,6 +7,8 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "RegEx_Variable")
 public class RegExVariable extends PersistentObject
 {
@@ -34,6 +36,7 @@ public class RegExVariable extends PersistentObject
 	@Column
 	private String replaceWithCharacter;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	private RegExSelector regExSelector;
 

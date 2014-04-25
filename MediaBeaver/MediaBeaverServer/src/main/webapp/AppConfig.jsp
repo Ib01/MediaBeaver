@@ -11,7 +11,7 @@
 		{	
 			$("#addExpression").click(function() 
 			{
-				
+
 				getModel();
 				//sendAjax("/config/addRegEx/");
 			});
@@ -20,12 +20,21 @@
 		
 		function getModel()
 		{
-			var i = 0;
-			while($("#configVariables"+ i +"\\.name").length)
+			var config = 
 			{
-				alert(i);
-				++i;
-			} 
+				id: $("#id").val(),
+				description: $("#description").val(),
+				action: $("#action").val(),
+				configVariables: getConfigVariables(),
+				sourceDirectory: $("#sourceDirectory").val(), 
+			};
+			
+			
+			var hh = JSON.stringify(config);
+			
+			alert(hh);
+			
+			//alert(JSON.stringify(vars));
 			
 			
 				
@@ -48,6 +57,24 @@
 			return JSON.stringify(model);
 		}
 		
+		function getConfigVariables()
+		{
+			var i = 0;
+			var vars = new Array();
+			
+			while($("#configVariables"+ i +"\\.name").length)
+			{
+				vars[i] ={
+						"id":$("#configVariables"+ i +"\\.id").val(),
+						"name":$("#configVariables"+ i +"\\.name").val(),
+						"required":$("#configVariables"+ i +"\\.required1").is(':checked')
+						};
+				++i;
+			} 
+			
+			return vars;
+		}
+		
 		
 	</script>
 	
@@ -55,6 +82,8 @@
 	
 	<form:form method="POST" action="/config/save" commandName="config"
 		class="formLayout">
+	
+		<form:hidden path="id"/>
 	
 		<div class="shadowBox">
 		
@@ -86,6 +115,7 @@
 	   		</div>
 		
 			<c:forEach items="${config.configVariables}" varStatus="i">
+				<form:hidden path="configVariables[${i.index}].id"/>
 				<form:label path="configVariables[${i.index}].name">Variable Name</form:label>
 				<form:input path="configVariables[${i.index}].name" style="width:350px"/>
 				<form:checkbox path="configVariables[${i.index}].required" label="Required"/>

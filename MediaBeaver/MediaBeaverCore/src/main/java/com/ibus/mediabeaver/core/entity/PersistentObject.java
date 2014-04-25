@@ -20,6 +20,7 @@ public abstract class PersistentObject implements Serializable
 	@Column(updatable = false, nullable = false)
 	private String id = IdGenerator.createId();
 
+	
 	@Version
 	@Column(name = "version")
 	private int version = 0;

@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity(name = "Open_Subtitles_Field_Map")
 public class OpenSubtitlesFieldMap extends PersistentObject
@@ -17,6 +19,7 @@ public class OpenSubtitlesFieldMap extends PersistentObject
 	@Column
 	private String configField;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	private MediaConfig parentConfig;
 	

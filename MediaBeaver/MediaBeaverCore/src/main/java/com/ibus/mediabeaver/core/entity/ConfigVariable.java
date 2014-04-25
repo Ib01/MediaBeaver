@@ -4,8 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-
 import org.hibernate.validator.constraints.NotEmpty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "Config_Variable")
 public class ConfigVariable extends PersistentObject
@@ -21,6 +21,7 @@ public class ConfigVariable extends PersistentObject
 	@Column
 	private boolean required = false;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	private MediaConfig parentConfig;
 	

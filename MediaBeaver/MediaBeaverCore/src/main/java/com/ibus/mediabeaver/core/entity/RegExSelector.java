@@ -14,6 +14,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "RegEx_Selector")
 public class RegExSelector extends PersistentObject
 {
@@ -28,6 +30,7 @@ public class RegExSelector extends PersistentObject
 	@Cascade({CascadeType.ALL})
 	private Set<RegExVariable> variables = new HashSet<RegExVariable>();
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	private MediaConfig parentConfig;
 
