@@ -107,6 +107,12 @@ public class MediaConfig extends PersistentObject
 	{
 		return configVariables;
 	}
+	
+	/*used by the web framework*/ 
+	/*public void setConfigVariables(Set<ConfigVariable> vars)
+	{
+		configVariables = vars;
+	}*/
 
 	public void addConfigVariable(ConfigVariable variable)
 	{

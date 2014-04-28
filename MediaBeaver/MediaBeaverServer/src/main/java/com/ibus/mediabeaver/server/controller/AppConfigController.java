@@ -22,6 +22,8 @@ import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.ConfigVariable;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.MovieRegEx;
+import com.ibus.mediabeaver.core.entity.RegExSelector;
+import com.ibus.mediabeaver.core.entity.RegExVariable;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 import com.ibus.mediabeaver.core.util.RegExHelper;
 
@@ -42,6 +44,16 @@ public class AppConfigController
 		ConfigVariable v = new ConfigVariable("MovieYear");
 		v.setRequired(true);
 		config.addConfigVariable(v);
+		
+		
+		RegExVariable rev = new RegExVariable();
+		rev.setVariableName("var 1 name");
+		
+		RegExSelector res = new RegExSelector();
+		res.setExpression("some expression");
+		res.addRegExVariable(rev);
+		
+		config.addRegExSelector(res);
 		
 		return config;
 	}

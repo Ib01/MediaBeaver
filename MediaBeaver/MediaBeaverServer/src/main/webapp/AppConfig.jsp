@@ -22,7 +22,6 @@
 		{
 			var config = 
 			{
-				id: $("#id").val(),
 				description: $("#description").val(),
 				action: $("#action").val(),
 				configVariables: getConfigVariables(),
@@ -122,7 +121,6 @@
 	   		</div>
 		
 			<c:forEach items="${config.configVariables}" varStatus="i">
-				<form:hidden path="configVariables[${i.index}].id"/>
 				<form:label path="configVariables[${i.index}].name">Variable Name</form:label>
 				<form:input path="configVariables[${i.index}].name" style="width:350px"/>
 				<form:checkbox path="configVariables[${i.index}].required" label="Required"/>
@@ -133,19 +131,30 @@
 		<br>
 		
 		<div class="shadowBox">
-			<div class="shadowBoxHeader">File Selectors 
+			<div class="shadowBoxHeader">Regular Expression Selectors 
 		   		<span style="float: right;" class="shadowBoxHelp">
 			   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
 			   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
 		   		</span>
 	   		</div>
 		
-			<%-- <c:forEach items="${config.regExSelectors}" varStatus="i">
-				<form:label path="configVariables[${i.index}].name">Variable Name</form:label>
-				<form:input path="configVariables[${i.index}].name" style="width:350px"/>
-				<form:checkbox path="configVariables[${i.index}].required" label="Required"/>
+		
+			<c:forEach items="${config.regExSelectors}" varStatus="i">
+				<form:label path="regExSelectors[${i.index}].expression">Expression</form:label>
+				<form:input path="regExSelectors[${i.index}].expression" style="width:350px"/>
 				<br>
-		    </c:forEach> --%>
+				
+				<c:forEach items="regExSelectors[${i.index}].variables" varStatus="ii">
+					
+					<form:label path="regExSelectors[${i.index}].variables[${ii.index}].variableName">Name</form:label>
+				
+					<%-- <form:label path="item.variableName">Name</form:label>
+					<form:input path="item.variableName" style="width:350px"/> --%>
+					<br>	
+				</c:forEach>	
+				<br>
+				<br>
+		    </c:forEach>
 		    
 		    
 		    <input type="button" value="Add Expression" id="addExpression" />

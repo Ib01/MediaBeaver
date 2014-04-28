@@ -29,7 +29,8 @@ public class RegExSelector extends PersistentObject
 	@OneToMany(fetch = FetchType.EAGER, mappedBy= "regExSelector", orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	private Set<RegExVariable> variables = new HashSet<RegExVariable>();
-
+	
+	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	private MediaConfig parentConfig;
