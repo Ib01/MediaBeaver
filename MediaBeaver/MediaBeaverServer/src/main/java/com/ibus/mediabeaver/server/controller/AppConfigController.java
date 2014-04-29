@@ -49,8 +49,9 @@ public class AppConfigController
 		rev.setVariableName("var 1 name");
 		
 		RegExSelector res = new RegExSelector();
-		res.setExpression("some expression");
+		res.setExpression("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}]");
 		res.addRegExVariable(rev);
+		res.setDescription("select movies with name and year");
 	
 		config.addRegExSelector(res);
 	

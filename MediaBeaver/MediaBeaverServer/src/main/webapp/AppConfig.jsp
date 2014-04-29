@@ -138,43 +138,21 @@
 		   		</span>
 	   		</div>
 		
-		<%-- ${config.regExSelectors} --%>
-		
-	<%-- 	<c:forEach items="${config.regExSelectors}" varStatus="i">
-				<form:label path="regExSelectors[${i.index}].expression">Variable Name</form:label>
-				<form:input path="regExSelectors[${i.index}].expression" style="width:350px"/>
-		
-		</c:forEach> --%>
-		
-		
-			<c:forEach items="${config.regExSelectors}" var="item" >
-			 	
-			 	<c:out value="${item.expression}" />
-				
-				<c:forEach items="${item.variables}" var="it2">				 				
-					
-					<c:out value="${it2.variableName}" />
-					
-				</c:forEach>
-				
-				<%-- <form:label path="${RegExSelector.expression}">Expression</form:label>
-				<form:input path="${RegExSelector.expression}" style="width:350px"/> --%>
-				<br>
-				
-				
-		    </c:forEach>
-		    
-		    
-		    <%-- <c:forEach items="regExSelectors[${i.index}].variables" varStatus="ii">
-					<form:label path="regExSelectors[${i.index}].variables[${ii.index}].variableName">Name</form:label>
-				
-					<form:label path="item.variableName">Name</form:label>
-					<form:input path="item.variableName" style="width:350px"/>
-					<br>
-					<br>
-					<br>	
-				</c:forEach>	 --%>
-		    
+			<table style="width:100%">
+				<tr>
+					<td>Description</td>
+					<td>Expression</td>
+					<td></td>
+				</tr>
+			
+				<c:forEach items="${config.regExSelectors}" var="selector" >
+					<tr>
+					<td><c:out value="${selector.description}" /></td>
+					<td><c:out value="${selector.expression}" /></td>
+					<td><a href="#">Edit</a></td>
+					</tr>
+			    </c:forEach>
+		    </table>
 		    
 		    <input type="button" value="Add Expression" id="addExpression" />
 		

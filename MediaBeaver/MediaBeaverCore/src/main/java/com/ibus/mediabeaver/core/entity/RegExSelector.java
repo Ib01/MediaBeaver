@@ -22,6 +22,9 @@ public class RegExSelector extends PersistentObject
 	private static final long serialVersionUID = 1L;
 
 	@Column
+	private String description;
+	
+	@Column
 	@NotEmpty(message = "This field cannot be left empty")
 	private String expression;
 
@@ -77,6 +80,16 @@ public class RegExSelector extends PersistentObject
 	public void setParentConfig(MediaConfig parentConfig)
 	{
 		this.parentConfig = parentConfig;
+	}
+
+	public String getDescription()
+	{
+		return description;
+	}
+
+	public void setDescription(String description)
+	{
+		this.description = description;
 	}
 
 	
