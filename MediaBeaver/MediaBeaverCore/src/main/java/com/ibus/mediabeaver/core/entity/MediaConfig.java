@@ -1,12 +1,15 @@
 package com.ibus.mediabeaver.core.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -45,7 +48,7 @@ public class MediaConfig extends PersistentObject
 	@Cascade(
 	{ CascadeType.ALL })
 	private Set<RegExSelector> regExSelectors = new HashSet<RegExSelector>();
-
+	
 	@Column
 	private String extensionsSelector;
 
@@ -108,11 +111,11 @@ public class MediaConfig extends PersistentObject
 		return configVariables;
 	}
 	
-	/*used by the web framework*/ 
-	/*public void setConfigVariables(Set<ConfigVariable> vars)
+	/*required by jsp and jstl*/ 
+	public void setConfigVariables(Set<ConfigVariable> vars)
 	{
 		configVariables = vars;
-	}*/
+	}
 
 	public void addConfigVariable(ConfigVariable variable)
 	{
@@ -141,16 +144,21 @@ public class MediaConfig extends PersistentObject
 	{
 		return openSubtitlesFieldMaps;
 	}
+	
+	public void setOpenSubtitlesFieldMaps(Set<OpenSubtitlesFieldMap> openSubtitlesFieldMaps)
+	{
+		this.openSubtitlesFieldMaps = openSubtitlesFieldMaps;
+	}
 
 	public void addOpenSubtitlesFieldMap(OpenSubtitlesFieldMap map)
 	{
-		openSubtitlesFieldMaps.add(map);
+		getOpenSubtitlesFieldMaps().add(map);
 		map.setParentConfig(this);
 	}
 
 	public void removeOpenSubtitlesFieldMap(OpenSubtitlesFieldMap map)
 	{
-		openSubtitlesFieldMaps.remove(map);
+		getOpenSubtitlesFieldMaps().remove(map);
 		map.setParentConfig(null);
 	}
 
@@ -159,6 +167,11 @@ public class MediaConfig extends PersistentObject
 		return regExSelectors;
 	}
 
+	public void setRegExSelectors(Set<RegExSelector> regExSelectors)
+	{
+		this.regExSelectors = regExSelectors;
+	}
+	
 	public void addRegExSelector(RegExSelector regex)
 	{
 		regExSelectors.add(regex);
@@ -230,6 +243,10 @@ public class MediaConfig extends PersistentObject
 	{
 		this.destinationRoot = destinationRoot;
 	}
+
+	
+
+	
 
 	// utilities ///////////////////////////////////////////
 

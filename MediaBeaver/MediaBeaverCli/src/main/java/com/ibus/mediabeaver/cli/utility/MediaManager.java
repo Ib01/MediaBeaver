@@ -96,7 +96,7 @@ public class MediaManager
 				isTarget = true;
 				
 				/*populate our config variables form the getRegExVariables list*/
-				for(RegExVariable rev : selector.getRegExVariables())
+				for(RegExVariable rev : selector.getVariables())
 				{
 					ConfigVariable cv = getConfigVariable(config.getConfigVariables(), rev.getVariableName());
 					if(cv == null){

@@ -314,9 +314,9 @@ public class RepositoryTest
 		RegExSelector res = config.getRegExSelectors().iterator().next();
 		assertTrue(res.getExpression().equals("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}].+\\.([a-zA-Z]+)"));
 		
-		containsRegExVariable(res.getRegExVariables(), nameVar);
-		containsRegExVariable(res.getRegExVariables(), yearVar);
-		containsRegExVariable(res.getRegExVariables(), extensionVar);
+		containsRegExVariable(res.getVariables(), nameVar);
+		containsRegExVariable(res.getVariables(), yearVar);
+		containsRegExVariable(res.getVariables(), extensionVar);
 		
 	}
 	

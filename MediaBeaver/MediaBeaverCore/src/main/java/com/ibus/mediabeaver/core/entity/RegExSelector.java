@@ -45,20 +45,27 @@ public class RegExSelector extends PersistentObject
 		this.expression = expression;
 	}
 
-	public Set<RegExVariable> getRegExVariables()
+	public Set<RegExVariable> getVariables()
 	{
 		return variables;
 	}
 
+	public void setVariables(Set<RegExVariable> variables)
+	{
+		this.variables = variables;
+	}
+	
+	
+
 	public void addRegExVariable(RegExVariable var)
 	{
-		variables.add(var);
+		getVariables().add(var);
 		var.setRegExSelector(this);
 	}
 
 	public void removeRegExVariable(RegExVariable var)
 	{
-		variables.remove(var);
+		getVariables().remove(var);
 		var.setRegExSelector(null);
 	}
 
@@ -71,5 +78,7 @@ public class RegExSelector extends PersistentObject
 	{
 		this.parentConfig = parentConfig;
 	}
+
+	
 
 }

@@ -45,15 +45,17 @@ public class AppConfigController
 		v.setRequired(true);
 		config.addConfigVariable(v);
 		
-		
 		RegExVariable rev = new RegExVariable();
 		rev.setVariableName("var 1 name");
 		
 		RegExSelector res = new RegExSelector();
 		res.setExpression("some expression");
 		res.addRegExVariable(rev);
-		
+	
 		config.addRegExSelector(res);
+	
+		
+		
 		
 		return config;
 	}
