@@ -29,7 +29,7 @@ import com.ibus.mediabeaver.core.util.RegExHelper;
 
 @Controller
 @RequestMapping(value = "/config")
-@SessionAttributes("config")
+@SessionAttributes({"config"})
 public class AppConfigController
 {
 	@ModelAttribute("config")
@@ -55,11 +55,51 @@ public class AppConfigController
 	
 		config.addRegExSelector(res);
 	
-		
-		
-		
 		return config;
 	}
+	
+	
+	
+	
+	@RequestMapping(value = "/addRegExSelector", method = RequestMethod.POST)
+	public String addRegExSelector(@Validated @ModelAttribute("config") MediaConfig config, BindingResult result, Model model, HttpServletRequest request,  SessionStatus sessionStatus)
+	{
+		MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		
+		/*MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		sessionStatus.setComplete();*/
+		//request.getSession().setAttribute("MediaConfigModel", config);
+
+		return "redirect:/regExSelector";
+	}
+	
+	
+	@RequestMapping(value = "/updateRegExSelector", method = RequestMethod.POST)
+	public @ResponseBody MediaConfig updateRegExSelector(@Valid @RequestBody MediaConfig model, BindingResult result,HttpServletRequest request)
+	{
+		MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		return model;
+	}
+	
+	
+	
+	@RequestMapping(value = "/updateRegExSelector", method = RequestMethod.POST)
+	public String updateRegExSelector(@Validated @ModelAttribute("config") MediaConfig config, 
+			BindingResult result, Model model, HttpServletRequest request,  SessionStatus sessionStatus)
+	{
+		
+		
+		MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		
+		/*MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		sessionStatus.setComplete();*/
+		//request.getSession().setAttribute("MediaConfigModel", config);
+
+		return "redirect:/regExSelector/";
+	}	
+	
+	
+	
 	
 	@ModelAttribute("actions")
 	public TransformAction[] getActions()
@@ -78,12 +118,13 @@ public class AppConfigController
 	}
 	
 	
-	@RequestMapping(value = "/Save2", method = RequestMethod.POST)
-	public @ResponseBody MediaConfig save(@Valid @RequestBody MediaConfig model, BindingResult result)
+	/*
+	@RequestMapping(value = "/updateRegExSelector", method = RequestMethod.POST)
+	public @ResponseBody MediaConfig updateRegExSelector(@Valid @RequestBody MediaConfig model, BindingResult result,HttpServletRequest request)
 	{
+		MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
 		return model;
-	}
-	
+	}*/	
 	
 	
 	

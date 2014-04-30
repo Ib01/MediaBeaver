@@ -67,9 +67,9 @@ public class RegExVariable extends PersistentObject
 		return replaceExpression;
 	}
 
-	public void setReplaceExpression(String replaceCharacters)
+	public void setReplaceExpression(String replaceExpression)
 	{
-		this.replaceExpression = replaceCharacters;
+		this.replaceExpression = replaceExpression;
 	}
 
 	public String getReplaceWithCharacter()

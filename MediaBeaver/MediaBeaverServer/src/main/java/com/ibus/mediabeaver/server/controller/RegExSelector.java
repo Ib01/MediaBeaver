@@ -2,12 +2,14 @@ package com.ibus.mediabeaver.server.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,14 +17,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.JsonError;
+import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.MovieRegEx;
 import com.ibus.mediabeaver.core.util.RegExHelper;
 
 @Controller
-@RequestMapping(value = "/movieRegEx")
-public class MovieRegExController
+@RequestMapping(value = "/regExSelector")
+public class RegExSelector
 {
-	@ModelAttribute("regEx")
+	@ModelAttribute("regExSelector")
 	public MovieRegEx getInitialisedModel()
 	{
 		MovieRegEx re = new MovieRegEx();
@@ -31,12 +34,23 @@ public class MovieRegExController
 		return re;
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String movieRegEx()
+	@RequestMapping
+	public String addSelector(HttpServletRequest request)
 	{
-		return "MovieRegEx";
+		MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		
+		return "RegExSelector";
 	}
 
+	@RequestMapping(value="/{id}")
+	public String updateSelector(HttpServletRequest request, @PathVariable String id)
+	{
+		MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		
+		return "RegExSelector";
+	}
+	
+	
 	/*
 	 * @RequestMapping(value="/user.json") public @ResponseBody
 	 * ValidationResponse processForm (Model model, @Valid User user,

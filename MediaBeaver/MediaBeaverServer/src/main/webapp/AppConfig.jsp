@@ -11,8 +11,10 @@
 		{	
 			$("#addExpression").click(function() 
 			{
+				$("form:first").attr("action", "/config/addRegExSelector");
+				$("form:first").submit();
 
-				sendAjax("/config/Save2/", getModel()); 
+				//sendAjax("/config/addRegExSelector/", getModel()); 
 				//sendAjax("/config/addRegEx/");
 			});
 			
@@ -53,17 +55,16 @@
 			{
 				vars[i] ={
 						"id":$("#configVariables"+ i +"\\.id").val(),
-						"name":$("#configVariables"+ i +"\\.name").val()
+						"name":$("#configVariables"+ i +"\\.name").val(),
+						"required":$("#configVariables"+ i +"\\.required1").is(':checked') 
 						};
 				++i;
 			} 
 			
-			
-			/* ,
-			"required":$("#configVariables"+ i +"\\.required1").is(':checked') */
-			
 			return vars;
 		}
+		
+		
 		
 		function sendAjax(url, model) 
 		{
@@ -91,6 +92,9 @@
 	
 	<form:form method="POST" action="/config/save" commandName="config"
 		class="formLayout">
+	
+	
+		<input type="hidden" id="tester" name="tester" value="tester value"/>
 	
 		<form:hidden path="id"/>
 	
@@ -149,13 +153,14 @@
 					<tr>
 					<td><c:out value="${selector.description}" /></td>
 					<td><c:out value="${selector.expression}" /></td>
-					<td><a href="#">Edit</a></td>
+					<td><a href="#">edit</a></td>
 					</tr>
 			    </c:forEach>
+			    
 		    </table>
 		    
 		    <input type="button" value="Add Expression" id="addExpression" />
-		
+			
 		</div>
 		
 		

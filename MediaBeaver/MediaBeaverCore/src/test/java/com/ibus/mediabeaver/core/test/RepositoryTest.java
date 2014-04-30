@@ -2,24 +2,18 @@ package com.ibus.mediabeaver.core.test;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import com.ibus.mediabeaver.core.data.HibernateUtil;
-import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.ConfigVariable;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
-import com.ibus.mediabeaver.core.entity.MediaTransformConfig;
-import com.ibus.mediabeaver.core.entity.MovieRegEx;
 import com.ibus.mediabeaver.core.entity.RegExSelector;
 import com.ibus.mediabeaver.core.entity.RegExVariable;
-import com.ibus.mediabeaver.core.entity.RenamingService;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 
 public class RepositoryTest
@@ -49,159 +43,6 @@ public class RepositoryTest
 	}
 	
 	
-	//Tests //////////////////////////////////////////////////////
-
-	/*@Test
-	public void addMediaTransformConfigTest() throws Exception
-	{
-		// add entity
-		int cfgId = addMediaTransformConfig();
-
-		StartTransaction();
-
-		MediaTransformConfig cfg = Repository.getEntity(
-				MediaTransformConfig.class, cfgId);
-		assertTrue(cfg != null);
-
-		EndTransaction();
-	}
-
-	@Test
-	public void getAllMediaTransformConfigTest() throws Exception
-	{
-		// add entity
-		addMediaTransformConfig();
-
-		StartTransaction();
-
-		List<MediaTransformConfig> configs = Repository
-				.getAllMediaTransformConfig();
-		assertTrue(configs.size() > 0);
-		validateMediaTransformConfig(configs.get(0));
-
-		EndTransaction();
-	}
-
-	@Test
-	public void addMovieRegExTest() throws Exception
-	{
-		// add entity
-		int rexId = addMovieRegEx();
-
-		StartTransaction();
-
-		MovieRegEx rex = Repository.getEntity(MovieRegEx.class, rexId);
-		assertTrue(rex != null);
-		validateMovieRegEx(rex);
-
-		EndTransaction();
-	}
-
-	
-	 * test case handled above
-	 * 
-	 * @Test public void getMovieRegExTest() throws Exception{}
-	 
-
-	@Test
-	public void updateMovieRegExTest() throws Exception
-	{
-		// add entity
-		int id = addMovieRegEx();
-
-		// get the item out and update it
-		StartTransaction();
-
-		MovieRegEx rex = Repository.getEntity(MovieRegEx.class, id);
-		rex.setExpression("updateMovieRegExTest");
-		Repository.updateEntity(rex);
-
-		EndTransaction();
-
-		// get the item out and check its updated value
-		StartTransaction();
-
-		MovieRegEx rex2 = Repository.getEntity(MovieRegEx.class, id);
-		assertTrue(rex2.getExpression().equals("updateMovieRegExTest"));
-
-		EndTransaction();
-	}
-
-	@Test
-	public void addMovieRegExThroughParentTest() throws Exception
-	{
-		// add entity and child
-		int cfgId = addMediaTransformConfig();
-
-		// check that child was added as well as parent
-		StartTransaction();
-
-		MediaTransformConfig config = Repository.getEntity(
-				MediaTransformConfig.class, cfgId);
-		assertTrue(config.getSelectExpressions().size() > 0);
-
-		EndTransaction();
-	}
-
-	@Test
-	public void removeMovieRegExThroughParentTest() throws Exception
-	{
-		// add config
-		int cfgId = addMediaTransformConfig();
-
-		// remove entity form config
-		StartTransaction();
-
-		MediaTransformConfig config = Repository.getEntity(
-				MediaTransformConfig.class, cfgId);
-		int rexId = config.getSelectExpressions().get(0).getId();
-		config.removeSelectExpression(config.getSelectExpressions().get(0));
-		Repository.updateEntity(config);
-
-		EndTransaction();
-
-		// check that regex is removed from config and is not in db
-		StartTransaction();
-
-		config = Repository.getEntity(MediaTransformConfig.class, cfgId);
-		assertTrue(config.getSelectExpressions().size() == 0);
-		MovieRegEx rex2 = Repository.getEntity(MovieRegEx.class, rexId);
-		assertTrue(rex2 == null);
-
-		EndTransaction();
-	}
-
-	@Test
-	public void updateMovieRegExThroughParentTest() throws Exception
-	{
-		// add config
-		int cfgId = addMediaTransformConfig();
-
-		// update entity through parent
-		StartTransaction();
-
-		MediaTransformConfig config = Repository.getEntity(
-				MediaTransformConfig.class, cfgId);
-		MovieRegEx rex = config.getSelectExpressions().get(0);
-		rex.setExpression("updateMovieRegExThroughParentTest");
-		Repository.updateEntity(config);
-
-		EndTransaction();
-
-		// check that rex has changed
-		StartTransaction();
-
-		config = Repository.getEntity(MediaTransformConfig.class, cfgId);
-		rex = config.getSelectExpressions().get(0);
-
-		assertTrue(rex.getExpression().equals(
-				"updateMovieRegExThroughParentTest"));
-
-		EndTransaction();
-
-	}
-*/
-	
 	@Test
 	public void addMediaconfigTest()
 	{
@@ -226,7 +67,47 @@ public class RepositoryTest
 		
 	}
 	
-	
+	@Test
+	public void updateMediaconfigTest()
+	{
+		/*save a config*/
+		StartTransaction();
+		
+		MediaConfig c = getMediaConfig();
+		
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		s.save(c);
+		String id = c.getId();
+		
+		EndTransaction();
+		
+		/*update config*/
+		StartTransaction();
+		
+		s = HibernateUtil.getSessionFactory().getCurrentSession();
+		c = (MediaConfig) s.get(MediaConfig.class, id);
+		c.setDescription("changed description");
+		s.save(c);
+		
+		EndTransaction();
+		
+		/*validate updated config*/
+		StartTransaction();
+		
+		s = HibernateUtil.getSessionFactory().getCurrentSession();
+		c = (MediaConfig) s.get(MediaConfig.class, id);
+		
+		assertTrue(c.getDescription().equals("changed description"));
+		
+		Query query = s.createQuery("from Media_Config");
+		List<MediaConfig> results = (List<MediaConfig>)query.list();
+		
+		assertTrue(results.size() == 1);
+		
+		EndTransaction();
+		
+		
+	}
 	
 	
 	//Utilities //////////////////////////////////////////////////////
@@ -380,6 +261,162 @@ public class RepositoryTest
 		return true;
 	}
 	
+	
+	
+	
+
+	//Tests //////////////////////////////////////////////////////
+
+	/*@Test
+	public void addMediaTransformConfigTest() throws Exception
+	{
+		// add entity
+		int cfgId = addMediaTransformConfig();
+
+		StartTransaction();
+
+		MediaTransformConfig cfg = Repository.getEntity(
+				MediaTransformConfig.class, cfgId);
+		assertTrue(cfg != null);
+
+		EndTransaction();
+	}
+
+	@Test
+	public void getAllMediaTransformConfigTest() throws Exception
+	{
+		// add entity
+		addMediaTransformConfig();
+
+		StartTransaction();
+
+		List<MediaTransformConfig> configs = Repository
+				.getAllMediaTransformConfig();
+		assertTrue(configs.size() > 0);
+		validateMediaTransformConfig(configs.get(0));
+
+		EndTransaction();
+	}
+
+	@Test
+	public void addMovieRegExTest() throws Exception
+	{
+		// add entity
+		int rexId = addMovieRegEx();
+
+		StartTransaction();
+
+		MovieRegEx rex = Repository.getEntity(MovieRegEx.class, rexId);
+		assertTrue(rex != null);
+		validateMovieRegEx(rex);
+
+		EndTransaction();
+	}
+
+	
+	 * test case handled above
+	 * 
+	 * @Test public void getMovieRegExTest() throws Exception{}
+	 
+
+	@Test
+	public void updateMovieRegExTest() throws Exception
+	{
+		// add entity
+		int id = addMovieRegEx();
+
+		// get the item out and update it
+		StartTransaction();
+
+		MovieRegEx rex = Repository.getEntity(MovieRegEx.class, id);
+		rex.setExpression("updateMovieRegExTest");
+		Repository.updateEntity(rex);
+
+		EndTransaction();
+
+		// get the item out and check its updated value
+		StartTransaction();
+
+		MovieRegEx rex2 = Repository.getEntity(MovieRegEx.class, id);
+		assertTrue(rex2.getExpression().equals("updateMovieRegExTest"));
+
+		EndTransaction();
+	}
+
+	@Test
+	public void addMovieRegExThroughParentTest() throws Exception
+	{
+		// add entity and child
+		int cfgId = addMediaTransformConfig();
+
+		// check that child was added as well as parent
+		StartTransaction();
+
+		MediaTransformConfig config = Repository.getEntity(
+				MediaTransformConfig.class, cfgId);
+		assertTrue(config.getSelectExpressions().size() > 0);
+
+		EndTransaction();
+	}
+
+	@Test
+	public void removeMovieRegExThroughParentTest() throws Exception
+	{
+		// add config
+		int cfgId = addMediaTransformConfig();
+
+		// remove entity form config
+		StartTransaction();
+
+		MediaTransformConfig config = Repository.getEntity(
+				MediaTransformConfig.class, cfgId);
+		int rexId = config.getSelectExpressions().get(0).getId();
+		config.removeSelectExpression(config.getSelectExpressions().get(0));
+		Repository.updateEntity(config);
+
+		EndTransaction();
+
+		// check that regex is removed from config and is not in db
+		StartTransaction();
+
+		config = Repository.getEntity(MediaTransformConfig.class, cfgId);
+		assertTrue(config.getSelectExpressions().size() == 0);
+		MovieRegEx rex2 = Repository.getEntity(MovieRegEx.class, rexId);
+		assertTrue(rex2 == null);
+
+		EndTransaction();
+	}
+
+	@Test
+	public void updateMovieRegExThroughParentTest() throws Exception
+	{
+		// add config
+		int cfgId = addMediaTransformConfig();
+
+		// update entity through parent
+		StartTransaction();
+
+		MediaTransformConfig config = Repository.getEntity(
+				MediaTransformConfig.class, cfgId);
+		MovieRegEx rex = config.getSelectExpressions().get(0);
+		rex.setExpression("updateMovieRegExThroughParentTest");
+		Repository.updateEntity(config);
+
+		EndTransaction();
+
+		// check that rex has changed
+		StartTransaction();
+
+		config = Repository.getEntity(MediaTransformConfig.class, cfgId);
+		rex = config.getSelectExpressions().get(0);
+
+		assertTrue(rex.getExpression().equals(
+				"updateMovieRegExThroughParentTest"));
+
+		EndTransaction();
+
+	}
+*/
 	
 	
 	

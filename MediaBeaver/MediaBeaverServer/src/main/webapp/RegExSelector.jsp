@@ -114,9 +114,9 @@
 
 <h2>Movie Expression Generator</h2>
 
-<form:form method="POST" action="/config/save" commandName="regEx">
+<form:form method="POST" action="/config/saveRegExSelector" commandName="regExSelector">
    
-   <form:hidden path="id" id="id"/>
+   <%-- <form:hidden path="id" id="id"/>
    
    <div class="shadowBox" >
    		<div class="shadowBoxHeader">Step 1) Enter a Regular Expression 
@@ -162,9 +162,9 @@
    			<div style="width:490px;"></div>
    		 </div>  
    		   
-   		<%-- <br/>
+   		<br/>
    		<form:label path="nameParser.removeCharacters">Remove Characters</form:label><br/>
-   		<form:input path="nameParser.removeCharacters" style="width:295px" id="nameParser_removeCharacters"/> --%>
+   		<form:input path="nameParser.removeCharacters" style="width:295px" id="nameParser_removeCharacters"/>
    		<br/>
    		<form:label path="nameParser.recursiveRegEx">Recursive Expression</form:label><br/>
    		<form:input path="nameParser.recursiveRegEx" style="width:695px" id="nameParser.recursiveRegEx"/>
@@ -189,9 +189,9 @@
    		<div class="errorBox" style="width:492px" id="yearParser.assembledItem_error">
    			<div style="width:490px;"></div>
    		 </div>
-   		<%-- <br/>
+   		<br/>
    		<form:label path="yearParser.removeCharacters">Remove Characters</form:label><br/>
-   		<form:input path="yearParser.removeCharacters" style="width:295px" id="yearParser_removeCharacters"/> --%>
+   		<form:input path="yearParser.removeCharacters" style="width:295px" id="yearParser_removeCharacters"/>
    		<br/>
    		<form:label path="yearParser.recursiveRegEx">Recursive Expression</form:label><br/>
    		<form:input path="yearParser.recursiveRegEx" style="width:695px" id="yearParser.recursiveRegEx"/>
@@ -230,7 +230,7 @@
    	<br/>
 	<input type="button" value="Save" id="saveExp" />
 	<br>
-	
+	 --%>
 	
 </form:form>
 
