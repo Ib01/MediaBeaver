@@ -21,9 +21,9 @@ public class ConfigVariable extends PersistentObject
 	@Column
 	private boolean required = false;
 	
-	@JsonIgnore
+	/*@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
-	private MediaConfig parentConfig;
+	private MediaConfig parentConfig;*/
 	
 	public ConfigVariable(){}
 	
@@ -69,13 +69,13 @@ public class ConfigVariable extends PersistentObject
 	}
 
 
-	public MediaConfig getParentConfig() {
+/*	public MediaConfig getParentConfig() {
 		return parentConfig;
 	}
 
 	public void setParentConfig(MediaConfig parentConfig) {
 		this.parentConfig = parentConfig;
-	}
+	}*/
 }
 
 

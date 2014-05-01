@@ -4,7 +4,7 @@ import javax.persistence.Column;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class RegExVariableViewModel
+public class RegExVariableViewModel extends ViewModel
 {
 	private String variableName;
 

@@ -42,7 +42,7 @@ public abstract class PersistentObject implements Serializable
 	}
 
 	@SuppressWarnings("unused")
-	private void setId(final String id)
+	public void setId(String id)
 	{
 		this.id = id;
 	}

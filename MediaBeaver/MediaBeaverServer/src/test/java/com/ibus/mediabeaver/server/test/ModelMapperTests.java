@@ -11,13 +11,14 @@ import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.RegExSelector;
 import com.ibus.mediabeaver.core.entity.RegExVariable;
 import com.ibus.mediabeaver.core.entity.TransformAction;
+import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExVariableViewModel;
 
 import static org.junit.Assert.*;
 
 public class ModelMapperTests
 {
-	public class PersonMap extends PropertyMap<RegExVariable, RegExVariableViewModel> 
+	public class regExVariableMap extends PropertyMap<RegExVariable, RegExVariableViewModel> 
 	{
 		  protected void configure() {
 		    map().setReplaceExpression(source.getRreplaceExpression());
@@ -30,7 +31,7 @@ public class ModelMapperTests
 		RegExVariable v = getRegExVariable();
 		
 		ModelMapper modelMapper = new ModelMapper();
-		modelMapper.addMappings(new PersonMap());
+		modelMapper.addMappings(new regExVariableMap());
 		
 		//modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		
@@ -41,9 +42,35 @@ public class ModelMapperTests
 		
 	}
 	
+	@Test
+	public void mapRegExSelector()
+	{
+		RegExSelector s = getRegExSelector();
+		
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.addMappings(new regExVariableMap());
+		
+		//modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		
+		
+		RegExSelectorViewModel vm = modelMapper.map(s , RegExSelectorViewModel.class);
+		RegExSelector sel = modelMapper.map(vm , RegExSelector.class);
+		
+		
+		assertTrue(true);
+		
+	}
 	
 	
-	
+	private RegExSelector getRegExSelector()
+	{
+		RegExSelector sel = new RegExSelector();
+		sel.setExpression("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}].+\\.([a-zA-Z]+)");
+		sel.setDescription("description");
+		sel.addRegExVariable(getRegExVariable());
+		
+		return sel;
+	}
 	
 	private RegExVariable getRegExVariable()
 	{

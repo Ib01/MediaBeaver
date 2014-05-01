@@ -29,14 +29,14 @@ public class RegExSelector extends PersistentObject
 	private String expression;
 
 	@Column
-	@OneToMany(fetch = FetchType.EAGER, mappedBy= "regExSelector", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	private Set<RegExVariable> variables = new HashSet<RegExVariable>();
 	
-	
+	/*
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
-	private MediaConfig parentConfig;
+	private MediaConfig parentConfig;*/
 
 	public String getExpression()
 	{
@@ -58,9 +58,14 @@ public class RegExSelector extends PersistentObject
 		this.variables = variables;
 	}
 	
+	public void addRegExVariable(RegExVariable var)
+	{
+		getVariables().add(var);
+	}
+
 	
 
-	public void addRegExVariable(RegExVariable var)
+	/*public void addRegExVariable(RegExVariable var)
 	{
 		getVariables().add(var);
 		var.setRegExSelector(this);
@@ -71,8 +76,8 @@ public class RegExSelector extends PersistentObject
 		getVariables().remove(var);
 		var.setRegExSelector(null);
 	}
-
-	public MediaConfig getParentConfig()
+*/
+/*	public MediaConfig getParentConfig()
 	{
 		return parentConfig;
 	}
@@ -80,7 +85,7 @@ public class RegExSelector extends PersistentObject
 	public void setParentConfig(MediaConfig parentConfig)
 	{
 		this.parentConfig = parentConfig;
-	}
+	}*/
 
 	public String getDescription()
 	{

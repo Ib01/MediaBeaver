@@ -38,9 +38,9 @@ public class RegExVariable extends PersistentObject
 	@Column
 	private String replaceWithCharacter;
 
-	@JsonIgnore
+	/*@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
-	private RegExSelector regExSelector;
+	private RegExSelector regExSelector;*/
 
 	public String getVariableName()
 	{
@@ -82,7 +82,7 @@ public class RegExVariable extends PersistentObject
 		this.replaceWithCharacter = replaceWithCharacter;
 	}
 
-	public RegExSelector getRegExSelector()
+	/*public RegExSelector getRegExSelector()
 	{
 		return regExSelector;
 	}
@@ -90,6 +90,6 @@ public class RegExVariable extends PersistentObject
 	public void setRegExSelector(RegExSelector selector)
 	{
 		this.regExSelector = selector;
-	}
+	}*/
 
 }

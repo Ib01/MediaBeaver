@@ -1,80 +1,28 @@
-package com.ibus.mediabeaver.core.entity;
+package com.ibus.mediabeaver.server.viewmodel;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import com.ibus.mediabeaver.core.entity.ConfigVariable;
+import com.ibus.mediabeaver.core.entity.OpenSubtitlesFieldMap;
+import com.ibus.mediabeaver.core.entity.RegExSelector;
+import com.ibus.mediabeaver.core.entity.TransformAction;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
-@Entity(name = "Media_Config")
-public class MediaConfig extends PersistentObject
+public class MediaConfigViewModel extends ViewModel 
 {
-	private static final long serialVersionUID = 1L;
-
-	@Column
 	private String description;
-
-	@Column
 	private TransformAction action;
-
-	@Column
 	private String sourceDirectory;
-
-	@Column
-	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
-	@Cascade(
-	{ CascadeType.ALL })
 	private Set<ConfigVariable> configVariables = new HashSet<ConfigVariable>();
-
-	@Column
 	private boolean useOpenSubtitlesThumbprintService;
-
-	@Column
-	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
-	@Cascade(
-	{ CascadeType.ALL })
 	private Set<OpenSubtitlesFieldMap> openSubtitlesFieldMaps = new HashSet<OpenSubtitlesFieldMap>();
-
-	@Column
-	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
-	@Cascade(
-	{ CascadeType.ALL })
 	private Set<RegExSelector> regExSelectors = new HashSet<RegExSelector>();
-	
-	@Column
 	private String extensionsSelector;
-
-	@Column
 	private boolean selectAllFiles;
-
-	@Column
 	private boolean selectAllFolders;
-
-	@Column
 	private boolean selectAllEmptyFolders;
-
-	@Column
 	private String destinationRoot;
-
-	@Column
 	private String relativeDestinationPath;
-
-	/*
-	 * to implement
-	 * 
-	 * confirm selection with media service +TMDB -map variables to required
-	 * fields +TVD -map variables to required fields
-	 */
-
-	// Properties //////////////////////////////////////////////////
 
 	public String getDescription()
 	{
@@ -121,14 +69,6 @@ public class MediaConfig extends PersistentObject
 	{
 		configVariables.add(variable);
 	}
-	
-	/*
-
-	public void removeConfigVariable(ConfigVariable variable)
-	{
-		configVariables.remove(variable);
-		variable.setParentConfig(null);
-	}*/
 
 	public boolean isUseOpenSubtitlesThumbprintService()
 	{
@@ -156,13 +96,6 @@ public class MediaConfig extends PersistentObject
 		getOpenSubtitlesFieldMaps().add(map);
 	}
 	
-/*	
-	public void removeOpenSubtitlesFieldMap(OpenSubtitlesFieldMap map)
-	{
-		getOpenSubtitlesFieldMaps().remove(map);
-		map.setParentConfig(null);
-	}*/
-
 	public Set<RegExSelector> getRegExSelectors()
 	{
 		return regExSelectors;
@@ -178,15 +111,6 @@ public class MediaConfig extends PersistentObject
 		regExSelectors.add(regex);
 	}
 	
-	
-	/*
-
-	public void removeRegExSelector(RegExSelector regex)
-	{
-		regExSelectors.remove(regex);
-		regex.setParentConfig(null);
-	}*/
-
 	public String getExtensionsSelector()
 	{
 		return extensionsSelector;
@@ -247,60 +171,4 @@ public class MediaConfig extends PersistentObject
 		this.destinationRoot = destinationRoot;
 	}
 
-	
-
-	
-
-	// utilities ///////////////////////////////////////////
-
-	/*public ConfigVariable getConfigVariable(int index)
-	{
-		ConfigVariable[] vars = (ConfigVariable[])configVariables.toArray();
-		
-		if(index >= 0 && index < vars.length)
-			return (ConfigVariable)vars[index];
-			
-		return null;
-		
-	}
-	
-	public RegExSelector getRegExSelector(int index)
-	{
-		RegExSelector[] vars = (RegExSelector[])regExSelectors.toArray();
-		
-		if(index >= 0 && index < vars.length)
-			return (RegExSelector)vars[index];
-			
-		return null;
-	}
-	
-	public OpenSubtitlesFieldMap getOpenSubtitlesFieldMap(int index)
-	{
-		OpenSubtitlesFieldMap[] vars = (OpenSubtitlesFieldMap[])openSubtitlesFieldMaps.toArray();
-		
-		if(index >= 0 && index < vars.length)
-			return (OpenSubtitlesFieldMap)vars[index];
-			
-		return null;
-	}
-*/
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
