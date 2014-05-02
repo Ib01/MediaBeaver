@@ -26,7 +26,7 @@ public class ModelMapperTests
 	}
 	
 	@Test
-	public void mapRegExVariable()
+	public void mapRegExVariableTest()
 	{
 		RegExVariable v = getRegExVariable();
 		
@@ -72,27 +72,85 @@ public class ModelMapperTests
 		return sel;
 	}
 	
+	/*private boolean regExSelectorValid(RegExSelector sel1, RegExSelector sel2)
+	{
+		assertTrue(sel1.getExpression().equals(sel2.getExpression()));
+		assertTrue(sel1.getDescription().equals(sel2.getDescription()));
+		
+		//sel1.getVariables().toArray().
+		//regExVariablesEqual()
+	}*/
+	
 	private RegExVariable getRegExVariable()
 	{
 		RegExVariable var = new RegExVariable();
 		var.setVariableName("MovieName");
 		var.setGroupAssembly("{1}");
-		//var.setReplaceExpression("[\\.-]+");
-		var.setReplaceExpression("bla");
+		var.setReplaceExpression("[\\.-]+");
 		var.setReplaceWithCharacter(" ");
 		
 		return var;
 	}
 	
+	private void regExVariablesEqual(RegExVariable var1, RegExVariable var2)
+	{
+		assertTrue(var1.getVariableName().equals(var2.getVariableName()));
+		assertTrue(var1.getGroupAssembly().equals(var2.getGroupAssembly()));
+		assertTrue(var1.getRreplaceExpression().equals(var2.getRreplaceExpression()));
+		assertTrue(var1.getReplaceWithCharacter().equals(var2.getReplaceWithCharacter()));
+	}
 	
+	private ConfigVariable getConfigVariable()
+	{
+		ConfigVariable var = new ConfigVariable();
+		var.setName("name");
+		var.setRequired(true);
+		var.setValue("value");
+		
+		return var;
+	}
+	
+	/*private boolean configVariableValid()
+	{
+		
+	}*/
 	
 	private MediaConfig getMediaConfig()
+	{
+		//add MediaConfig and add selector to it
+		MediaConfig config = new MediaConfig();
+		config.setAction(TransformAction.Move);
+		config.setDescription("Move Movie files");
+		config.setSourceDirectory("D:\\MediabeaverTests\\Source");
+		config.setDestinationRoot("D:\\MediabeaverTests\\Destination\\Movies");
+		config.setRelativeDestinationPath("C:\\destination\\path");
+		config.setExtensionsSelector("extensionsSelector");
+		config.setSelectAllEmptyFolders(true);
+		config.setSelectAllFiles(true);
+		config.setSelectAllFolders(true);
+		config.setUseOpenSubtitlesThumbprintService(true);
+		
+		config.addRegExSelector(getRegExSelector());
+		config.addConfigVariable(getConfigVariable());
+		//config.setOpenSubtitlesFieldMaps(openSubtitlesFieldMaps);
+		
+		return config;
+	}
+	
+	
+	/*private boolean mediaConfigValid()
+	{
+		
+	}
+	*/
+	
+	/*private MediaConfig getMediaConfig()
 	{
 		String movieNameVar = "MovieName";
 		String movieYearVar = "MovieYear";
 		String movieExtensionVar = "movieExtension";
 
-		//create variables
+		//create RegExVariables
 		RegExVariable nameVar = new RegExVariable();
 		nameVar.setVariableName(movieNameVar);
 		nameVar.setGroupAssembly("{1}");
@@ -107,14 +165,14 @@ public class ModelMapperTests
 		extensionVar.setVariableName(movieExtensionVar);
 		extensionVar.setGroupAssembly("{3}");
 		
-		//create selector and add variables to it
+		//create RegExSelector and add variables to it
 		RegExSelector sel = new RegExSelector();
 		sel.setExpression("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}].+\\.([a-zA-Z]+)");
 		sel.addRegExVariable(nameVar);
 		sel.addRegExVariable(yearVar);
 		sel.addRegExVariable(extensionVar);
 		
-		//add media config and add selector to it
+		//add MediaConfig and add selector to it
 		MediaConfig config = new MediaConfig();
 		config.setAction(TransformAction.Move);
 		config.setDescription("Move Movie files");
@@ -129,5 +187,5 @@ public class ModelMapperTests
 		config.addRegExSelector(sel);
 
 		return config;
-	}
+	}*/
 }
