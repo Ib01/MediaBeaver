@@ -14,7 +14,7 @@ public class RegExSelectorViewModel extends ViewModel
 	@NotEmpty(message = "This field cannot be left empty")
 	private String expression;
 
-	private Set<RegExVariable> variables = new HashSet<RegExVariable>();
+	private Set<RegExVariableViewModel> variables = new HashSet<RegExVariableViewModel>();
 
 	public String getDescription()
 	{
@@ -36,12 +36,12 @@ public class RegExSelectorViewModel extends ViewModel
 		this.expression = expression;
 	}
 
-	public Set<RegExVariable> getVariables()
+	public Set<RegExVariableViewModel> getVariables()
 	{
 		return variables;
 	}
 
-	public void setVariables(Set<RegExVariable> variables)
+	public void setVariables(Set<RegExVariableViewModel> variables)
 	{
 		this.variables = variables;
 	}

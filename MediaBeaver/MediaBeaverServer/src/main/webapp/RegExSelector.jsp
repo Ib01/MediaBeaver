@@ -116,7 +116,7 @@
 
 <form:form method="POST" action="/config/saveRegExSelector" commandName="regExSelector">
    
-   <%-- <form:hidden path="id" id="id"/>
+   <form:hidden path="id" id="id"/>
    
    <div class="shadowBox" >
    		<div class="shadowBoxHeader">Step 1) Enter a Regular Expression 
@@ -130,11 +130,17 @@
    		a file as a movie file and will enable the system to extract the movie name and year from the file name. the 
    		regular expression must contain 2 or more regular expression capture groups.  these groups will be used to assemble the 
    		movie name and year below</p>
-
+		<br/>
 		
-   		<form:label path="expression">Expression</form:label><br/>
+		<form:label path="description">Expression</form:label><br/>
+   		<form:input path="description" style="width:695px" id="description"/>
+		<div class="errorBox" style="width:692px" id="description_error">
+   			<div style="width:690px;"></div>
+   		 </div>
+		<br/>
+		
+   		<form:label path="expression">Expression</form:label>
    		<form:input path="expression" style="width:695px" id="expression"/>
-  		
    		<div class="errorBox" style="width:692px" id="expression_error">
    			<div style="width:690px;"></div>
    		 </div>
@@ -143,7 +149,7 @@
    <br/>
    
    
-   <div class="shadowBox">
+   <%-- <div class="shadowBox">
 	   <div class="shadowBoxHeader">Step 2) Assemble and Clean the Movie Name
 		  <span style="float: right;" class="shadowBoxHelp" >
 		   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
@@ -229,8 +235,8 @@
 	<br/>
    	<br/>
 	<input type="button" value="Save" id="saveExp" />
-	<br>
-	 --%>
+	<br> --%>
+	
 	
 </form:form>
 

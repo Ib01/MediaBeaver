@@ -1,55 +1,63 @@
 package com.ibus.mediabeaver.server.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.ibus.mediabeaver.core.data.Repository;
-import com.ibus.mediabeaver.core.entity.JsonError;
-import com.ibus.mediabeaver.core.entity.MediaConfig;
-import com.ibus.mediabeaver.core.entity.MovieRegEx;
-import com.ibus.mediabeaver.core.util.RegExHelper;
+import com.ibus.mediabeaver.core.entity.RegExSelector;
+import com.ibus.mediabeaver.server.util.Mapper;
+import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
+import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
 
 @Controller
 @RequestMapping(value = "/regExSelector")
-public class RegExSelector
+@SessionAttributes({"regExSelector"})
+public class RegExSelectorController
 {
+	Mapper mapper = new Mapper();
+	
 	@ModelAttribute("regExSelector")
-	public MovieRegEx getInitialisedModel()
+	public RegExSelectorViewModel getModel(HttpServletRequest request)
 	{
-		MovieRegEx re = new MovieRegEx();
-		re.setExpression("expression");
-		re.getNameParser().setAssembledItem("assembledItem");
-		return re;
+		RegExSelectorViewModel vm = new RegExSelectorViewModel();
+		
+		String id = request.getParameter("id");
+		if(id != null && id.length() > 0)
+		{
+			RegExSelector sel = Repository.getEntity(RegExSelector.class, id);
+			vm = mapper.getMapper().map(sel, RegExSelectorViewModel.class);	
+		}
+		
+		return vm;
 	}
 
 	@RequestMapping
-	public String addSelector(HttpServletRequest request)
+	public String addSelector(HttpServletRequest request, SessionStatus sessionStatus)
 	{
-		MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		//Clear session so to ensure that getModel is called.
+		sessionStatus.setComplete();
+		
+		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
 		
 		return "RegExSelector";
 	}
 
-	@RequestMapping(value="/{id}")
+	/*@RequestMapping(value="/{id}")
 	public String updateSelector(HttpServletRequest request, @PathVariable String id)
-	{
-		MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+	{		
+		RegExSelectorViewModel model = mapper.getMapper().map(sel, RegExSelectorViewModel.class);
+		
+		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
 		
 		return "RegExSelector";
 	}
-	
+	*/
 	
 	/*
 	 * @RequestMapping(value="/user.json") public @ResponseBody
@@ -61,7 +69,7 @@ public class RegExSelector
 
 	// @RequestBody
 
-	@RequestMapping(value = "/Save", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/Save", method = RequestMethod.POST)
 	public @ResponseBody MovieRegEx saveRegEx(@Valid @RequestBody MovieRegEx model, BindingResult result)
 	{
 		RegExHelper reg = new RegExHelper();
@@ -105,7 +113,7 @@ public class RegExSelector
 		model.setGeneratedYear(year);
 
 		return model;
-	}
+	}*/
 
 	/*
 	 * public static void WriteFile() { PrintWriter writer; try { writer = new
@@ -120,7 +128,7 @@ public class RegExSelector
 	 * }
 	 */
 
-	private boolean addErrors(RegExHelper reg, MovieRegEx model,
+	/*private boolean addErrors(RegExHelper reg, MovieRegEx model,
 			BindingResult result)
 	{
 		boolean ret = false;
@@ -158,15 +166,15 @@ public class RegExSelector
 			ret = true;
 		}
 
-		/*
+		
 		 * if(caps.size() == 0) { model.getErrors().add(new
 		 * JsonError("expression",
 		 * "This field must contain 2 or more capture groups to capture the movie name and year"
 		 * )); ret = true; }
-		 */
+		 
 
 		return ret;
-	}
+	}*/
 
 	// this method response to POST request
 	// http://localhost/spring-mvc-json/rest/cont/person

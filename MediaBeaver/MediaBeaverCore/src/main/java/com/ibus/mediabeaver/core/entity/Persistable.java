@@ -1,7 +1,10 @@
 package com.ibus.mediabeaver.core.entity;
 
+import java.util.Date;
+
 public interface Persistable 
 {
-	public int getId();
-	public void setId(int  id);
+	public String getId();
+	public int getVersion();
+	public Date getLastUpdate();
 }

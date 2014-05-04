@@ -30,8 +30,7 @@ public class MediaConfig extends PersistentObject
 
 	@Column
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
-	@Cascade(
-	{ CascadeType.ALL })
+	@Cascade({ CascadeType.ALL })
 	private Set<ConfigVariable> configVariables = new HashSet<ConfigVariable>();
 
 	@Column
@@ -39,14 +38,12 @@ public class MediaConfig extends PersistentObject
 
 	@Column
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
-	@Cascade(
-	{ CascadeType.ALL })
+	@Cascade({ CascadeType.ALL })
 	private Set<OpenSubtitlesFieldMap> openSubtitlesFieldMaps = new HashSet<OpenSubtitlesFieldMap>();
 
 	@Column
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
-	@Cascade(
-	{ CascadeType.ALL })
+	@Cascade({ CascadeType.ALL })
 	private Set<RegExSelector> regExSelectors = new HashSet<RegExSelector>();
 	
 	@Column

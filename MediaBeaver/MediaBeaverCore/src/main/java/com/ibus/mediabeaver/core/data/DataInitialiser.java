@@ -6,11 +6,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.ibus.mediabeaver.core.entity.MediaTransformConfig;
-import com.ibus.mediabeaver.core.entity.MediaType;
-import com.ibus.mediabeaver.core.entity.MovieRegEx;
-import com.ibus.mediabeaver.core.entity.RenamingService;
-import com.ibus.mediabeaver.core.entity.TransformAction;
+import com.ibus.mediabeaver.core.entity.MediaConfig;
 
 public class DataInitialiser 
 {
@@ -26,14 +22,14 @@ public class DataInitialiser
 
 			log.debug("Getting configuration from h2 db");
 			
-			List<MediaTransformConfig> configs =  Repository.getAllMediaTransformConfig();
+			List<MediaConfig> configs =  Repository.getAllMediaConfig();
 			
 			log.debug(String.format("Retreived %d configs from db", configs.size()));
 			
 			//initialise some useful default config only if the db is fresh (i.e this is the first time the app has run)
 			if(configs.size() == 0)
 			{
-				addMovieConfig();
+				//addMovieConfig();
 			}
 			
 			tx.commit();
@@ -47,9 +43,9 @@ public class DataInitialiser
 			
 	}
 	
-	private static void addMovieConfig()
+	/*private static void addMovieConfig()
 	{
-		MovieRegEx re = new MovieRegEx();
+		RegExSelector re = new RegExSelector();
 		re.setExpression("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}]");
 		re.getNameParser().setAssembledItem("{1}");
 		re.getNameParser().setCleaningRegEx("([a-z,A-Z']+)");
@@ -57,7 +53,7 @@ public class DataInitialiser
 		re.setTestFileName("Iron-Man (1992).mkv");
 		
 		
-		MediaTransformConfig it = new MediaTransformConfig();
+		MediaConfig it = new MediaTransformConfig();
 		it.setAction(TransformAction.Move);
 		it.setTargetDirectory("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Target");
 		it.setMediaType(MediaType.Movie);
@@ -72,7 +68,7 @@ public class DataInitialiser
 		
 		log.debug("added 1 config to db");
 	}
-	
+	*/
 	
 	
 }

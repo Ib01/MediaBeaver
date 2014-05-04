@@ -1,12 +1,16 @@
 package com.ibus.mediabeaver.core.entity;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,8 +20,12 @@ public class RegExVariable extends PersistentObject
 {
 	private static final long serialVersionUID = 1L;
 
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
+	private ConfigVariable configVariable;
+	/*
 	@Column
-	private String variableName;
+	private String variableName;*/
 
 	/**
 	 * the item assembled form regex groups found in parent regex expression
@@ -37,12 +45,13 @@ public class RegExVariable extends PersistentObject
 	 */
 	@Column
 	private String replaceWithCharacter;
+	
 
 	/*@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	private RegExSelector regExSelector;*/
 
-	public String getVariableName()
+	/*public String getVariableName()
 	{
 		return variableName;
 	}
@@ -50,7 +59,7 @@ public class RegExVariable extends PersistentObject
 	public void setVariableName(String variable)
 	{
 		this.variableName = variable;
-	}
+	}*/
 
 	public String getGroupAssembly()
 	{
@@ -82,14 +91,14 @@ public class RegExVariable extends PersistentObject
 		this.replaceWithCharacter = replaceWithCharacter;
 	}
 
-	/*public RegExSelector getRegExSelector()
+	public ConfigVariable getConfigVariable()
 	{
-		return regExSelector;
+		return configVariable;
 	}
 
-	public void setRegExSelector(RegExSelector selector)
+	public void setConfigVariable(ConfigVariable configVariable)
 	{
-		this.regExSelector = selector;
-	}*/
+		this.configVariable = configVariable;
+	}
 
 }

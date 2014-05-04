@@ -13,16 +13,18 @@ public class MediaConfigViewModel extends ViewModel
 	private String description;
 	private TransformAction action;
 	private String sourceDirectory;
-	private Set<ConfigVariable> configVariables = new HashSet<ConfigVariable>();
+	private Set<ConfigVariableViewModel> configVariables = new HashSet<ConfigVariableViewModel>();
 	private boolean useOpenSubtitlesThumbprintService;
-	private Set<OpenSubtitlesFieldMap> openSubtitlesFieldMaps = new HashSet<OpenSubtitlesFieldMap>();
-	private Set<RegExSelector> regExSelectors = new HashSet<RegExSelector>();
+	private Set<OpenSubtitlesFieldMapViewModel> openSubtitlesFieldMaps = new HashSet<OpenSubtitlesFieldMapViewModel>();
+	private Set<RegExSelectorViewModel> regExSelectors = new HashSet<RegExSelectorViewModel>();
 	private String extensionsSelector;
 	private boolean selectAllFiles;
 	private boolean selectAllFolders;
 	private boolean selectAllEmptyFolders;
 	private String destinationRoot;
 	private String relativeDestinationPath;
+	
+	private String selectedRegExSelectorId;
 
 	public String getDescription()
 	{
@@ -54,18 +56,18 @@ public class MediaConfigViewModel extends ViewModel
 		this.sourceDirectory = sourceDirectory;
 	}
 
-	public Set<ConfigVariable> getConfigVariables()
+	public Set<ConfigVariableViewModel> getConfigVariables()
 	{
 		return configVariables;
 	}
 	
 	/*required by jsp and jstl*/ 
-	public void setConfigVariables(Set<ConfigVariable> vars)
+	public void setConfigVariables(Set<ConfigVariableViewModel> vars)
 	{
 		configVariables = vars;
 	}
 
-	public void addConfigVariable(ConfigVariable variable)
+	public void addConfigVariable(ConfigVariableViewModel variable)
 	{
 		configVariables.add(variable);
 	}
@@ -81,32 +83,32 @@ public class MediaConfigViewModel extends ViewModel
 		this.useOpenSubtitlesThumbprintService = useOpenSubtitlesThumbprintService;
 	}
 
-	public Set<OpenSubtitlesFieldMap> getOpenSubtitlesFieldMaps()
+	public Set<OpenSubtitlesFieldMapViewModel> getOpenSubtitlesFieldMaps()
 	{
 		return openSubtitlesFieldMaps;
 	}
 	
-	public void setOpenSubtitlesFieldMaps(Set<OpenSubtitlesFieldMap> openSubtitlesFieldMaps)
+	public void setOpenSubtitlesFieldMaps(Set<OpenSubtitlesFieldMapViewModel> openSubtitlesFieldMaps)
 	{
 		this.openSubtitlesFieldMaps = openSubtitlesFieldMaps;
 	}
 
-	public void addOpenSubtitlesFieldMap(OpenSubtitlesFieldMap map)
+	public void addOpenSubtitlesFieldMap(OpenSubtitlesFieldMapViewModel map)
 	{
 		getOpenSubtitlesFieldMaps().add(map);
 	}
 	
-	public Set<RegExSelector> getRegExSelectors()
+	public Set<RegExSelectorViewModel> getRegExSelectors()
 	{
 		return regExSelectors;
 	}
 
-	public void setRegExSelectors(Set<RegExSelector> regExSelectors)
+	public void setRegExSelectors(Set<RegExSelectorViewModel> regExSelectors)
 	{
 		this.regExSelectors = regExSelectors;
 	}
 	
-	public void addRegExSelector(RegExSelector regex)
+	public void addRegExSelector(RegExSelectorViewModel regex)
 	{
 		regExSelectors.add(regex);
 	}
@@ -169,6 +171,16 @@ public class MediaConfigViewModel extends ViewModel
 	public void setDestinationRoot(String destinationRoot)
 	{
 		this.destinationRoot = destinationRoot;
+	}
+
+	public String getSelectedRegExSelectorId()
+	{
+		return selectedRegExSelectorId;
+	}
+
+	public void setSelectedRegExSelectorId(String selectedRegExSelectorId)
+	{
+		this.selectedRegExSelectorId = selectedRegExSelectorId;
 	}
 
 }

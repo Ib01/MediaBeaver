@@ -1,42 +1,47 @@
 package com.ibus.mediabeaver.core.data;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-import org.hibernate.Query;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.CriteriaSpecification;
 
+import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.Persistable;
-import com.ibus.mediabeaver.core.entity.MediaTransformConfig;
-import com.ibus.mediabeaver.core.entity.MovieRegEx;
+import com.ibus.mediabeaver.core.entity.RegExSelector;
 
-public class Repository 
+public abstract class Repository 
 {
-	public static List<MediaTransformConfig>  getAllMediaTransformConfig() 
+	public static List<MediaConfig>  getAllMediaConfig() 
 	{
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		
-		Query query = s.createQuery("from Media_Transform_Config");
-		List<MediaTransformConfig> results = (List<MediaTransformConfig>)query.list();
+		Criteria criteria = s.createCriteria(MediaConfig.class)
+				.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+			
+		@SuppressWarnings("unchecked")
+		List<MediaConfig> results = criteria.list();
 		
 		return results;
 	}
 
 	
-	public static List<MovieRegEx>  getAllMovieRegEx() 
+	public static List<RegExSelector>  getAllMovieRegEx() 
 	{
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		
-		Query query = s.createQuery("from Movie_Reg_Ex");
-		List<MovieRegEx> results = (List<MovieRegEx>)query.list();
+		Criteria criteria = s.createCriteria(RegExSelector.class)
+				.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+			
+		@SuppressWarnings("unchecked")
+		List<RegExSelector> results = criteria.list();
 		
 		return results;
 	}
 
 	
-	public static <T extends Persistable> int updateEntity(T obj)
+	public static <T extends Persistable> String updateEntity(T obj)
 	{
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		s.update(obj);
@@ -44,7 +49,7 @@ public class Repository
 	}
 	
 	
-	public static <T extends Persistable> int addEntity(T item) 
+	public static <T extends Persistable> String addEntity(T item) 
 	{
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		s.save(item);
@@ -52,7 +57,7 @@ public class Repository
 	}
 	
 	
-	public static <T extends Persistable> T getEntity(Class cls, int id) 
+	public static <T extends Persistable> T getEntity(Class<T> cls, String id) 
 	{
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		@SuppressWarnings("unchecked")
@@ -82,29 +87,6 @@ public class Repository
 		return result;
 	}
 
-	
-	/*public static <T> T getInTransaction(Transactable<T> transactable)
-	{
-		T result;
-		Transaction tx = null; 
-		try
-		{
-			Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-			tx = s.beginTransaction();
-
-			result = transactable.run();
-			
-			tx.commit();
-		}
-		catch(RuntimeException e)
-		{
-			tx.rollback();
-			throw e;
-		}	
-		
-		return result;
-	}	*/
-	
 	
 }
 

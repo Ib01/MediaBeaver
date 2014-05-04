@@ -1,9 +1,6 @@
 package com.ibus.mediabeaver.server.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,21 +8,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ibus.mediabeaver.core.data.Repository;
-import com.ibus.mediabeaver.core.entity.ConfigVariable;
-import com.ibus.mediabeaver.core.entity.MediaConfig;
-import com.ibus.mediabeaver.core.entity.MovieRegEx;
-import com.ibus.mediabeaver.core.entity.RegExSelector;
-import com.ibus.mediabeaver.core.entity.RegExVariable;
 import com.ibus.mediabeaver.core.entity.TransformAction;
-import com.ibus.mediabeaver.core.util.RegExHelper;
+import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
+import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 
 @Controller
 @RequestMapping(value = "/config")
@@ -33,17 +25,17 @@ import com.ibus.mediabeaver.core.util.RegExHelper;
 public class AppConfigController
 {
 	@ModelAttribute("config")
-	public MediaConfig getInitialMediaConfig(HttpServletRequest request)
+	public MediaConfigViewModel getInitialMediaConfigViewModel(HttpServletRequest request)
 	{
 		String id = request.getParameter("id");
 		
-		MediaConfig config = new MediaConfig();
-		config.setDescription("Move movie files");
-		config.addConfigVariable(new ConfigVariable("MovieName"));
+		MediaConfigViewModel config = new MediaConfigViewModel();
+		/*config.setDescription("Move movie files");
+		config.addConfigVariableViewModel(new ConfigVariableViewModel("MovieName"));
 		
-		ConfigVariable v = new ConfigVariable("MovieYear");
+		ConfigVariableViewModel v = new ConfigVariableViewModel("MovieYear");
 		v.setRequired(true);
-		config.addConfigVariable(v);
+		config.addConfigVariableViewModel(v);
 		
 		RegExVariable rev = new RegExVariable();
 		rev.setVariableName("var 1 name");
@@ -53,7 +45,7 @@ public class AppConfigController
 		res.addRegExVariable(rev);
 		res.setDescription("select movies with name and year");
 	
-		config.addRegExSelector(res);
+		config.addRegExSelector(res);*/
 	
 		return config;
 	}
@@ -62,38 +54,39 @@ public class AppConfigController
 	
 	
 	@RequestMapping(value = "/addRegExSelector", method = RequestMethod.POST)
-	public String addRegExSelector(@Validated @ModelAttribute("config") MediaConfig config, BindingResult result, Model model, HttpServletRequest request,  SessionStatus sessionStatus)
+	public String addRegExSelector(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result, 
+			HttpServletRequest request,  SessionStatus sessionStatus, RedirectAttributes ra)
 	{
-		MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
 		
-		/*MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		/*MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
 		sessionStatus.setComplete();*/
-		//request.getSession().setAttribute("MediaConfigModel", config);
+		//request.getSession().setAttribute("MediaConfigViewModelModel", config);
 
 		return "redirect:/regExSelector";
 	}
 	
 	
-	@RequestMapping(value = "/updateRegExSelector", method = RequestMethod.POST)
-	public @ResponseBody MediaConfig updateRegExSelector(@Valid @RequestBody MediaConfig model, BindingResult result,HttpServletRequest request)
+	/*@RequestMapping(value = "/updateRegExSelector", method = RequestMethod.POST)
+	public @ResponseBody MediaConfigViewModel updateRegExSelector(@Valid @RequestBody MediaConfigViewModel model, BindingResult result,HttpServletRequest request)
 	{
-		MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
 		return model;
-	}
+	}*/
 	
 	
 	
 	@RequestMapping(value = "/updateRegExSelector", method = RequestMethod.POST)
-	public String updateRegExSelector(@Validated @ModelAttribute("config") MediaConfig config, 
+	public String updateRegExSelector(@Validated @ModelAttribute("config") MediaConfigViewModel config, 
 			BindingResult result, Model model, HttpServletRequest request,  SessionStatus sessionStatus)
 	{
 		
 		
-		MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
 		
-		/*MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		/*MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
 		sessionStatus.setComplete();*/
-		//request.getSession().setAttribute("MediaConfigModel", config);
+		//request.getSession().setAttribute("MediaConfigViewModelModel", config);
 
 		return "redirect:/regExSelector/";
 	}	
@@ -112,7 +105,7 @@ public class AppConfigController
 	@RequestMapping(method = RequestMethod.GET)
 	public String config(HttpServletRequest request)
 	{
-		MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
 		
 		return "AppConfig";
 	}
@@ -120,9 +113,9 @@ public class AppConfigController
 	
 	/*
 	@RequestMapping(value = "/updateRegExSelector", method = RequestMethod.POST)
-	public @ResponseBody MediaConfig updateRegExSelector(@Valid @RequestBody MediaConfig model, BindingResult result,HttpServletRequest request)
+	public @ResponseBody MediaConfigViewModel updateRegExSelector(@Valid @RequestBody MediaConfigViewModel model, BindingResult result,HttpServletRequest request)
 	{
-		MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
 		return model;
 	}*/	
 	
@@ -147,13 +140,13 @@ public class AppConfigController
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String saveConfig(@Validated @ModelAttribute("config") MediaConfig config, BindingResult result, Model model, HttpServletRequest request,  SessionStatus sessionStatus)
+	public String saveConfig(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result, Model model, HttpServletRequest request,  SessionStatus sessionStatus)
 	{
 	
 		
-		/*MediaConfig c = (MediaConfig) request.getSession().getAttribute("config");
+		/*MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
 		sessionStatus.setComplete();*/
-		//request.getSession().setAttribute("MediaConfigModel", config);
+		//request.getSession().setAttribute("MediaConfigViewModelModel", config);
 
 		return "AppConfig";
 	}
@@ -165,12 +158,12 @@ public class AppConfigController
 	
 	
 	@RequestMapping(value = "/ajaxTest", method = RequestMethod.GET)
-	public @ResponseBody MediaConfig ajaxTest()
+	public @ResponseBody MediaConfigViewModel ajaxTest()
 	{
-		MediaConfig config = new MediaConfig();
+		MediaConfigViewModel config = new MediaConfigViewModel();
 		config.setDescription("Move movie files");
-		config.addConfigVariable(new ConfigVariable("MovieName"));
-		config.addConfigVariable(new ConfigVariable("MovieYear"));
+		config.getConfigVariables().add(new ConfigVariableViewModel("MovieName"));
+		config.getConfigVariables().add(new ConfigVariableViewModel("MovieYear"));
 		
 		
 		return config;

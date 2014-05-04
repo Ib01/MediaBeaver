@@ -9,6 +9,13 @@ public class ConfigVariableViewModel extends ViewModel
 	private String value;
 
 	private boolean required = false;
+	
+	public ConfigVariableViewModel(){}
+	
+	public ConfigVariableViewModel(String name)
+	{
+		this.name = name;
+	}
 
 	public String getName()
 	{
