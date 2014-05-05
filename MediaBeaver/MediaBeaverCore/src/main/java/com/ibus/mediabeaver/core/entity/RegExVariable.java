@@ -98,7 +98,27 @@ public class RegExVariable extends PersistentObject
 
 	public void setConfigVariable(ConfigVariable configVariable)
 	{
-		this.configVariable = configVariable;
+		if(configVariable == null)
+		{
+			this.configVariable.removeRegExVariable(this);
+			this.configVariable = null;
+		}
+		else
+		{
+			this.configVariable = configVariable;
+			this.configVariable.addRegExVariable(this);
+		}
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+

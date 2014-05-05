@@ -30,7 +30,6 @@ public class ConfigVariable extends PersistentObject
 	@Column
 	private boolean required = false;
 	
-	@JsonIgnore
 	@Column
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
@@ -88,15 +87,20 @@ public class ConfigVariable extends PersistentObject
 	{
 		this.regExVariables = regExVariables;
 	}
-
-
-/*	public MediaConfig getParentConfig() {
-		return parentConfig;
+	
+	public void addRegExVariable(RegExVariable var)
+	{
+		if(var != null)
+			var.setConfigVariable(this);
+	}
+	
+	public void removeRegExVariable(RegExVariable var)
+	{
+		var.setConfigVariable(null);
+		regExVariables.remove(var);
 	}
 
-	public void setParentConfig(MediaConfig parentConfig) {
-		this.parentConfig = parentConfig;
-	}*/
+
 }
 
 

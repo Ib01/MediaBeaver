@@ -42,6 +42,96 @@ public class ModelTests
 	}
 	
 	
+	
+	
+	@Test
+	public void mediaConfigCascadeDeleteTest()
+	{
+		StartTransaction();
+		
+		/*Add MediaConfig */
+		MediaConfig c1 = TestHelper.getMediaConfig();
+		
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		s.save(c1);
+		String id = c1.getId();
+		
+		EndTransaction();
+		
+		
+		/*delete MediaConfig*/
+		StartTransaction();
+		
+		s = HibernateUtil.getSessionFactory().getCurrentSession();
+		MediaConfig c2 = (MediaConfig) s.get(MediaConfig.class, id);
+		RegExSelector res = c2.getRegExSelectors().iterator().next();
+		String resId = res.getId();
+		s.delete(c2);
+		
+		EndTransaction();
+		
+		
+		/*check that RegExSelector has been deleted also */
+		StartTransaction();
+		
+		s = HibernateUtil.getSessionFactory().getCurrentSession();
+		RegExSelector res2 = (RegExSelector) s.get(RegExSelector.class, resId);
+		
+		assertTrue(res2 == null);
+		
+		EndTransaction();
+		
+	}
+	
+	
+	@Test
+	public void configVariableCascadeDeleteTest()
+	{
+		StartTransaction();
+		
+		/*Add MediaConfig */
+		MediaConfig c1 = TestHelper.getMediaConfig();
+		
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		s.save(c1);
+		String id = c1.getId();
+		
+		EndTransaction();
+		
+		
+		/*remove all config vars*/
+		StartTransaction();
+		
+		s = HibernateUtil.getSessionFactory().getCurrentSession();
+		MediaConfig c2 = (MediaConfig) s.get(MediaConfig.class, id);
+		c2.getConfigVariables().clear();
+		
+		RegExSelector res1 = c2.getRegExSelectors().iterator().next();
+		RegExVariable rev1 = res1.getVariables().iterator().next();
+		rev1.setConfigVariable(null);
+		
+		s.save(c2);
+		
+		EndTransaction();
+		
+		
+		/*check that RegExVariable still exists and has null for configVariable*/
+		StartTransaction();
+		
+		s = HibernateUtil.getSessionFactory().getCurrentSession();
+		MediaConfig c3 = (MediaConfig) s.get(MediaConfig.class, id);
+		
+		RegExSelector res = c3.getRegExSelectors().iterator().next();
+		RegExVariable rev = res.getVariables().iterator().next();
+		
+		assertTrue(rev.getConfigVariable() == null);
+		
+		EndTransaction();
+		
+	}
+	
+	
+	
 	@Test
 	public void addMediaconfigTest()
 	{

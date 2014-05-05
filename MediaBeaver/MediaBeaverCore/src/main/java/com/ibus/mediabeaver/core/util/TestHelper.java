@@ -11,23 +11,23 @@ import com.ibus.mediabeaver.core.entity.TransformAction;
 
 public class TestHelper
 {
-	public static RegExSelector getRegExSelector()
+	public static RegExSelector getRegExSelector(ConfigVariable cf)
 	{
 		RegExSelector sel = new RegExSelector();
 		sel.setExpression("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}].+\\.([a-zA-Z]+)");
 		sel.setDescription("description");
-		sel.addRegExVariable(getRegExVariable());
+		sel.addRegExVariable(getRegExVariable(cf));
 		
 		return sel;
 	}
 	
-	public static RegExVariable getRegExVariable()
+	public static RegExVariable getRegExVariable(ConfigVariable cf)
 	{
 		RegExVariable var = new RegExVariable();
-		var.setVariableName("MovieName");
 		var.setGroupAssembly("{1}");
 		var.setReplaceExpression("[\\.-]+");
 		var.setReplaceWithCharacter(" ");
+		var.setConfigVariable(cf);
 		
 		return var;
 	}
@@ -57,8 +57,11 @@ public class TestHelper
 		config.setSelectAllFolders(true);
 		config.setUseOpenSubtitlesThumbprintService(true);
 		
-		config.addRegExSelector(getRegExSelector());
-		config.addConfigVariable(getConfigVariable());
+		ConfigVariable cf = getConfigVariable();
+		
+		config.addConfigVariable(cf);
+		config.addRegExSelector(getRegExSelector(cf));
+		
 		//config.setOpenSubtitlesFieldMaps(openSubtitlesFieldMaps);
 		
 		return config;
@@ -139,7 +142,7 @@ public class TestHelper
 	
 	public static void regExVariablesEqual(RegExVariable var1, RegExVariable var2)
 	{
-		assertTrue(var1.getVariableName().equals(var2.getVariableName()));
+		assertTrue(var1.getConfigVariable().equals(var2.getConfigVariable()));
 		assertTrue(var1.getGroupAssembly().equals(var2.getGroupAssembly()));
 		assertTrue(var1.getRreplaceExpression().equals(var2.getRreplaceExpression()));
 		assertTrue(var1.getReplaceWithCharacter().equals(var2.getReplaceWithCharacter()));
@@ -166,3 +169,14 @@ public class TestHelper
 		return true;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
