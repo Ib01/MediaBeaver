@@ -53,6 +53,8 @@ public class ModelMapperTests
 		MediaConfigViewModel vm = modelMapper.map(obj, MediaConfigViewModel.class);
 		
 		AssertMediaConfigObjsEqual(obj, vm);
+		
+		assertTrue(true);
 	}
 	
 	
