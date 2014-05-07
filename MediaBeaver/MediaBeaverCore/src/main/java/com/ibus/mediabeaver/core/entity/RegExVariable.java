@@ -71,7 +71,7 @@ public class RegExVariable extends PersistentObject
 		this.groupAssembly = groupAssembly;
 	}
 
-	public String getRreplaceExpression()
+	public String getReplaceExpression()
 	{
 		return replaceExpression;
 	}
@@ -96,18 +96,23 @@ public class RegExVariable extends PersistentObject
 		return configVariable;
 	}
 
-	public void setConfigVariable(ConfigVariable configVariable)
+	public void setConfigVariable(ConfigVariable newVariable)
 	{
-		if(configVariable == null)
-		{
-			this.configVariable.removeRegExVariable(this);
-			this.configVariable = null;
-		}
-		else
-		{
-			this.configVariable = configVariable;
-			this.configVariable.addRegExVariable(this);
-		}
+		ConfigVariable oldVariable = this.configVariable; 
+		
+		//already set
+		if (oldVariable == newVariable)
+			return;
+		
+		this.configVariable = newVariable;
+		
+		
+		if (oldVariable != null)
+			oldVariable.removeRegExVariable(this);
+		
+		
+		if (newVariable != null)
+			newVariable.addRegExVariable(this);
 	}
 
 }

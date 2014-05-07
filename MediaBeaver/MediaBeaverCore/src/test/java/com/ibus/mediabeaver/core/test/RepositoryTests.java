@@ -56,7 +56,7 @@ public class RepositoryTests
 	{
 		StartTransaction();
 		
-		MediaConfig c = TestHelper.getMediaConfig();
+		MediaConfig c = TestHelper.getMediaConfigFullGraph();
 		
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		s.save(c);
@@ -68,7 +68,7 @@ public class RepositoryTests
 		StartTransaction();
 		
 		MediaConfig c2 = Repository.getEntity(MediaConfig.class, id);
-		TestHelper.mediaConfigsEqual(c, c2);
+		TestHelper.mediaConfigsFullGraphEqual(c, c2);
 		
 		EndTransaction();
 		

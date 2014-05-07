@@ -10,8 +10,9 @@ public class Mapper
 {
 	public class regExVariableMap extends PropertyMap<RegExVariable, RegExVariableViewModel> 
 	{
-		  protected void configure() {
-		    map().setReplaceExpression(source.getRreplaceExpression());
+		  protected void configure() 
+		  {
+			  map().setReplaceExpression(source.getReplaceExpression());
 		  }
 	}
 	
@@ -21,6 +22,8 @@ public class Mapper
 	{
 		modelMapper = new ModelMapper();
 		modelMapper.addMappings(new Mapper.regExVariableMap());
+		
+		//modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 	}
 	
 	

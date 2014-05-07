@@ -106,7 +106,7 @@ public class MediaManager
 					}
 					
 					String uncleanVariable = regExHelper.assembleRegExVariable(captures, rev.getGroupAssembly());	
-					String cleanVariable = regExHelper.cleanString(uncleanVariable, rev.getRreplaceExpression(), rev.getReplaceWithCharacter());
+					String cleanVariable = regExHelper.cleanString(uncleanVariable, rev.getReplaceExpression(), rev.getReplaceWithCharacter());
 				
 					cv.setValue(cleanVariable);
 					

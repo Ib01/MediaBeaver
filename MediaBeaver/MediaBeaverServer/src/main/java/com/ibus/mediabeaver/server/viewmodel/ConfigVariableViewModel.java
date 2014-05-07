@@ -1,6 +1,9 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
-import javax.persistence.Column;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.ibus.mediabeaver.core.entity.RegExVariable;
 
 public class ConfigVariableViewModel extends ViewModel
 {
@@ -9,6 +12,8 @@ public class ConfigVariableViewModel extends ViewModel
 	private String value;
 
 	private boolean required = false;
+	
+	private Set<RegExVariable> regExVariables = new HashSet<RegExVariable>();
 	
 	public ConfigVariableViewModel(){}
 	
@@ -45,5 +50,15 @@ public class ConfigVariableViewModel extends ViewModel
 	public void setRequired(boolean required)
 	{
 		this.required = required;
+	}
+
+	public Set<RegExVariable> getRegExVariables()
+	{
+		return regExVariables;
+	}
+
+	public void setRegExVariables(Set<RegExVariable> regExVariables)
+	{
+		this.regExVariables = regExVariables;
 	}
 }

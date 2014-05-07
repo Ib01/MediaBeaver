@@ -31,8 +31,8 @@ public class ConfigVariable extends PersistentObject
 	private boolean required = false;
 	
 	@Column
-	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
-	@Cascade({CascadeType.ALL})
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "configVariable")
+	@Cascade({CascadeType.SAVE_UPDATE})
 	private Set<RegExVariable> regExVariables = new HashSet<RegExVariable>();
 	
 	public ConfigVariable(){}
@@ -88,16 +88,29 @@ public class ConfigVariable extends PersistentObject
 		this.regExVariables = regExVariables;
 	}
 	
-	public void addRegExVariable(RegExVariable var)
+	public boolean addRegExVariable(RegExVariable var)
 	{
-		if(var != null)
+		if (var != null && !regExVariables.contains(var))
+		{
+			regExVariables.add(var);
 			var.setConfigVariable(this);
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
-	public void removeRegExVariable(RegExVariable var)
+	public boolean removeRegExVariable(RegExVariable var)
 	{
-		var.setConfigVariable(null);
-		regExVariables.remove(var);
+		if(var != null && regExVariables.contains(var))
+		{
+			regExVariables.remove(var);
+			var.setConfigVariable(null);
+			return true;
+		}
+		
+		return false;
 	}
 
 

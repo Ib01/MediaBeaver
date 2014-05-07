@@ -11,14 +11,26 @@ import com.ibus.mediabeaver.core.entity.TransformAction;
 
 public class TestHelper
 {
-	public static RegExSelector getRegExSelector(ConfigVariable cf)
+	public static RegExSelector getRegExSelector()
+	{
+		return getRegExSelector(null);
+	}
+	
+	public static RegExSelector getRegExSelector(RegExVariable var)
 	{
 		RegExSelector sel = new RegExSelector();
 		sel.setExpression("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}].+\\.([a-zA-Z]+)");
 		sel.setDescription("description");
-		sel.addRegExVariable(getRegExVariable(cf));
+		
+		if(var != null)
+			sel.addRegExVariable(var);
 		
 		return sel;
+	}
+	
+	public static RegExVariable getRegExVariable()
+	{
+		return getRegExVariable(null);
 	}
 	
 	public static RegExVariable getRegExVariable(ConfigVariable cf)
@@ -27,22 +39,32 @@ public class TestHelper
 		var.setGroupAssembly("{1}");
 		var.setReplaceExpression("[\\.-]+");
 		var.setReplaceWithCharacter(" ");
-		var.setConfigVariable(cf);
+		
+		if(cf != null)
+			var.setConfigVariable(cf);
 		
 		return var;
 	}
 	
 	public static ConfigVariable getConfigVariable()
 	{
+		return getConfigVariable(null);
+	}
+	
+	public static ConfigVariable getConfigVariable(RegExVariable rev)
+	{
 		ConfigVariable var = new ConfigVariable();
 		var.setName("name");
 		var.setRequired(true);
 		var.setValue("value");
 		
+		if(var != null)
+			var.addRegExVariable(rev);
+		
 		return var;
 	}
 	
-	public static MediaConfig getMediaConfig()
+	public static MediaConfig getMediaConfigFullGraph()
 	{
 		//add MediaConfig and add selector to it
 		MediaConfig config = new MediaConfig();
@@ -60,7 +82,10 @@ public class TestHelper
 		ConfigVariable cf = getConfigVariable();
 		
 		config.addConfigVariable(cf);
-		config.addRegExSelector(getRegExSelector(cf));
+		RegExVariable rev = getRegExVariable(cf);
+		RegExSelector res = getRegExSelector(rev);
+		
+		config.addRegExSelector(res);
 		
 		//config.setOpenSubtitlesFieldMaps(openSubtitlesFieldMaps);
 		
@@ -69,7 +94,7 @@ public class TestHelper
 	
 	
 	
-	public static void mediaConfigsEqual(MediaConfig m1, MediaConfig m2)
+	public static void mediaConfigsFullGraphEqual(MediaConfig m1, MediaConfig m2)
 	{
 		persistentObjectsEqual(m1, m2);
 		
@@ -97,19 +122,22 @@ public class TestHelper
 		
 		for(int i=0; i < cf1.length; i++)
 		{
-			configVariablesEqual(cf1[i], cf2[i]);
+			configVariablesEqual(cf1[i], cf2[i],"mediaConfigsFullGraphEqual");
 		}
 		
 		
 	}
 	
 	
-	public static void configVariablesEqual(ConfigVariable c1, ConfigVariable c2)
+	public static void configVariablesEqual(ConfigVariable c1, ConfigVariable c2, String caller)
 	{
 		persistentObjectsEqual(c1, c2);
 		
 		assertTrue(c1.getName().equals(c2.getName()));
 		assertTrue(c1.getValue().equals(c2.getValue()));
+		
+		if(caller != "regExVariablesEqual")
+			regExVariablesEqual(c1.getRegExVariables().iterator().next(),c2.getRegExVariables().iterator().next(), "configVariablesEqual");
 	}
 	
 	
@@ -135,17 +163,20 @@ public class TestHelper
 		
 		for(int i=0; i < vars1.length; i++)
 		{
-			regExVariablesEqual(vars1[i], vars2[i]);
+			regExVariablesEqual(vars1[i], vars2[i], "regExSelectorsEqual");
 		}
 	}
 	
 	
-	public static void regExVariablesEqual(RegExVariable var1, RegExVariable var2)
+	public static void regExVariablesEqual(RegExVariable var1, RegExVariable var2, String caller)
 	{
 		assertTrue(var1.getConfigVariable().equals(var2.getConfigVariable()));
 		assertTrue(var1.getGroupAssembly().equals(var2.getGroupAssembly()));
-		assertTrue(var1.getRreplaceExpression().equals(var2.getRreplaceExpression()));
+		assertTrue(var1.getReplaceExpression().equals(var2.getReplaceExpression()));
 		assertTrue(var1.getReplaceWithCharacter().equals(var2.getReplaceWithCharacter()));
+		
+		if(caller != "configVariablesEqual")
+			configVariablesEqual(var1.getConfigVariable(), var2.getConfigVariable(), "regExVariablesEqual");
 	}
 	
 	private boolean nullablesAreEqual(Object obj1, Object obj2)

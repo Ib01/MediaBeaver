@@ -4,9 +4,11 @@ import javax.persistence.Column;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.ibus.mediabeaver.core.entity.ConfigVariable;
+
 public class RegExVariableViewModel extends ViewModel
 {
-	private String variableName;
+	private ConfigVariableViewModel configVariable;
 
 	@NotEmpty(message = "This field cannot be left empty")
 	private String groupAssembly;
@@ -15,15 +17,14 @@ public class RegExVariableViewModel extends ViewModel
 	
 	private String replaceWithCharacter;
 
-	
-	public String getVariableName()
+	public ConfigVariableViewModel getConfigVariable()
 	{
-		return variableName;
+		return configVariable;
 	}
 
-	public void setVariableName(String variableName)
+	public void setConfigVariable(ConfigVariableViewModel configVariable)
 	{
-		this.variableName = variableName;
+		this.configVariable = configVariable;
 	}
 
 	public String getGroupAssembly()
@@ -55,4 +56,6 @@ public class RegExVariableViewModel extends ViewModel
 	{
 		this.replaceWithCharacter = replaceWithCharacter;
 	}
+
+	
 }

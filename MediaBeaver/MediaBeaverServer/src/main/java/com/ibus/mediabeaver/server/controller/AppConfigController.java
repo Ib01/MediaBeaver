@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ibus.mediabeaver.core.data.Repository;
+import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.TransformAction;
+import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 
@@ -24,30 +27,17 @@ import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 @SessionAttributes({"config"})
 public class AppConfigController
 {
+	Mapper mapper = new Mapper();
+	
 	@ModelAttribute("config")
 	public MediaConfigViewModel getInitialMediaConfigViewModel(HttpServletRequest request)
 	{
 		String id = request.getParameter("id");
 		
-		MediaConfigViewModel config = new MediaConfigViewModel();
-		/*config.setDescription("Move movie files");
-		config.addConfigVariableViewModel(new ConfigVariableViewModel("MovieName"));
+		MediaConfig mc = Repository.getAllMediaConfig().get(0);
+		MediaConfigViewModel vm = mapper.getMapper().map(mc, MediaConfigViewModel.class);
 		
-		ConfigVariableViewModel v = new ConfigVariableViewModel("MovieYear");
-		v.setRequired(true);
-		config.addConfigVariableViewModel(v);
-		
-		RegExVariable rev = new RegExVariable();
-		rev.setVariableName("var 1 name");
-		
-		RegExSelector res = new RegExSelector();
-		res.setExpression("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}]");
-		res.addRegExVariable(rev);
-		res.setDescription("select movies with name and year");
-	
-		config.addRegExSelector(res);*/
-	
-		return config;
+		return vm;
 	}
 	
 	

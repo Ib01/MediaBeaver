@@ -1,23 +1,27 @@
 package com.ibus.mediabeaver.server.controller;
 
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ibus.mediabeaver.core.data.Repository;
-import com.ibus.mediabeaver.core.entity.RegExSelector;
 import com.ibus.mediabeaver.server.util.Mapper;
+import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
 
 @Controller
 @RequestMapping(value = "/regExSelector")
-@SessionAttributes({"regExSelector"})
+@SessionAttributes({"regExSelector,configVariables"})
 public class RegExSelectorController
 {
 	Mapper mapper = new Mapper();
@@ -25,29 +29,56 @@ public class RegExSelectorController
 	@ModelAttribute("regExSelector")
 	public RegExSelectorViewModel getModel(HttpServletRequest request)
 	{
-		RegExSelectorViewModel vm = new RegExSelectorViewModel();
+		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
+		return c.getRegExSelectors().iterator().next();
+		
+		
+		/*RegExSelectorViewModel vm = new RegExSelectorViewModel();
 		
 		String id = request.getParameter("id");
 		if(id != null && id.length() > 0)
 		{
-			RegExSelector sel = Repository.getEntity(RegExSelector.class, id);
-			vm = mapper.getMapper().map(sel, RegExSelectorViewModel.class);	
+			MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
+			vm = c.getRegExSelector(id);
 		}
 		
-		return vm;
+		return vm;*/
 	}
+	
+	
+	@ModelAttribute("configVariables")
+	public Set<ConfigVariableViewModel> getConfigVariables(HttpServletRequest request)
+	{
+		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
+		return c.getConfigVariables();
+	}
+	
 
 	@RequestMapping
 	public String addSelector(HttpServletRequest request, SessionStatus sessionStatus)
 	{
 		//Clear session so to ensure that getModel is called.
-		sessionStatus.setComplete();
+		//sessionStatus.setComplete();
 		
-		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
+		
 		
 		return "RegExSelector";
 	}
 
+	
+	@RequestMapping(value = "/saveRegExSelector", method = RequestMethod.POST)
+	public String saveSelector(@Validated @ModelAttribute("regExSelector") RegExSelectorViewModel selector, BindingResult result, 
+			HttpServletRequest request,  SessionStatus sessionStatus, RedirectAttributes ra)
+	{
+
+		
+		
+		return "RegExSelector";
+	}
+	
+	
+	
+	
 	/*@RequestMapping(value="/{id}")
 	public String updateSelector(HttpServletRequest request, @PathVariable String id)
 	{		
