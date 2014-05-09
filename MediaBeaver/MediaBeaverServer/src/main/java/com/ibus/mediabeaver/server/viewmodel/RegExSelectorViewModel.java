@@ -1,6 +1,11 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -18,7 +23,7 @@ public class RegExSelectorViewModel extends ViewModel
 	//private Set<RegExVariableViewModel> variables = new HashSet<RegExVariableViewModel>();
 	
 	//TODO DELETE THIS
-	private AutoPopulatingList variables = new AutoPopulatingList(RegExVariableViewModel.class);
+	private AutoPopulatingList<RegExVariableViewModel> variables = new AutoPopulatingList<RegExVariableViewModel>(RegExVariableViewModel.class);
 	/*public AutoPopulatingList getTester()
 	{
 		return tester;
@@ -69,4 +74,31 @@ public class RegExSelectorViewModel extends ViewModel
 	{
 		this.variables = variables;
 	}
+	
+	
+	public void setVariablesWithSet(Set<RegExVariableViewModel> variables)
+	{
+		this.variables = new AutoPopulatingList<RegExVariableViewModel>(new ArrayList<RegExVariableViewModel>(variables), RegExVariableViewModel.class);
+	}
+	
+	public HashSet<RegExVariableViewModel> getVariablesAsSet()
+	{
+		return new HashSet<RegExVariableViewModel>(
+				Arrays.asList(variables.toArray(new RegExVariableViewModel[]{})));
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
