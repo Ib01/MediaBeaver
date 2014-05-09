@@ -12,7 +12,7 @@ import com.ibus.mediabeaver.core.entity.RegExVariable;
 import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExVariableViewModel;
 
-public class Mapper
+public abstract class Mapper
 {
 	public class regExVariableMap extends PropertyMap<RegExVariable, RegExVariableViewModel>
 	{
@@ -22,45 +22,13 @@ public class Mapper
 		}
 	}
 
-	public class regExSelectorMap extends PropertyMap<RegExSelector, RegExSelectorViewModel>
+
+	public static ModelMapper getMapper()
 	{
-		protected void configure()
-		{
-			
-			
-			map().setVariablesWithSet(source.getVariables());
-		}
-	}
-
-	/*Provider<AutoPopulatingList<RegExVariableViewModel>> delegatingProvider = new Provider<AutoPopulatingList<RegExVariableViewModel>>()
-	{
-		public AutoPopulatingList<RegExVariableViewModel> get(
-				ProvisionRequest<AutoPopulatingList<RegExVariableViewModel>> request)
-		{
-			return new AutoPopulatingList<RegExVariableViewModel>(
-					RegExVariableViewModel.class);
-		}
-
-	};*/
-
-	ModelMapper modelMapper;
-
-	public Mapper()
-	{
-		modelMapper = new ModelMapper();
-		modelMapper.addMappings(new Mapper.regExVariableMap());
-
-		// modelMapper.getConfiguration().setProvider(delegatingProvider);
-
-		// modelMapper.getConfiguration().setProvider(provider)
-
-		// modelMapper.addMappings(new Mapper.regExSelectorMap());
-
-		// modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-	}
-
-	public ModelMapper getMapper()
-	{
+		ModelMapper modelMapper = new ModelMapper();
+		//seems like it works without this works now???
+		//modelMapper.addMappings(new Mapper.regExVariableMap());
+		
 		return modelMapper;
 	}
 }

@@ -1,11 +1,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%-- <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %> --%>
 
 <%@include file="includes/header.jsp" %>
-
-<%-- <my:Test firstNum="10" secondNum="20" /> --%>
-
 
 <script type="text/javascript" >
 
@@ -95,23 +91,6 @@
 	
 </script>
 
-<!-- Regular Expression applied to file name  
-
-	Movie Name parser
-		+ name assembly (assemble name from groups applied in the regular expression)
-		+ remove the following characters
-		+ apply regular expression recursively  
-
-	Movie Year parser
-		+ name assembly (assemble name from groups applied in the regular expression)
-		+ remove the following characters
-		+ apply regular expression recursively 
-
-	Test text
-	Movie Name
-	Movie Year -->
-
-
 <h2>Movie Expression Generator</h2>
 
 <form:form method="POST" action="/regExSelector/saveRegExSelector" commandName="regExSelector">
@@ -132,7 +111,7 @@
    		movie name and year below</p>
 		<br/>
 		
-		<form:label path="description">Expression</form:label><br/>
+		<form:label path="description">Description</form:label><br/>
    		<form:input path="description" style="width:695px" id="description"/>
 		<div class="errorBox" style="width:692px" id="description_error">
    			<div style="width:690px;"></div>
@@ -149,79 +128,130 @@
    <br/>
    
    
-   <c:forEach items="${regExSelector.variables}" varStatus="i">
+   <%-- <c:forEach items="${regExSelector.variables}" varStatus="i"> --%>
    
-	   <div class="shadowBox">
-		   <div class="shadowBoxHeader">Configuration Variable Assignment
-			  <span style="float: right;" class="shadowBoxHelp" >
-			   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
-			   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
-		   		</span>
-	   		</div>
-		   
-		   <p id="helpArea" style="display: none;">Use the groups extracted in the regular expression above to assemble the movie name by entering the group numbers 
-		   and any additional text in the Assembled Name text box.  Clean the movie name by 
-		   using the Remove Characters text box to remove characters specified; or alternatively enter a regular expression with a 
-		   single capture group in the Recursive Expression text box</p>
-		   
-			<form:select path="variables[${i.index}].configVariable">
-				<form:option value="NONE"> --SELECT--</form:option>
-				<form:options items="${configVariables}" itemValue="id" itemLabel="name"></form:options>
-			</form:select>
-		   
+   <div class="shadowBox">
+	   <div class="shadowBoxHeader">Configuration Variable
+		  <span style="float: right;" class="shadowBoxHelp" >
+		   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
+		   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
+	   		</span>
+   		</div>
 	   
-	   		<form:label path="variables[${i.index}].groupAssembly">Group Assembly</form:label><br/>
-	   		<form:input path="variables[${i.index}].groupAssembly" style="width:495px"/> 
-	   		<!-- <div class="errorBox" style="width:492px" id="nameParser.assembledItem_error">
-	   			<div style="width:490px;"></div>
-	   		 </div>   -->
-	   		   
-	   		<br/>
-	   		<form:label path="variables[${i.index}].replaceExpression">Replace Expression</form:label><br/>
-	   		<form:input path="variables[${i.index}].replaceExpression" style="width:295px" id="nameParser_removeCharacters"/>
-	   		<br/>
-	   		<form:label path="variables[${i.index}].replaceWithCharacter">Replace with Character</form:label><br/>
-	   		<form:input path="variables[${i.index}].replaceWithCharacter" style="width:695px" id="nameParser.recursiveRegEx"/>
-	   </div>
-   
-	</c:forEach>
-   
-    <!-- <div class="shadowBox">
-		   <div class="shadowBoxHeader">Configuration Variable Assignment
-			  <span style="float: right;" class="shadowBoxHelp" >
-			   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
-			   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
-		   		</span>
-	   		</div>
-		   
-		   <p id="helpArea" style="display: none;">Use the groups extracted in the regular expression above to assemble the movie name by entering the group numbers 
-		   and any additional text in the Assembled Name text box.  Clean the movie name by 
-		   using the Remove Characters text box to remove characters specified; or alternatively enter a regular expression with a 
-		   single capture group in the Recursive Expression text box</p>
-		   
-			<select id="variables1.configVariable" name="variables[1].configVariable">
-				<option value="NONE"> --SELECT--</option>
-				<option value="31592ab0-010b-48e3-9fdf-f65a8447cfbc" selected="selected">name</option>
-			</select>
-		   
+	   <p id="helpArea" style="display: none;">Use the groups extracted in the regular expression above to assemble the movie name by entering the group numbers 
+	   and any additional text in the Assembled Name text box.  Clean the movie name by 
+	   using the Remove Characters text box to remove characters specified; or alternatively enter a regular expression with a 
+	   single capture group in the Recursive Expression text box</p>
 	   
-	   		<label for="variables1.groupAssembly">Group Assembly</label><br/>
-	   		<input id="variables1.groupAssembly" name="variables[1].groupAssembly" style="width:495px" type="text" value="{1}"/> 
-	   		<div class="errorBox" style="width:492px" id="nameParser.assembledItem_error">
-	   			<div style="width:490px;"></div>
-	   		 </div>  
-	   		   
-	   		<br/>
-	   		<label for="variables1.replaceExpression">Replace Expression</label><br/>
-	   		<input id="nameParser_removeCharacters" name="variables[1].replaceExpression" style="width:295px" type="text" value="[\.-]+"/>
-	   		<br/>
-	   		<label for="variables1.replaceWithCharacter">Replace with Character</label><br/>
-	   		<input id="nameParser.recursiveRegEx" name="variables[1].replaceWithCharacter" style="width:695px" type="text" value=" "/>
+	   <table style="width:100%">
+			<tr>
+				<td>Variable</td>
+				<td>Group Assembly</td>
+				<td>Replace Expression</td>
+				<td>Replace with Character</td>
+				<td></td>
+			</tr>
+			
+			
+			<c:forEach items="${regExSelector.variables}" var="variable" >
+				<tr>
+					<td><c:out value="${variable.configVariable.name}" /></td>
+					<td><c:out value="${variable.groupAssembly}" /></td>
+					<td><c:out value="${variable.replaceExpression}" /></td>
+					<td><c:out value="${variable.replaceWithCharacter}" /></td>
+					<td><a href="#">edit</a></td>
+				</tr>
+			</c:forEach>
+	    </table>
+	    
+	    <br />
+	    <hr/>
+	    
+	    <form:select path="toAddVariable.configVariable">
+			<form:option value="NONE"> --SELECT--</form:option>
+			<form:options items="${configVariables}" itemValue="id" itemLabel="name"></form:options>
+		</form:select>
+	   
+   
+   		<form:label path="toAddVariable.groupAssembly">Group Assembly</form:label><br/>
+   		<form:input path="toAddVariable.groupAssembly" style="width:495px"/> 
+   		<!-- <div class="errorBox" style="width:492px" id="nameParser.assembledItem_error">
+   			<div style="width:490px;"></div>
+   		 </div>   -->
+   		   
+   		<br/>
+   		<form:label path="toAddVariable.replaceExpression">Replace Expression</form:label><br/>
+   		<form:input path="toAddVariable.replaceExpression" style="width:100%" id="nameParser_removeCharacters"/>
+   		<br/>
+   		<form:label path="toAddVariable.replaceWithCharacter">Replace with Character</form:label><br/>
+   		<form:input path="toAddVariable.replaceWithCharacter" style="width:100%" id="nameParser.recursiveRegEx"/>
+	   	
+	   	<br/>
+	   	<input type="button" value="Add Variable" id="addVariable" />
+	   
+	   <%-- 
+	   <form:label path="variables[${i.index}].configVariable">Variable</form:label><br/>
+	   <form:select path="variables[${i.index}].configVariable">
+			<form:option value="NONE"> --SELECT--</form:option>
+			<form:options items="${configVariables}" itemValue="id" itemLabel="name"></form:options>
+		</form:select>
+	    <br/>
+   
+   		<form:label path="variables[${i.index}].groupAssembly">Group Assembly</form:label><br/>
+   		<form:input path="variables[${i.index}].groupAssembly" style="width:495px"/> 
+   		<!-- <div class="errorBox" style="width:492px" id="nameParser.assembledItem_error">
+   			<div style="width:490px;"></div>
+   		 </div>   -->
+   		   
+   		<br/>
+   		<form:label path="variables[${i.index}].replaceExpression">Replace Expression</form:label><br/>
+   		<form:input path="variables[${i.index}].replaceExpression" style="width:295px" id="nameParser_removeCharacters"/>
+   		<br/>
+   		<form:label path="variables[${i.index}].replaceWithCharacter">Replace with Character</form:label><br/>
+   		<form:input path="variables[${i.index}].replaceWithCharacter" style="width:695px" id="nameParser.recursiveRegEx"/> --%>
    </div>
-   -->
+	   
+	<br/>
+	<%-- </c:forEach> --%>
    
-		
-		<input type="submit" value="Save" id="saveExp" />
+    <%-- <div class="shadowBox">
+	   <div class="shadowBoxHeader">Add Variable
+		  <span style="float: right;" class="shadowBoxHelp" >
+		   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
+		   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
+	   		</span>
+   		</div>
+	   
+	   <p id="helpArea" style="display: none;">Use the groups extracted in the regular expression above to assemble the movie name by entering the group numbers 
+	   and any additional text in the Assembled Name text box.  Clean the movie name by 
+	   using the Remove Characters text box to remove characters specified; or alternatively enter a regular expression with a 
+	   single capture group in the Recursive Expression text box</p>
+	   
+		<form:select path="toAddVariable.configVariable">
+			<form:option value="NONE"> --SELECT--</form:option>
+			<form:options items="${configVariables}" itemValue="id" itemLabel="name"></form:options>
+		</form:select>
+	   
+   
+   		<form:label path="toAddVariable.groupAssembly">Group Assembly</form:label><br/>
+   		<form:input path="toAddVariable.groupAssembly" style="width:495px"/> 
+   		<!-- <div class="errorBox" style="width:492px" id="nameParser.assembledItem_error">
+   			<div style="width:490px;"></div>
+   		 </div>   -->
+   		   
+   		<br/>
+   		<form:label path="toAddVariable.replaceExpression">Replace Expression</form:label><br/>
+   		<form:input path="toAddVariable.replaceExpression" style="width:295px" id="nameParser_removeCharacters"/>
+   		<br/>
+   		<form:label path="toAddVariable.replaceWithCharacter">Replace with Character</form:label><br/>
+   		<form:input path="toAddVariable.replaceWithCharacter" style="width:695px" id="nameParser.recursiveRegEx"/>
+    </div> --%>
+   
+   
+   
+   
+	<br/>
+	<input type="submit" value="Save" id="saveExp" />
    
    
    

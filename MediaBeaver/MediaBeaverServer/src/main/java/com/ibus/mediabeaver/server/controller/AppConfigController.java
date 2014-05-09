@@ -27,15 +27,13 @@ import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 @SessionAttributes({"config"})
 public class AppConfigController
 {
-	Mapper mapper = new Mapper();
-	
 	@ModelAttribute("config")
 	public MediaConfigViewModel getInitialMediaConfigViewModel(HttpServletRequest request)
 	{
 		String id = request.getParameter("id");
 		
 		MediaConfig mc = Repository.getAllMediaConfig().get(0);
-		MediaConfigViewModel vm = mapper.getMapper().map(mc, MediaConfigViewModel.class);
+		MediaConfigViewModel vm = Mapper.getMapper().map(mc, MediaConfigViewModel.class);
 		
 		return vm;
 	}

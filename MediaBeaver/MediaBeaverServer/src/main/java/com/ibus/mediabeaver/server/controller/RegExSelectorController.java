@@ -24,8 +24,6 @@ import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
 @SessionAttributes({"regExSelector,configVariables"})
 public class RegExSelectorController
 {
-	Mapper mapper = new Mapper();
-	
 	@ModelAttribute("regExSelector")
 	public RegExSelectorViewModel getModel(HttpServletRequest request)
 	{

@@ -47,12 +47,14 @@ public class RegExSelector extends PersistentObject
 	{
 		this.expression = expression;
 	}
-
+	
+	//TODO RENAME
 	public Set<RegExVariable> getVariables()
 	{
 		return variables;
 	}
 
+	//TODO RENAME
 	public void setVariables(Set<RegExVariable> variables)
 	{
 		this.variables = variables;

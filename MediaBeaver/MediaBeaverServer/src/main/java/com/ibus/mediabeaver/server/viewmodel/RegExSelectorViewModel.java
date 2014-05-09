@@ -20,20 +20,9 @@ public class RegExSelectorViewModel extends ViewModel
 	@NotEmpty(message = "This field cannot be left empty")
 	private String expression;
 
-	//private Set<RegExVariableViewModel> variables = new HashSet<RegExVariableViewModel>();
+	private Set<RegExVariableViewModel> variables = new HashSet<RegExVariableViewModel>();
 	
-	//TODO DELETE THIS
-	private AutoPopulatingList<RegExVariableViewModel> variables = new AutoPopulatingList<RegExVariableViewModel>(RegExVariableViewModel.class);
-	/*public AutoPopulatingList getTester()
-	{
-		return tester;
-	}
-	public void setTester(AutoPopulatingList tester)
-	{
-		this.tester = tester;
-	}*/
-
-	
+	private RegExVariableViewModel toAddVariable = new RegExVariableViewModel();
 	
 	public String getDescription()
 	{
@@ -54,8 +43,8 @@ public class RegExSelectorViewModel extends ViewModel
 	{
 		this.expression = expression;
 	}
-
-/*	public Set<RegExVariableViewModel> getVariables()
+	
+	public Set<RegExVariableViewModel> getVariables()
 	{
 		return variables;
 	}
@@ -63,29 +52,19 @@ public class RegExSelectorViewModel extends ViewModel
 	public void setVariables(Set<RegExVariableViewModel> variables)
 	{
 		this.variables = variables;
-	}*/
-
-	public AutoPopulatingList<RegExVariableViewModel> getVariables()
-	{
-		return variables;
 	}
 
-	public void setVariables(AutoPopulatingList<RegExVariableViewModel> variables)
+	public RegExVariableViewModel getToAddVariable()
 	{
-		this.variables = variables;
+		return toAddVariable;
 	}
-	
-	
-	public void setVariablesWithSet(Set<RegExVariableViewModel> variables)
+
+	public void setToAddVariable(RegExVariableViewModel toAddVariable)
 	{
-		this.variables = new AutoPopulatingList<RegExVariableViewModel>(new ArrayList<RegExVariableViewModel>(variables), RegExVariableViewModel.class);
+		this.toAddVariable = toAddVariable;
 	}
+
 	
-	public HashSet<RegExVariableViewModel> getVariablesAsSet()
-	{
-		return new HashSet<RegExVariableViewModel>(
-				Arrays.asList(variables.toArray(new RegExVariableViewModel[]{})));
-	}
 }
 
 

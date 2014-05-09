@@ -22,8 +22,6 @@ import com.ibus.mediabeaver.server.viewmodel.RegExVariableViewModel;
 
 public class ModelMapperTests
 {
-	Mapper mapper = new Mapper();
-	
 	@Before
 	public void beforeTest()
 	{
@@ -47,7 +45,7 @@ public class ModelMapperTests
 	@Test
 	public void mapMediaConfigTest()
 	{
-		ModelMapper modelMapper = mapper.getMapper();
+		ModelMapper modelMapper = Mapper.getMapper();
 		
 		MediaConfig obj = TestHelper.getMediaConfigFullGraph();
 		MediaConfigViewModel vm = modelMapper.map(obj, MediaConfigViewModel.class);
@@ -61,7 +59,7 @@ public class ModelMapperTests
 	@Test
 	public void mapAndSaveTest()
 	{
-		ModelMapper modelMapper = mapper.getMapper();
+		ModelMapper modelMapper = Mapper.getMapper();
 
 		MediaConfig mc1 = TestHelper.getMediaConfigFullGraph();
 		MediaConfigViewModel vm1 = modelMapper.map(mc1, MediaConfigViewModel.class);
@@ -93,7 +91,7 @@ public class ModelMapperTests
 	@Test
 	public void maUpdateAndSaveTest()
 	{
-		ModelMapper modelMapper = mapper.getMapper();
+		ModelMapper modelMapper = Mapper.getMapper();
 
 		MediaConfig mc1 = TestHelper.getMediaConfigFullGraph();
 		MediaConfigViewModel vm1 = modelMapper.map(mc1, MediaConfigViewModel.class);
