@@ -93,7 +93,7 @@
 
 <h2>Movie Expression Generator</h2>
 
-<form:form method="POST" action="/regExSelector/saveRegExSelector" commandName="regExSelector">
+<form:form method="POST" action="/regExSelector/saveRegExSelector" commandName="regExSelector" class="formLayout">
    
    <form:hidden path="id" id="id"/>
    
@@ -104,34 +104,35 @@
 		   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
 	   		</span>
    		</div>
-
-   		<p id="helpArea" style="display: none;">Enter a regular expression in the Expression text box below.  This regular expression will serve to identify 
+		<p id="helpArea" style="display: none;">Enter a regular expression in the Expression text box below.  This regular expression will serve to identify 
    		a file as a movie file and will enable the system to extract the movie name and year from the file name. the 
    		regular expression must contain 2 or more regular expression capture groups.  these groups will be used to assemble the 
    		movie name and year below</p>
-		<br/>
-		
-		<form:label path="description">Description</form:label><br/>
-   		<form:input path="description" style="width:695px" id="description"/>
-		<div class="errorBox" style="width:692px" id="description_error">
-   			<div style="width:690px;"></div>
-   		 </div>
+  </div>
+   <br/>
+   
+   <div class="shadowBox" >
+   		
+		<form:label path="description">Description</form:label>
+   		<form:input path="description" style="width:400px" id="description"/>
+		<div class="errorBox" style="width:400px" id="description_error">
+   			<div style="width:400px;"></div>
+   		</div>
 		<br/>
 		
    		<form:label path="expression">Expression</form:label>
-   		<form:input path="expression" style="width:695px" id="expression"/>
-   		<div class="errorBox" style="width:692px" id="expression_error">
-   			<div style="width:690px;"></div>
+   		<form:input path="expression" style="width:650px" id="expression"/>
+   		<div class="errorBox" style="width:650px" id="expression_error">
+   			<div style="width:650px;"></div>
    		 </div>
-	   	
+	   	<br/>
    </div>
    <br/>
    
    
-   <%-- <c:forEach items="${regExSelector.variables}" varStatus="i"> --%>
    
    <div class="shadowBox">
-	   <div class="shadowBoxHeader">Configuration Variable
+	   <div class="shadowBoxHeader">Configuration Variables
 		  <span style="float: right;" class="shadowBoxHelp" >
 		   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
 		   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
@@ -142,177 +143,71 @@
 	   and any additional text in the Assembled Name text box.  Clean the movie name by 
 	   using the Remove Characters text box to remove characters specified; or alternatively enter a regular expression with a 
 	   single capture group in the Recursive Expression text box</p>
-	   
-	   <table style="width:100%">
-			<tr>
-				<td>Variable</td>
-				<td>Group Assembly</td>
-				<td>Replace Expression</td>
-				<td>Replace with Character</td>
-				<td></td>
-			</tr>
-			
-			
-			<c:forEach items="${regExSelector.variables}" var="variable" >
-				<tr>
-					<td><c:out value="${variable.configVariable.name}" /></td>
-					<td><c:out value="${variable.groupAssembly}" /></td>
-					<td><c:out value="${variable.replaceExpression}" /></td>
-					<td><c:out value="${variable.replaceWithCharacter}" /></td>
-					<td><a href="#">edit</a></td>
-				</tr>
-			</c:forEach>
-	    </table>
-	    
-	    <br />
-	    <hr/>
-	    
-	    <form:select path="toAddVariable.configVariable">
-			<form:option value="NONE"> --SELECT--</form:option>
-			<form:options items="${configVariables}" itemValue="id" itemLabel="name"></form:options>
-		</form:select>
-	   
-   
-   		<form:label path="toAddVariable.groupAssembly">Group Assembly</form:label><br/>
-   		<form:input path="toAddVariable.groupAssembly" style="width:495px"/> 
-   		<!-- <div class="errorBox" style="width:492px" id="nameParser.assembledItem_error">
-   			<div style="width:490px;"></div>
-   		 </div>   -->
-   		   
-   		<br/>
-   		<form:label path="toAddVariable.replaceExpression">Replace Expression</form:label><br/>
-   		<form:input path="toAddVariable.replaceExpression" style="width:100%" id="nameParser_removeCharacters"/>
-   		<br/>
-   		<form:label path="toAddVariable.replaceWithCharacter">Replace with Character</form:label><br/>
-   		<form:input path="toAddVariable.replaceWithCharacter" style="width:100%" id="nameParser.recursiveRegEx"/>
-	   	
-	   	<br/>
-	   	<input type="button" value="Add Variable" id="addVariable" />
-	   
-	   <%-- 
-	   <form:label path="variables[${i.index}].configVariable">Variable</form:label><br/>
-	   <form:select path="variables[${i.index}].configVariable">
-			<form:option value="NONE"> --SELECT--</form:option>
-			<form:options items="${configVariables}" itemValue="id" itemLabel="name"></form:options>
-		</form:select>
-	    <br/>
-   
-   		<form:label path="variables[${i.index}].groupAssembly">Group Assembly</form:label><br/>
-   		<form:input path="variables[${i.index}].groupAssembly" style="width:495px"/> 
-   		<!-- <div class="errorBox" style="width:492px" id="nameParser.assembledItem_error">
-   			<div style="width:490px;"></div>
-   		 </div>   -->
-   		   
-   		<br/>
-   		<form:label path="variables[${i.index}].replaceExpression">Replace Expression</form:label><br/>
-   		<form:input path="variables[${i.index}].replaceExpression" style="width:295px" id="nameParser_removeCharacters"/>
-   		<br/>
-   		<form:label path="variables[${i.index}].replaceWithCharacter">Replace with Character</form:label><br/>
-   		<form:input path="variables[${i.index}].replaceWithCharacter" style="width:695px" id="nameParser.recursiveRegEx"/> --%>
    </div>
-	   
-	<br/>
-	<%-- </c:forEach> --%>
+   <br/>
    
-    <%-- <div class="shadowBox">
-	   <div class="shadowBoxHeader">Add Variable
-		  <span style="float: right;" class="shadowBoxHelp" >
-		   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
-		   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
-	   		</span>
-   		</div>
+   
+   <c:forEach items="${regExSelector.variables}" varStatus="i">
 	   
-	   <p id="helpArea" style="display: none;">Use the groups extracted in the regular expression above to assemble the movie name by entering the group numbers 
-	   and any additional text in the Assembled Name text box.  Clean the movie name by 
-	   using the Remove Characters text box to remove characters specified; or alternatively enter a regular expression with a 
-	   single capture group in the Recursive Expression text box</p>
+	   <div class="shadowBox">
+		   <form:label path="variables[${i.index}].configVariable">Variable</form:label>
+		   <form:select path="variables[${i.index}].configVariable">
+				<form:option value="NONE"> --SELECT--</form:option>
+				<form:options items="${configVariables}" itemValue="id" itemLabel="name"></form:options>
+			</form:select>
+		    <br/>
 	   
+	   		<form:label path="variables[${i.index}].groupAssembly">Group Assembly</form:label>
+	   		<form:input path="variables[${i.index}].groupAssembly" style="width:400px"/> 
+	   		<div class="errorBox" style="width:400px" id="nameParser.assembledItem_error">
+	   			<div style="width:400px;"></div>
+	   		 </div>  
+	   		<br/>
+	   		
+	   		<form:label path="variables[${i.index}].replaceExpression">Replace RegEx</form:label>
+	   		<form:input path="variables[${i.index}].replaceExpression" style="width:650px" id="nameParser_removeCharacters"/>
+	   		<br/>
+	   		
+	   		<form:label path="variables[${i.index}].replaceWithCharacter">Replace String</form:label>
+	   		<form:input path="variables[${i.index}].replaceWithCharacter" style="width:100px" id="nameParser.recursiveRegEx"/>
+	   		<br/>
+	   </div>
+	   <br/>
+		
+	</c:forEach>
+   
+    <div class="shadowBox">
+	   
+	    <form:label path="toAddVariable.configVariable">Variable</form:label>
 		<form:select path="toAddVariable.configVariable">
 			<form:option value="NONE"> --SELECT--</form:option>
 			<form:options items="${configVariables}" itemValue="id" itemLabel="name"></form:options>
 		</form:select>
-	   
-   
-   		<form:label path="toAddVariable.groupAssembly">Group Assembly</form:label><br/>
-   		<form:input path="toAddVariable.groupAssembly" style="width:495px"/> 
-   		<!-- <div class="errorBox" style="width:492px" id="nameParser.assembledItem_error">
-   			<div style="width:490px;"></div>
-   		 </div>   -->
-   		   
-   		<br/>
-   		<form:label path="toAddVariable.replaceExpression">Replace Expression</form:label><br/>
-   		<form:input path="toAddVariable.replaceExpression" style="width:295px" id="nameParser_removeCharacters"/>
-   		<br/>
-   		<form:label path="toAddVariable.replaceWithCharacter">Replace with Character</form:label><br/>
-   		<form:input path="toAddVariable.replaceWithCharacter" style="width:695px" id="nameParser.recursiveRegEx"/>
-    </div> --%>
-   
-   
-   
-   
-	<br/>
-	<input type="submit" value="Save" id="saveExp" />
-   
-   
-   
-   
-   <%-- <div class="shadowBox">
-	   <div class="shadowBoxHeader">Step 2) Assemble and Clean the Movie Name
-		  <span style="float: right;" class="shadowBoxHelp" >
-		   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
-		   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
-	   		</span>
-   		</div>
-	   
-	   <p id="helpArea" style="display: none;">Use the groups extracted in the regular expression above to assemble the movie name by entering the group numbers 
-	   and any additional text in the Assembled Name text box.  Clean the movie name by 
-	   using the Remove Characters text box to remove characters specified; or alternatively enter a regular expression with a 
-	   single capture group in the Recursive Expression text box</p>
-   
-   		<form:label path="nameParser.assembledItem">Assembled Name</form:label><br/>
-   		<form:input path="nameParser.assembledItem" style="width:495px" id="nameParser.assembledItem"/> 
-   		<div class="errorBox" style="width:492px" id="nameParser.assembledItem_error">
-   			<div style="width:490px;"></div>
+		<br/>
+		
+   		<form:label path="toAddVariable.groupAssembly">Group Assembly</form:label>
+   		<form:input path="toAddVariable.groupAssembly" style="width:400px"/> 
+   		<div class="errorBox" style="width:400px" id="nameParser.assembledItem_error">
+   			<div style="width:400px;"></div>
    		 </div>  
-   		   
    		<br/>
-   		<form:label path="nameParser.removeCharacters">Remove Characters</form:label><br/>
-   		<form:input path="nameParser.removeCharacters" style="width:295px" id="nameParser_removeCharacters"/>
+   		
+   		<form:label path="toAddVariable.replaceExpression">Replace RegEx</form:label>
+   		<form:input path="toAddVariable.replaceExpression" style="width:650px" id="nameParser_removeCharacters"/>
    		<br/>
-   		<form:label path="nameParser.recursiveRegEx">Recursive Expression</form:label><br/>
-   		<form:input path="nameParser.recursiveRegEx" style="width:695px" id="nameParser.recursiveRegEx"/>
-   </div>
+   		
+   		<form:label path="toAddVariable.replaceWithCharacter">Replace String</form:label>
+   		<form:input path="toAddVariable.replaceWithCharacter" style="width:100px" id="nameParser.recursiveRegEx"/>
+   		<br/>
+   		
+   		<input type="button" value="Add Variable" id="addVariable" />
+    </div>
 	<br/>
-
-	<div class="shadowBox">
-	   <div class="shadowBoxHeader">Step 3) Assemble and Clean the Movie Year
-		   <span style="float: right;" class="shadowBoxHelp" >
-		   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
-		   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
-	   		</span>
-   		</div>
-	   
-	   <p id="helpArea" style="display: none;">Use the groups extracted in the regular expression above to assemble the movie year by entering the group numbers 
-	   and any additional text in the Assembled Name text box.  Clean the movie year by using the Remove Characters text box 
-	   to remove characters specified; or alternatively enter a regular expression with a 
-	   single capture group in the Recursive Expression text box</p>
+	
    
-   		<form:label path="yearParser.assembledItem">Assembled Name</form:label><br/>
-   		<form:input path="yearParser.assembledItem" style="width:495px" id="yearParser.assembledItem"/>  
-   		<div class="errorBox" style="width:492px" id="yearParser.assembledItem_error">
-   			<div style="width:490px;"></div>
-   		 </div>
-   		<br/>
-   		<form:label path="yearParser.removeCharacters">Remove Characters</form:label><br/>
-   		<form:input path="yearParser.removeCharacters" style="width:295px" id="yearParser_removeCharacters"/>
-   		<br/>
-   		<form:label path="yearParser.recursiveRegEx">Recursive Expression</form:label><br/>
-   		<form:input path="yearParser.recursiveRegEx" style="width:695px" id="yearParser.recursiveRegEx"/>
-   </div>
-	<br/>
-
-	<div class="shadowBox">
-	   <div class="shadowBoxHeader" >Step 4) Validate the regular expression
+   
+   <div class="shadowBox">
+	   <div class="shadowBoxHeader" >Test Expression
 		   <span style="float: right;" class="shadowBoxHelp" >
 		   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
 		   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
@@ -322,27 +217,35 @@
 	   <p id="helpArea" style="display: none;">Test the regular expression, and the name and year filter entered above by entering a 
 	   file name and clicking on the Test button.  The Captured Movie Name and the Captured Movie Year fields will be 
 	   populated if the test passes.</p>
+   </div>
+   <br/>
    
-   		<form:label path="testFileName">File Name</form:label><br/>
-   		<form:input path="testFileName" style="width:645px" id="testFileName"/><input type="button" value="Test" id="testExp" />
+   <div class="shadowBox">
+	
+   		<form:label path="testFileName">File Name</form:label>
+   		<form:input path="testFileName" style="width:650px" id="testFileName"/>
    		<div class="errorBox" style="width:642px" id="testFileName_error">
    			<div style="width:640px;"></div>
-   		 </div>
+   		</div>
+   		<br/>
+   		<input type="button" value="Test" id="testExp" />
    		<br/>
    		
-   		<form:label path="generatedName">Captured Movie Name</form:label><br/>
-   		<form:input path="generatedName" style="width:395px" id="generatedName"/>
+   		
+   		
+   		
+   		<form:label path="testName">Captured Movie Name</form:label><br/>
+   		<form:input path="testName" style="width:400px" id="testName"/>
    		<br/>
    		
-   		<form:label path="generatedYear">Captured Movie Year</form:label><br/>
-   		<form:input path="generatedYear" style="width:395px" id="generatedYear" />
-   		
+   		<form:label path="testYear">Captured Movie Year</form:label><br/>
+   		<form:input path="testYear" style="width:400px" id="testYear" />
    </div>
 
 	<br/>
    	<br/>
 	<input type="button" value="Save" id="saveExp" />
-	<br> --%>
+	<br>
 	
 	
 </form:form>
@@ -350,7 +253,6 @@
 
 
 <%@include file="includes/footer.jsp" %>
-
 
 
 
