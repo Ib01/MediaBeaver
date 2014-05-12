@@ -12,14 +12,24 @@
 		});
 		
 		$("#testExp").click(function() {
-			sendAjax("/movieRegEx/Test/");
+			sendAjax("/regExSelector/Test/");
 		});
 		
-		$("#saveExp").click(function() {
-			sendAjax("/movieRegEx/Save/");
+		$("#saveExp").click(function() 
+		{
+			
+			$("form:first").attr("action", "/regExSelector/save");
+			$("form:first").submit();
+			
+			//sendAjax("/regExSelector/Save/");
 		});
 		
 		
+		/* $("#addVariable").click(function() {
+			sendAjax("/regExSelector/Save/");
+		});
+		
+		 */
 	});
 	
 	
@@ -89,11 +99,26 @@
 		return JSON.stringify(model);
 	}
 	
+	function getNewConfigVariable()
+	{
+		var model = 
+		{
+			"id": $("#id").val(), 
+			"expression": $("#expression").val(),
+			"nameParser":  np, 
+			"yearParser": yp,
+			"testFileName": $("#testFileName").val(),
+			"generatedName": $("#generatedName").val(),
+			"generatedYear": $("#generatedYear").val()
+		};
+	}
+	
+	
 </script>
 
 <h2>Movie Expression Generator</h2>
 
-<form:form method="POST" action="/regExSelector/saveRegExSelector" commandName="regExSelector" class="formLayout">
+<form:form method="POST" action="/regExSelector/save" commandName="regExSelector" class="formLayout">
    
    <form:hidden path="id" id="id"/>
    

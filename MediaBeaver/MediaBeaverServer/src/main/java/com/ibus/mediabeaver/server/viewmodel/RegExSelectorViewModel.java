@@ -25,6 +25,8 @@ public class RegExSelectorViewModel extends ViewModel
 	private RegExVariableViewModel toAddVariable = new RegExVariableViewModel();
 	
 	private String testFileName;
+	private String testName;
+	private String testYear;
 	
 	
 	public String getDescription()
@@ -75,6 +77,26 @@ public class RegExSelectorViewModel extends ViewModel
 	public void setTestFileName(String testFileName)
 	{
 		this.testFileName = testFileName;
+	}
+
+	public String getTestName()
+	{
+		return testName;
+	}
+
+	public void setTestName(String testName)
+	{
+		this.testName = testName;
+	}
+
+	public String getTestYear()
+	{
+		return testYear;
+	}
+
+	public void setTestYear(String testYear)
+	{
+		this.testYear = testYear;
 	}
 
 	

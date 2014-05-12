@@ -17,6 +17,7 @@ public class RegExVariableViewModel extends ViewModel
 	
 	private String replaceWithCharacter;
 
+	
 	public ConfigVariableViewModel getConfigVariable()
 	{
 		return configVariable;
@@ -56,6 +57,4 @@ public class RegExVariableViewModel extends ViewModel
 	{
 		this.replaceWithCharacter = replaceWithCharacter;
 	}
-
-	
 }
