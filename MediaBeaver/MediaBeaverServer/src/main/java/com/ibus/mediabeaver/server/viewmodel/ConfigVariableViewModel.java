@@ -7,6 +7,8 @@ import com.ibus.mediabeaver.core.entity.RegExVariable;
 
 public class ConfigVariableViewModel extends ViewModel
 {
+	private static final long serialVersionUID = 1L;
+	
 	private String name;
 
 	private String value;

@@ -1,6 +1,8 @@
 package com.ibus.mediabeaver.server.controller;
 
 import java.beans.PropertyEditorSupport;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +24,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.ibus.mediabeaver.core.entity.RegExVariable;
 import com.ibus.mediabeaver.server.propertyeditor.ConfigVariableViewModelEditor;
 import com.ibus.mediabeaver.server.util.Mapper;
@@ -35,7 +41,7 @@ import com.ibus.mediabeaver.server.viewmodel.RegExVariableViewModel;
 @SessionAttributes({"regExSelector,configVariables"})
 public class RegExSelectorController
 {
-	@InitBinder
+	/*@InitBinder
 	public void initBinder(WebDataBinder binder, HttpServletRequest request)
 	{
 		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
@@ -45,7 +51,7 @@ public class RegExSelectorController
 				ConfigVariableViewModel.class, new ConfigVariableViewModelEditor(c.getConfigVariables())
 		);
 		
-	}
+	}*/
 	
 	@ModelAttribute("regExSelector")
 	public RegExSelectorViewModel getModel(HttpServletRequest request)
@@ -74,23 +80,6 @@ public class RegExSelectorController
 		return c.getConfigVariables();
 	}
 	
-	/*@InitBinder
-    public void initBinder(WebDataBinder binder) 
-	{
-		binder.registerCustomEditor(BeanB.class, new PropertyEditorSupport() {
-	        @Override
-	        public void setAsText(String text) {
-	            // some code to load your bean.. 
-	            // the example here assumes BeanB class knows how to return
-	            //  a bean for a specific id (which is an int/Integer) by
-	            //  calling the valueOf static method
-	            // eg:
-	            setValue(BeanB.valueOf(Integer.valueOf(text)));
-	        }
-	    });
-    }*/
-
-	
 
 	@RequestMapping
 	public String addSelector(HttpServletRequest request, SessionStatus sessionStatus)
@@ -98,16 +87,9 @@ public class RegExSelectorController
 		//Clear session so to ensure that getModel is called.
 		//sessionStatus.setComplete();
 		
-		
-		
 		return "RegExSelector";
 	}
 
-	
-	
-	
-	
-	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String saveSelector(@Validated @ModelAttribute("regExSelector") RegExSelectorViewModel selector, BindingResult result, 
 			HttpServletRequest request,  SessionStatus sessionStatus, RedirectAttributes ra)
@@ -115,6 +97,31 @@ public class RegExSelectorController
 
 		return "RegExSelector";
 	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/addRegExVariable", method = RequestMethod.POST)
+	public @ResponseBody List<RegExVariableViewModel> addRegExVariableViewModel(@Valid @RequestBody RegExVariableViewModel model, BindingResult result)
+	{
+		return  new ArrayList<RegExVariableViewModel>();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

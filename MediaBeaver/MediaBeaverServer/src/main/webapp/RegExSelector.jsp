@@ -17,7 +17,6 @@
 		
 		$("#saveExp").click(function() 
 		{
-			
 			$("form:first").attr("action", "/regExSelector/save");
 			$("form:first").submit();
 			
@@ -25,11 +24,33 @@
 		});
 		
 		
-		/* $("#addVariable").click(function() {
-			sendAjax("/regExSelector/Save/");
+		$("#addVariable").click(function() 
+		{
+			var data = getNewRegExVariableViewModel();
+			var json = JSON.stringify(data);
+			
+			/* alert(JSON.stringify(s));
+			
+			sendAjax("/regExSelector/Save/"); */
+			$.ajax({ 
+			    url: '/regExSelector/addRegExVariable/', 
+			    type: 'POST', 
+			    dataType: 'json', 
+			    data: json, 
+			    contentType: 'application/json',
+			    mimeType: 'application/json',
+			    success: function(data) 
+			    { 
+			    	alert("success");
+			    },
+			    error:function(data,status,er) { 
+			        alert("erro occured");
+			    }
+			}); 
+			
 		});
 		
-		 */
+		 
 	});
 	
 	
@@ -99,19 +120,19 @@
 		return JSON.stringify(model);
 	}
 	
-	function getNewConfigVariable()
-	{
+	function getNewRegExVariableViewModel()
+	{	
 		var model = 
 		{
-			"id": $("#id").val(), 
-			"expression": $("#expression").val(),
-			"nameParser":  np, 
-			"yearParser": yp,
-			"testFileName": $("#testFileName").val(),
-			"generatedName": $("#generatedName").val(),
-			"generatedYear": $("#generatedYear").val()
+			"configVariable": $("#toAddVariable\\.configVariable").val(), 
+			"groupAssembly": $("#toAddVariable\\.groupAssembly").val(),
+			"replaceExpression": $("#toAddVariable\\.replaceExpression").val(),
+			"replaceWithCharacter": $("#toAddVariable\\.replaceWithCharacter").val()
 		};
+		
+		return model;
 	}
+	
 	
 	
 </script>
@@ -218,11 +239,11 @@
    		<br/>
    		
    		<form:label path="toAddVariable.replaceExpression">Replace RegEx</form:label>
-   		<form:input path="toAddVariable.replaceExpression" style="width:650px" id="nameParser_removeCharacters"/>
+   		<form:input path="toAddVariable.replaceExpression" style="width:650px" />
    		<br/>
    		
    		<form:label path="toAddVariable.replaceWithCharacter">Replace String</form:label>
-   		<form:input path="toAddVariable.replaceWithCharacter" style="width:100px" id="nameParser.recursiveRegEx"/>
+   		<form:input path="toAddVariable.replaceWithCharacter" style="width:100px" />
    		<br/>
    		
    		<input type="button" value="Add Variable" id="addVariable" />

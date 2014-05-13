@@ -4,6 +4,8 @@ import javax.persistence.Column;
 
 public class OpenSubtitlesFieldMapViewModel extends ViewModel
 {
+	private static final long serialVersionUID = 1L;
+	
 	private String openSubititleField;
 	private String configField;
 	

@@ -15,6 +15,8 @@ import com.ibus.mediabeaver.core.entity.RegExVariable;
 
 public class RegExSelectorViewModel extends ViewModel
 {
+	private static final long serialVersionUID = 1L;
+	
 	private String description;
 
 	@NotEmpty(message = "This field cannot be left empty")

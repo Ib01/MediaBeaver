@@ -10,6 +10,8 @@ import com.ibus.mediabeaver.core.entity.TransformAction;
 
 public class MediaConfigViewModel extends ViewModel 
 {
+	private static final long serialVersionUID = 1L;
+	
 	private String description;
 	private TransformAction action;
 	private String sourceDirectory;

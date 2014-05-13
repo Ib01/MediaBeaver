@@ -1,6 +1,8 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
-public class ViewModel
+import java.io.Serializable;
+
+public class ViewModel implements Serializable
 {
 	private String id;
 
