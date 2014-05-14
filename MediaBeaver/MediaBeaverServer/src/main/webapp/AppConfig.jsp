@@ -11,6 +11,7 @@
 		{	
 			$("#addExpression").click(function() 
 			{
+				
 				$("form:first").attr("action", "/config/addRegExSelector");
 				$("form:first").submit();
 

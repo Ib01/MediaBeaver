@@ -20,6 +20,9 @@
 			$("form:first").attr("action", "/regExSelector/save");
 			$("form:first").submit();
 			
+			
+			
+			
 			//sendAjax("/regExSelector/Save/");
 		});
 		
@@ -29,10 +32,12 @@
 			var data = getNewRegExVariableViewModel();
 			var json = JSON.stringify(data);
 			
+			sendAjax2('/regExSelector/addRegExVariable/', json, addVariableSuccess);
+			
 			/* alert(JSON.stringify(s));
 			
 			sendAjax("/regExSelector/Save/"); */
-			$.ajax({ 
+			/* $.ajax({ 
 			    url: '/regExSelector/addRegExVariable/', 
 			    type: 'POST', 
 			    dataType: 'json', 
@@ -46,12 +51,36 @@
 			    error:function(data,status,er) { 
 			        alert("erro occured");
 			    }
-			}); 
+			});  */
 			
 		});
 		
 		 
 	});
+	
+	
+	function sendAjax2(url, data, successMethod, errorMethod) 
+	{
+		$.ajax({ 
+		    url: url, 
+		    type: 'POST', 
+		    dataType: 'json', 
+		    data: data, 
+		    contentType: 'application/json',
+		    mimeType: 'application/json',
+		    success: successMethod,
+		    error:function(data,status,er) { 
+		        alert("erro occured");
+		    }
+		}); 
+	}
+	
+	
+	
+	function addVariableSuccess(data) 
+    { 
+    	alert("success 2");
+    }
 	
 	
 	function sendAjax(url) 

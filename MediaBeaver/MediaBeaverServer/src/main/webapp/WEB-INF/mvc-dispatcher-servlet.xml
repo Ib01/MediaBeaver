@@ -21,13 +21,10 @@
 	</bean> -->
  	
  	
- 	
- 	
- 	
  	<!-- provides support functionality for things such as parsing incomming types on controler methods  -->   
- 	<!-- <mvc:annotation-driven/> -->
+ 	<mvc:annotation-driven/>
  	
- 	<mvc:annotation-driven conversion-service="conversionService"/>
+ 	<!-- <mvc:annotation-driven conversion-service="conversionService"/>
  	
  	<bean id="conversionService"
             class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
@@ -36,7 +33,7 @@
                 <bean class="com.ibus.mediabeaver.server.controller.ConfigVariableViewModelFormatter"/>
             </set>
         </property>
-    </bean>
+    </bean> -->
  	
  
 	<!-- adds interceptors which can intercept requests as they land at the server allowing you to do work before and after a request --> 
