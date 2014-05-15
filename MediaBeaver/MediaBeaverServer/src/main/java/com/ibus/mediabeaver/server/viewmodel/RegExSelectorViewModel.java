@@ -17,19 +17,28 @@ public class RegExSelectorViewModel extends ViewModel
 {
 	private static final long serialVersionUID = 1L;
 	
+	//Data properties////////////////////////////////////////
 	private String description;
 
 	@NotEmpty(message = "This field cannot be left empty")
 	private String expression;
 
-	private Set<RegExVariableViewModel> variables = new HashSet<RegExVariableViewModel>();
+	private List<RegExVariableViewModel> variables = new ArrayList<RegExVariableViewModel>();
 	
+	
+	//View properties////////////////////////////////////////
 	private RegExVariableViewModel toAddVariable = new RegExVariableViewModel();
+	
+	private List<ConfigVariableViewModel> configVariables =  new ArrayList<ConfigVariableViewModel>();
 	
 	private String testFileName;
 	private String testName;
 	private String testYear;
 	
+	
+	
+	
+		
 	
 	public String getDescription()
 	{
@@ -51,12 +60,12 @@ public class RegExSelectorViewModel extends ViewModel
 		this.expression = expression;
 	}
 	
-	public Set<RegExVariableViewModel> getVariables()
+	public List<RegExVariableViewModel> getVariables()
 	{
 		return variables;
 	}
 
-	public void setVariables(Set<RegExVariableViewModel> variables)
+	public void setVariables(List<RegExVariableViewModel> variables)
 	{
 		this.variables = variables;
 	}
@@ -101,7 +110,34 @@ public class RegExSelectorViewModel extends ViewModel
 		this.testYear = testYear;
 	}
 
+	public List<ConfigVariableViewModel> getConfigVariables()
+	{
+		return configVariables;
+	}
+
+	public void setConfigVariables(List<ConfigVariableViewModel> configVariables)
+	{
+		this.configVariables = configVariables;
+	}
+
 	
+	public ConfigVariableViewModel getConfigVariableForId(String id)
+	{
+		for(ConfigVariableViewModel c : configVariables)
+		{
+			if(c.getId().equals(id))
+			{
+				return c;
+			}
+		}
+		
+		return null;
+	}
+	
+	public void deleteRegExVariableViewModel(String index)
+	{
+		variables.remove(Integer.parseInt(index));
+	}
 	
 }
 

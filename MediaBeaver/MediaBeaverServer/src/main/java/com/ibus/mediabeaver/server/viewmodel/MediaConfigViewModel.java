@@ -1,6 +1,8 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.ibus.mediabeaver.core.entity.ConfigVariable;
@@ -15,10 +17,10 @@ public class MediaConfigViewModel extends ViewModel
 	private String description;
 	private TransformAction action;
 	private String sourceDirectory;
-	private Set<ConfigVariableViewModel> configVariables = new HashSet<ConfigVariableViewModel>();
+	private List<ConfigVariableViewModel> configVariables = new ArrayList<ConfigVariableViewModel>();
 	private boolean useOpenSubtitlesThumbprintService;
-	private Set<OpenSubtitlesFieldMapViewModel> openSubtitlesFieldMaps = new HashSet<OpenSubtitlesFieldMapViewModel>();
-	private Set<RegExSelectorViewModel> regExSelectors = new HashSet<RegExSelectorViewModel>();
+	private List<OpenSubtitlesFieldMapViewModel> openSubtitlesFieldMaps = new ArrayList<OpenSubtitlesFieldMapViewModel>();
+	private List<RegExSelectorViewModel> regExSelectors = new ArrayList<RegExSelectorViewModel>();
 	private String extensionsSelector;
 	private boolean selectAllFiles;
 	private boolean selectAllFolders;
@@ -58,13 +60,13 @@ public class MediaConfigViewModel extends ViewModel
 		this.sourceDirectory = sourceDirectory;
 	}
 
-	public Set<ConfigVariableViewModel> getConfigVariables()
+	public List<ConfigVariableViewModel> getConfigVariables()
 	{
 		return configVariables;
 	}
 	
 	/*required by jsp and jstl*/ 
-	public void setConfigVariables(Set<ConfigVariableViewModel> vars)
+	public void setConfigVariables(List<ConfigVariableViewModel> vars)
 	{
 		configVariables = vars;
 	}
@@ -85,12 +87,12 @@ public class MediaConfigViewModel extends ViewModel
 		this.useOpenSubtitlesThumbprintService = useOpenSubtitlesThumbprintService;
 	}
 
-	public Set<OpenSubtitlesFieldMapViewModel> getOpenSubtitlesFieldMaps()
+	public List<OpenSubtitlesFieldMapViewModel> getOpenSubtitlesFieldMaps()
 	{
 		return openSubtitlesFieldMaps;
 	}
 	
-	public void setOpenSubtitlesFieldMaps(Set<OpenSubtitlesFieldMapViewModel> openSubtitlesFieldMaps)
+	public void setOpenSubtitlesFieldMaps(List<OpenSubtitlesFieldMapViewModel> openSubtitlesFieldMaps)
 	{
 		this.openSubtitlesFieldMaps = openSubtitlesFieldMaps;
 	}
@@ -100,12 +102,12 @@ public class MediaConfigViewModel extends ViewModel
 		getOpenSubtitlesFieldMaps().add(map);
 	}
 	
-	public Set<RegExSelectorViewModel> getRegExSelectors()
+	public List<RegExSelectorViewModel> getRegExSelectors()
 	{
 		return regExSelectors;
 	}
 
-	public void setRegExSelectors(Set<RegExSelectorViewModel> regExSelectors)
+	public void setRegExSelectors(List<RegExSelectorViewModel> regExSelectors)
 	{
 		this.regExSelectors = regExSelectors;
 	}

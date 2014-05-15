@@ -21,10 +21,12 @@
 			$("form:first").submit();
 			
 			
-			
-			
 			//sendAjax("/regExSelector/Save/");
 		});
+		
+		
+		wiredeleteRegExVariableButton();
+		
 		
 		
 		$("#addVariable").click(function() 
@@ -32,34 +34,51 @@
 			var data = getNewRegExVariableViewModel();
 			var json = JSON.stringify(data);
 			
-			sendAjax2('/regExSelector/addRegExVariable/', json, addVariableSuccess);
-			
-			/* alert(JSON.stringify(s));
-			
-			sendAjax("/regExSelector/Save/"); */
-			/* $.ajax({ 
-			    url: '/regExSelector/addRegExVariable/', 
-			    type: 'POST', 
-			    dataType: 'json', 
-			    data: json, 
-			    contentType: 'application/json',
-			    mimeType: 'application/json',
-			    success: function(data) 
-			    { 
-			    	alert("success");
-			    },
-			    error:function(data,status,er) { 
-			        alert("erro occured");
-			    }
-			});  */
-			
+			sendAjax('/regExSelector/addRegExVariable/', json, displayRegExVariables, errorResponse);
 		});
 		
-		 
+		
+		Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) 
+		{
+		    switch (operator) {
+		        case '==':
+		            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+		        case '===':
+		            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+		        case '<':
+		            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+		        case '<=':
+		            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+		        case '>':
+		            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+		        case '>=':
+		            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+		        case '&&':
+		            return (v1 && v2) ? options.fn(this) : options.inverse(this);
+		        case '||':
+		            return (v1 || v2) ? options.fn(this) : options.inverse(this);
+		        default:
+		            return options.inverse(this);
+		    }
+		});
 	});
 	
 	
-	function sendAjax2(url, data, successMethod, errorMethod) 
+	function wiredeleteRegExVariableButton()
+	{
+		$(".deleteRegExVariableButton").click(function() 
+		{
+			$.ajax({
+				  url: "/regExSelector/deleteRegExVariable/",
+				  data: {index : $(this).attr("id")},
+				  success: displayRegExVariables
+				});
+		});
+	}
+	
+	
+	
+	function sendAjax(url, data, successMethod, errorMethod) 
 	{
 		$.ajax({ 
 		    url: url, 
@@ -69,42 +88,25 @@
 		    contentType: 'application/json',
 		    mimeType: 'application/json',
 		    success: successMethod,
-		    error:function(data,status,er) { 
-		        alert("erro occured");
-		    }
+		    error: errorMethod
 		}); 
 	}
 	
-	
-	
-	function addVariableSuccess(data) 
+	function displayRegExVariables(data) 
     { 
-    	alert("success 2");
+		var source   = $("#configVariableTemplate").html();
+		var template = Handlebars.compile(source);
+		var html = template(data);
+		
+		$("#variablesContainer").html(html);
+		wiredeleteRegExVariableButton();
     }
 	
+	function errorResponse(data,status,er) 
+	{ 
+        alert("erro occured");
+    }
 	
-	function sendAjax(url) 
-	{
-		$.ajax({ 
-		    url: url, 
-		    type: 'POST', 
-		    dataType: 'json', 
-		    data: getModel(), 
-		    contentType: 'application/json',
-		    mimeType: 'application/json',
-		    success: function(data) 
-		    { 
-		    	resetErrors();
-		    	showErrors(data.errors);
-		    	
-		    	$("#generatedName").val(data.generatedName);
-		    	$("#generatedYear").val(data.generatedYear);
-		    },
-		    error:function(data,status,er) { 
-		        alert("erro occured");
-		    }
-		}); 
-	}
 	
 	function showErrors(errors)
 	{
@@ -153,7 +155,7 @@
 	{	
 		var model = 
 		{
-			"configVariable": $("#toAddVariable\\.configVariable").val(), 
+			"selectedConfigVariable": $("#toAddVariable\\.selectedConfigVariable").val(), 
 			"groupAssembly": $("#toAddVariable\\.groupAssembly").val(),
 			"replaceExpression": $("#toAddVariable\\.replaceExpression").val(),
 			"replaceWithCharacter": $("#toAddVariable\\.replaceWithCharacter").val()
@@ -166,7 +168,50 @@
 	
 </script>
 
+<script id="configVariableTemplate" type="text/x-handlebars-template">
+{{#each variables}}
+  	<div class="shadowBox">
+		<div id="{{@index}}" class="deleteRegExVariableButton" 
+			   style="background-color: #8d8d8d;font-size: 18px;font-weight: bold;color: #FF8A00; 
+			   padding: 1px 5px 1px 5px; float:right; cursor: hand;">X</div>
+
+	   <label for="variables{{@index}}.configVariable">Variable</label>
+		<select id="variables{{@index}}.configVariable" name="variables[{{@index}}].configVariable">
+			<option value="NONE"> --SELECT--</option>
+			{{#each ../configVariables}}
+				{{#ifCond id '==' ../configVariable.id}}
+					<option value="{{id}}" selected="selected">{{name}}</option>
+				{{else}}
+					<option value="{{id}}" >{{name}}</option>
+				{{/ifCond}} 
+			{{/each}}
+		</select>
+	    <br/>
+	 
+		<label for="variables{{@index}}.groupAssembly">Group Assembly</label>
+		<input id="variables{{@index}}.groupAssembly" name="variables[{{@index}}].groupAssembly" style="width:400px" type="text" value="{{groupAssembly}}"/> 
+		<div class="errorBox" style="width:400px" id="nameParser.assembledItem_error">
+			<div style="width:400px;"></div>
+		 </div>  
+		<br/>
+		
+		<label for="variables{{@index}}.replaceExpression">Replace RegEx</label>
+		<input id="variables{{@index}}.replaceExpression" name="variables[{{@index}}].replaceExpression" style="width:650px" type="text" value="{{replaceExpression}}"/>
+		<br/>
+		
+		<label for="variables{{@index}}.replaceWithCharacter">Replace String</label>
+		<input id="variables{{@index}}.replaceWithCharacter" name="variables[{{@index}}].replaceWithCharacter" style="width:100px" type="text" value="{{replaceWithCharacter}}"/>
+		<br/>
+	</div>
+	<br/>
+{{/each}}
+</script>
+
 <h2>Movie Expression Generator</h2>
+
+
+
+
 
 <form:form method="POST" action="/regExSelector/save" commandName="regExSelector" class="formLayout">
    
@@ -221,43 +266,51 @@
    </div>
    <br/>
    
-   
-   <c:forEach items="${regExSelector.variables}" varStatus="i">
-	   
-	   <div class="shadowBox">
-		   <form:label path="variables[${i.index}].configVariable">Variable</form:label>
-		   <form:select path="variables[${i.index}].configVariable">
-				<form:option value="NONE"> --SELECT--</form:option>
-				<form:options items="${configVariables}" itemValue="id" itemLabel="name"></form:options>
-			</form:select>
-		    <br/>
-	   
-	   		<form:label path="variables[${i.index}].groupAssembly">Group Assembly</form:label>
-	   		<form:input path="variables[${i.index}].groupAssembly" style="width:400px"/> 
-	   		<div class="errorBox" style="width:400px" id="nameParser.assembledItem_error">
-	   			<div style="width:400px;"></div>
-	   		 </div>  
-	   		<br/>
-	   		
-	   		<form:label path="variables[${i.index}].replaceExpression">Replace RegEx</form:label>
-	   		<form:input path="variables[${i.index}].replaceExpression" style="width:650px" id="nameParser_removeCharacters"/>
-	   		<br/>
-	   		
-	   		<form:label path="variables[${i.index}].replaceWithCharacter">Replace String</form:label>
-	   		<form:input path="variables[${i.index}].replaceWithCharacter" style="width:100px" id="nameParser.recursiveRegEx"/>
-	   		<br/>
-	   </div>
-	   <br/>
-		
-	</c:forEach>
+   <span id="variablesContainer">
+	   <c:forEach items="${regExSelector.variables}" varStatus="i">
+	
+		   <div class="shadowBox">
+			   <div id="${i.index}" class="deleteRegExVariableButton" 
+			   style="background-color: #8d8d8d;font-size: 18px;font-weight: bold;color: #FF8A00; 
+			   padding: 1px 5px 1px 5px; float:right; cursor: hand;">X</div>
+		   
+			   <form:label path="variables[${i.index}].configVariable">Variable</form:label>
+			   <form:select path="variables[${i.index}].configVariable">
+					<form:option value="NONE"> --SELECT--</form:option>
+					<form:options items="${regExSelector.configVariables}" itemValue="id" itemLabel="name"></form:options>
+				</form:select>
+			    <br/>
+		   
+		   		<form:label path="variables[${i.index}].groupAssembly">Group Assembly</form:label>
+		   		<form:input path="variables[${i.index}].groupAssembly" style="width:400px"/> 
+		   		<div class="errorBox" style="width:400px" id="nameParser.assembledItem_error">
+		   			<div style="width:400px;"></div>
+		   		 </div>  
+		   		<br/>
+		   		
+		   		<form:label path="variables[${i.index}].replaceExpression">Replace RegEx</form:label>
+		   		<form:input path="variables[${i.index}].replaceExpression" style="width:650px" />
+		   		<br/>
+		   		
+		   		<form:label path="variables[${i.index}].replaceWithCharacter">Replace String</form:label>
+		   		<form:input path="variables[${i.index}].replaceWithCharacter" style="width:100px" />
+		   		<br/>
+		   </div>
+		   <br/>
+			
+		</c:forEach>
+	</span>
+	
    
     <div class="shadowBox">
 	   
 	    <form:label path="toAddVariable.configVariable">Variable</form:label>
-		<form:select path="toAddVariable.configVariable">
+	    
+		<form:select path="toAddVariable.selectedConfigVariable">
 			<form:option value="NONE"> --SELECT--</form:option>
-			<form:options items="${configVariables}" itemValue="id" itemLabel="name"></form:options>
+			<form:options items="${regExSelector.configVariables}" itemValue="id" itemLabel="name"></form:options>
 		</form:select>
+		
 		<br/>
 		
    		<form:label path="toAddVariable.groupAssembly">Group Assembly</form:label>

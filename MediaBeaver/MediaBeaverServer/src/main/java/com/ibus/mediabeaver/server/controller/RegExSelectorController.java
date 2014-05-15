@@ -1,36 +1,21 @@
 package com.ibus.mediabeaver.server.controller;
 
-import java.beans.PropertyEditorSupport;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.ibus.mediabeaver.core.entity.RegExVariable;
-import com.ibus.mediabeaver.server.propertyeditor.ConfigVariableViewModelEditor;
-import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
@@ -38,7 +23,7 @@ import com.ibus.mediabeaver.server.viewmodel.RegExVariableViewModel;
 
 @Controller
 @RequestMapping(value = "/regExSelector")
-@SessionAttributes({"regExSelector,configVariables"})
+@SessionAttributes({"regExSelector"})
 public class RegExSelectorController
 {
 	/*@InitBinder
@@ -57,8 +42,10 @@ public class RegExSelectorController
 	public RegExSelectorViewModel getModel(HttpServletRequest request)
 	{
 		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
-		return c.getRegExSelectors().iterator().next();
+		RegExSelectorViewModel sel =  c.getRegExSelectors().iterator().next();
+		sel.setConfigVariables(c.getConfigVariables());
 		
+		return sel;
 		
 		/*RegExSelectorViewModel vm = new RegExSelectorViewModel();
 		
@@ -72,13 +59,13 @@ public class RegExSelectorController
 		return vm;*/
 	}
 	
-	
+	/*
 	@ModelAttribute("configVariables")
 	public Set<ConfigVariableViewModel> getConfigVariables(HttpServletRequest request)
 	{
 		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
 		return c.getConfigVariables();
-	}
+	}*/
 	
 
 	@RequestMapping
@@ -99,21 +86,29 @@ public class RegExSelectorController
 	}
 	
 	
-	
-	
-	
 	@RequestMapping(value = "/addRegExVariable", method = RequestMethod.POST)
-	public @ResponseBody List<RegExVariableViewModel> addRegExVariableViewModel(@Valid @RequestBody RegExVariableViewModel model, BindingResult result)
+	public @ResponseBody RegExSelectorViewModel addRegExVariableViewModel(@Valid @RequestBody RegExVariableViewModel regExVaraible, BindingResult result, HttpServletRequest request)
 	{
-		return  new ArrayList<RegExVariableViewModel>();
+		RegExSelectorViewModel selector = (RegExSelectorViewModel) request.getSession().getAttribute("regExSelector");
+		ConfigVariableViewModel configVaraible =  selector.getConfigVariableForId(regExVaraible.getSelectedConfigVariable());
+		
+		regExVaraible.setConfigVariable(configVaraible);
+		
+		selector.getVariables().add(regExVaraible);
+		
+		return selector;
 	}
 	
 	
 	
 	
-	
-	
-	
+	@RequestMapping(value = "/deleteRegExVariable", method = RequestMethod.GET)
+	public @ResponseBody RegExSelectorViewModel deleteRegExVariableViewModel(@RequestParam(value="index") String index, HttpServletRequest request)
+	{
+		RegExSelectorViewModel selector = (RegExSelectorViewModel) request.getSession().getAttribute("regExSelector");
+		selector.deleteRegExVariableViewModel(index);
+		return selector;
+	}
 	
 	
 	

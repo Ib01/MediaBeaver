@@ -15,8 +15,6 @@ public class ConfigVariableViewModel extends ViewModel
 
 	private boolean required = false;
 	
-	private Set<RegExVariable> regExVariables = new HashSet<RegExVariable>();
-	
 	public ConfigVariableViewModel(){}
 	
 	public ConfigVariableViewModel(String name)
@@ -54,13 +52,4 @@ public class ConfigVariableViewModel extends ViewModel
 		this.required = required;
 	}
 
-	public Set<RegExVariable> getRegExVariables()
-	{
-		return regExVariables;
-	}
-
-	public void setRegExVariables(Set<RegExVariable> regExVariables)
-	{
-		this.regExVariables = regExVariables;
-	}
 }

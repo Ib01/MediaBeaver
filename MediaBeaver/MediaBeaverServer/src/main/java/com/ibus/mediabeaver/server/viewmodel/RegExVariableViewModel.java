@@ -17,6 +17,7 @@ public class RegExVariableViewModel extends ViewModel
 {
 	private static final long serialVersionUID = 1L;
 	
+	//Data properties ///////////////////////////////////////////////
 	private ConfigVariableViewModel configVariable;
 
 	@NotEmpty(message = "This field cannot be left empty")
@@ -26,6 +27,11 @@ public class RegExVariableViewModel extends ViewModel
 	
 	private String replaceWithCharacter;
 
+	
+	// View properties ///////////////////////////////////////////////
+	private String selectedConfigVariable;
+	
+	
 	public ConfigVariableViewModel getConfigVariable()
 	{
 		return configVariable;
@@ -65,6 +71,16 @@ public class RegExVariableViewModel extends ViewModel
 	public void setReplaceWithCharacter(String replaceWithCharacter)
 	{
 		this.replaceWithCharacter = replaceWithCharacter;
+	}
+
+	public String getSelectedConfigVariable()
+	{
+		return selectedConfigVariable;
+	}
+
+	public void setSelectedConfigVariable(String selectedConfigVariable)
+	{
+		this.selectedConfigVariable = selectedConfigVariable;
 	}
 	
 	
