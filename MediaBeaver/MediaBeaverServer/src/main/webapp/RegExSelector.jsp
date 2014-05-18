@@ -5,7 +5,7 @@
 
 <script type="text/javascript" >
 	
- 	var configVariables =[<c:forEach var="item" items="${regExSelector.configVariables}">
+ 	var configVariables =[<c:forEach var="item" items="${configVariables}">
 		{"name":'<c:out value="${item.name}" />', "id": '<c:out value="${item.id}" />'},
 	</c:forEach>]; 
 		
@@ -15,26 +15,11 @@
 		
 		$("#addVariable").click(function() 
 		{
-			var idx = $("#variablesContainer").last(".shadowBox").find("#index").val();
+			//addNewRegExVariable(this);
 			
-			var ob = {
-					index: "1",
-					variables: configVariables,
-					selectedConfigVariable: $("#toAdd_ConfigVariable").val(),
-					groupAssembly: $("#toAdd_GroupAssembly").val(),
-					replaceExpression: $("#toAdd_ReplaceExpression").val(),
-					replaceWithCharacter: $("#toAdd_ReplaceWithCharacter").val(),
-					};
-				
-			var source   = $("#newConfigVariableTemplate").html();
-			var template = Handlebars.compile(source);
-			var html = template(ob);
+			refreshTestResults();
 			
-			$(this).parent().before(html);
-			wireDeleteRegExVariableButton();
 		});
-		
-		
 		
 		wireDeleteRegExVariableButton();
 		
@@ -73,28 +58,82 @@
 	{
 		$(".deleteRegExVariableButton").click(function() 
 		{
+			$(this).parent().next("br").remove();
 			$(this).parent().remove();
 		});
 	} 
 	
 	
-	
-
-	
-	/* function displayRegExVariables(data) 
-    { 
-		var source   = $("#configVariableTemplate").html();
-		var template = Handlebars.compile(source);
-		var html = template(data);
+	function addNewRegExVariable(caller) 
+	{ 
+		//add new reg ex variable 
+		var sidx = $(".variableIndex").last().val();
+		var idx = Number(sidx) + 1; 
 		
-		$("#variablesContainer").html(html);
+		if(isNaN(idx))
+			idx = 0;
+			
+		var ob = {
+				index: idx,
+				variables: configVariables,
+				selectedConfigVariable: $("#toAdd_ConfigVariable").val(),
+				groupAssembly: $("#toAdd_GroupAssembly").val(),
+				replaceExpression: $("#toAdd_ReplaceExpression").val(),
+				replaceWithCharacter: $("#toAdd_ReplaceWithCharacter").val(),
+				};
+			
+		var source   = $("#newConfigVariableTemplate").html();
+		var template = Handlebars.compile(source);
+		var html = template(ob);
+		
+		$(caller).parent().before(html);
 		wireDeleteRegExVariableButton();
     }
 	
-	function deleteRegExVariable(id)
-	{
-		$("#" + id).parent().remove();
-	} */
+	function refreshTestResults() 
+	{ 
+		var vars = $(".configVariableSelection").map(function() {return this.value;}).get();
+		
+		testResults_VariableLable
+		
+		
+		//alert(JSON.stringify(vars));
+		
+		for (var i = 0; i < vars.length ; i++) 
+		{
+		    alert(vars[i]);
+		    //Do something
+		}
+		
+		
+		
+		//alert("asdf");
+		
+		/* //remove results that have no reg ex
+		$(".testResults_Variable").each( 
+				function(index, el) 
+				{
+				    
+				}
+			);
+		
+		
+		
+		$(".configVariableSelection").each( 
+			function( index, el ) 
+			{
+			    var source   = $("#newTestVariable").html();
+				var template = Handlebars.compile(source);
+				
+				
+				html += template({"name": $(this).val()});
+			    
+				alert(html);
+			}
+		); */
+		
+	}
+	
 	
 	
 	
@@ -178,15 +217,15 @@
 
 <script id="newConfigVariableTemplate" type="text/x-handlebars-template">
  <div class="shadowBox">
-	<input type="hidden" id="index" value="{{index}}"> 
+	<input type="hidden" id="index" value="{{index}}" class="variableIndex"> 
 		   
 	<div id="{{index}}" class="deleteRegExVariableButton" 
 	style="background-color: #8d8d8d;font-size: 18px;font-weight: bold;color: #FF8A00; 
 	padding: 1px 5px 1px 5px; float:right; cursor: hand;">X</div>
 		   
 	<label for="variables{{index}}.configVariable">Variable</label>
-	<select id="variables{{index}}.configVariable" name="variables[{{index}}].configVariable">
-		<option value="NONE"> --SELECT--</option>
+	<select id="variables{{index}}.configVariable" name="variables[{{index}}].configVariable" class="configVariableSelection">
+		<option value=""> --SELECT--</option>
 		
 		{{#each variables}}
 			{{#ifCond name '==' ../selectedConfigVariable}}
@@ -215,43 +254,12 @@
 
 
 
-<script id="configVariableTemplate" type="text/x-handlebars-template">
-{{#each variables}}
-  	<div class="shadowBox">
-		<div id="{{@index}}" class="deleteRegExVariableButton" 
-			   style="background-color: #8d8d8d;font-size: 18px;font-weight: bold;color: #FF8A00; 
-			   padding: 1px 5px 1px 5px; float:right; cursor: hand;">X</div>
-
-	   <label for="variables{{@index}}.configVariable">Variable</label>
-		<select id="variables{{@index}}.configVariable" name="variables[{{@index}}].configVariable">
-			<option value="NONE"> --SELECT--</option>
-			{{#each ../configVariables}}
-				{{#ifCond id '==' ../configVariable.id}}
-					<option value="{{id}}" selected="selected">{{name}}</option>
-				{{else}}
-					<option value="{{id}}" >{{name}}</option>
-				{{/ifCond}} 
-			{{/each}}
-		</select>
-	    <br/>
-	 
-		<label for="variables{{@index}}.groupAssembly">Group Assembly</label>
-		<input id="variables{{@index}}.groupAssembly" name="variables[{{@index}}].groupAssembly" style="width:400px" type="text" value="{{groupAssembly}}"/> 
-		<div class="errorBox" style="width:400px" id="nameParser.assembledItem_error">
-			<div style="width:400px;"></div>
-		 </div>  
+<script id="newTestVariable" type="text/x-handlebars-template">
+	<span class="testResults_Variable">
+		<label for="test_{{name}}">{{name}}</label>
+		<input id="test_{{name}}" style="wi  dth:400px" type="text"/>
 		<br/>
-		
-		<label for="variables{{@index}}.replaceExpression">Replace RegEx</label>
-		<input id="variables{{@index}}.replaceExpression" name="variables[{{@index}}].replaceExpression" style="width:650px" type="text" value="{{replaceExpression}}"/>
-		<br/>
-		
-		<label for="variables{{@index}}.replaceWithCharacter">Replace String</label>
-		<input id="variables{{@index}}.replaceWithCharacter" name="variables[{{@index}}].replaceWithCharacter" style="width:100px" type="text" value="{{replaceWithCharacter}}"/>
-		<br/>
-	</div>
-	<br/>
-{{/each}}
+	</span>	
 </script>
 
 <h2>Movie Expression Generator</h2>
@@ -300,7 +308,7 @@
    
    
    
-   <div class="shadowBox">
+   <div class="shadowBox" >
 	   <div class="shadowBoxHeader">Configuration Variables
 		  <span style="float: right;" class="shadowBoxHelp" >
 		   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
@@ -319,7 +327,8 @@
 	   <c:forEach items="${regExSelector.variables}" varStatus="i">
 	
 		   <div class="shadowBox">
-		   	   <input type="hidden" id="index" value="${i.index}"> 
+		   	   
+		   	   <input type="hidden" value="${i.index}" class="variableIndex"> 
 		   	   
 			   <form:hidden path="variables[${i.index}].id"/>
 			   <form:hidden path="variables[${i.index}].version"/>
@@ -330,9 +339,9 @@
 			   padding: 1px 5px 1px 5px; float:right; cursor: hand;">X</div>
 		   
 			   <form:label path="variables[${i.index}].configVariable">Variable</form:label>
-			   <form:select path="variables[${i.index}].configVariable">
-					<form:option value="NONE"> --SELECT--</form:option>
-					<form:options items="${regExSelector.configVariables}" itemValue="id" itemLabel="name"></form:options>
+			   <form:select path="variables[${i.index}].configVariable" class="configVariableSelection">
+					<form:option value=""> --SELECT--</form:option>
+					<form:options items="${configVariables}" itemValue="name" itemLabel="name"></form:options>
 				</form:select>
 			    <br/>
 		   
@@ -362,7 +371,7 @@
 		<label for="toAdd_ConfigVariable">Variable</label>
 		<select id="toAdd_ConfigVariable">
 			<option value="" selected="selected"> --SELECT--</option>
-			<c:forEach var="item" items="${regExSelector.configVariables}">
+			<c:forEach var="item" items="${configVariables}">
 				<option value="${item.name}">${item.name}</option>
 			</c:forEach>	
 		</select>
@@ -416,7 +425,7 @@
 	
    
    
-   <div class="shadowBox">
+	  <div class="shadowBox">
 	   <div class="shadowBoxHeader" >Test Expression
 		   <span style="float: right;" class="shadowBoxHelp" >
 		   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
@@ -427,86 +436,40 @@
 	   <p id="helpArea" style="display: none;">Test the regular expression, and the name and year filter entered above by entering a 
 	   file name and clicking on the Test button.  The Captured Movie Name and the Captured Movie Year fields will be 
 	   populated if the test passes.</p>
-   </div>
-   <br/>
-   
-   <div class="shadowBox">
+	  </div>
+	  <br/>
+	  
+	  <div class="shadowBox">
 	
-   		<form:label path="testFileName">File Name</form:label>
-   		<form:input path="testFileName" style="width:650px" id="testFileName"/>
-   		<div class="errorBox" style="width:642px" id="testFileName_error">
-   			<div style="width:640px;"></div>
-   		</div>
-   		<br/>
-   		<input type="button" value="Test" id="testExp" />
-   		<br/>
-   		
-   		
-   		
-   		
-   		<form:label path="testName">Captured Movie Name</form:label><br/>
-   		<form:input path="testName" style="width:400px" id="testName"/>
-   		<br/>
-   		
-   		<form:label path="testYear">Captured Movie Year</form:label><br/>
-   		<form:input path="testYear" style="width:400px" id="testYear" />
-   </div>
-
+		<label for="testResults_FileName">File Name</label>
+	  		<input id="testResults_FileName" style="width:500px" type="text"/>
+	  		<input type="button" value="Test" id="testExp" />
+	  		<!-- <div class="errorBox" style="width:642px" id="testFileName_error">
+	  			<div style="width:640px;"></div>
+	  		</div> -->
+	  		<br/>
+	  		
+	  		<span id="testResults_VariablesContainer">
+		  		<c:forEach items="${regExSelector.variables}" varStatus="i" var="item" >
+		  			<span class="testResults_Variable">
+						<label for="test_${item.configVariable.name}" class="testResults_VariableLable" >${item.configVariable.name}</label>
+						<input id="test_${item.configVariable.name}" style="wi  dth:400px" type="text"/>
+				   		<br/>
+					</span>
+				</c:forEach>
+			</span>	
+			
+			
+	  </div>
+	
 	<br/>
-   	<br/>
+	  	<br/>
 	<input type="button" value="Save" id="saveExp" />
 	<br>
 	<br>
 	<br>
 
-
-
-
-<%-- 
-<span id="testContainer">
-	<c:forEach items="${regExSelector.testList}" varStatus="i">
-		
-		<span id="bla">
-			<form:input path="testList[${i.index}]" /> <input type="button" value="delete" class="deleteTest" /> <br/>
-		</span>
-		
-	</c:forEach>
-</span>
-	
-	<input type="button" value="add test" id="addTestItem" />
-		
-		 --%>
-	</form:form>
-
-
-
-
-<!-- <script type="text/javascript" >
-
-	$(function ()
-	{	
-		
-		
-			$("#addTestItem").click(function() 
-			{
-				alert("asdf");
-				
-				$("#testContainer").append("<input id=\"testList2\" name=\"testList[2]\" type=\"text\" value=\"three xxx\"/>");
-			});
-		
-		
-			$(".deleteTest").click(function() 
-			{
-				//alert($(this).parent().attr("id"));
-				
-				$(this).parent().remove();
-			});
-			
-	});
-
-</script>
- -->
-
+</form:form>
 
 
 <%@include file="includes/footer.jsp" %>

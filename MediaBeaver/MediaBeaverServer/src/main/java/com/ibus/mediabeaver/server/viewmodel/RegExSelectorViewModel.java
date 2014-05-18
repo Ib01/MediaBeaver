@@ -27,13 +27,13 @@ public class RegExSelectorViewModel extends ViewModel
 	
 	
 	//View properties////////////////////////////////////////
-	private RegExVariableViewModel toAddVariable = new RegExVariableViewModel();
+	/*private RegExVariableViewModel toAddVariable = new RegExVariableViewModel();
 	
-	private List<ConfigVariableViewModel> configVariables =  new ArrayList<ConfigVariableViewModel>();
+	private List<ConfigVariableViewModel> configVariables =  new ArrayList<ConfigVariableViewModel>();*/
 	
-	private String testFileName;
+	/*private String testFileName;
 	private String testName;
-	private String testYear;
+	private String testYear;*/
 		
 	public String getDescription()
 	{
@@ -65,7 +65,7 @@ public class RegExSelectorViewModel extends ViewModel
 		this.variables = variables;
 	}
 
-	public RegExVariableViewModel getToAddVariable()
+	/*public RegExVariableViewModel getToAddVariable()
 	{
 		return toAddVariable;
 	}
@@ -73,9 +73,9 @@ public class RegExSelectorViewModel extends ViewModel
 	public void setToAddVariable(RegExVariableViewModel toAddVariable)
 	{
 		this.toAddVariable = toAddVariable;
-	}
+	}*/
 
-	public String getTestFileName()
+	/*public String getTestFileName()
 	{
 		return testFileName;
 	}
@@ -103,9 +103,9 @@ public class RegExSelectorViewModel extends ViewModel
 	public void setTestYear(String testYear)
 	{
 		this.testYear = testYear;
-	}
+	}*/
 
-	public List<ConfigVariableViewModel> getConfigVariables()
+	/*public List<ConfigVariableViewModel> getConfigVariables()
 	{
 		return configVariables;
 	}
@@ -127,7 +127,7 @@ public class RegExSelectorViewModel extends ViewModel
 		}
 		
 		return null;
-	}
+	}*/
 	
 	public void deleteRegExVariableViewModel(String index)
 	{

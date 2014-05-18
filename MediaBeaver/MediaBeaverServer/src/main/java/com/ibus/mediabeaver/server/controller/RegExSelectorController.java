@@ -1,5 +1,6 @@
 package com.ibus.mediabeaver.server.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.AutoPopulatingList;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ibus.mediabeaver.server.propertyeditor.ConfigVariableViewModelEditor;
 import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
@@ -27,12 +31,10 @@ import com.ibus.mediabeaver.server.viewmodel.RegExVariableViewModel;
 
 @Controller
 @RequestMapping(value = "/regExSelector")
+@SessionAttributes({"configVariables"})
 public class RegExSelectorController
 {
-	
-	//@SessionAttributes({"regExSelector"})
-	
-	/*@InitBinder
+	@InitBinder
 	public void initBinder(WebDataBinder binder, HttpServletRequest request)
 	{
 		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
@@ -42,27 +44,27 @@ public class RegExSelectorController
 				ConfigVariableViewModel.class, new ConfigVariableViewModelEditor(c.getConfigVariables())
 		);
 		
-	}*/
+	}
 	
-	@ModelAttribute("regExSelector")
-	public RegExSelectorViewModel getModel(HttpServletRequest request)
+	@ModelAttribute("configVariables")
+	public List<ConfigVariableViewModel> getConfigVariables(HttpServletRequest request)
 	{
-		RegExSelectorViewModel storedSel = (RegExSelectorViewModel) request.getSession().getAttribute("regExSelector");
-		
-		if(storedSel != null)
-			return storedSel;
-		
+		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
+		return c.getConfigVariables();
+	}
+	
+
+	@RequestMapping
+	public ModelAndView addSelector(HttpServletRequest request, SessionStatus sessionStatus)
+	{
+		//Clear session so to ensure that getModel is called.
+		//sessionStatus.setComplete();
 		
 		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
 		RegExSelectorViewModel sel =  c.getRegExSelectors().iterator().next();
-		sel.setConfigVariables(c.getConfigVariables());
 		
-		List<RegExVariableViewModel> ll = new AutoPopulatingList<RegExVariableViewModel>(sel.getVariables(), RegExVariableViewModel.class);
-		sel.setVariables(ll);
-		
-		request.getSession().setAttribute("regExSelector", sel);
-		
-		return sel;
+		ModelAndView model = new ModelAndView("RegExSelector");
+		return model.addObject("regExSelector", sel);
 		
 		/*RegExSelectorViewModel vm = new RegExSelectorViewModel();
 		
@@ -75,32 +77,21 @@ public class RegExSelectorController
 		
 		return vm;*/
 	}
-	
-	/*
-	@ModelAttribute("configVariables")
-	public Set<ConfigVariableViewModel> getConfigVariables(HttpServletRequest request)
-	{
-		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
-		return c.getConfigVariables();
-	}*/
-	
-
-	@RequestMapping
-	public String addSelector(HttpServletRequest request, SessionStatus sessionStatus)
-	{
-		//Clear session so to ensure that getModel is called.
-		//sessionStatus.setComplete();
-		
-		return "RegExSelector";
-	}
 
 	//@ModelAttribute("regExSelector") cannot use because system does merge with session state data very stupidly
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public ModelAndView saveSelector(RegExSelectorViewModel selector, BindingResult result, 
 			HttpServletRequest request,  SessionStatus sessionStatus, RedirectAttributes ra)
 	{
+		removeNullRegExVariables(selector.getVariables());
 		
-		RegExSelectorViewModel s23 = (RegExSelectorViewModel) request.getSession().getAttribute("regExSelector");
+		ModelAndView model = new ModelAndView("RegExSelector");
+		model.addObject("regExSelector", selector);
+		
+		return model;
+		
+		
+		/*RegExSelectorViewModel s23 = (RegExSelectorViewModel) request.getSession().getAttribute("regExSelector");
 		
 		//selector.setExpression("changed");
 		
@@ -112,12 +103,28 @@ public class RegExSelectorController
 		ModelAndView model = new ModelAndView("RegExSelector");
 		model.addObject("regExSelector", selector);
 		
-		return model;
+		return model;*/
 		//return "RegExSelector";
 	}
 	
 	
-	@RequestMapping(value = "/addRegExVariable", method = RequestMethod.POST)
+	//a hack to deal with the ridiculous dynamic list problem.
+	private void removeNullRegExVariables(List<RegExVariableViewModel> variables)
+	{
+		Iterator<RegExVariableViewModel> i = variables.iterator();
+		
+		while (i.hasNext()) 
+		{
+			RegExVariableViewModel v = i.next();
+			
+			if(v.getConfigVariable() == null)
+				i.remove();
+		}
+	}
+	
+	
+	
+	/*@RequestMapping(value = "/addRegExVariable", method = RequestMethod.POST)
 	public @ResponseBody RegExSelectorViewModel addRegExVariableViewModel(@Valid @RequestBody RegExVariableViewModel regExVaraible, BindingResult result, HttpServletRequest request)
 	{
 		RegExSelectorViewModel selector = (RegExSelectorViewModel) request.getSession().getAttribute("regExSelector");
@@ -139,7 +146,7 @@ public class RegExSelectorController
 		RegExSelectorViewModel selector = (RegExSelectorViewModel) request.getSession().getAttribute("regExSelector");
 		selector.deleteRegExVariableViewModel(index);
 		return index;
-	}
+	}*/
 	
 	
 	

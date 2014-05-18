@@ -1,6 +1,7 @@
 package com.ibus.mediabeaver.server.propertyeditor;
 
 import java.beans.PropertyEditorSupport;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,19 +16,19 @@ import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 
 public class ConfigVariableViewModelEditor extends PropertyEditorSupport
 {
-	Set<ConfigVariableViewModel> configs;
+	List<ConfigVariableViewModel> configs;
 	
-	public ConfigVariableViewModelEditor(Set<ConfigVariableViewModel> configs)
+	public ConfigVariableViewModelEditor(List<ConfigVariableViewModel> list)
 	{
-		this.configs = configs;
+		this.configs = list;
 	}
 	
-	public void setAsText(String id)
+	public void setAsText(String name)
 	{
 		ConfigVariableViewModel selected= new ConfigVariableViewModel();
 		for(ConfigVariableViewModel c : configs)
 		{
-			if(c.getId().equals(id))
+			if(c.getName().equals(name))
 			{
 				selected = c;
 			}
