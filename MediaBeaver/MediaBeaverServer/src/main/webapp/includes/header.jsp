@@ -10,6 +10,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     
     <script type="text/javascript" src="/resources/script/handlebars-v1.3.0.js"></script>
+    <script type="text/javascript" src="/resources/script/Common.js"></script>
     
     <style>
 

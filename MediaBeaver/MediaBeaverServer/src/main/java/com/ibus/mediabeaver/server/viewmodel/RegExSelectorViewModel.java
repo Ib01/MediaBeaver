@@ -34,12 +34,7 @@ public class RegExSelectorViewModel extends ViewModel
 	private String testFileName;
 	private String testName;
 	private String testYear;
-	
-	
-	
-	
 		
-	
 	public String getDescription()
 	{
 		return description; 
@@ -138,6 +133,38 @@ public class RegExSelectorViewModel extends ViewModel
 	{
 		variables.remove(Integer.parseInt(index));
 	}
+	
+	
+	
+	
+	
+	/*
+	private List<String> testList = new ArrayList<String>();  
+	
+	public List<String> getTestList()
+	{
+		return testList;
+	}
+
+	public void setTestList(List<String> testList)
+	{
+		this.testList = testList;
+	}*/
+	
+	
+	/*private  List<String> testList = new AutoPopulatingList<String>(String.class);  
+	
+	public AutoPopulatingList<String> getTestList()
+	{
+		return testList;
+	}
+
+	public void setTestList(AutoPopulatingList<String> testList)
+	{
+		this.testList = testList;
+	}
+*/
+	
 	
 }
 
