@@ -92,18 +92,58 @@
 	
 	function refreshTestResults() 
 	{ 
-		var vars = $(".configVariableSelection").map(function() {return this.value;}).get();
+		var regExs = $(".configVariableSelection").map(function() {return this.value;}).get();
+		var testInputs = $(".testResults_Variable").find("#variableName").map(function() {return this.value;}).get();
 		
-		testResults_VariableLable
+		
+		
+		alert(regExs.length);
+		/* alert(JSON.stringify(testInputs));
+		alert(JSON.stringify(regExs)); */
+		
+		
+		//remove regexe tests if the regex no longer exists
+		for (var tii = 0; tii < testInputs.length; tii++) 
+		{
+			var exists = false;
+			for (var rei = 0; rei < regExs.length; rei++) 
+			{
+				if(regExs[rei] == testInputs[tii])
+				{
+					alert("exists");
+				}
+				else
+				{
+					alert("not");
+				}
+				
+				
+			}
+			
+			
+			
+			
+			
+			
+			/* if(!exists)
+			{
+				
+			} */
+			
+			
+		    //alert(regExs[i]);
+		    //Do something
+		}
+		
+		
+		/* variableName
+		
+		testResults_VariableLable */
 		
 		
 		//alert(JSON.stringify(vars));
 		
-		for (var i = 0; i < vars.length ; i++) 
-		{
-		    alert(vars[i]);
-		    //Do something
-		}
+		
 		
 		
 		
@@ -131,6 +171,9 @@
 				alert(html);
 			}
 		); */
+		
+		
+		
 		
 	}
 	
@@ -452,6 +495,7 @@
 	  		<span id="testResults_VariablesContainer">
 		  		<c:forEach items="${regExSelector.variables}" varStatus="i" var="item" >
 		  			<span class="testResults_Variable">
+		  				<input type="hidden" id="variableName" value="${item.configVariable.name}" />
 						<label for="test_${item.configVariable.name}" class="testResults_VariableLable" >${item.configVariable.name}</label>
 						<input id="test_${item.configVariable.name}" style="wi  dth:400px" type="text"/>
 				   		<br/>
