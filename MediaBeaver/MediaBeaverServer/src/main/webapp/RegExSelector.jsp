@@ -25,11 +25,9 @@
 			$(this).parent().parent().find("#helpArea").fadeToggle('fast');
 		});
 		
-		
-		
 		$("#testButton").click(function() 
 		{
-			getRegExVariablesArray();
+			postAjax("/regExSelector/test", JSON.stringify(getRegExSelector()), showTestResults, errorResponse);
 		});
 		
 		$("#saveExp").click(function() 
@@ -42,6 +40,14 @@
 		});
 		
 	});
+	
+	
+	function showTestResults(data)
+	{
+		alert("here");
+	}
+	
+	
 	
 	function wireDeleteRegExVariableButton()
 	{
@@ -135,8 +141,6 @@
 		}
 	}
 	
-	
-	
 	function errorResponse(data,status,er) 
 	{ 
         alert("erro occured");
@@ -157,17 +161,33 @@
 	
 	function getRegExSelector()
 	{
-		return {
+		var obj = {
 			"variables":getRegExVariablesArray(),
 			"testFileName":$("#testResults_FileName").val(),
-			... array of test variables
+			"expression":$("#expression").val()
+		};
+
+		//"testVariables":getTestVariablesArray()
+		//alert(JSON.stringify(obj));
+		
+		return obj;
+	}
+
+	/* function getTestVariablesArray()
+	{
+		var vars = $(".testVariableContainer");
+		
+		var varList = [];
+		for (var i = 0; i < vars.length; i++) 
+		{
+			var name = $(vars[i]).find("#variableName").val();
+			var obj  = {"name":name};
+			
+			varList[i] = obj;
 		}
 		
-		
-	}
-	
-	
-	
+		return varList;
+	} */
 	
 	function getRegExVariablesArray()
 	{
@@ -242,10 +262,6 @@
 		return JSON.stringify(model);
 	}
 	
-	
-	
-	
-	
 </script>
 
 
@@ -285,8 +301,6 @@
  </div>
  <br/>
 </script>
-
-
 
 <script id="newTestVariable" type="text/x-handlebars-template">
 	<span class="testVariableContainer" id="testVariableContainer_{{name}}">

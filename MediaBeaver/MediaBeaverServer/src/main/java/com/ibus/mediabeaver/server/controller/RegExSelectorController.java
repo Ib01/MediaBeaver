@@ -23,6 +23,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ibus.mediabeaver.core.util.RegExHelper;
 import com.ibus.mediabeaver.server.propertyeditor.ConfigVariableViewModelEditor;
 import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
@@ -108,6 +109,47 @@ public class RegExSelectorController
 	}
 	
 	
+
+	@RequestMapping(value = "/test", method = RequestMethod.POST)
+	public @ResponseBody RegExSelectorViewModel testRegEx(@Valid @RequestBody RegExSelectorViewModel model, BindingResult result)
+	{
+		
+		RegExHelper reg = new RegExHelper();
+		List<String> caps = reg.captureStrings(model.getExpression(), model.getTestFileName());
+
+		if (addErrors(reg, model, result))
+			return model;
+
+		String name = reg.assembleRegExVariable(caps, model.getNameParser()
+				.getAssembledItem());
+		String year = reg.assembleRegExVariable(caps, model.getYearParser()
+				.getAssembledItem());
+
+		if (model.getNameParser().getCleaningRegEx() != null
+				&& model.getNameParser().getCleaningRegEx().length() > 0)
+			name = reg.cleanStringRegEx(model.getNameParser()
+					.getCleaningRegEx(), name, " ");
+
+		if (model.getYearParser().getCleaningRegEx() != null
+				&& model.getYearParser().getCleaningRegEx().length() > 0)
+			year = reg.cleanStringRegEx(model.getYearParser()
+					.getCleaningRegEx(), name, " ");
+
+		model.setGeneratedName(name);
+		model.setGeneratedYear(year);
+
+		return model;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//a hack to deal with the ridiculous dynamic list problem.
 	private void removeNullRegExVariables(List<RegExVariableViewModel> variables)
 	{
@@ -163,11 +205,6 @@ public class RegExSelectorController
 	
 	
 	
-	/*@RequestMapping(value = "/Test", method = RequestMethod.POST)
-	public @ResponseBody RegExVariableViewModel testRegEx(@Valid @RequestBody RegExVariableViewModel model, BindingResult result)
-	{
-		
-	}*/
 	
 	
 	
