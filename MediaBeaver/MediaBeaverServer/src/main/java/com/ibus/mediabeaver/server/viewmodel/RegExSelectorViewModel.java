@@ -31,9 +31,9 @@ public class RegExSelectorViewModel extends ViewModel
 	
 	private List<ConfigVariableViewModel> configVariables =  new ArrayList<ConfigVariableViewModel>();*/
 	
-	/*private String testFileName;
+	private String testFileName;
 	private String testName;
-	private String testYear;*/
+	private String testYear;
 		
 	public String getDescription()
 	{
@@ -75,7 +75,7 @@ public class RegExSelectorViewModel extends ViewModel
 		this.toAddVariable = toAddVariable;
 	}*/
 
-	/*public String getTestFileName()
+	public String getTestFileName()
 	{
 		return testFileName;
 	}
@@ -103,7 +103,7 @@ public class RegExSelectorViewModel extends ViewModel
 	public void setTestYear(String testYear)
 	{
 		this.testYear = testYear;
-	}*/
+	}
 
 	/*public List<ConfigVariableViewModel> getConfigVariables()
 	{
@@ -133,37 +133,6 @@ public class RegExSelectorViewModel extends ViewModel
 	{
 		variables.remove(Integer.parseInt(index));
 	}
-	
-	
-	
-	
-	
-	/*
-	private List<String> testList = new ArrayList<String>();  
-	
-	public List<String> getTestList()
-	{
-		return testList;
-	}
-
-	public void setTestList(List<String> testList)
-	{
-		this.testList = testList;
-	}*/
-	
-	
-	/*private  List<String> testList = new AutoPopulatingList<String>(String.class);  
-	
-	public AutoPopulatingList<String> getTestList()
-	{
-		return testList;
-	}
-
-	public void setTestList(AutoPopulatingList<String> testList)
-	{
-		this.testList = testList;
-	}
-*/
 	
 	
 }

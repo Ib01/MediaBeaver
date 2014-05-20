@@ -30,10 +30,10 @@ public class TestHelper
 	
 	public static RegExVariable getRegExVariable()
 	{
-		return getRegExVariable(null);
+		return getRegExVariable1(null);
 	}
 	
-	public static RegExVariable getRegExVariable(ConfigVariable cf)
+	public static RegExVariable getRegExVariable1(ConfigVariable cf)
 	{
 		RegExVariable var = new RegExVariable();
 		var.setGroupAssembly("{1}");
@@ -46,17 +46,35 @@ public class TestHelper
 		return var;
 	}
 	
-	public static ConfigVariable getConfigVariable()
+	public static ConfigVariable getConfigVariable1()
 	{
-		return getConfigVariable(null);
+		return getConfigVariable1(null);
 	}
 	
-	public static ConfigVariable getConfigVariable(RegExVariable rev)
+	public static ConfigVariable getConfigVariable1(RegExVariable rev)
 	{
 		ConfigVariable var = new ConfigVariable();
 		var.setName("name");
 		var.setRequired(true);
 		var.setValue("value");
+		
+		if(var != null)
+			var.addRegExVariable(rev);
+		
+		return var;
+	}
+	
+	public static ConfigVariable getConfigVariable2()
+	{
+		return getConfigVariable2(null);
+	}
+	
+	public static ConfigVariable getConfigVariable2(RegExVariable rev)
+	{
+		ConfigVariable var = new ConfigVariable();
+		var.setName("year");
+		var.setRequired(true);
+		var.setValue("1969");
 		
 		if(var != null)
 			var.addRegExVariable(rev);
@@ -79,10 +97,13 @@ public class TestHelper
 		config.setSelectAllFolders(true);
 		config.setUseOpenSubtitlesThumbprintService(true);
 		
-		ConfigVariable cf = getConfigVariable();
+		ConfigVariable cf = getConfigVariable1();
+		ConfigVariable cf2 = getConfigVariable2();
 		
 		config.addConfigVariable(cf);
-		RegExVariable rev = getRegExVariable(cf);
+		config.addConfigVariable(cf2);
+		
+		RegExVariable rev = getRegExVariable1(cf);
 		RegExSelector res = getRegExSelector(rev);
 		
 		config.addRegExSelector(res);
@@ -137,7 +158,10 @@ public class TestHelper
 		assertTrue(c1.getValue().equals(c2.getValue()));
 		
 		if(caller != "regExVariablesEqual")
-			regExVariablesEqual(c1.getRegExVariables().iterator().next(),c2.getRegExVariables().iterator().next(), "configVariablesEqual");
+		{
+			if(c1.getRegExVariables().size() > 0 && c2.getRegExVariables().size() > 0)
+				regExVariablesEqual(c1.getRegExVariables().iterator().next(),c2.getRegExVariables().iterator().next(), "configVariablesEqual");
+		}
 	}
 	
 	

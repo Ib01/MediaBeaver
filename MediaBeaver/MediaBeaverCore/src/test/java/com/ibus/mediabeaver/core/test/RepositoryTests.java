@@ -70,6 +70,8 @@ public class RepositoryTests
 		MediaConfig c2 = Repository.getEntity(MediaConfig.class, id);
 		TestHelper.mediaConfigsFullGraphEqual(c, c2);
 		
+		//assert(true);
+		
 		EndTransaction();
 		
 		

@@ -15,22 +15,21 @@
 		
 		$("#addVariable").click(function() 
 		{
-			//addNewRegExVariable(this);
-			
+			addNewRegExVariable(this);
 			refreshTestResults();
-			
 		});
 		
 		wireDeleteRegExVariableButton();
-		
-		
 		
 		$(".shadowBoxHelp").click(function() {
 			$(this).parent().parent().find("#helpArea").fadeToggle('fast');
 		});
 		
-		$("#testExp").click(function() {
-			postAjax("/regExSelector/Test/");
+		
+		
+		$("#testButton").click(function() 
+		{
+			getRegExVariablesArray();
 		});
 		
 		$("#saveExp").click(function() 
@@ -42,17 +41,7 @@
 			//postAjax("/regExSelector/Save/");
 		});
 		
-		
-		
-		/* $("#addVariable").click(function() 
-		{
-			var data = getNewRegExVariableViewModel();
-			var json = JSON.stringify(data);
-			
-			postAjax('/regExSelector/addRegExVariable/', json, displayRegExVariables, errorResponse);
-		}); */
 	});
-	
 	
 	function wireDeleteRegExVariableButton()
 	{
@@ -60,9 +49,9 @@
 		{
 			$(this).parent().next("br").remove();
 			$(this).parent().remove();
+			refreshTestResults();
 		});
 	} 
-	
 	
 	function addNewRegExVariable(caller) 
 	{ 
@@ -86,23 +75,23 @@
 		var template = Handlebars.compile(source);
 		var html = template(ob);
 		
-		$(caller).parent().before(html);
+		$("#variablesContainer").append(html);
+		//$(caller).parent().before(html);
 		wireDeleteRegExVariableButton();
     }
 	
 	function refreshTestResults() 
 	{ 
 		var regExs = $(".configVariableSelection").map(function() {return this.value;}).get();
-		var testInputs = $(".testResults_Variable").find("#variableName").map(function() {return this.value;}).get();
+		var testInputs = $(".testVariableContainer").find("#variableName").map(function() {return this.value;}).get();
 		
-		
-		
-		alert(regExs.length);
-		/* alert(JSON.stringify(testInputs));
-		alert(JSON.stringify(regExs)); */
-		
-		
-		//remove regexe tests if the regex no longer exists
+		removeRedundantTests(regExs, testInputs);
+		addNewTests(regExs, testInputs);
+	}
+	
+	function removeRedundantTests(regExs, testInputs)
+	{
+		//remove regexp tests if the regex no longer exists
 		for (var tii = 0; tii < testInputs.length; tii++) 
 		{
 			var exists = false;
@@ -110,73 +99,41 @@
 			{
 				if(regExs[rei] == testInputs[tii])
 				{
-					alert("exists");
+					exists = true;
 				}
-				else
-				{
-					alert("not");
-				}
-				
-				
 			}
 			
-			
-			
-			
-			
-			
-			/* if(!exists)
+			if(!exists)
 			{
-				
-			} */
-			
-			
-		    //alert(regExs[i]);
-		    //Do something
+				$("#testVariableContainer_" + testInputs[tii]).remove();
+			}
 		}
-		
-		
-		/* variableName
-		
-		testResults_VariableLable */
-		
-		
-		//alert(JSON.stringify(vars));
-		
-		
-		
-		
-		
-		//alert("asdf");
-		
-		/* //remove results that have no reg ex
-		$(".testResults_Variable").each( 
-				function(index, el) 
-				{
-				    
-				}
-			);
-		
-		
-		
-		$(".configVariableSelection").each( 
-			function( index, el ) 
-			{
-			    var source   = $("#newTestVariable").html();
-				var template = Handlebars.compile(source);
-				
-				
-				html += template({"name": $(this).val()});
-			    
-				alert(html);
-			}
-		); */
-		
-		
-		
-		
 	}
 	
+	function addNewTests(regExs, testInputs)
+	{
+		//add regexp tests if the regex exists but there is no regexp test 
+		for (var rei = 0; rei < regExs.length; rei++) 
+		{
+			var exists = false;
+			for (var tii = 0; tii < testInputs.length; tii++)  
+			{
+				if(regExs[rei] == testInputs[tii])
+				{
+					exists = true;
+				}
+			}
+			
+			if(!exists)
+			{
+				var source   = $("#newTestVariable").html();
+				var template = Handlebars.compile(source);
+				var html = template({"name":regExs[rei]});
+				$("#testResultsContainer").append(html);
+				
+			}
+		}
+	}
 	
 	
 	
@@ -198,11 +155,45 @@
 		return model;
 	}
 	
+	function getRegExSelector()
+	{
+		return {
+			"variables":getRegExVariablesArray(),
+			"testFileName":$("#testResults_FileName").val(),
+			... array of test variables
+		}
+		
+		
+	}
 	
 	
 	
 	
-	
+	function getRegExVariablesArray()
+	{
+		var vars = $("#variablesContainer").find(".shadowBox");
+		
+		var varList = [];
+		for (var i = 0; i < vars.length; i++) 
+		{
+			var idx = $(vars[i]).find(".variableIndex").val();
+			
+			//note configVariable goes to selectedConfigVariable since we cannot get mapping functionality to work properly with ajax
+			var v = {
+				"id": $("#variables"+idx+"\\.id").val(),
+				"version":$("#variables"+idx+"\\.version").val(),
+				"lastUpdate":$("#variables"+idx+"\\.lastUpdate").val(),
+				"selectedConfigVariable":$("#variables"+idx+"\\.configVariable").val(),
+				"groupAssembly":$("#variables"+idx+"\\.groupAssembly").val(),
+				"replaceExpression":$("#variables"+idx+"\\.replaceExpression").val(),
+				"replaceWithCharacter":$("#variables"+idx+"\\.replaceWithCharacter").val() 
+			};
+		
+			varList[i] = v;
+		}
+		
+		return varList;		
+	}
 	
 	
 	
@@ -298,11 +289,12 @@
 
 
 <script id="newTestVariable" type="text/x-handlebars-template">
-	<span class="testResults_Variable">
-		<label for="test_{{name}}">{{name}}</label>
-		<input id="test_{{name}}" style="wi  dth:400px" type="text"/>
+	<span class="testVariableContainer" id="testVariableContainer_{{name}}">
+		<input type="hidden" id="variableName" value="{{name}}" />
+		<label for="testVariable_{{name}}">{{name}}</label>
+		<input id="testVariable_{{name}}" style="width:400px" type="text"/>
 		<br/>
-	</span>	
+	</span>
 </script>
 
 <h2>Movie Expression Generator</h2>
@@ -434,80 +426,47 @@
    		
    		<input type="button" value="Add Variable" id="addVariable" />
     </div>
+	<br/>
+	
    
    
-    <%-- <div class="shadowBox">
-	   
-	    <form:label path="toAddVariable.configVariable">Variable</form:label>
-	    
-		<form:select path="toAddVariable.selectedConfigVariable">
-			<form:option value="NONE"> --SELECT--</form:option>
-			<form:options items="${regExSelector.configVariables}" itemValue="id" itemLabel="name"></form:options>
-		</form:select>
-		
+	<div class="shadowBox">
+		<div class="shadowBoxHeader" >Test Expression
+			<span style="float: right;" class="shadowBoxHelp" >
+				<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
+				<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
+			</span>
+		</div>
+		 
+		<p id="helpArea" style="display: none;">Test the regular expression, and the name and year filter entered above by entering a 
+		file name and clicking on the Test button.  The Captured Movie Name and the Captured Movie Year fields will be 
+		populated if the test passes.</p>
+	</div>
+	<br/>
+	 
+	<div class="shadowBox">
+		<label for="testResults_FileName">File Name</label>
+		<input id="testResults_FileName" style="width:500px" type="text"/>
+		<input type="button" value="Test" id="testButton" />
+		<!-- <div class="errorBox" style="width:642px" id="testFileName_error">
+			<div style="width:640px;"></div>
+		</div> -->
 		<br/>
 		
-   		<form:label path="toAddVariable.groupAssembly">Group Assembly</form:label>
-   		<form:input path="toAddVariable.groupAssembly" style="width:400px"/> 
-   		<div class="errorBox" style="width:400px" id="nameParser.assembledItem_error">
-   			<div style="width:400px;"></div>
-   		 </div>  
-   		<br/>
-   		
-   		<form:label path="toAddVariable.replaceExpression">Replace RegEx</form:label>
-   		<form:input path="toAddVariable.replaceExpression" style="width:650px" />
-   		<br/>
-   		
-   		<form:label path="toAddVariable.replaceWithCharacter">Replace String</form:label>
-   		<form:input path="toAddVariable.replaceWithCharacter" style="width:100px" />
-   		<br/>
-   		
-   		<input type="button" value="Add Variable" id="addVariable" />
-    </div> --%>
-	<br/>
-	
-   
-   
-	  <div class="shadowBox">
-	   <div class="shadowBoxHeader" >Test Expression
-		   <span style="float: right;" class="shadowBoxHelp" >
-		   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
-		   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
-	   		</span>
-		</div>
-	   
-	   <p id="helpArea" style="display: none;">Test the regular expression, and the name and year filter entered above by entering a 
-	   file name and clicking on the Test button.  The Captured Movie Name and the Captured Movie Year fields will be 
-	   populated if the test passes.</p>
-	  </div>
-	  <br/>
-	  
-	  <div class="shadowBox">
-	
-		<label for="testResults_FileName">File Name</label>
-	  		<input id="testResults_FileName" style="width:500px" type="text"/>
-	  		<input type="button" value="Test" id="testExp" />
-	  		<!-- <div class="errorBox" style="width:642px" id="testFileName_error">
-	  			<div style="width:640px;"></div>
-	  		</div> -->
-	  		<br/>
-	  		
-	  		<span id="testResults_VariablesContainer">
-		  		<c:forEach items="${regExSelector.variables}" varStatus="i" var="item" >
-		  			<span class="testResults_Variable">
-		  				<input type="hidden" id="variableName" value="${item.configVariable.name}" />
-						<label for="test_${item.configVariable.name}" class="testResults_VariableLable" >${item.configVariable.name}</label>
-						<input id="test_${item.configVariable.name}" style="wi  dth:400px" type="text"/>
-				   		<br/>
-					</span>
-				</c:forEach>
-			</span>	
-			
-			
-	  </div>
+		<span id="testResultsContainer">
+	 		<c:forEach items="${regExSelector.variables}" varStatus="i" var="item" >
+	 			<span class="testVariableContainer" id="testVariableContainer_${item.configVariable.name}">
+	 				<input type="hidden" id="variableName" value="${item.configVariable.name}" />
+					<label for="testVariable_${item.configVariable.name}">${item.configVariable.name}</label>
+					<input id="testVariable_${item.configVariable.name}" style="width:400px" type="text"/>
+			   		<br/>
+				</span>
+			</c:forEach>
+		</span>	
+	</div>
 	
 	<br/>
-	  	<br/>
+	<br/>
 	<input type="button" value="Save" id="saveExp" />
 	<br>
 	<br>
