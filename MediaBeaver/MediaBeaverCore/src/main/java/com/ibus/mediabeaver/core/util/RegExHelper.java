@@ -21,17 +21,17 @@ public class RegExHelper
 		Pattern pattern = Pattern.compile(regularExpression);
 		Matcher matcher = pattern.matcher(text);
 		
-		List<String> capturedText = new ArrayList<String>();
+		List<String> captures = new ArrayList<String>();
 		
 		if (matcher.find()) 
 		{
 			for(int i = 0; i <= matcher.groupCount(); i++)
 			{
-				capturedText.add(matcher.group(i));	
+				captures.add(matcher.group(i));	
 			}
 		}	
 		
-		return capturedText;		
+		return captures;		
 	}
 	
 	/**
@@ -42,6 +42,7 @@ public class RegExHelper
 	 */
 	public String cleanStringRegEx(String keepExpression, String text, String joinString)
 	{
+		//TODO: THIS IS PROBABLY REDUNDANT NOW
 		Pattern pattern = Pattern.compile(keepExpression);
 		Matcher matcher = pattern.matcher(text);
 		

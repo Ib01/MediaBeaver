@@ -98,7 +98,7 @@ public class MediaManager
 				/*populate our config variables form the getRegExVariables list*/
 				for(RegExVariable rev : selector.getVariables())
 				{
-					ConfigVariable cv = getConfigVariable(config.getConfigVariables(), rev.getVariableName());
+					ConfigVariable cv = getConfigVariable(config.getConfigVariables(), rev.getConfigVariable().getName());
 					if(cv == null){
 						 //our UI should ensure this should never happens
 						log.error("An exception occured: no corresponding ConfigVariable for RegExVariable");

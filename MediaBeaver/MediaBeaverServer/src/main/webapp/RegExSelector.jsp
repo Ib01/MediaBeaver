@@ -41,14 +41,6 @@
 		
 	});
 	
-	
-	function showTestResults(data)
-	{
-		alert("here");
-	}
-	
-	
-	
 	function wireDeleteRegExVariableButton()
 	{
 		$(".deleteRegExVariableButton").click(function() 
@@ -167,27 +159,8 @@
 			"expression":$("#expression").val()
 		};
 
-		//"testVariables":getTestVariablesArray()
-		//alert(JSON.stringify(obj));
-		
 		return obj;
 	}
-
-	/* function getTestVariablesArray()
-	{
-		var vars = $(".testVariableContainer");
-		
-		var varList = [];
-		for (var i = 0; i < vars.length; i++) 
-		{
-			var name = $(vars[i]).find("#variableName").val();
-			var obj  = {"name":name};
-			
-			varList[i] = obj;
-		}
-		
-		return varList;
-	} */
 	
 	function getRegExVariablesArray()
 	{
@@ -215,8 +188,32 @@
 		return varList;		
 	}
 	
+	function showTestResults(data)
+	{
+		for (var i = 0; i < data.testVariables.length; i++) 
+		{
+			if($("#testVariable_" + data.testVariables[i].name).length){
+				$("#testVariable_" + data.testVariables[i].name).val(data.testVariables[i].value);
+			}
+		}
+	}
+	
+	function validateRegExVariables()
+	{
+		var vars = $("#variablesContainer").find(".shadowBox");
+		
+		for (var i = 0; i < vars.length; i++) 
+		{
+			var idx = $(vars[i]).find(".variableIndex").val();
+			
+			$("form:first").validationEngine('validate');
+		}
+	}
 	
 	
+	
+	
+	// redudndant? /////////////////////////////////////////////////////////////////////////////////////////
 	
 	
 	function showErrors(errors)
@@ -274,7 +271,7 @@
 	padding: 1px 5px 1px 5px; float:right; cursor: hand;">X</div>
 		   
 	<label for="variables{{index}}.configVariable">Variable</label>
-	<select id="variables{{index}}.configVariable" name="variables[{{index}}].configVariable" class="configVariableSelection">
+	<select id="variables{{index}}.configVariable" name="variables[{{index}}].configVariable" class="configVariableSelection validate[required]">
 		<option value=""> --SELECT--</option>
 		
 		{{#each variables}}
@@ -288,7 +285,7 @@
 	<br/>
 		   
 	<label for="variables{{index}}.groupAssembly">Group Assembly</label>
-	<input id="variables{{index}}.groupAssembly" name="variables[{{index}}].groupAssembly" style="width:400px" type="text" value="{{groupAssembly}}"/> 
+	<input id="variables{{index}}.groupAssembly" name="variables[{{index}}].groupAssembly" style="width:400px" type="text" value="{{groupAssembly}}" class="validate[required]"/> 
 	<br/>
 		   		
 	<label for="variables{{index}}.replaceExpression">Replace RegEx</label>
@@ -340,14 +337,14 @@
    <div class="shadowBox" >
    		
 		<form:label path="description">Description</form:label>
-   		<form:input path="description" style="width:400px" id="description"/>
-		<div class="errorBox" style="width:400px" id="description_error">
+   		<form:input path="description" style="width:400px" id="description" class="validate[required]"/>
+		<!-- <div class="errorBox" style="width:400px" id="description_error">
    			<div style="width:400px;"></div>
-   		</div>
+   		</div> -->
 		<br/>
 		
    		<form:label path="expression">Expression</form:label>
-   		<form:input path="expression" style="width:650px" id="expression"/>
+   		<form:input path="expression" style="width:650px" id="expression" class="validate[required]"/>
    		<div class="errorBox" style="width:650px" id="expression_error">
    			<div style="width:650px;"></div>
    		 </div>
@@ -388,14 +385,14 @@
 			   padding: 1px 5px 1px 5px; float:right; cursor: hand;">X</div>
 		   
 			   <form:label path="variables[${i.index}].configVariable">Variable</form:label>
-			   <form:select path="variables[${i.index}].configVariable" class="configVariableSelection">
+			   <form:select path="variables[${i.index}].configVariable" class="configVariableSelection validate[required]">
 					<form:option value=""> --SELECT--</form:option>
 					<form:options items="${configVariables}" itemValue="name" itemLabel="name"></form:options>
 				</form:select>
 			    <br/>
 		   
 		   		<form:label path="variables[${i.index}].groupAssembly">Group Assembly</form:label>
-		   		<form:input path="variables[${i.index}].groupAssembly" style="width:400px"/> 
+		   		<form:input path="variables[${i.index}].groupAssembly" style="width:400px" class="validate[required]" /> 
 		   		<div class="errorBox" style="width:400px" id="nameParser.assembledItem_error">
 		   			<div style="width:400px;"></div>
 		   		 </div>  
@@ -418,7 +415,7 @@
    <div class="shadowBox">
 	   
 		<label for="toAdd_ConfigVariable">Variable</label>
-		<select id="toAdd_ConfigVariable">
+		<select id="toAdd_ConfigVariable" class="validate[required]">
 			<option value="" selected="selected"> --SELECT--</option>
 			<c:forEach var="item" items="${configVariables}">
 				<option value="${item.name}">${item.name}</option>
@@ -427,7 +424,7 @@
 		<br/>
 		
    		<label for="toAdd_GroupAssembly">Group Assembly</label>
-   		<input id="toAdd_GroupAssembly" style="width:400px" type="text"/> 
+   		<input id="toAdd_GroupAssembly" style="width:400px" type="text" class="validate[required]"/> 
    		<br/>
    		
    		<label for="toAdd_ReplaceExpression">Replace RegEx</label>
@@ -460,11 +457,8 @@
 	 
 	<div class="shadowBox">
 		<label for="testResults_FileName">File Name</label>
-		<input id="testResults_FileName" style="width:500px" type="text"/>
+		<input id="testResults_FileName" style="width:500px" type="text" class="validate[required]"/>
 		<input type="button" value="Test" id="testButton" />
-		<!-- <div class="errorBox" style="width:642px" id="testFileName_error">
-			<div style="width:640px;"></div>
-		</div> -->
 		<br/>
 		
 		<span id="testResultsContainer">

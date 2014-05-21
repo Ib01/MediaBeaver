@@ -111,34 +111,22 @@ public class RegExSelectorController
 	
 
 	@RequestMapping(value = "/test", method = RequestMethod.POST)
-	public @ResponseBody RegExSelectorViewModel testRegEx(@Valid @RequestBody RegExSelectorViewModel model, BindingResult result)
+	public @ResponseBody RegExSelectorViewModel testRegEx(@Valid @RequestBody RegExSelectorViewModel selector, BindingResult result, HttpServletRequest request)
 	{
+		RegExHelper regExHelper = new RegExHelper();
+		List<String> captures = regExHelper.captureStrings(selector.getExpression(), selector.getTestFileName());
 		
-		RegExHelper reg = new RegExHelper();
-		List<String> caps = reg.captureStrings(model.getExpression(), model.getTestFileName());
-
-		if (addErrors(reg, model, result))
-			return model;
-
-		String name = reg.assembleRegExVariable(caps, model.getNameParser()
-				.getAssembledItem());
-		String year = reg.assembleRegExVariable(caps, model.getYearParser()
-				.getAssembledItem());
-
-		if (model.getNameParser().getCleaningRegEx() != null
-				&& model.getNameParser().getCleaningRegEx().length() > 0)
-			name = reg.cleanStringRegEx(model.getNameParser()
-					.getCleaningRegEx(), name, " ");
-
-		if (model.getYearParser().getCleaningRegEx() != null
-				&& model.getYearParser().getCleaningRegEx().length() > 0)
-			year = reg.cleanStringRegEx(model.getYearParser()
-					.getCleaningRegEx(), name, " ");
-
-		model.setGeneratedName(name);
-		model.setGeneratedYear(year);
-
-		return model;
+		for(RegExVariableViewModel regExVar :  selector.getVariables())
+		{
+			String cleanedVar = regExHelper.assembleRegExVariable(captures, regExVar.getGroupAssembly());
+			
+			if(regExVar.getReplaceExpression() != null && regExVar.getReplaceExpression().length() > 0)
+				cleanedVar = regExHelper.cleanString(cleanedVar, regExVar.getReplaceExpression(), regExVar.getReplaceWithCharacter());
+			
+			selector.getTestVariables().add(new ConfigVariableViewModel(regExVar.getSelectedConfigVariable(), cleanedVar));
+		}
+		
+		return selector;
 	}
 	
 	
@@ -166,84 +154,9 @@ public class RegExSelectorController
 	
 	
 	
-	/*@RequestMapping(value = "/addRegExVariable", method = RequestMethod.POST)
-	public @ResponseBody RegExSelectorViewModel addRegExVariableViewModel(@Valid @RequestBody RegExVariableViewModel regExVaraible, BindingResult result, HttpServletRequest request)
-	{
-		RegExSelectorViewModel selector = (RegExSelectorViewModel) request.getSession().getAttribute("regExSelector");
-		ConfigVariableViewModel configVaraible =  selector.getConfigVariableForId(regExVaraible.getSelectedConfigVariable());
-		
-		regExVaraible.setConfigVariable(configVaraible);
-		
-		selector.getVariables().add(regExVaraible);
-		
-		return selector;
-	}
 	
-	
-	
-	
-	@RequestMapping(value = "/deleteRegExVariable", method = RequestMethod.GET)
-	public @ResponseBody String deleteRegExVariableViewModel(@RequestParam(value="index") String index, HttpServletRequest request)
-	{
-		RegExSelectorViewModel selector = (RegExSelectorViewModel) request.getSession().getAttribute("regExSelector");
-		selector.deleteRegExVariableViewModel(index);
-		return index;
-	}*/
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*@RequestMapping(value="/{id}")
-	public String updateSelector(HttpServletRequest request, @PathVariable String id)
-	{		
-		RegExSelectorViewModel model = mapper.getMapper().map(sel, RegExSelectorViewModel.class);
-		
-		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
-		
-		return "RegExSelector";
-	}
-	*/
-	
+
 	/*
-	 * @RequestMapping(value="/user.json") public @ResponseBody
-	 * ValidationResponse processForm (Model model, @Valid User user,
-	 * BindingResult result ) { ValidationResponse res = new
-	 * ValidationResponse(); if(!result.hasErrors()){ res.setStatus("SUCCESS");
-	 * } // � return res; }
-	 */
-
-	// @RequestBody
-
-	/*@RequestMapping(value = "/Save", method = RequestMethod.POST)
-	public @ResponseBody MovieRegEx saveRegEx(@Valid @RequestBody MovieRegEx model, BindingResult result)
-	{
-		RegExHelper reg = new RegExHelper();
-
-		if (addErrors(reg, model, result))
-			return model;
-
-		Repository r = new Repository();
-		r.addEntity(model);
-
-		return model;
-	}
 
 	@RequestMapping(value = "/Test", method = RequestMethod.POST)
 	public @ResponseBody MovieRegEx testRegEx(@Valid @RequestBody MovieRegEx model,
@@ -338,33 +251,6 @@ public class RegExSelectorController
 		return ret;
 	}*/
 
-	// this method response to POST request
-	// http://localhost/spring-mvc-json/rest/cont/person
-	// receives json data sent by client --> map it to Person object
-	// return Person object as json
-	/*
-	 * @RequestMapping(value="/Test2", method = RequestMethod.GET) public
-	 * 
-	 * @ResponseBody MovieRegEx post(HttpServletResponse res) {
-	 * 
-	 * 
-	 * 
-	 * 
-	 * //return new TestObj();
-	 * 
-	 * MovieRegEx re = new MovieRegEx(); re.setExpression("1");
-	 * re.getNameParser().setAssembledItem("2");
-	 * re.getNameParser().setRecursiveRegEx("3");
-	 * re.getNameParser().setRemoveCharacters("4");
-	 * re.getYearParser().setAssembledItem("5");
-	 * re.getYearParser().setRecursiveRegEx("6");
-	 * re.getYearParser().setRemoveCharacters("7"); re.setTestFileName("8");
-	 * re.setGeneratedName("9"); re.setGeneratedYear("10");
-	 * 
-	 * return re;
-	 * 
-	 * 
-	 * }
-	 */
+	
 
 }

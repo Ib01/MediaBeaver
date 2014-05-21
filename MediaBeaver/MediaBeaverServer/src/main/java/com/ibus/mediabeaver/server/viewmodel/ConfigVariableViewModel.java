@@ -22,6 +22,12 @@ public class ConfigVariableViewModel extends ViewModel
 		this.name = name;
 	}
 
+	public ConfigVariableViewModel(String name, String value)
+	{
+		this.name = name;
+		this.value= value;
+	}
+	
 	public String getName()
 	{
 		return name;

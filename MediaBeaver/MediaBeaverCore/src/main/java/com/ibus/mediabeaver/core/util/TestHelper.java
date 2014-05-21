@@ -19,7 +19,7 @@ public class TestHelper
 	public static RegExSelector getRegExSelector(RegExVariable var)
 	{
 		RegExSelector sel = new RegExSelector();
-		sel.setExpression("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}].+\\.([a-zA-Z]+)");
+		sel.setExpression("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}].*\\.([a-zA-Z]+)");
 		sel.setDescription("description");
 		
 		if(var != null)

@@ -199,6 +199,19 @@ public class MediaConfigViewModel extends ViewModel
 		return null;
 	}
 	
+	public ConfigVariableViewModel getConfigVariable(String configName)
+	{
+		for(ConfigVariableViewModel cv : configVariables)
+		{
+			if(cv.getName().equals(configName))
+				return cv;
+		}
+		
+		return null;
+	} 
+	
+	
+	
 }
 
 
