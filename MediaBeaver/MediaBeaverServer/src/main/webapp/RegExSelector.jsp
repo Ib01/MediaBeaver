@@ -27,7 +27,8 @@
 		
 		$("#testButton").click(function() 
 		{
-			postAjax("/regExSelector/test", JSON.stringify(getRegExSelector()), showTestResults, errorResponse);
+			if(!testError())
+				postAjax("/regExSelector/test", JSON.stringify(getRegExSelector()), showTestResults, errorResponse);
 		});
 		
 		$("#saveExp").click(function() 
@@ -198,17 +199,43 @@
 		}
 	}
 	
-	function validateRegExVariables()
+	
+	function testError()
+	{
+		var error = false;
+		
+		if($("#expression").validationEngine('validate'))
+			error= true;
+		
+		if($("#testResults_FileName").validationEngine('validate'))
+			error= true;	
+		
+		if(regExVariablesError())
+			error = true;
+		
+		return error;
+	}
+	
+	function regExVariablesError()
 	{
 		var vars = $("#variablesContainer").find(".shadowBox");
 		
+		var error = false;
 		for (var i = 0; i < vars.length; i++) 
 		{
 			var idx = $(vars[i]).find(".variableIndex").val();
 			
-			$("form:first").validationEngine('validate');
+			if($("#variables"+idx+"\\.configVariable").validationEngine('validate'))
+				error = true;
+			if($("#variables"+idx+"\\.groupAssembly").validationEngine('validate'))
+				error = true;
 		}
+		
+		return error;
 	}
+	
+	
+	
 	
 	
 	
@@ -337,14 +364,14 @@
    <div class="shadowBox" >
    		
 		<form:label path="description">Description</form:label>
-   		<form:input path="description" style="width:400px" id="description" class="validate[required]"/>
+   		<form:input path="description" style="width:400px" id="description" class="validate[required]" />
 		<!-- <div class="errorBox" style="width:400px" id="description_error">
    			<div style="width:400px;"></div>
    		</div> -->
 		<br/>
 		
    		<form:label path="expression">Expression</form:label>
-   		<form:input path="expression" style="width:650px" id="expression" class="validate[required]"/>
+   		<form:input path="expression" style="width:650px" id="expression" class="validate[required]" data-prompt-position="topRight: -130"/>
    		<div class="errorBox" style="width:650px" id="expression_error">
    			<div style="width:650px;"></div>
    		 </div>
@@ -385,7 +412,7 @@
 			   padding: 1px 5px 1px 5px; float:right; cursor: hand;">X</div>
 		   
 			   <form:label path="variables[${i.index}].configVariable">Variable</form:label>
-			   <form:select path="variables[${i.index}].configVariable" class="configVariableSelection validate[required]">
+			   <form:select path="variables[${i.index}].configVariable" class="configVariableSelection validate[required]" >
 					<form:option value=""> --SELECT--</form:option>
 					<form:options items="${configVariables}" itemValue="name" itemLabel="name"></form:options>
 				</form:select>
@@ -424,7 +451,7 @@
 		<br/>
 		
    		<label for="toAdd_GroupAssembly">Group Assembly</label>
-   		<input id="toAdd_GroupAssembly" style="width:400px" type="text" class="validate[required]"/> 
+   		<input id="toAdd_GroupAssembly" style="width:400px" type="text" class="validate[required]" /> 
    		<br/>
    		
    		<label for="toAdd_ReplaceExpression">Replace RegEx</label>
@@ -457,7 +484,7 @@
 	 
 	<div class="shadowBox">
 		<label for="testResults_FileName">File Name</label>
-		<input id="testResults_FileName" style="width:500px" type="text" class="validate[required]"/>
+		<input id="testResults_FileName" style="width:500px" type="text" class="validate[required]" />
 		<input type="button" value="Test" id="testButton" />
 		<br/>
 		
