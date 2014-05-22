@@ -11,13 +11,19 @@
 		{	
 			$("#addExpression").click(function() 
 			{
-				
 				$("form:first").attr("action", "/config/addRegExSelector");
 				$("form:first").submit();
-
-				//sendAjax("/config/addRegExSelector/", getModel()); 
-				//sendAjax("/config/addRegEx/");
 			});
+			
+			$(".editExpression").click(function() 
+			{
+				var id = $(this).parent().find("#selectorId").val();
+				
+				$("#selectedRegExSelectorId").val(id);
+				$("form:first").attr("action", "/config/updateRegExSelector");
+				$("form:first").submit();
+			});			
+			
 			
 		});
 		
@@ -93,6 +99,8 @@
 	
 	<form:form method="POST" action="/config/save" commandName="config"
 		class="formLayout">
+		
+		<form:hidden path="selectedRegExSelectorId"/>
 	
 	
 		<input type="hidden" id="tester" name="tester" value="tester value"/>
@@ -124,15 +132,18 @@
 			   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
 		   		</span>
 	   		</div>
+		</div>
+		<br>
 		
+		<div class="shadowBox">
 			<c:forEach items="${config.configVariables}" varStatus="i">
 				<form:label path="configVariables[${i.index}].name">Variable Name</form:label>
 				<form:input path="configVariables[${i.index}].name" style="width:350px"/>
 				<form:checkbox path="configVariables[${i.index}].required" label="Required"/>
 				<br>
 		    </c:forEach>
-		
 		</div>
+		
 		<br>
 		
 		<div class="shadowBox">
@@ -142,7 +153,9 @@
 			   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
 		   		</span>
 	   		</div>
+		</div>
 		
+		<div class="shadowBox">
 			<table style="width:100%">
 				<tr>
 					<td>Description</td>
@@ -154,15 +167,14 @@
 					<tr>
 					<td><c:out value="${selector.description}" /></td>
 					<td><c:out value="${selector.expression}" /></td>
-					<td><a href="#">edit</a></td>
+					<td><a href="#" class="editExpression">edit</a><input type="hidden" id="selectorId" value="${selector.id}" /></td>
 					</tr>
 			    </c:forEach>
-			    
 		    </table>
 		    
 		    <input type="button" value="Add Expression" id="addExpression" />
-			
-		</div>
+		</div>	
+		
 		
 		
 	

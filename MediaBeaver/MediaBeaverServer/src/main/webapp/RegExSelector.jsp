@@ -15,8 +15,15 @@
 		
 		$("#addVariable").click(function() 
 		{
+			addHide();
+			setTimeout(function(){}, 80);
+			
+			if(addError())
+				return; 
+			
 			addNewRegExVariable(this);
 			refreshTestResults();
+			clearTestFields();
 		});
 		
 		wireDeleteRegExVariableButton();
@@ -27,17 +34,26 @@
 		
 		$("#testButton").click(function() 
 		{
-			if(!testError())
-				postAjax("/regExSelector/test", JSON.stringify(getRegExSelector()), showTestResults, errorResponse);
+			testHide();
+			setTimeout(function(){}, 80);
+			
+			if(testError())
+				return;
+			
+			postAjax("/regExSelector/test", JSON.stringify(getRegExSelector()), showTestResults, errorResponse); 
 		});
 		
 		$("#saveExp").click(function() 
 		{
+			saveHide();
+			setTimeout(function(){}, 80);
+			
+			if(saveError())
+				return; 
+			
+			
 			$("form:first").attr("action", "/regExSelector/save");
 			$("form:first").submit();
-			
-			
-			//postAjax("/regExSelector/Save/");
 		});
 		
 	});
@@ -78,6 +94,14 @@
 		//$(caller).parent().before(html);
 		wireDeleteRegExVariableButton();
     }
+	
+	function clearTestFields()
+	{
+		$("#toAdd_ConfigVariable").val("");
+		$("#toAdd_GroupAssembly").val("");
+		$("#toAdd_ReplaceExpression").val("");
+		$("#toAdd_ReplaceWithCharacter").val("");
+	}
 	
 	function refreshTestResults() 
 	{ 
@@ -200,6 +224,61 @@
 	}
 	
 	
+	// Validation ///////////////////////////////////////////////////////////////////
+	
+	function saveError()
+	{
+		var error = false;
+		
+		if($("#description").validationEngine('validate'))
+			error= true;
+		
+		if($("#expression").validationEngine('validate'))
+			error= true;
+		
+		if(regExVariablesError())
+			error = true;
+		
+		return error;
+	}
+	
+	
+	function addError()
+	{
+		var error = false;
+		
+		if($("#toAdd_ConfigVariable").validationEngine('validate'))
+			error= true;
+		
+		if($("#toAdd_GroupAssembly").validationEngine('validate'))
+			error= true;
+		
+		return error;
+	}
+	
+	function saveHide()
+	{
+		$("#toAdd_ConfigVariable").validationEngine('hide');
+		$("#toAdd_GroupAssembly").validationEngine('hide');
+		$("#testResults_FileName").validationEngine('hide');
+	}
+	
+	
+	function addHide()
+	{
+		$("#description").validationEngine('hide');
+		$("#expression").validationEngine('hide');
+		$("#testResults_FileName").validationEngine('hide');
+		regExVariablesHide();
+	}
+	
+	function testHide()
+	{
+		$("#description").validationEngine('hide');
+		$("#toAdd_ConfigVariable").validationEngine('hide');
+		$("#toAdd_GroupAssembly").validationEngine('hide');
+	}
+	
 	function testError()
 	{
 		var error = false;
@@ -234,56 +313,16 @@
 		return error;
 	}
 	
-	
-	
-	
-	
-	
-	
-	// redudndant? /////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	function showErrors(errors)
+	function regExVariablesHide()
 	{
-		for(var i=0; i < errors.length; i++)
-    	{
-			var field = "#" + errors[i].field.replace(".", "\\.");
-			
-			$(field).css("border", "solid 1px red");
-			$(field + "_error").children(":first").html(errors[i].message);
-			$(field + "_error").fadeIn(400);
-		}
-	}
-	
-	function resetErrors()
-	{
-		$("#expression").css("border", "");
-		$("#nameParser\\.assembledItem").css("border", "");
-		$("#yearParser\\.assembledItem").css("border", "");
-		$("#testFileName").css("border", "");
-		$("#expression_error").fadeOut(400);
-		$("#nameParser\\.assembledItem_error").fadeOut(400);
-		$("#yearParser\\.assembledItem_error").fadeOut(400);
-		$("#testFileName_error").fadeOut(400);
-	}
-	
-	
-	function getModel()
-	{
-		var np = {"assembledItem": $("#nameParser\\.assembledItem").val(), "recursiveRegEx": $("#nameParser\\.recursiveRegEx").val()};
-		var yp = {"assembledItem": $("#yearParser\\.assembledItem").val(), "recursiveRegEx": $("#yearParser\\.recursiveRegEx").val()};	
-		var model = 
+		var vars = $("#variablesContainer").find(".shadowBox");
+		for (var i = 0; i < vars.length; i++) 
 		{
-			"id": $("#id").val(), 
-			"expression": $("#expression").val(),
-			"nameParser":  np, 
-			"yearParser": yp,
-			"testFileName": $("#testFileName").val(),
-			"generatedName": $("#generatedName").val(),
-			"generatedYear": $("#generatedYear").val()
-		};
-		
-		return JSON.stringify(model);
+			var idx = $(vars[i]).find(".variableIndex").val();
+			
+			$("#variables"+idx+"\\.configVariable").validationEngine('hide');
+			$("#variables"+idx+"\\.groupAssembly").validationEngine('hide');
+		}
 	}
 	
 </script>

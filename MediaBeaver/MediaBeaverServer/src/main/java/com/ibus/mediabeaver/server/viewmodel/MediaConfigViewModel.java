@@ -187,7 +187,6 @@ public class MediaConfigViewModel extends ViewModel
 		this.selectedRegExSelectorId = selectedRegExSelectorId;
 	}
 
-	
 	public RegExSelectorViewModel getRegExSelector(String id)
 	{
 		for(RegExSelectorViewModel s : regExSelectors)
@@ -211,8 +210,40 @@ public class MediaConfigViewModel extends ViewModel
 	} 
 	
 	
+	public void addOrUpdateRegExSelector(RegExSelectorViewModel selector)
+	{
+		if(selector.getId() != null && selector.getId().length() > 0)
+		{
+			int foundIndex = -1;
+			for(RegExSelectorViewModel s : regExSelectors)
+			{
+				if(s.getId().equals(selector.getId()))
+				{
+					foundIndex = regExSelectors.indexOf(s);
+				}
+			}
+			
+			if(foundIndex > -1)
+			{
+				regExSelectors.set(foundIndex, selector);
+				return;
+			}
+		}
+		
+		regExSelectors.add(selector);
+	}
 	
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

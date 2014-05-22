@@ -38,29 +38,25 @@ public class AppConfigController
 		return vm;
 	}
 	
+	@ModelAttribute("actions")
+	public TransformAction[] getActions()
+	{
+		return TransformAction.values();
+	}
 	
+	@RequestMapping(method = RequestMethod.GET)
+	public String config(HttpServletRequest request)
+	{
+		return "AppConfig";
+	}
 	
 	
 	@RequestMapping(value = "/addRegExSelector", method = RequestMethod.POST)
 	public String addRegExSelector(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result, 
 			HttpServletRequest request,  SessionStatus sessionStatus, RedirectAttributes ra)
 	{
-		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
-		
-		/*MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
-		sessionStatus.setComplete();*/
-		//request.getSession().setAttribute("MediaConfigViewModelModel", config);
-
 		return "redirect:/regExSelector";
 	}
-	
-	
-	/*@RequestMapping(value = "/updateRegExSelector", method = RequestMethod.POST)
-	public @ResponseBody MediaConfigViewModel updateRegExSelector(@Valid @RequestBody MediaConfigViewModel model, BindingResult result,HttpServletRequest request)
-	{
-		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
-		return model;
-	}*/
 	
 	
 	
@@ -81,31 +77,6 @@ public class AppConfigController
 	
 	
 	
-	
-	@ModelAttribute("actions")
-	public TransformAction[] getActions()
-	{
-		return TransformAction.values();
-	}
-	
-	
-
-	@RequestMapping(method = RequestMethod.GET)
-	public String config(HttpServletRequest request)
-	{
-		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
-		
-		return "AppConfig";
-	}
-	
-	
-	/*
-	@RequestMapping(value = "/updateRegExSelector", method = RequestMethod.POST)
-	public @ResponseBody MediaConfigViewModel updateRegExSelector(@Valid @RequestBody MediaConfigViewModel model, BindingResult result,HttpServletRequest request)
-	{
-		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
-		return model;
-	}*/	
 	
 	
 	

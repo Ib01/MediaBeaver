@@ -60,5 +60,3 @@ function getAjax(url, data, successMethod)
 
 
 
-
-

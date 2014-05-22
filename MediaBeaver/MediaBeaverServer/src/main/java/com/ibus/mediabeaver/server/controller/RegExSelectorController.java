@@ -7,12 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.AutoPopulatingList;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,11 +32,31 @@ import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExVariableViewModel;
 
+/**
+ * @author ikr
+ *
+ *TODO:
+ *
+ *1) REMOVE TO_ADD REG EX FIELDS AND SIMPLY ADD A BUTTON WHICH WILL ADD A NEW REG EX.
+ *2) INSTEAD OF HAVING TEST RESULTS FIELDS SIMPLY HAVE A TEXT AREA WHICH SHOWS THE RESULTS WITH SOMETHING LIKE:
+ *
+ * -- 
+ *Test failed: no match for expression found in specified file name
+ *...
+ *
+ *-- 
+ *Test succeeded: a match for expression was found in specified file name
+ *
+ *the following variables were populated from groups found: 
+ *name: ...
+ *year: ...
+ */
 @Controller
 @RequestMapping(value = "/regExSelector")
 @SessionAttributes({"configVariables"})
 public class RegExSelectorController
 {
+	
 	@InitBinder
 	public void initBinder(WebDataBinder binder, HttpServletRequest request)
 	{
@@ -56,7 +78,7 @@ public class RegExSelectorController
 	
 
 	@RequestMapping
-	public ModelAndView addSelector(HttpServletRequest request, SessionStatus sessionStatus)
+	public ModelAndView addOrUpdateSelector(HttpServletRequest request, SessionStatus sessionStatus)
 	{
 		//Clear session so to ensure that getModel is called.
 		//sessionStatus.setComplete();
@@ -78,34 +100,26 @@ public class RegExSelectorController
 		
 		return vm;*/
 	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public String editConfig(@PathVariable int configId, Model model)
+	{
+	}
+	
+	
+	
 
 	//@ModelAttribute("regExSelector") cannot use because system does merge with session state data very stupidly
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ModelAndView saveSelector(RegExSelectorViewModel selector, BindingResult result, 
+	public String saveSelector(RegExSelectorViewModel selector, BindingResult result, 
 			HttpServletRequest request,  SessionStatus sessionStatus, RedirectAttributes ra)
 	{
 		removeNullRegExVariables(selector.getVariables());
 		
-		ModelAndView model = new ModelAndView("RegExSelector");
-		model.addObject("regExSelector", selector);
+		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
+		c.addOrUpdateRegExSelector(selector);
 		
-		return model;
-		
-		
-		/*RegExSelectorViewModel s23 = (RegExSelectorViewModel) request.getSession().getAttribute("regExSelector");
-		
-		//selector.setExpression("changed");
-		
-		//completely ovride the stored object.
-		request.getSession().setAttribute("regExSelector", selector);
-
-		RegExSelectorViewModel ddd = (RegExSelectorViewModel) request.getSession().getAttribute("regExSelector");
-		
-		ModelAndView model = new ModelAndView("RegExSelector");
-		model.addObject("regExSelector", selector);
-		
-		return model;*/
-		//return "RegExSelector";
+		return "redirect:/config";
 	}
 	
 	
@@ -116,14 +130,17 @@ public class RegExSelectorController
 		RegExHelper regExHelper = new RegExHelper();
 		List<String> captures = regExHelper.captureStrings(selector.getExpression(), selector.getTestFileName());
 		
-		for(RegExVariableViewModel regExVar :  selector.getVariables())
+		if(captures.size() > 0)
 		{
-			String cleanedVar = regExHelper.assembleRegExVariable(captures, regExVar.getGroupAssembly());
-			
-			if(regExVar.getReplaceExpression() != null && regExVar.getReplaceExpression().length() > 0)
-				cleanedVar = regExHelper.cleanString(cleanedVar, regExVar.getReplaceExpression(), regExVar.getReplaceWithCharacter());
-			
-			selector.getTestVariables().add(new ConfigVariableViewModel(regExVar.getSelectedConfigVariable(), cleanedVar));
+			for(RegExVariableViewModel regExVar :  selector.getVariables())
+			{
+				String cleanedVar = regExHelper.assembleRegExVariable(captures, regExVar.getGroupAssembly());
+				
+				if(regExVar.getReplaceExpression() != null && regExVar.getReplaceExpression().length() > 0)
+					cleanedVar = regExHelper.cleanString(cleanedVar, regExVar.getReplaceExpression(), regExVar.getReplaceWithCharacter());
+				
+				selector.getTestVariables().add(new ConfigVariableViewModel(regExVar.getSelectedConfigVariable(), cleanedVar));
+			}
 		}
 		
 		return selector;
