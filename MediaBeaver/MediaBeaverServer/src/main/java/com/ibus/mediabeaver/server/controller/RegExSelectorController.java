@@ -66,7 +66,6 @@ public class RegExSelectorController
 		binder.registerCustomEditor(
 				ConfigVariableViewModel.class, new ConfigVariableViewModelEditor(c.getConfigVariables())
 		);
-		
 	}
 	
 	@ModelAttribute("configVariables")
@@ -75,49 +74,38 @@ public class RegExSelectorController
 		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
 		return c.getConfigVariables();
 	}
-	
 
 	@RequestMapping
-	public ModelAndView addOrUpdateSelector(HttpServletRequest request, SessionStatus sessionStatus)
+	public ModelAndView addSelector(HttpServletRequest request, SessionStatus sessionStatus)
 	{
-		//Clear session so to ensure that getModel is called.
-		//sessionStatus.setComplete();
-		
+		return new ModelAndView("RegExSelector","regExSelector", new RegExSelectorViewModel());
+	}
+	
+	@RequestMapping(value = "/{index}")
+	public ModelAndView editSelector(@PathVariable int index, HttpServletRequest request)
+	{
 		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
-		RegExSelectorViewModel sel =  c.getRegExSelectors().iterator().next();
 		
-		ModelAndView model = new ModelAndView("RegExSelector");
-		return model.addObject("regExSelector", sel);
-		
-		/*RegExSelectorViewModel vm = new RegExSelectorViewModel();
-		
-		String id = request.getParameter("id");
-		if(id != null && id.length() > 0)
-		{
-			MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
-			vm = c.getRegExSelector(id);
+		RegExSelectorViewModel sel = new RegExSelectorViewModel();
+		if(index >= 0 && index < c.getRegExSelectors().size()){
+			sel = c.getRegExSelectors().get(index);
+			sel.setIndex(index);
 		}
-		
-		return vm;*/
+		return new ModelAndView("RegExSelector","regExSelector", sel);
 	}
-	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String editConfig(@PathVariable int configId, Model model)
-	{
-	}
-	
-	
 	
 
 	//@ModelAttribute("regExSelector") cannot use because system does merge with session state data very stupidly
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String saveSelector(RegExSelectorViewModel selector, BindingResult result, 
-			HttpServletRequest request,  SessionStatus sessionStatus, RedirectAttributes ra)
+	public String saveSelector(RegExSelectorViewModel selector, BindingResult result, HttpServletRequest request)
 	{
 		removeNullRegExVariables(selector.getVariables());
 		
 		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
-		c.addOrUpdateRegExSelector(selector);
+		if(selector.getIndex() > -1)
+			c.getRegExSelectors().set(selector.getIndex(), selector);
+		else
+			c.getRegExSelectors().add(selector);
 		
 		return "redirect:/config";
 	}
@@ -147,14 +135,6 @@ public class RegExSelectorController
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	//a hack to deal with the ridiculous dynamic list problem.
 	private void removeNullRegExVariables(List<RegExVariableViewModel> variables)
 	{
@@ -174,7 +154,9 @@ public class RegExSelectorController
 	
 
 	/*
-
+	, SessionStatus sessionStatus
+	
+	
 	@RequestMapping(value = "/Test", method = RequestMethod.POST)
 	public @ResponseBody MovieRegEx testRegEx(@Valid @RequestBody MovieRegEx model,
 			BindingResult result)

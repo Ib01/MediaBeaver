@@ -28,7 +28,7 @@ public class MediaConfigViewModel extends ViewModel
 	private String destinationRoot;
 	private String relativeDestinationPath;
 	
-	private String selectedRegExSelectorId;
+	private int selectedRegExSelectorIndex;
 
 	public String getDescription()
 	{
@@ -177,17 +177,17 @@ public class MediaConfigViewModel extends ViewModel
 		this.destinationRoot = destinationRoot;
 	}
 
-	public String getSelectedRegExSelectorId()
+	public int getSelectedRegExSelectorIndex()
 	{
-		return selectedRegExSelectorId;
+		return selectedRegExSelectorIndex;
 	}
 
-	public void setSelectedRegExSelectorId(String selectedRegExSelectorId)
+	public void setSelectedRegExSelectorIndex(int selectedRegExSelectorIndex)
 	{
-		this.selectedRegExSelectorId = selectedRegExSelectorId;
+		this.selectedRegExSelectorIndex = selectedRegExSelectorIndex;
 	}
 
-	public RegExSelectorViewModel getRegExSelector(String id)
+	/*public RegExSelectorViewModel getRegExSelector(int index)
 	{
 		for(RegExSelectorViewModel s : regExSelectors)
 		{
@@ -196,7 +196,7 @@ public class MediaConfigViewModel extends ViewModel
 		}
 		
 		return null;
-	}
+	}*/
 	
 	public ConfigVariableViewModel getConfigVariable(String configName)
 	{
@@ -210,28 +210,21 @@ public class MediaConfigViewModel extends ViewModel
 	} 
 	
 	
-	public void addOrUpdateRegExSelector(RegExSelectorViewModel selector)
+	/*public boolean updateRegExSelector(RegExSelectorViewModel selector)
 	{
-		if(selector.getId() != null && selector.getId().length() > 0)
+		if(selector != null &&selector.getId() != null && selector.getId().length() > 0)
 		{
-			int foundIndex = -1;
 			for(RegExSelectorViewModel s : regExSelectors)
 			{
 				if(s.getId().equals(selector.getId()))
 				{
-					foundIndex = regExSelectors.indexOf(s);
+					regExSelectors.set(regExSelectors.indexOf(s), selector);
+					return true;
 				}
 			}
-			
-			if(foundIndex > -1)
-			{
-				regExSelectors.set(foundIndex, selector);
-				return;
-			}
 		}
-		
-		regExSelectors.add(selector);
-	}
+		return false;
+	}*/
 	
 }
 

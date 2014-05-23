@@ -6,7 +6,7 @@ import java.util.Date;
 public class ViewModel implements Serializable
 {
 	private String id;
-	private int version = 0;
+	//private int version = 0;
 	private Date lastUpdate;
 
 	public String getId()
@@ -19,7 +19,7 @@ public class ViewModel implements Serializable
 		this.id = id;
 	}
 
-	public int getVersion()
+	/*public int getVersion()
 	{
 		return version;
 	}
@@ -27,7 +27,7 @@ public class ViewModel implements Serializable
 	public void setVersion(int version)
 	{
 		this.version = version;
-	}
+	}*/
 
 	public Date getLastUpdate()
 	{

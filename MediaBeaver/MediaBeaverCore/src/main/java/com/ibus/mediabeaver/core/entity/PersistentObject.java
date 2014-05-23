@@ -20,10 +20,10 @@ public abstract class PersistentObject implements Serializable, Persistable
 	@Column(updatable = false, nullable = false)
 	private String id = IdGenerator.createId();
 
-	
+	/*
 	@Version
 	@Column(name = "version")
-	private int version = 0;
+	private int version = 0;*/
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column()
@@ -32,7 +32,7 @@ public abstract class PersistentObject implements Serializable, Persistable
 	protected void copy(final PersistentObject source)
 	{
 		this.id = source.id;
-		this.version = source.version;
+		//this.version = source.version;
 		this.lastUpdate = source.lastUpdate;
 	}
 
@@ -41,22 +41,21 @@ public abstract class PersistentObject implements Serializable, Persistable
 		return this.id;
 	}
 
-	@SuppressWarnings("unused")
 	public void setId(String id)
 	{
-		this.id = id;
+		if(id != null && id.length() > 0)
+			this.id = id;
 	}
 
-	public int getVersion()
+	/*public int getVersion()
 	{
 		return this.version;
 	}
 
-	@SuppressWarnings("unused")
-	private void setVersion(final int version)
+	public void setVersion(final int version)
 	{
 		this.version = version;
-	}
+	}*/
 
 	public Date getLastUpdate()
 	{

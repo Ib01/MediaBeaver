@@ -48,8 +48,15 @@ public abstract class Repository
 		return obj.getId();
 	}
 	
+	public static <T extends Persistable> String mergeEntity(T obj)
+	{
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		s.merge(obj);
+		return obj.getId();
+	}
 	
-	public static <T extends Persistable> String addEntity(T item) 
+	
+	public static <T extends Persistable> String saveEntity(T item) 
 	{
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		s.save(item);

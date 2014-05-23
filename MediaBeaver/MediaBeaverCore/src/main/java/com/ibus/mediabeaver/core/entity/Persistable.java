@@ -5,6 +5,6 @@ import java.util.Date;
 public interface Persistable 
 {
 	public String getId();
-	public int getVersion();
+	//public int getVersion();
 	public Date getLastUpdate();
 }

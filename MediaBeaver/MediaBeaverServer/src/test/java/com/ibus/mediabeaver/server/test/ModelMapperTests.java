@@ -89,7 +89,7 @@ public class ModelMapperTests
 	
 	
 	@Test
-	public void maUpdateAndSaveTest()
+	public void mapChangeAndSaveTest()
 	{
 		ModelMapper modelMapper = Mapper.getMapper();
 
@@ -119,6 +119,48 @@ public class ModelMapperTests
 		
 		
 	}
+	
+	
+	@Test
+	public void saveMapAndUpdateMediaConfigTest()
+	{
+		ModelMapper modelMapper = Mapper.getMapper();
+		
+		//add mc
+		StartTransaction();
+		
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		MediaConfig c = TestHelper.getMediaConfigFullGraph();
+		s.save(c);
+		
+		MediaConfigViewModel vm = modelMapper.map(c, MediaConfigViewModel.class);
+		EndTransaction();
+		
+		
+		//change c in another transaction and update
+		StartTransaction();
+		s = HibernateUtil.getSessionFactory().getCurrentSession();
+		
+		MediaConfig c2 = modelMapper.map(vm, MediaConfig.class);
+		c2.setDescription("adf");
+		s.update(c2);
+		String id = c2.getId();
+		
+		EndTransaction();
+		
+		
+		//check update
+		StartTransaction();
+		
+		MediaConfig c3 = Repository.getEntity(MediaConfig.class, id);
+		assert(c3.getDescription().equals("adf"));
+		
+		EndTransaction();
+		
+		
+		
+	}
+	
 	
 	
 	

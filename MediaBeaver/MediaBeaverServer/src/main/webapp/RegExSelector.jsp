@@ -382,6 +382,7 @@
 
 <form:form method="POST" action="/regExSelector/save" commandName="regExSelector" class="formLayout">
    
+   <form:hidden path="index"/>
    <form:hidden path="id"/>
    <form:hidden path="version"/>
    <form:hidden path="lastUpdate" />

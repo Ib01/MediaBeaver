@@ -2,6 +2,8 @@ package com.ibus.mediabeaver.server.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.TransformAction;
@@ -30,11 +33,22 @@ public class AppConfigController
 	@ModelAttribute("config")
 	public MediaConfigViewModel getInitialMediaConfigViewModel(HttpServletRequest request)
 	{
-		String id = request.getParameter("id");
+		/*String id = request.getParameter("id");
+		
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction tx = s.beginTransaction();
+		
+		MediaConfig mc = Repository.getAllMediaConfig().get(0);
+
+		tx.commit();
+		
+		MediaConfigViewModel vm = Mapper.getMapper().map(mc, MediaConfigViewModel.class);
+						
+		return vm;*/
+		
 		
 		MediaConfig mc = Repository.getAllMediaConfig().get(0);
 		MediaConfigViewModel vm = Mapper.getMapper().map(mc, MediaConfigViewModel.class);
-		
 		return vm;
 	}
 	
@@ -44,69 +58,73 @@ public class AppConfigController
 		return TransformAction.values();
 	}
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public String config(HttpServletRequest request)
+	@RequestMapping
+	public String addConfig(HttpServletRequest request)
 	{
 		return "AppConfig";
 	}
 	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public String editConfig(@PathVariable int id, Model model)
+	{
+		return "AppConfig";
+	}
 	
 	@RequestMapping(value = "/addRegExSelector", method = RequestMethod.POST)
-	public String addRegExSelector(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result, 
-			HttpServletRequest request,  SessionStatus sessionStatus, RedirectAttributes ra)
+	public String addRegExSelector(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result)
 	{
 		return "redirect:/regExSelector";
 	}
 	
-	
-	
 	@RequestMapping(value = "/updateRegExSelector", method = RequestMethod.POST)
-	public String updateRegExSelector(@Validated @ModelAttribute("config") MediaConfigViewModel config, 
-			BindingResult result, Model model, HttpServletRequest request,  SessionStatus sessionStatus)
+	public String updateRegExSelector(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result)
 	{
-		
-		
-		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
-		
-		/*MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
-		sessionStatus.setComplete();*/
-		//request.getSession().setAttribute("MediaConfigViewModelModel", config);
-
-		return "redirect:/regExSelector/";
+		int index = config.getSelectedRegExSelectorIndex();
+		return "redirect:/regExSelector/" + Integer.toString(index);
 	}	
 	
-	
-	
-	
-	
-	
-
-	@RequestMapping(value = "/{configId}", method = RequestMethod.GET)
-	public String editConfig(@PathVariable int configId, Model model)
+	@RequestMapping(value = "/deleteRegExSelector", method = RequestMethod.POST)
+	public String deleteRegExSelector(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result)
 	{
+		int index = config.getSelectedRegExSelectorIndex();
+		config.getRegExSelectors().remove(index);
+		
 		return "AppConfig";
-
-		/*
-		 * Owner owner = ownerService.findOwner(ownerId);
-		 * model.addAttribute("owner", owner); return "displayOwner";
-		 * 
-		 * 
-		 * UriComponents uriComponents = UriComponentsBuilder.fromUriString(
-		 * "http://example.com/hotels/{hotel}/bookings/{booking}").build();
-		 * 
-		 * URI uri = uriComponents.expand("42", "21").encode().toUri();
-		 */
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String saveConfig(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result, Model model, HttpServletRequest request,  SessionStatus sessionStatus)
 	{
-	
 		
-		/*MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
-		sessionStatus.setComplete();*/
-		//request.getSession().setAttribute("MediaConfigViewModelModel", config);
+		/*Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction tx = s.beginTransaction();
+		
+		MediaConfig mc = Repository.getAllMediaConfig().get(0);
 
+		tx.commit();
+
+		
+		MediaConfigViewModel vm = Mapper.getMapper().map(mc, MediaConfigViewModel.class);
+		MediaConfig mc2 = Mapper.getMapper().map(vm, MediaConfig.class);
+		mc2.setDescription("adfaf");
+		
+		
+		s = HibernateUtil.getSessionFactory().getCurrentSession();
+		tx = s.beginTransaction();
+		
+		Repository.updateEntity(mc2);
+		
+		tx.commit();
+
+		*/
+		
+		//MediaConfig mc1 = Repository.getAllMediaConfig().get(0);
+		
+		MediaConfig mc = Mapper.getMapper().map(config, MediaConfig.class);
+		Repository.updateEntity(mc);
+		
+		//config.setVersion(config.getVersion() + 1);
+		
 		return "AppConfig";
 	}
 

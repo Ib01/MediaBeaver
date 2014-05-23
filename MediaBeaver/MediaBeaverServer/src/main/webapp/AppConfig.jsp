@@ -11,21 +11,34 @@
 		{	
 			$("#addExpression").click(function() 
 			{
-				$("form:first").attr("action", "/config/addRegExSelector");
-				$("form:first").submit();
+				submitRegExSelectorChange("/config/addRegExSelector", this);
+			});
+			
+			$(".deleteExpression").click(function() 
+			{
+				//alert("d");
+				submitRegExSelectorChange("/config/deleteRegExSelector", this);
 			});
 			
 			$(".editExpression").click(function() 
 			{
-				var id = $(this).parent().find("#selectorId").val();
-				
-				$("#selectedRegExSelectorId").val(id);
-				$("form:first").attr("action", "/config/updateRegExSelector");
-				$("form:first").submit();
+				submitRegExSelectorChange("/config/updateRegExSelector", this);
 			});			
 			
 			
 		});
+		
+		
+		function submitRegExSelectorChange(url, caller)
+		{
+			var id = $(caller).parent().find("#selectorIndex").val();
+			$("#selectedRegExSelectorIndex").val(id);
+			
+			$("form:first").attr("action", url);
+			$("form:first").submit();
+		}
+		
+		
 		
 		function getModel()
 		{
@@ -100,7 +113,7 @@
 	<form:form method="POST" action="/config/save" commandName="config"
 		class="formLayout">
 		
-		<form:hidden path="selectedRegExSelectorId"/>
+		<form:hidden path="selectedRegExSelectorIndex"/>
 	
 	
 		<input type="hidden" id="tester" name="tester" value="tester value"/>
@@ -163,11 +176,12 @@
 					<td></td>
 				</tr>
 			
-				<c:forEach items="${config.regExSelectors}" var="selector" >
+				<c:forEach items="${config.regExSelectors}" var="selector" varStatus="i">
 					<tr>
 					<td><c:out value="${selector.description}" /></td>
 					<td><c:out value="${selector.expression}" /></td>
-					<td><a href="#" class="editExpression">edit</a><input type="hidden" id="selectorId" value="${selector.id}" /></td>
+					<td><a href="#" class="editExpression">edit</a>
+					<a href="#" class="deleteExpression">delete</a><input type="hidden" id="selectorIndex" value="${i.index}" /></td>
 					</tr>
 			    </c:forEach>
 		    </table>

@@ -79,6 +79,57 @@ public class RepositoryTests
 	}
 	
 	
+	@Test
+	public void updateMediaconfigTest()
+	{
+		//add mc
+		StartTransaction();
+		
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		MediaConfig c = TestHelper.getMediaConfigFullGraph();
+		s.save(c);
+		
+		EndTransaction();
+		
+		
+		//change c in another transaction and update
+		StartTransaction();
+		
+		s = HibernateUtil.getSessionFactory().getCurrentSession();
+		c.setDescription("adf");
+		s.update(c);
+		String id = c.getId();
+		
+		EndTransaction();
+		
+		
+		//check update
+		StartTransaction();
+		
+		MediaConfig c2 = Repository.getEntity(MediaConfig.class, id);
+		TestHelper.mediaConfigsFullGraphEqual(c, c2);
+		assert(c2.getDescription().equals("adf"));
+		
+		EndTransaction();
+		
+		
+		
+	}
+	
+	
+	
 	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
