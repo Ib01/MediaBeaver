@@ -108,18 +108,21 @@
 		
 	</script>
 	
-	<h2>Media Item Configuration</h2>
-	
 	<form:form method="POST" action="/config/save" commandName="config"
 		class="formLayout">
 		
 		<form:hidden path="selectedRegExSelectorIndex"/>
-	
-	
-		<input type="hidden" id="tester" name="tester" value="tester value"/>
-	
 		<form:hidden path="id"/>
 	
+		<div class="shadowBox">
+			<div class="shadowBoxHeader">Details 
+		   		<span style="float: right;" class="shadowBoxHelp">
+			   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
+			   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
+		   		</span>
+	   		</div>
+		</div>
+		<br>
 		<div class="shadowBox">
 			<form:label path="description">Description</form:label>
 			<form:input path="description" style="width: 550px" />
@@ -131,15 +134,12 @@
 			</form:select>
 			<br>
 			
-			<form:label path="sourceDirectory">Source Directory</form:label>
-			<form:input path="sourceDirectory" style="width: 550px" />
-			<br>
-			
 		</div>
 		<br>
 		
+		
 		<div class="shadowBox">
-			<div class="shadowBoxHeader">Configuration Variables 
+			<div class="shadowBoxHeader">Variables 
 		   		<span style="float: right;" class="shadowBoxHelp">
 			   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
 			   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
@@ -147,28 +147,31 @@
 	   		</div>
 		</div>
 		<br>
-		
 		<div class="shadowBox">
 			<c:forEach items="${config.configVariables}" varStatus="i">
 				<form:label path="configVariables[${i.index}].name">Variable Name</form:label>
 				<form:input path="configVariables[${i.index}].name" style="width:350px"/>
-				<form:checkbox path="configVariables[${i.index}].required" label="Required"/>
+				<form:checkbox path="configVariables[${i.index}].required" style="margin-left: 10px; float:left"/> 
+				<form:label path="configVariables[${i.index}].required" style="float:left">Required</form:label>
 				<br>
 		    </c:forEach>
 		</div>
-		
 		<br>
 		
+		
 		<div class="shadowBox">
-			<div class="shadowBoxHeader">Regular Expression Selectors 
+			<div class="shadowBoxHeader">Selectors 
 		   		<span style="float: right;" class="shadowBoxHelp">
 			   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
 			   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
 		   		</span>
 	   		</div>
 		</div>
+		<br>
 		
 		<div class="shadowBox">
+			<p>Regular Expression Selectors</p>
+			<hr>
 			<table style="width:100%">
 				<tr>
 					<td>Description</td>
@@ -188,15 +191,66 @@
 		    
 		    <input type="button" value="Add Expression" id="addExpression" />
 		</div>	
+		<br>
 		
-		
-		
+		<div class="shadowBox">
+			<p>Open Subtitles Selector</p>
+			<hr>
+		</div>	
+		<br>
+	
+		<div class="shadowBox">
+			<p>Generic Selectors</p>
+			<hr>
+			<form:label path="extensionsSelector">Extensions</form:label>
+			<form:textarea path="extensionsSelector" rows="3" cols="100"/>
+			<br>
+
+			<form:label path="selectAllFiles">All files</form:label>
+			<form:checkbox path="selectAllFiles" />
+			<br>
+			
+			<form:label path="selectAllFolders">All folders</form:label>
+			<form:checkbox path="selectAllFolders" />
+			<br>
+			
+			<form:label path="selectAllEmptyFolders">Empty folders</form:label>
+			<form:checkbox path="selectAllEmptyFolders" />
+			<br>
+		</div>	
+		<br>
 	
 	
+		<div class="shadowBox">
+			<div class="shadowBoxHeader">Paths 
+		   		<span style="float: right;" class="shadowBoxHelp">
+			   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
+			   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
+		   		</span>
+	   		</div>
+		</div>
 		<br>
+		
+	
+		<div class="shadowBox">
+			<form:label path="sourceDirectory">Source Directory</form:label>
+			<form:input path="sourceDirectory" style="width: 550px" />
+			<br>
+		
+			<form:label path="destinationRoot">Destination Root</form:label>
+			<form:input path="destinationRoot" style="width: 550px" />
+			<br>
+		
+			<form:label path="relativeDestinationPath">Destination Path</form:label>
+			<form:input path="relativeDestinationPath" style="width: 550px" />
+			<br>
+		
+		</div>	
 		<br>
+	
 		<br>
-		<input type="submit" value="Submit" />
+		<input type="submit" value="Save" />
+		
 	</form:form>
 	
 	

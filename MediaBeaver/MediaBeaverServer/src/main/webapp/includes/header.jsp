@@ -1,3 +1,6 @@
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <html>
 <head>
     <title>Spring MVC Form Handling</title>
@@ -20,8 +23,18 @@
 		
 	
 	<div id="bodyDiv"> 
-		<div id="headerDiv">Media Beaver</div>
+		<div id="headerDiv" >
+		Media Beaver
+		<div style="float:right; font-size: 24px; color: #FF8A00; padding-top: 13px"><a href="/config">${pageTitle}</a></div>
+		<div style="font-size: 18px;">
+		<a href="/config">Configuration</a> | <a href="/config">menu item 2</a>
+		</div>
+		</div>
+		
+		
 		<div id="contentDiv">
+		
+		
 		
 	
 	

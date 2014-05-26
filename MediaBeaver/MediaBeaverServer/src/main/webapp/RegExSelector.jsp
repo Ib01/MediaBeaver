@@ -196,10 +196,10 @@
 		{
 			var idx = $(vars[i]).find(".variableIndex").val();
 			
+			//"version":$("#variables"+idx+"\\.version").val(),
 			//note configVariable goes to selectedConfigVariable since we cannot get mapping functionality to work properly with ajax
 			var v = {
 				"id": $("#variables"+idx+"\\.id").val(),
-				"version":$("#variables"+idx+"\\.version").val(),
 				"lastUpdate":$("#variables"+idx+"\\.lastUpdate").val(),
 				"selectedConfigVariable":$("#variables"+idx+"\\.configVariable").val(),
 				"groupAssembly":$("#variables"+idx+"\\.groupAssembly").val(),
@@ -384,7 +384,7 @@
    
    <form:hidden path="index"/>
    <form:hidden path="id"/>
-   <form:hidden path="version"/>
+   <%-- <form:hidden path="version"/> --%>
    <form:hidden path="lastUpdate" />
    
    <div class="shadowBox" >
@@ -444,7 +444,7 @@
 		   	   <input type="hidden" value="${i.index}" class="variableIndex"> 
 		   	   
 			   <form:hidden path="variables[${i.index}].id"/>
-			   <form:hidden path="variables[${i.index}].version"/>
+			   <%-- <form:hidden path="variables[${i.index}].version"/> --%>
 			   <form:hidden path="variables[${i.index}].lastUpdate" />
 		   
 			   <div id="${i.index}" class="deleteRegExVariableButton" 
@@ -542,7 +542,8 @@
 	
 	<br/>
 	<br/>
-	<input type="button" value="Save" id="saveExp" />
+	<input type="button" value="Save" id="saveExp" style="width: 100" /><br/>
+	<input type="button" value="Cancel" onclick="window.location.replace('/config');" style="width: 100"/>
 	<br>
 	<br>
 	<br>

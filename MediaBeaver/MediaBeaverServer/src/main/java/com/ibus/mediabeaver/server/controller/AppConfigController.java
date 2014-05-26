@@ -58,6 +58,13 @@ public class AppConfigController
 		return TransformAction.values();
 	}
 	
+	@ModelAttribute("pageTitle")
+	public String getPageTitle()
+	{
+		return "Media Configuration Item";
+	}
+	
+	
 	@RequestMapping
 	public String addConfig(HttpServletRequest request)
 	{
