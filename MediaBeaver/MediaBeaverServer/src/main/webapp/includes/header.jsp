@@ -25,13 +25,9 @@
 	<div id="bodyDiv"> 
 		<div id="headerDiv" >
 		Media Beaver
-		<div style="float:right; font-size: 24px; color: #FF8A00; padding-top: 13px"><a href="/config">${pageTitle}</a></div>
-		<div style="font-size: 18px;">
-		<a href="/config">Configuration</a> | <a href="/config">menu item 2</a>
+		<div style="float:right; font-size: 20px; color: #FF8A00; padding-top: 18px">
+			<a href="/config">Configuration</a> | <a href="/config">menu item 2</a></div>
 		</div>
-		</div>
-		
-		
 		<div id="contentDiv">
 		
 		

@@ -108,6 +108,9 @@
 		
 	</script>
 	
+	
+	<h2>Media Configuration</h2>
+	
 	<form:form method="POST" action="/config/save" commandName="config"
 		class="formLayout">
 		
@@ -174,17 +177,19 @@
 			<hr>
 			<table style="width:100%">
 				<tr>
-					<td>Description</td>
-					<td>Expression</td>
-					<td></td>
+					<td align="left" width="350px" valign="top">Description</td>
+					<td align="left" width="350px" valign="top" style="margin-left: 100px;">Expression</td>
+					<td align="right" width="80px" valign="top">Action</td>
 				</tr>
 			
 				<c:forEach items="${config.regExSelectors}" var="selector" varStatus="i">
 					<tr>
-					<td><c:out value="${selector.description}" /></td>
-					<td><c:out value="${selector.expression}" /></td>
-					<td><a href="#" class="editExpression">edit</a>
-					<a href="#" class="deleteExpression">delete</a><input type="hidden" id="selectorIndex" value="${i.index}" /></td>
+						<td align="left" valign="top"><c:out value="${selector.description}" /></td>
+						<td align="left" valign="top" style="margin-left: 100px;"><c:out value="${selector.expression}" /></td>
+						<td align="right" valign="top">
+							<a href="#" class="editExpression">edit</a> | 
+							<a href="#" class="deleteExpression">delete</a><input type="hidden" id="selectorIndex" value="${i.index}" />
+						</td>
 					</tr>
 			    </c:forEach>
 		    </table>

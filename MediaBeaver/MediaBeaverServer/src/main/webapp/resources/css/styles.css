@@ -34,7 +34,7 @@ a:active {color:#FF8A00;text-decoration:none;}
 #headerDiv
 {
 	width: 100%;
-	height: 80px;
+	height: 50px;
 	background-image:url('/resources/images/pattern-dark.png');
 	background-repeat:repeat;
 	color: white;

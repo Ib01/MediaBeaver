@@ -196,7 +196,6 @@
 		{
 			var idx = $(vars[i]).find(".variableIndex").val();
 			
-			//"version":$("#variables"+idx+"\\.version").val(),
 			//note configVariable goes to selectedConfigVariable since we cannot get mapping functionality to work properly with ajax
 			var v = {
 				"id": $("#variables"+idx+"\\.id").val(),
@@ -374,10 +373,7 @@
 	</span>
 </script>
 
-<h2>Movie Expression Generator</h2>
-
-
-
+<h2>Regular Expression Selector</h2>
 
 
 <form:form method="POST" action="/regExSelector/save" commandName="regExSelector" class="formLayout">
