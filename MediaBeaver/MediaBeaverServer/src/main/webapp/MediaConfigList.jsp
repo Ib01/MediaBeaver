@@ -109,12 +109,19 @@
 	</script>
 	
 	
-	<h2>Media Configuration</h2>
+	<h2>Media Configuration Items</h2>
 	
-	<form:form method="POST" action="/config/save" commandName="config"
+	<form:form method="POST" action="/config/save" commandName="configList"
 		class="formLayout">
 		
-		<form:hidden path="selectedRegExSelectorIndex"/>
+		
+		<c:forEach items="${configList}" var="selector" varStatus="i">
+				<c:out value="${selector.description}" />	
+		</c:forEach>
+		
+		
+		
+		<%-- <form:hidden path="selectedRegExSelectorIndex"/>
 		<form:hidden path="id"/>
 	
 		<div class="shadowBox">
@@ -253,10 +260,10 @@
 		</div>	
 		<br>
 	
-		<br>
+		<br> --%>
 		<input type="submit" value="Save" />
 		
-	</form:form>
+	</form:form> 
 	
 	
 	<%-- ${config.name} --%>

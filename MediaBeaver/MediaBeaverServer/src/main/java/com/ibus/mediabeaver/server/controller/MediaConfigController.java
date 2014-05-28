@@ -28,7 +28,7 @@ import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 @Controller
 @RequestMapping(value = "/config")
 @SessionAttributes({"config"})
-public class AppConfigController
+public class MediaConfigController
 {
 	@ModelAttribute("config")
 	public MediaConfigViewModel getInitialMediaConfigViewModel(HttpServletRequest request)
@@ -68,13 +68,13 @@ public class AppConfigController
 	@RequestMapping
 	public String addConfig(HttpServletRequest request)
 	{
-		return "AppConfig";
+		return "MediaConfig";
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String editConfig(@PathVariable int id, Model model)
 	{
-		return "AppConfig";
+		return "MediaConfig";
 	}
 	
 	@RequestMapping(value = "/addRegExSelector", method = RequestMethod.POST)
@@ -96,7 +96,7 @@ public class AppConfigController
 		int index = config.getSelectedRegExSelectorIndex();
 		config.getRegExSelectors().remove(index);
 		
-		return "AppConfig";
+		return "MediaConfig";
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -132,7 +132,7 @@ public class AppConfigController
 		
 		//config.setVersion(config.getVersion() + 1);
 		
-		return "AppConfig";
+		return "MediaConfig";
 	}
 
 	

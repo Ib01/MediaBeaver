@@ -2,6 +2,9 @@ package com.ibus.mediabeaver.server.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
@@ -159,6 +162,23 @@ public class ModelMapperTests
 		
 		
 		
+	}
+	
+	@Test
+	public void saveMapListsTest()
+	{
+		List<MediaConfig> objL = new ArrayList<MediaConfig>();
+		MediaConfig mc1 = TestHelper.getMediaConfigFullGraph();
+		MediaConfig mc2 = TestHelper.getMediaConfigFullGraph();
+		objL.add(mc1);
+		objL.add(mc2);
+		
+		List<MediaConfigViewModel> vmL = new ArrayList<MediaConfigViewModel>();
+		
+		ModelMapper modelMapper = Mapper.getMapper();
+		modelMapper.map(objL,vmL);
+		
+		assert(vmL.size() ==2);
 	}
 	
 	
