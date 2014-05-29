@@ -33,23 +33,15 @@ public class MediaConfigController
 	@ModelAttribute("config")
 	public MediaConfigViewModel getInitialMediaConfigViewModel(HttpServletRequest request)
 	{
-		/*String id = request.getParameter("id");
+		String id = request.getParameter("id");
+		if(id != null && id.length() > 0)
+		{
+			MediaConfig mc = Repository.getEntity(MediaConfig.class, id);
+			MediaConfigViewModel vm = Mapper.getMapper().map(mc, MediaConfigViewModel.class);
+			return vm;
+		}
 		
-		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction tx = s.beginTransaction();
-		
-		MediaConfig mc = Repository.getAllMediaConfig().get(0);
-
-		tx.commit();
-		
-		MediaConfigViewModel vm = Mapper.getMapper().map(mc, MediaConfigViewModel.class);
-						
-		return vm;*/
-		
-		
-		MediaConfig mc = Repository.getAllMediaConfig().get(0);
-		MediaConfigViewModel vm = Mapper.getMapper().map(mc, MediaConfigViewModel.class);
-		return vm;
+		return new MediaConfigViewModel();
 	}
 	
 	@ModelAttribute("actions")
@@ -66,16 +58,11 @@ public class MediaConfigController
 	
 	
 	@RequestMapping
-	public String addConfig(HttpServletRequest request)
+	public String updateConfig(HttpServletRequest request)
 	{
 		return "MediaConfig";
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String editConfig(@PathVariable int id, Model model)
-	{
-		return "MediaConfig";
-	}
 	
 	@RequestMapping(value = "/addRegExSelector", method = RequestMethod.POST)
 	public String addRegExSelector(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result)
@@ -102,46 +89,13 @@ public class MediaConfigController
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String saveConfig(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result, Model model, HttpServletRequest request,  SessionStatus sessionStatus)
 	{
-		
-		/*Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction tx = s.beginTransaction();
-		
-		MediaConfig mc = Repository.getAllMediaConfig().get(0);
-
-		tx.commit();
-
-		
-		MediaConfigViewModel vm = Mapper.getMapper().map(mc, MediaConfigViewModel.class);
-		MediaConfig mc2 = Mapper.getMapper().map(vm, MediaConfig.class);
-		mc2.setDescription("adfaf");
-		
-		
-		s = HibernateUtil.getSessionFactory().getCurrentSession();
-		tx = s.beginTransaction();
-		
-		Repository.updateEntity(mc2);
-		
-		tx.commit();
-
-		*/
-		
-		//MediaConfig mc1 = Repository.getAllMediaConfig().get(0);
-		
 		MediaConfig mc = Mapper.getMapper().map(config, MediaConfig.class);
 		Repository.updateEntity(mc);
-		
-		//config.setVersion(config.getVersion() + 1);
 		
 		return "MediaConfig";
 	}
 
-	
-	
-	
-	
-	
-	
-	@RequestMapping(value = "/ajaxTest", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/ajaxTest", method = RequestMethod.GET)
 	public @ResponseBody MediaConfigViewModel ajaxTest()
 	{
 		MediaConfigViewModel config = new MediaConfigViewModel();
@@ -151,41 +105,7 @@ public class MediaConfigController
 		
 		
 		return config;
-	}
+	}*/
 	
-	
-	
-
-	/*
-	 * @RequestMapping("/greeting") public String
-	 * greeting(@RequestParam(value="name", required=false, defaultValue="")
-	 * String name, Model model) { model.addAttribute("name", name); return
-	 * "greeting"; }
-	 */
-
-	/*
-	 * @RequestMapping(value="/owners/{ownerId}", method=RequestMethod.GET)
-	 * public String findOwner(@PathVariable String ownerId, Model model) {
-	 * Owner owner = ownerService.findOwner(ownerId);
-	 * model.addAttribute("owner", owner); return "displayOwner";
-	 * 
-	 * 
-	 * UriComponents uriComponents = UriComponentsBuilder.fromUriString(
-	 * "http://example.com/hotels/{hotel}/bookings/{booking}").build();
-	 * 
-	 * URI uri = uriComponents.expand("42", "21").encode().toUri(); }
-	 */
-	/*
-	 * @RequestMapping(value="/owners/{ownerId}/pets/{petId}/edit", method =
-	 * RequestMethod.POST) public String processSubmit(@Validated
-	 * 
-	 * @ModelAttribute("pet") Pet pet, BindingResult result) {
-	 * 
-	 * if (result.hasErrors()) { return "petForm"; }
-	 * 
-	 * // ...
-	 * 
-	 * }
-	 */
 
 }

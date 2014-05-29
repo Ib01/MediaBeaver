@@ -16,7 +16,6 @@
 			
 			$(".deleteExpression").click(function() 
 			{
-				//alert("d");
 				submitRegExSelectorChange("/config/deleteRegExSelector", this);
 			});
 			
@@ -51,16 +50,6 @@
 				
 			};
 			
-			//useOpenSubtitlesThumbprintService: 
-			//openSubtitlesFieldMaps
-			//regExSelectors
-			//extensionsSelector;
-			//selectAllFiles;
-			//selectAllFolders;
-			//selectAllEmptyFolders;
-			//destinationRoot;
-			//relativeDestinationPath;
- 			
 			alert(JSON.stringify(config));
 			
 			return JSON.stringify(config);
@@ -250,17 +239,18 @@
 			<form:input path="relativeDestinationPath" style="width: 550px" />
 			<br>
 		
-		</div>	
+		</div>
+			
 		<br>
-	
 		<br>
-		<input type="submit" value="Save" />
+		<input type="submit" value="Save" style="width: 100"/><br>
+		<input type="button" value="Cancel" onclick="window.location.replace('/configList');" style="width: 100"/>
+		<br>
+		<br>
+		<br>
 		
 	</form:form>
 	
-	
-	<%-- ${config.name} --%>
-
 <%@include file="includes/footer.jsp"%>
 
 

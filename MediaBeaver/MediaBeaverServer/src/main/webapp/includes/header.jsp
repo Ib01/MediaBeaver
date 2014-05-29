@@ -26,7 +26,7 @@
 		<div id="headerDiv" >
 		Media Beaver
 		<div style="float:right; font-size: 20px; color: #FF8A00; padding-top: 18px">
-			<a href="/config">Configuration</a> | <a href="/config">menu item 2</a></div>
+			<a href="/configList">Configuration</a> | <a href="/config">menu item 2</a></div>
 		</div>
 		<div id="contentDiv">
 		

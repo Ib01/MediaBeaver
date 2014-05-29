@@ -9,27 +9,38 @@
 	
 		$(function ()
 		{	
-			$("#addExpression").click(function() 
+			/* $("#addExpression").click(function() 
 			{
 				submitRegExSelectorChange("/config/addRegExSelector", this);
 			});
+			*/
 			
-			$(".deleteExpression").click(function() 
-			{
-				//alert("d");
-				submitRegExSelectorChange("/config/deleteRegExSelector", this);
-			});
 			
-			$(".editExpression").click(function() 
+			$(".deleteConfig").click(function() 
 			{
-				submitRegExSelectorChange("/config/updateRegExSelector", this);
-			});			
+				var id = $(this).parent().find("#configId").val();
+				
+				alert(id);
+				
+				getAjax("/configList/deleteConfig", {"id": id}, deleteSuccess);
+				
+			}); 
+			
 			
 			
 		});
 		
 		
-		function submitRegExSelectorChange(url, caller)
+		function deleteSuccess(data)
+		{
+			alert("adf");
+		}
+		
+		
+		
+		
+		
+		/* function submitItem(url, caller)
 		{
 			var id = $(caller).parent().find("#selectorIndex").val();
 			$("#selectedRegExSelectorIndex").val(id);
@@ -51,16 +62,7 @@
 				
 			};
 			
-			//useOpenSubtitlesThumbprintService: 
-			//openSubtitlesFieldMaps
-			//regExSelectors
-			//extensionsSelector;
-			//selectAllFiles;
-			//selectAllFolders;
-			//selectAllEmptyFolders;
-			//destinationRoot;
-			//relativeDestinationPath;
- 			
+			
 			alert(JSON.stringify(config));
 			
 			return JSON.stringify(config);
@@ -104,7 +106,7 @@
 			    }
 			}); 
 		}
-		
+		 */
 		
 	</script>
 	
@@ -115,158 +117,40 @@
 		class="formLayout">
 		
 		
-		<c:forEach items="${configList}" var="selector" varStatus="i">
-				<c:out value="${selector.description}" />	
-		</c:forEach>
-		
-		
-		
-		<%-- <form:hidden path="selectedRegExSelectorIndex"/>
-		<form:hidden path="id"/>
-	
 		<div class="shadowBox">
-			<div class="shadowBoxHeader">Details 
+			<div class="shadowBoxHeader">Configuration Items 
 		   		<span style="float: right;" class="shadowBoxHelp">
 			   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
 			   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
 		   		</span>
 	   		</div>
 		</div>
-		<br>
-		<div class="shadowBox">
-			<form:label path="description">Description</form:label>
-			<form:input path="description" style="width: 550px" />
-			<br>
-	
-			<form:label path="action">Action</form:label>
-			<form:select path="action">
-				<form:options items="${actions}" />
-			</form:select>
-			<br>
-			
-		</div>
-		<br>
-		
+		<br />
 		
 		<div class="shadowBox">
-			<div class="shadowBoxHeader">Variables 
-		   		<span style="float: right;" class="shadowBoxHelp">
-			   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
-			   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
-		   		</span>
-	   		</div>
-		</div>
-		<br>
-		<div class="shadowBox">
-			<c:forEach items="${config.configVariables}" varStatus="i">
-				<form:label path="configVariables[${i.index}].name">Variable Name</form:label>
-				<form:input path="configVariables[${i.index}].name" style="width:350px"/>
-				<form:checkbox path="configVariables[${i.index}].required" style="margin-left: 10px; float:left"/> 
-				<form:label path="configVariables[${i.index}].required" style="float:left">Required</form:label>
-				<br>
-		    </c:forEach>
-		</div>
-		<br>
 		
-		
-		<div class="shadowBox">
-			<div class="shadowBoxHeader">Selectors 
-		   		<span style="float: right;" class="shadowBoxHelp">
-			   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
-			   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
-		   		</span>
-	   		</div>
-		</div>
-		<br>
-		
-		<div class="shadowBox">
-			<p>Regular Expression Selectors</p>
-			<hr>
 			<table style="width:100%">
 				<tr>
 					<td align="left" width="350px" valign="top">Description</td>
-					<td align="left" width="350px" valign="top" style="margin-left: 100px;">Expression</td>
 					<td align="right" width="80px" valign="top">Action</td>
 				</tr>
 			
-				<c:forEach items="${config.regExSelectors}" var="selector" varStatus="i">
+				<c:forEach items="${configList}" var="config" varStatus="i">
 					<tr>
-						<td align="left" valign="top"><c:out value="${selector.description}" /></td>
-						<td align="left" valign="top" style="margin-left: 100px;"><c:out value="${selector.expression}" /></td>
+						<td align="left" valign="top"><c:out value="${config.description}" /></td>
 						<td align="right" valign="top">
-							<a href="#" class="editExpression">edit</a> | 
-							<a href="#" class="deleteExpression">delete</a><input type="hidden" id="selectorIndex" value="${i.index}" />
+							<a href="/config?id=${config.id}" >edit</a> | 
+							<a href="#" class="deleteConfig">delete</a><input type="hidden" id="configId" value="${config.id}" />
 						</td>
 					</tr>
-			    </c:forEach>
+				
+				</c:forEach>
 		    </table>
-		    
-		    <input type="button" value="Add Expression" id="addExpression" />
-		</div>	
-		<br>
-		
-		<div class="shadowBox">
-			<p>Open Subtitles Selector</p>
-			<hr>
-		</div>	
-		<br>
-	
-		<div class="shadowBox">
-			<p>Generic Selectors</p>
-			<hr>
-			<form:label path="extensionsSelector">Extensions</form:label>
-			<form:textarea path="extensionsSelector" rows="3" cols="100"/>
-			<br>
-
-			<form:label path="selectAllFiles">All files</form:label>
-			<form:checkbox path="selectAllFiles" />
-			<br>
 			
-			<form:label path="selectAllFolders">All folders</form:label>
-			<form:checkbox path="selectAllFolders" />
-			<br>
-			
-			<form:label path="selectAllEmptyFolders">Empty folders</form:label>
-			<form:checkbox path="selectAllEmptyFolders" />
-			<br>
-		</div>	
-		<br>
-	
-	
-		<div class="shadowBox">
-			<div class="shadowBoxHeader">Paths 
-		   		<span style="float: right;" class="shadowBoxHelp">
-			   		<span style="font-size: 18px; font-weight: bold;  color: #FF8A00;">? </span>
-			   		<span style="font-size: 12px; font-weight: bold;  color: white;"><span style="font-size: 16px; font-weight: bold; color: white;">H</span>elp</span>
-		   		</span>
-	   		</div>
 		</div>
-		<br>
-		
-	
-		<div class="shadowBox">
-			<form:label path="sourceDirectory">Source Directory</form:label>
-			<form:input path="sourceDirectory" style="width: 550px" />
-			<br>
-		
-			<form:label path="destinationRoot">Destination Root</form:label>
-			<form:input path="destinationRoot" style="width: 550px" />
-			<br>
-		
-			<form:label path="relativeDestinationPath">Destination Path</form:label>
-			<form:input path="relativeDestinationPath" style="width: 550px" />
-			<br>
-		
-		</div>	
-		<br>
-	
-		<br> --%>
-		<input type="submit" value="Save" />
 		
 	</form:form> 
 	
-	
-	<%-- ${config.name} --%>
 
 <%@include file="includes/footer.jsp"%>
 
