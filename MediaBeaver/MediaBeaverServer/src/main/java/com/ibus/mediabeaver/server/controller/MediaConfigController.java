@@ -2,27 +2,20 @@ package com.ibus.mediabeaver.server.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 import com.ibus.mediabeaver.server.util.Mapper;
-import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 
 @Controller
@@ -87,13 +80,30 @@ public class MediaConfigController
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String saveConfig(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result, Model model, HttpServletRequest request,  SessionStatus sessionStatus)
+	public String save(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result, Model model, HttpServletRequest request,  SessionStatus sessionStatus)
 	{
 		MediaConfig mc = Mapper.getMapper().map(config, MediaConfig.class);
-		Repository.updateEntity(mc);
 		
-		return "MediaConfig";
+		if(config.getId() != null && config.getId().length()> 0)
+		{
+			Repository.updateEntity(mc);	
+		}
+		else
+		{
+			Repository.saveEntity(mc);
+		}
+		
+		sessionStatus.setComplete();
+		return "redirect:/configList";
 	}
+	
+	@RequestMapping(value = "/cancel")
+	public String cancel(HttpServletRequest request,  SessionStatus sessionStatus)
+	{
+		sessionStatus.setComplete();
+		return "redirect:/configList";
+	}
+	
 
 	/*@RequestMapping(value = "/ajaxTest", method = RequestMethod.GET)
 	public @ResponseBody MediaConfigViewModel ajaxTest()

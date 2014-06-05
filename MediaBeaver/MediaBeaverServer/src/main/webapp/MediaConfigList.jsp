@@ -149,6 +149,9 @@
 			
 		</div>
 		
+		
+		<input type="button" value="Add New Media Config" onclick="window.location.replace('/config');" style="width: 150"/>
+		
 	</form:form> 
 	
 

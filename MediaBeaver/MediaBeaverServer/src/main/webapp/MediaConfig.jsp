@@ -244,7 +244,7 @@
 		<br>
 		<br>
 		<input type="submit" value="Save" style="width: 100"/><br>
-		<input type="button" value="Cancel" onclick="window.location.replace('/configList');" style="width: 100"/>
+		<input type="button" value="Cancel" onclick="window.location.replace('/config/cancel');" style="width: 100"/>
 		<br>
 		<br>
 		<br>

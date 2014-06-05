@@ -27,7 +27,6 @@ import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
 
 @Controller
 @RequestMapping(value = "/configList")
-@SessionAttributes({"configList"})
 public class MediaConfigListController
 {
 	@ModelAttribute("configList")
