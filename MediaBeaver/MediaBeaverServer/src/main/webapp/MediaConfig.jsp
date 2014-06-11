@@ -24,8 +24,40 @@
 				submitRegExSelectorChange("/config/updateRegExSelector", this);
 			});			
 			
+			$("#addVariable").click(function() 
+			{
+				addNewRegExVariable();
+				//alert("adf");
+				//submitRegExSelectorChange("/config/updateRegExSelector", this);
+			});			
+			
+			
 			
 		});
+		
+		
+		function addNewRegExVariable() 
+		{ 
+			//add new reg ex variable 
+			var sidx = $(".variableIndex").last().val();
+			var idx = Number(sidx) + 1; 
+			
+			if(isNaN(idx))
+				idx = 0;
+				
+			var ob = {index: idx};
+				
+			var source   = $("#newVariableTemplate").html();
+			var template = Handlebars.compile(source);
+			var html = template(ob);
+			
+			$("#variableListContainer").append(html);
+			//$(caller).parent().before(html);
+			//wireDeleteRegExVariableButton();
+	    }
+		
+		
+		
 		
 		
 		function submitRegExSelectorChange(url, caller)
@@ -98,6 +130,21 @@
 	</script>
 	
 	
+<script id="newVariableTemplate" type="text/x-handlebars-template">
+  <div class="variableContainer">
+	<input type="hidden" value="${i.index}" class="variableIndex">
+ 	<label for="configVariables{{index}}.name">Variable Name</label>
+	<input id="configVariables{{index}}.name" name="configVariables[{{index}}].name" style="width:350px" type="text"/>
+	<input id="configVariables{{index}}.required1" name="configVariables[{{index}}].required" style="margin-left: 10px; float:left" type="checkbox" value="true" checked="checked"/>
+		<input type="hidden" name="_configVariables[{{index}}].required" value="on"/> 
+	<label for="configVariables{{index}}.required" style="float:left">Required</label>
+  </div>
+  <br>
+</script>
+	
+	
+	
+	
 	<h2>Media Item Configuration </h2>
 	
 	<form:form method="POST" action="/config/save" commandName="config"
@@ -139,14 +186,23 @@
 	   		</div>
 		</div>
 		<br>
+		
 		<div class="shadowBox">
-			<c:forEach items="${config.configVariables}" varStatus="i">
-				<form:label path="configVariables[${i.index}].name">Variable Name</form:label>
-				<form:input path="configVariables[${i.index}].name" style="width:350px"/>
-				<form:checkbox path="configVariables[${i.index}].required" style="margin-left: 10px; float:left"/> 
-				<form:label path="configVariables[${i.index}].required" style="float:left">Required</form:label>
-				<br>
-		    </c:forEach>
+		
+			<span id="variableListContainer">
+				<c:forEach items="${config.configVariables}" varStatus="i">
+					<div class="variableContainer">
+						<input type="hidden" value="${i.index}" class="variableIndex"> 
+						<form:label path="configVariables[${i.index}].name">Variable Name</form:label>
+						<form:input path="configVariables[${i.index}].name" style="width:350px"/>
+						<form:checkbox path="configVariables[${i.index}].required" style="margin-left: 10px; float:left"/> 
+						<form:label path="configVariables[${i.index}].required" style="float:left">Required</form:label>
+					</div>
+					<br>
+			    </c:forEach>
+			</span>
+		    
+		    <input type="button" value="Add Variable" id="addVariable" />
 		</div>
 		<br>
 		
