@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
@@ -20,10 +21,10 @@ import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 
 @Controller
 @RequestMapping(value = "/config")
-@SessionAttributes({"config"})
+//@SessionAttributes({"config"})
 public class MediaConfigController
 {
-	@ModelAttribute("config")
+	/*@ModelAttribute("config")
 	public MediaConfigViewModel getInitialMediaConfigViewModel(HttpServletRequest request)
 	{
 		String id = request.getParameter("id");
@@ -35,7 +36,7 @@ public class MediaConfigController
 		}
 		
 		return new MediaConfigViewModel();
-	}
+	}*/
 	
 	@ModelAttribute("actions")
 	public TransformAction[] getActions()
@@ -51,37 +52,64 @@ public class MediaConfigController
 	
 	
 	@RequestMapping
-	public String updateConfig(HttpServletRequest request)
+	public ModelAndView updateConfig(HttpServletRequest request)
 	{
-		return "MediaConfig";
+		MediaConfigViewModel storedConfig = (MediaConfigViewModel)request.getSession().getAttribute("config");
+		if(storedConfig != null){
+			return new ModelAndView("MediaConfig","config", storedConfig);
+		}
+		
+		
+		MediaConfigViewModel vm = new MediaConfigViewModel();
+		String id = request.getParameter("id");
+		
+		if(id != null && id.length() > 0)
+		{
+			MediaConfig mc = Repository.getEntity(MediaConfig.class, id);
+			vm = Mapper.getMapper().map(mc, MediaConfigViewModel.class);
+			request.getSession().setAttribute("config", vm);
+		}
+		
+		return new ModelAndView("MediaConfig","config", vm);
+		//return "MediaConfig";
 	}
 	
-	
+	// @ModelAttribute("config") 
 	@RequestMapping(value = "/addRegExSelector", method = RequestMethod.POST)
-	public String addRegExSelector(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result)
+	public String addRegExSelector(@Validated MediaConfigViewModel config, BindingResult result, HttpServletRequest request)
 	{
+		mergeWithStoredConfig(config, request);
+		
 		return "redirect:/regExSelector";
 	}
 	
 	@RequestMapping(value = "/updateRegExSelector", method = RequestMethod.POST)
-	public String updateRegExSelector(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result)
+	public String updateRegExSelector(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result, HttpServletRequest request)
 	{
+		mergeWithStoredConfig(config, request);
+		
 		int index = config.getSelectedRegExSelectorIndex();
 		return "redirect:/regExSelector/" + Integer.toString(index);
 	}	
 	
-	@RequestMapping(value = "/deleteRegExSelector", method = RequestMethod.POST)
+	
+	
+	
+	
+	/*@RequestMapping(value = "/deleteRegExSelector", method = RequestMethod.POST)
 	public String deleteRegExSelector(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result)
 	{
 		int index = config.getSelectedRegExSelectorIndex();
 		config.getRegExSelectors().remove(index);
 		
 		return "MediaConfig";
-	}
+	}*/
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result, Model model, HttpServletRequest request,  SessionStatus sessionStatus)
+	public String save(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result, Model model, HttpServletRequest request)
 	{
+		... mergeWithStoredConfig(MediaConfigViewModel config, HttpServletRequest request) here
+		
 		MediaConfig mc = Mapper.getMapper().map(config, MediaConfig.class);
 		
 		if(config.getId() != null && config.getId().length()> 0)
@@ -93,16 +121,27 @@ public class MediaConfigController
 			Repository.saveEntity(mc);
 		}
 		
-		sessionStatus.setComplete();
+		request.getSession().removeAttribute("config");
+		//sessionStatus.setComplete();
 		return "redirect:/configList";
 	}
 	
 	@RequestMapping(value = "/cancel")
-	public String cancel(HttpServletRequest request,  SessionStatus sessionStatus)
+	public String cancel(HttpServletRequest request)
 	{
-		sessionStatus.setComplete();
+		request.getSession().removeAttribute("config");
+		//sessionStatus.setComplete();
 		return "redirect:/configList";
 	}
+	
+	public void mergeWithStoredConfig(MediaConfigViewModel config, HttpServletRequest request)
+	{
+		MediaConfigViewModel storedConfig = (MediaConfigViewModel)request.getSession().getAttribute("config");
+		config.setRegExSelectors(storedConfig.getRegExSelectors());
+		request.getSession().setAttribute("config", config);
+	}
+	
+	
 	
 
 	/*@RequestMapping(value = "/ajaxTest", method = RequestMethod.GET)

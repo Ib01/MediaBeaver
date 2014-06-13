@@ -16,8 +16,9 @@
 			
 			$(".deleteExpression").click(function() 
 			{
-				submitRegExSelectorChange("/config/deleteRegExSelector", this);
-			});
+				alert("unimplemented");
+				//submitRegExSelectorChange("/config/deleteRegExSelector", this);
+			}); 
 			
 			$(".editExpression").click(function() 
 			{
@@ -30,9 +31,6 @@
 				//alert("adf");
 				//submitRegExSelectorChange("/config/updateRegExSelector", this);
 			});			
-			
-			
-			
 		});
 		
 		
@@ -52,12 +50,9 @@
 			var html = template(ob);
 			
 			$("#variableListContainer").append(html);
-			//$(caller).parent().before(html);
+			//TODO:
 			//wireDeleteRegExVariableButton();
 	    }
-		
-		
-		
 		
 		
 		function submitRegExSelectorChange(url, caller)
@@ -152,6 +147,8 @@
 		
 		<form:hidden path="selectedRegExSelectorIndex"/>
 		<form:hidden path="id"/>
+		<form:hidden path="lastUpdate"/>
+		
 	
 		<div class="shadowBox">
 			<div class="shadowBoxHeader">Details 
@@ -228,6 +225,8 @@
 				</tr>
 			
 				<c:forEach items="${config.regExSelectors}" var="selector" varStatus="i">
+				
+				 	<%-- <input id="regExSelectors0.lastUpdate" name="regExSelectors[0].lastUpdate" type="hidden" value="${selector.description}"/> --%>
 					<tr>
 						<td align="left" valign="top"><c:out value="${selector.description}" /></td>
 						<td align="left" valign="top" style="margin-left: 100px;"><c:out value="${selector.expression}" /></td>
@@ -237,6 +236,7 @@
 						</td>
 					</tr>
 			    </c:forEach>
+			    
 		    </table>
 		    
 		    <input type="button" value="Add Expression" id="addExpression" />
