@@ -54,7 +54,6 @@
 			//wireDeleteRegExVariableButton();
 	    }
 		
-		
 		function submitRegExSelectorChange(url, caller)
 		{
 			var id = $(caller).parent().find("#selectorIndex").val();
@@ -63,8 +62,6 @@
 			$("form:first").attr("action", url);
 			$("form:first").submit();
 		}
-		
-		
 		
 		function getModel()
 		{
@@ -78,7 +75,6 @@
 			};
 			
 			alert(JSON.stringify(config));
-			
 			return JSON.stringify(config);
 		}
 		
@@ -99,8 +95,6 @@
 			
 			return vars;
 		}
-		
-		
 		
 		function sendAjax(url, model) 
 		{
@@ -187,9 +181,15 @@
 		<div class="shadowBox">
 		
 			<span id="variableListContainer">
-				<c:forEach items="${config.configVariables}" varStatus="i">
+				<c:forEach items="${config.configVariables}" varStatus="i" var="variable">
 					<div class="variableContainer">
-						<input type="hidden" value="${i.index}" class="variableIndex"> 
+					
+						<input type="hidden" value="${i.index}" class="variableIndex">
+						<input type="hidden" name="configVariables[${i.index}].id" value="${variable.id}"/>
+						<input type="hidden" name="configVariables[${i.index}].lastUpdate" value="${variable.lastUpdate}"/>
+						<input type="hidden" name="configVariables[${i.index}].value" value="${variable.value}"/>
+						
+					 
 						<form:label path="configVariables[${i.index}].name">Variable Name</form:label>
 						<form:input path="configVariables[${i.index}].name" style="width:350px"/>
 						<form:checkbox path="configVariables[${i.index}].required" style="margin-left: 10px; float:left"/> 
@@ -226,7 +226,26 @@
 			
 				<c:forEach items="${config.regExSelectors}" var="selector" varStatus="i">
 				
-				 	<%-- <input id="regExSelectors0.lastUpdate" name="regExSelectors[0].lastUpdate" type="hidden" value="${selector.description}"/> --%>
+					<input type="hidden" name="regExSelectors[${i.index}].id" value="${selector.id}"/>
+					<input type="hidden" name="regExSelectors[${i.index}].lastUpdate" value="${selector.lastUpdate}"/>
+					<input type="hidden" name="regExSelectors[${i.index}].description" value="${selector.description}"/>
+					<input type="hidden" name="regExSelectors[${i.index}].expression" value="${selector.expression}"/>
+				
+					<c:forEach items="${selector.variables}" var="variable" varStatus="ii">
+						<input type="hidden" name="regExSelectors[${i.index}].variables[${ii.index}].id" value="${variable.id}"/>
+						<input type="hidden" name="regExSelectors[${i.index}].variables[${ii.index}].lastUpdate" value="${variable.lastUpdate}"/>
+						<input type="hidden" name="regExSelectors[${i.index}].variables[${ii.index}].groupAssembly" value="${variable.groupAssembly}"/>
+						<input type="hidden" name="regExSelectors[${i.index}].variables[${ii.index}].replaceExpression" value="${variable.replaceExpression}"/>
+						<input type="hidden" name="regExSelectors[${i.index}].variables[${ii.index}].replaceWithCharacter" value="${variable.replaceWithCharacter}"/>
+											
+						<input type="hidden" name="regExSelectors[${i.index}].variables[${ii.index}].configVariable.id" value="${variable.configVariable.id}"/>
+						<input type="hidden" name="regExSelectors[${i.index}].variables[${ii.index}].configVariable.lastUpdate" value="${variable.configVariable.lastUpdate}"/>
+						<input type="hidden" name="regExSelectors[${i.index}].variables[${ii.index}].configVariable.name" value="${variable.configVariable.name}"/>
+						<input type="hidden" name="regExSelectors[${i.index}].variables[${ii.index}].configVariable.value" value="${variable.configVariable.value}"/>
+						<input type="hidden" name="regExSelectors[${i.index}].variables[${ii.index}].configVariable.required" value="${variable.configVariable.required}"/>
+					</c:forEach>
+					
+				
 					<tr>
 						<td align="left" valign="top"><c:out value="${selector.description}" /></td>
 						<td align="left" valign="top" style="margin-left: 100px;"><c:out value="${selector.expression}" /></td>

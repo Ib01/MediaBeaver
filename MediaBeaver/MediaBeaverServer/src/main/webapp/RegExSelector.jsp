@@ -50,8 +50,7 @@
 			
 			if(saveError())
 				return; 
-			
-			
+						
 			$("form:first").attr("action", "/regExSelector/save");
 			$("form:first").submit();
 		});
@@ -229,14 +228,17 @@
 	{
 		var error = false;
 		
-		if($("#description").validationEngine('validate'))
+		if($("#description").validationEngine('validate')){
 			error= true;
+		}
 		
-		if($("#expression").validationEngine('validate'))
+		if($("#expression").validationEngine('validate')){
 			error= true;
+		}
 		
-		if(regExVariablesError())
+		if(regExVariablesError()){
 			error = true;
+		}
 		
 		return error;
 	}
@@ -448,9 +450,10 @@
 			   padding: 1px 5px 1px 5px; float:right; cursor: hand;">X</div>
 		   
 			   <form:label path="variables[${i.index}].configVariable">Variable</form:label>
+			  
 			   <form:select path="variables[${i.index}].configVariable" class="configVariableSelection validate[required]" >
 					<form:option value=""> --SELECT--</form:option>
-					<form:options items="${configVariables}" itemValue="name" itemLabel="name"></form:options>
+					<form:options items="${configVariables}" itemValue="name" itemLabel="name" ></form:options>
 				</form:select>
 			    <br/>
 		   

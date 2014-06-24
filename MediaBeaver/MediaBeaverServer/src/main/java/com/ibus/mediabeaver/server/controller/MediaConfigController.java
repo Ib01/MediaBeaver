@@ -78,7 +78,8 @@ public class MediaConfigController
 	@RequestMapping(value = "/addRegExSelector", method = RequestMethod.POST)
 	public String addRegExSelector(@Validated MediaConfigViewModel config, BindingResult result, HttpServletRequest request)
 	{
-		mergeWithStoredConfig(config, request);
+		request.getSession().setAttribute("config", config);
+		//mergeWithStoredConfig(config, request);
 		
 		return "redirect:/regExSelector";
 	}
@@ -86,7 +87,8 @@ public class MediaConfigController
 	@RequestMapping(value = "/updateRegExSelector", method = RequestMethod.POST)
 	public String updateRegExSelector(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result, HttpServletRequest request)
 	{
-		mergeWithStoredConfig(config, request);
+		request.getSession().setAttribute("config", config);
+		//mergeWithStoredConfig(config, request);
 		
 		int index = config.getSelectedRegExSelectorIndex();
 		return "redirect:/regExSelector/" + Integer.toString(index);
@@ -108,8 +110,6 @@ public class MediaConfigController
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String save(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result, Model model, HttpServletRequest request)
 	{
-		... mergeWithStoredConfig(MediaConfigViewModel config, HttpServletRequest request) here
-		
 		MediaConfig mc = Mapper.getMapper().map(config, MediaConfig.class);
 		
 		if(config.getId() != null && config.getId().length()> 0)
