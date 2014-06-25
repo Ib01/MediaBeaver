@@ -453,7 +453,7 @@
 			  
 			   <form:select path="variables[${i.index}].configVariable" class="configVariableSelection validate[required]" >
 					<form:option value=""> --SELECT--</form:option>
-					<form:options items="${configVariables}" itemValue="name" itemLabel="name" ></form:options>
+					<form:options items="${configVariables}" itemValue="id" itemLabel="name" ></form:options>
 				</form:select>
 			    <br/>
 		   

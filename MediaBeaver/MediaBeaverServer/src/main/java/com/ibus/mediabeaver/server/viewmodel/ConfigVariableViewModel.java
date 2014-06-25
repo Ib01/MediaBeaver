@@ -3,6 +3,7 @@ package com.ibus.mediabeaver.server.viewmodel;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.ibus.mediabeaver.core.entity.IdGenerator;
 import com.ibus.mediabeaver.core.entity.RegExVariable;
 
 public class ConfigVariableViewModel extends ViewModel
@@ -16,7 +17,10 @@ public class ConfigVariableViewModel extends ViewModel
 
 	private boolean required = false;
 	
-	public ConfigVariableViewModel(){}
+	public ConfigVariableViewModel()
+	{
+		setId(IdGenerator.createId());
+	}
 	
 	public ConfigVariableViewModel(String name)
 	{
@@ -60,18 +64,18 @@ public class ConfigVariableViewModel extends ViewModel
 	}
 
 	
+	
 	@Override
 	public int hashCode()
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
 	/* 
-	 * we nees this crapola so selects will work with Model Editors. when you reference this type in a select list it 
-	 * it determines whether to select an option based on whether it is equal with the option!!
+	 * equals required when setting a selects to have an object value 
 	 */
 	@Override
 	public boolean equals(Object obj)
@@ -82,12 +86,12 @@ public class ConfigVariableViewModel extends ViewModel
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ConfigVariableViewModel other = (ConfigVariableViewModel) obj;
-		if (name == null)
+		ViewModel other = (ViewModel) obj;
+		if (id == null)
 		{
-			if (other.name != null)
+			if (other.id != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}

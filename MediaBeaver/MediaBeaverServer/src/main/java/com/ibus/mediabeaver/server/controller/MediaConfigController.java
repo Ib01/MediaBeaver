@@ -1,5 +1,8 @@
 package com.ibus.mediabeaver.server.controller;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -17,7 +20,9 @@ import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 import com.ibus.mediabeaver.server.util.Mapper;
+import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
+import com.ibus.mediabeaver.server.viewmodel.RegExVariableViewModel;
 
 @Controller
 @RequestMapping(value = "/config")
@@ -71,7 +76,6 @@ public class MediaConfigController
 		}
 		
 		return new ModelAndView("MediaConfig","config", vm);
-		//return "MediaConfig";
 	}
 	
 	// @ModelAttribute("config") 
@@ -79,58 +83,35 @@ public class MediaConfigController
 	public String addRegExSelector(@Validated MediaConfigViewModel config, BindingResult result, HttpServletRequest request)
 	{
 		request.getSession().setAttribute("config", config);
-		//mergeWithStoredConfig(config, request);
-		
 		return "redirect:/regExSelector";
 	}
 	
 	@RequestMapping(value = "/updateRegExSelector", method = RequestMethod.POST)
-	public String updateRegExSelector(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result, HttpServletRequest request)
+	public String updateRegExSelector(@Validated MediaConfigViewModel config, BindingResult result, HttpServletRequest request)
 	{
 		request.getSession().setAttribute("config", config);
-		//mergeWithStoredConfig(config, request);
 		
 		int index = config.getSelectedRegExSelectorIndex();
 		return "redirect:/regExSelector/" + Integer.toString(index);
 	}	
 	
-	
-	
-	
-	
-	/*@RequestMapping(value = "/deleteRegExSelector", method = RequestMethod.POST)
-	public String deleteRegExSelector(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result)
-	{
-		int index = config.getSelectedRegExSelectorIndex();
-		config.getRegExSelectors().remove(index);
-		
-		return "MediaConfig";
-	}*/
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(@Validated @ModelAttribute("config") MediaConfigViewModel config, BindingResult result, Model model, HttpServletRequest request)
+	public String save(@Validated MediaConfigViewModel config, BindingResult result, Model model, HttpServletRequest request)
 	{
 		MediaConfig mc = Mapper.getMapper().map(config, MediaConfig.class);
 		
-		if(config.getId() != null && config.getId().length()> 0)
-		{
-			Repository.updateEntity(mc);	
-		}
-		else
-		{
-			Repository.saveEntity(mc);
-		}
+		Repository.saveOrUpdate(mc);
 		
 		request.getSession().removeAttribute("config");
-		//sessionStatus.setComplete();
 		return "redirect:/configList";
 	}
+	
 	
 	@RequestMapping(value = "/cancel")
 	public String cancel(HttpServletRequest request)
 	{
 		request.getSession().removeAttribute("config");
-		//sessionStatus.setComplete();
 		return "redirect:/configList";
 	}
 	
@@ -141,20 +122,6 @@ public class MediaConfigController
 		request.getSession().setAttribute("config", config);
 	}
 	
-	
-	
-
-	/*@RequestMapping(value = "/ajaxTest", method = RequestMethod.GET)
-	public @ResponseBody MediaConfigViewModel ajaxTest()
-	{
-		MediaConfigViewModel config = new MediaConfigViewModel();
-		config.setDescription("Move movie files");
-		config.getConfigVariables().add(new ConfigVariableViewModel("MovieName"));
-		config.getConfigVariables().add(new ConfigVariableViewModel("MovieYear"));
-		
-		
-		return config;
-	}*/
 	
 
 }

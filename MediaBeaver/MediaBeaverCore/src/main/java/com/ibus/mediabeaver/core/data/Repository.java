@@ -63,6 +63,12 @@ public abstract class Repository
 		return item.getId();
 	}
 	
+	public static <T extends Persistable> String saveOrUpdate(T item) 
+	{
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		s.saveOrUpdate(item);
+		return item.getId();
+	}
 	
 	public static <T extends Persistable> T getEntity(Class<T> cls, String id) 
 	{

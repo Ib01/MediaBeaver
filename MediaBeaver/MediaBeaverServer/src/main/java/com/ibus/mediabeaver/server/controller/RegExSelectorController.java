@@ -53,7 +53,7 @@ import com.ibus.mediabeaver.server.viewmodel.RegExVariableViewModel;
  */
 @Controller
 @RequestMapping(value = "/regExSelector")
-@SessionAttributes({"configVariables"})
+//@SessionAttributes({"configVariables"})
 public class RegExSelectorController
 {
 	

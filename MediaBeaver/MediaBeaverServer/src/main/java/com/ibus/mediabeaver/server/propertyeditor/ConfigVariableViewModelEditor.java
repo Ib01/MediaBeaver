@@ -11,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 
-
-
-
 public class ConfigVariableViewModelEditor extends PropertyEditorSupport
 {
 	List<ConfigVariableViewModel> configs;
@@ -23,12 +20,12 @@ public class ConfigVariableViewModelEditor extends PropertyEditorSupport
 		this.configs = list;
 	}
 	
-	public void setAsText(String name)
+	public void setAsText(String id)
 	{
 		ConfigVariableViewModel selected= new ConfigVariableViewModel();
 		for(ConfigVariableViewModel c : configs)
 		{
-			if(c.getName().equals(name))
+			if(c.getId().equals(id))
 			{
 				selected = c;
 			}

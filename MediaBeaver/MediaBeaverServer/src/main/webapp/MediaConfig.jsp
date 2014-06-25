@@ -14,12 +14,6 @@
 				submitRegExSelectorChange("/config/addRegExSelector", this);
 			});
 			
-			$(".deleteExpression").click(function() 
-			{
-				alert("unimplemented");
-				//submitRegExSelectorChange("/config/deleteRegExSelector", this);
-			}); 
-			
 			$(".editExpression").click(function() 
 			{
 				submitRegExSelectorChange("/config/updateRegExSelector", this);
@@ -28,10 +22,28 @@
 			$("#addVariable").click(function() 
 			{
 				addNewRegExVariable();
-				//alert("adf");
-				//submitRegExSelectorChange("/config/updateRegExSelector", this);
-			});			
+			});	
+			
+			$(".deleteExpression").click(function() 
+			{
+				$(this).parent(".shadowBox").remove();
+			});
+			
+			wireDeleteVariableButton();
+			
 		});
+		
+		function wireDeleteVariableButton()
+		{
+			$(".deleteVariable").click(function() 
+			{
+				$(this).parent().next("br").remove();
+				$(this).parent().remove();
+				
+				reindexVariables();
+			}); 
+		} 
+		
 		
 		
 		function addNewRegExVariable() 
@@ -50,8 +62,7 @@
 			var html = template(ob);
 			
 			$("#variableListContainer").append(html);
-			//TODO:
-			//wireDeleteRegExVariableButton();
+			wireDeleteVariableButton();
 	    }
 		
 		function submitRegExSelectorChange(url, caller)
@@ -115,18 +126,47 @@
 			}); 
 		}
 		
+		//Need to Reindex all config variable blocks in order to deal with the ridiculous dynamic list problem  
+		function reindexVariables()
+		{
+			$( ".variableContainer" ).each(function(index) 
+			{
+				var oldIndex = $(this).find(".variableIndex").val();
+				
+				if($(this).find("[name='configVariables["+oldIndex+"].id']").length)
+					$(this).find("[name='configVariables["+oldIndex+"].id']").attr("name", "configVariables["+index+"].id");
+				if($(this).find("[name='configVariables["+oldIndex+"].lastUpdate']").length)
+					$(this).find("[name='configVariables["+oldIndex+"].lastUpdate']").attr("name", "configVariables["+index+"].lastUpdate");
+				if($(this).find("[name='configVariables["+oldIndex+"].value']").length)
+					$(this).find("[name='configVariables["+oldIndex+"].value']").attr("name", "configVariables["+index+"].value");
+				
+				$(this).find("[for='configVariables"+oldIndex+".name']").attr("for", "configVariables"+index+".name");
+				
+				$(this).find("[id='configVariables"+oldIndex+".name']").attr("id", "configVariables"+index+".name");
+				$(this).find("[name='configVariables["+oldIndex+"].name']").attr("name", "configVariables["+index+"].name");
+			
+				$(this).find("[id='configVariables"+oldIndex+".required1']").attr("id", "configVariables"+index+".required1");
+				$(this).find("[name='configVariables["+oldIndex+"].required']").attr("name", "configVariables["+index+"].required");
+				$(this).find("[name='_configVariables["+oldIndex+"].required']").attr("name", "_configVariables["+index+"].required");
+				$(this).find("[for='configVariables"+oldIndex+".required']").attr("for", "configVariables"+index+".required");
+				
+				$(this).find(".variableIndex").attr("value", index);
+			});
+		} 
+		
 		
 	</script>
 	
 	
 <script id="newVariableTemplate" type="text/x-handlebars-template">
   <div class="variableContainer">
-	<input type="hidden" value="${i.index}" class="variableIndex">
+	<input type="hidden" value="{{index}}" class="variableIndex">
  	<label for="configVariables{{index}}.name">Variable Name</label>
 	<input id="configVariables{{index}}.name" name="configVariables[{{index}}].name" style="width:350px" type="text"/>
 	<input id="configVariables{{index}}.required1" name="configVariables[{{index}}].required" style="margin-left: 10px; float:left" type="checkbox" value="true" checked="checked"/>
 		<input type="hidden" name="_configVariables[{{index}}].required" value="on"/> 
 	<label for="configVariables{{index}}.required" style="float:left">Required</label>
+	<a href="#" class="deleteVariable">delete</a>
   </div>
   <br>
 </script>
@@ -194,6 +234,8 @@
 						<form:input path="configVariables[${i.index}].name" style="width:350px"/>
 						<form:checkbox path="configVariables[${i.index}].required" style="margin-left: 10px; float:left"/> 
 						<form:label path="configVariables[${i.index}].required" style="float:left">Required</form:label>
+						
+						<a href="#" class="deleteVariable">delete</a>
 					</div>
 					<br>
 			    </c:forEach>

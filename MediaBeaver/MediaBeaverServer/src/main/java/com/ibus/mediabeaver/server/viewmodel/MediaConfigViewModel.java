@@ -2,6 +2,7 @@ package com.ibus.mediabeaver.server.viewmodel;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -208,6 +209,22 @@ public class MediaConfigViewModel extends ViewModel
 		
 		return null;
 	} 
+	
+	
+	//a hack to deal with the ridiculous dynamic list problem.
+	public void removeNullConfigVariables()
+	{
+		Iterator<ConfigVariableViewModel> i = configVariables.iterator();
+		
+		while (i.hasNext()) 
+		{
+			ConfigVariableViewModel v = i.next();
+			
+			if(v == null)
+				i.remove();
+		}
+	}
+
 	
 	
 	/*public boolean updateRegExSelector(RegExSelectorViewModel selector)
