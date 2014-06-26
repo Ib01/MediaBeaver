@@ -11,11 +11,13 @@
 		{	
 			$("#addExpression").click(function() 
 			{
+				removeEmptyConfigVariables();
 				submitRegExSelectorChange("/config/addRegExSelector", this);
 			});
 			
 			$(".editExpression").click(function() 
 			{
+				removeEmptyConfigVariables();
 				submitRegExSelectorChange("/config/updateRegExSelector", this);
 			});			
 			
@@ -31,6 +33,14 @@
 			
 			wireDeleteVariableButton();
 			
+			$("#save").click(function() 
+			{
+				if($("form:first").validationEngine('validate'))
+				{
+					$("form:first").submit();
+				}
+			});
+			
 		});
 		
 		function wireDeleteVariableButton()
@@ -43,8 +53,6 @@
 				reindexVariables();
 			}); 
 		} 
-		
-		
 		
 		function addNewRegExVariable() 
 		{ 
@@ -155,6 +163,22 @@
 		} 
 		
 		
+		function removeEmptyConfigVariables()
+		{
+			$( ".variableContainer" ).each(function(index) 
+			{
+				var val = $(this).find("input[type=text]").val();
+				if(val.trim().length == 0)
+				{
+					$(this).remove();	
+				}
+				
+			});
+			
+		}
+		
+		
+		
 	</script>
 	
 	
@@ -162,7 +186,7 @@
   <div class="variableContainer">
 	<input type="hidden" value="{{index}}" class="variableIndex">
  	<label for="configVariables{{index}}.name">Variable Name</label>
-	<input id="configVariables{{index}}.name" name="configVariables[{{index}}].name" style="width:350px" type="text"/>
+	<input id="configVariables{{index}}.name" name="configVariables[{{index}}].name" style="width:350px" type="text" class="validate[required]"/>
 	<input id="configVariables{{index}}.required1" name="configVariables[{{index}}].required" style="margin-left: 10px; float:left" type="checkbox" value="true" checked="checked"/>
 		<input type="hidden" name="_configVariables[{{index}}].required" value="on"/> 
 	<label for="configVariables{{index}}.required" style="float:left">Required</label>
@@ -176,7 +200,7 @@
 	
 	<h2>Media Item Configuration </h2>
 	
-	<form:form method="POST" action="/config/save" commandName="config"
+	<form:form method="POST" action="/config/save" commandName="config" id="configForm"
 		class="formLayout">
 		
 		<form:hidden path="selectedRegExSelectorIndex"/>
@@ -195,7 +219,7 @@
 		<br>
 		<div class="shadowBox">
 			<form:label path="description">Description</form:label>
-			<form:input path="description" style="width: 550px" />
+			<form:input path="description" style="width: 550px" class="validate[required]"/>
 			<br>
 	
 			<form:label path="action">Action</form:label>
@@ -231,7 +255,7 @@
 						
 					 
 						<form:label path="configVariables[${i.index}].name">Variable Name</form:label>
-						<form:input path="configVariables[${i.index}].name" style="width:350px"/>
+						<form:input path="configVariables[${i.index}].name" style="width:350px" class="validate[required]"/>
 						<form:checkbox path="configVariables[${i.index}].required" style="margin-left: 10px; float:left"/> 
 						<form:label path="configVariables[${i.index}].required" style="float:left">Required</form:label>
 						
@@ -345,22 +369,22 @@
 	
 		<div class="shadowBox">
 			<form:label path="sourceDirectory">Source Directory</form:label>
-			<form:input path="sourceDirectory" style="width: 550px" />
+			<form:input path="sourceDirectory" style="width: 550px" class="validate[required]"/>
 			<br>
 		
 			<form:label path="destinationRoot">Destination Root</form:label>
-			<form:input path="destinationRoot" style="width: 550px" />
+			<form:input path="destinationRoot" style="width: 550px" class="validate[required]"/>
 			<br>
 		
 			<form:label path="relativeDestinationPath">Destination Path</form:label>
-			<form:input path="relativeDestinationPath" style="width: 550px" />
+			<form:input path="relativeDestinationPath" style="width: 550px" class="validate[required]"/>
 			<br>
 		
 		</div>
 			
 		<br>
 		<br>
-		<input type="submit" value="Save" style="width: 100"/><br>
+		<input type="button" value="Save" style="width: 100" id="save"/><br>
 		<input type="button" value="Cancel" onclick="window.location.replace('/config/cancel');" style="width: 100"/>
 		<br>
 		<br>
