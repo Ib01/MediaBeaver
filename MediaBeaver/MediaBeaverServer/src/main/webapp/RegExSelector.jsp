@@ -23,7 +23,7 @@
 			
 			addNewRegExVariable(this);
 			refreshTestResults();
-			clearTestFields();
+			clearAddRegExFields();
 		});
 		
 		wireDeleteRegExVariableButton();
@@ -94,7 +94,7 @@
 		wireDeleteRegExVariableButton();
     }
 	
-	function clearTestFields()
+	function clearAddRegExFields()
 	{
 		$("#toAdd_ConfigVariable").val("");
 		$("#toAdd_GroupAssembly").val("");
@@ -102,10 +102,16 @@
 		$("#toAdd_ReplaceWithCharacter").val("");
 	}
 	
+	
 	function refreshTestResults() 
 	{ 
-		var regExs = $(".configVariableSelection").map(function() {return this.value;}).get();
-		var testInputs = $(".testVariableContainer").find("#variableName").map(function() {return this.value;}).get();
+		var regExs = $(".configVariableSelection").map(function() 
+				{
+					return {id: this.value, name: $(this).find("option:selected").text()};
+				}
+		).get();
+		
+		var testInputs = $(".testVariableContainer").find("#variableId").map(function() {return this.value;}).get();
 		
 		removeRedundantTests(regExs, testInputs);
 		addNewTests(regExs, testInputs);
@@ -119,7 +125,7 @@
 			var exists = false;
 			for (var rei = 0; rei < regExs.length; rei++) 
 			{
-				if(regExs[rei] == testInputs[tii])
+				if(regExs[rei].id == testInputs[tii])
 				{
 					exists = true;
 				}
@@ -140,7 +146,7 @@
 			var exists = false;
 			for (var tii = 0; tii < testInputs.length; tii++)  
 			{
-				if(regExs[rei] == testInputs[tii])
+				if(regExs[rei].id == testInputs[tii])
 				{
 					exists = true;
 				}
@@ -150,12 +156,13 @@
 			{
 				var source   = $("#newTestVariable").html();
 				var template = Handlebars.compile(source);
-				var html = template({"name":regExs[rei]});
+				var html = template({"id":regExs[rei].id,"name":regExs[rei].name});
 				$("#testResultsContainer").append(html);
 				
 			}
 		}
 	}
+	
 	
 	function errorResponse(data,status,er) 
 	{ 
@@ -215,8 +222,8 @@
 	{
 		for (var i = 0; i < data.testVariables.length; i++) 
 		{
-			if($("#testVariable_" + data.testVariables[i].name).length){
-				$("#testVariable_" + data.testVariables[i].name).val(data.testVariables[i].value);
+			if($("#testVariable_" + data.testVariables[i].id).length){
+				$("#testVariable_" + data.testVariables[i].id).val(data.testVariables[i].value);
 			}
 		}
 	}
@@ -342,10 +349,10 @@
 		<option value=""> --SELECT--</option>
 		
 		{{#each variables}}
-			{{#ifCond name '==' ../selectedConfigVariable}}
-				<option value="{{name}}" selected="selected">{{name}}</option>
+			{{#ifCond id '==' ../selectedConfigVariable}}
+				<option value="{{id}}" selected="selected">{{name}}</option>
 			{{else}}
-				<option value="{{name}}" >{{name}}</option>
+				<option value="{{id}}" >{{name}}</option>
 			{{/ifCond}} 
 		{{/each}}
 	</select>
@@ -367,10 +374,10 @@
 </script>
 
 <script id="newTestVariable" type="text/x-handlebars-template">
-	<span class="testVariableContainer" id="testVariableContainer_{{name}}">
-		<input type="hidden" id="variableName" value="{{name}}" />
-		<label for="testVariable_{{name}}">{{name}}</label>
-		<input id="testVariable_{{name}}" style="width:400px" type="text"/>
+	<span class="testVariableContainer" id="testVariableContainer_{{id}}">
+		<input type="hidden" id="variableId" value="{{id}}" />
+		<label for="testVariable_{{id}}">{{name}}</label>
+		<input id="testVariable_{{id}}" style="width:400px" type="text"/>
 		<br/>
 	</span>
 </script>
@@ -484,7 +491,7 @@
 		<select id="toAdd_ConfigVariable" class="validate[required]">
 			<option value="" selected="selected"> --SELECT--</option>
 			<c:forEach var="item" items="${configVariables}">
-				<option value="${item.name}">${item.name}</option>
+				<option value="${item.id}">${item.name}</option>
 			</c:forEach>	
 		</select>
 		<br/>
@@ -529,12 +536,14 @@
 		
 		<span id="testResultsContainer">
 	 		<c:forEach items="${regExSelector.variables}" varStatus="i" var="item" >
-	 			<span class="testVariableContainer" id="testVariableContainer_${item.configVariable.name}">
-	 				<input type="hidden" id="variableName" value="${item.configVariable.name}" />
-					<label for="testVariable_${item.configVariable.name}">${item.configVariable.name}</label>
-					<input id="testVariable_${item.configVariable.name}" style="width:400px" type="text"/>
+	 			
+	 			<span class="testVariableContainer" id="testVariableContainer_${item.configVariable.id}">
+	 				<input type="hidden" id="variableId" value="${item.configVariable.id}" />
+					<label for="testVariable_${item.configVariable.id}">${item.configVariable.name}</label>
+					<input id="testVariable_${item.configVariable.id}" style="width:400px" type="text"/>
 			   		<br/>
 				</span>
+				
 			</c:forEach>
 		</span>	
 	</div>

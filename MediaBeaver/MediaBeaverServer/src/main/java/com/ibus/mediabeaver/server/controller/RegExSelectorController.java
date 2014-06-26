@@ -127,7 +127,11 @@ public class RegExSelectorController
 				if(regExVar.getReplaceExpression() != null && regExVar.getReplaceExpression().length() > 0)
 					cleanedVar = regExHelper.cleanString(cleanedVar, regExVar.getReplaceExpression(), regExVar.getReplaceWithCharacter());
 				
-				selector.getTestVariables().add(new ConfigVariableViewModel(regExVar.getSelectedConfigVariable(), cleanedVar));
+				ConfigVariableViewModel cv = new ConfigVariableViewModel();
+				cv.setId(regExVar.getSelectedConfigVariable());
+				cv.setValue(cleanedVar);
+				
+				selector.getTestVariables().add(cv);
 			}
 		}
 		
