@@ -39,7 +39,7 @@ public class Main
 			Server server = new Server();
 
 		    SelectChannelConnector connector = new SelectChannelConnector();
-		    connector.setPort(8080);
+		    connector.setPort(8081);
 		    server.addConnector(connector);
 
 		    ProtectionDomain domain = Main.class.getProtectionDomain();
