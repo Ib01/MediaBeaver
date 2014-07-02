@@ -114,7 +114,7 @@ public class MediaManager
 					log.debug(String.format("config variable %s was set to %s", rev.getConfigVariable().getName(), rev.getConfigVariable().getValue()));
 					
 					//cv.setValue(cleanVariable);
-					
+					    
 					//log.debug(String.format("config variable %s was set to %s", cv.getName(), cv.getValue()));
 				}
 			}
