@@ -52,6 +52,43 @@ public class RepositoryTests
 	
 	
 	@Test
+	public void refferenceTest()
+	{
+		StartTransaction();
+		
+		MediaConfig c = TestHelper.getMediaConfigFullGraph();
+		
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		s.save(c);
+		String id = c.getId();
+		
+		EndTransaction();
+		
+		
+		StartTransaction();
+		
+		MediaConfig c2 = Repository.getEntity(MediaConfig.class, id);
+		
+		RegExSelector res = c2.getRegExSelectors().iterator().next();
+		res.getVariables().iterator().next().getConfigVariable().setValue("Changed xxx");
+		
+		boolean success = false;
+		for(ConfigVariable cv : c2.getConfigVariables())
+		{
+			if(cv.getValue().equals("Changed xxx"))
+				success = true;
+		}
+		
+		assert(success);
+		
+		EndTransaction();
+	}
+	
+	
+	
+	
+	
+	@Test
 	public void addMediaconfigTest()
 	{
 		StartTransaction();
@@ -73,9 +110,6 @@ public class RepositoryTests
 		//assert(true);
 		
 		EndTransaction();
-		
-		
-		
 	}
 	
 	

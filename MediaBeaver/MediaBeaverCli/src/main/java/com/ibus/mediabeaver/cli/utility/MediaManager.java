@@ -98,28 +98,40 @@ public class MediaManager
 				/*populate our config variables form the getRegExVariables list*/
 				for(RegExVariable rev : selector.getVariables())
 				{
-					ConfigVariable cv = getConfigVariable(config.getConfigVariables(), rev.getConfigVariable().getName());
+					/*ConfigVariable cv = getConfigVariable(config.getConfigVariables(), rev.getConfigVariable().getName());
 					if(cv == null){
 						 //our UI should ensure this should never happens
 						log.error("An exception occured: no corresponding ConfigVariable for RegExVariable");
 						throw new MediaBeaverConfigurationException("An exception occured: no corresponding ConfigVariable for RegExVariable");
-					}
+					}*/
 					
 					String uncleanVariable = regExHelper.assembleRegExVariable(captures, rev.getGroupAssembly());	
 					String cleanVariable = regExHelper.cleanString(uncleanVariable, rev.getReplaceExpression(), rev.getReplaceWithCharacter());
 				
-					cv.setValue(cleanVariable);
+					//TODO: CHECK THAT THE CONFIG OBJECT HOLDS A REFERENCE TO THIS getConfigVariable AND NOT SOME OTHER INSTACE!!!!!
+					rev.getConfigVariable().setValue(cleanVariable);
+					
+					//cv.setValue(cleanVariable);
 					
 					log.debug(String.format("config variable %s was set to %s", cv.getName(), cv.getValue()));
 				}
 			}
 		}
 		
+		/*
+			each RegExSelector
+				Iron Man (2013).mkv
+				Iron Man
+				2013
+				mkv
+		
+		
+		*/
 		
 		return isTarget;
 	}
 	
-	private ConfigVariable getConfigVariable(Set<ConfigVariable> variables, String variableName)
+	/*private ConfigVariable getConfigVariable(Set<ConfigVariable> variables, String variableName)
 	{
 		for(ConfigVariable v : variables)
 		{
@@ -129,7 +141,7 @@ public class MediaManager
 		
 		return null;
 	}
-	
+	*/
 	
 	
 	
