@@ -27,7 +27,8 @@ public class RegExHelper
 		{
 			for(int i = 0; i <= matcher.groupCount(); i++)
 			{
-				captures.add(matcher.group(i));	
+				if(matcher.group(i) != null)
+					captures.add(matcher.group(i));	
 			}
 		}	
 		

@@ -58,6 +58,18 @@ public class MediaManager
 			} 
 			else
 			{
+				
+				/*
+				 * if deleting 
+				 * 	
+				 * 
+				 * if new File Name does not have variables in it
+				 * 		move or delete file
+				 * else 
+				 * 		if all variables are set 
+				 * 			 
+				*/
+				
 				if(!fileIsTarget(fso, config))
 					continue;
 	
@@ -73,7 +85,6 @@ public class MediaManager
 
 	private boolean fileIsTarget(File fso, MediaConfig config)
 	{
-
 		return processRegExSelectors(fso, config);
 	}
 
@@ -117,6 +128,11 @@ public class MediaManager
 					    
 					//log.debug(String.format("config variable %s was set to %s", cv.getName(), cv.getValue()));
 				}
+				
+				/*
+				 * if new File Name does not have variables in it  
+				*/
+				
 			}
 		}
 		
