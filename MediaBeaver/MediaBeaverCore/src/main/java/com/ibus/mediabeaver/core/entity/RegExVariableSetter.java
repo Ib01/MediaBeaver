@@ -16,16 +16,16 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "RegEx_Variable")
-public class RegExVariable extends PersistentObject
+public class RegExVariableSetter extends PersistentObject
 {
 	private static final long serialVersionUID = 1L;
 
-	@JsonIgnore
+	/*@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
-	private ConfigVariable configVariable;
-	/*
+	private ConfigVariable configVariable;*/
+	
 	@Column
-	private String variableName;*/
+	private String variableName;
 
 	/**
 	 * the item assembled form regex groups found in parent regex expression
@@ -51,7 +51,7 @@ public class RegExVariable extends PersistentObject
 	@ManyToOne(fetch = FetchType.EAGER)
 	private RegExSelector regExSelector;*/
 
-	/*public String getVariableName()
+	public String getVariableName()
 	{
 		return variableName;
 	}
@@ -59,7 +59,7 @@ public class RegExVariable extends PersistentObject
 	public void setVariableName(String variable)
 	{
 		this.variableName = variable;
-	}*/
+	}
 
 	public String getGroupAssembly()
 	{
@@ -91,7 +91,7 @@ public class RegExVariable extends PersistentObject
 		this.replaceWithCharacter = replaceWithCharacter;
 	}
 
-	public ConfigVariable getConfigVariable()
+	/*public ConfigVariable getConfigVariable()
 	{
 		return configVariable;
 	}
@@ -113,7 +113,7 @@ public class RegExVariable extends PersistentObject
 		
 		if (newVariable != null)
 			newVariable.addRegExVariable(this);
-	}
+	}*/
 
 }
 

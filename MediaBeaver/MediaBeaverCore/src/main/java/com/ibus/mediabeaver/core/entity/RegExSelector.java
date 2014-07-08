@@ -31,7 +31,11 @@ public class RegExSelector extends PersistentObject
 	@Column
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
-	private Set<RegExVariable> variables = new HashSet<RegExVariable>();
+	private Set<RegExVariableSetter> variables = new HashSet<RegExVariableSetter>();
+	
+	@Column
+	@NotEmpty(message = "This field cannot be left empty")
+	private FileSystemType fileSystemTarget;
 	
 	/*
 	@JsonIgnore
@@ -49,18 +53,18 @@ public class RegExSelector extends PersistentObject
 	}
 	
 	//TODO RENAME
-	public Set<RegExVariable> getVariables()
+	public Set<RegExVariableSetter> getVariables()
 	{
 		return variables;
 	}
 
 	//TODO RENAME
-	public void setVariables(Set<RegExVariable> variables)
+	public void setVariables(Set<RegExVariableSetter> variables)
 	{
 		this.variables = variables;
 	}
 	
-	public void addRegExVariable(RegExVariable var)
+	public void addRegExVariable(RegExVariableSetter var)
 	{
 		getVariables().add(var);
 	}

@@ -26,9 +26,6 @@ public class MediaConfig extends PersistentObject
 	private TransformAction action;
 
 	@Column
-	private String sourceDirectory;
-
-	@Column
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({ CascadeType.ALL })
 	private Set<ConfigVariable> configVariables = new HashSet<ConfigVariable>();
@@ -46,18 +43,21 @@ public class MediaConfig extends PersistentObject
 	@Cascade({ CascadeType.ALL })
 	private Set<RegExSelector> regExSelectors = new HashSet<RegExSelector>();
 	
-	@Column
+/*	@Column
 	private String extensionsSelector;
 
 	@Column
 	private boolean selectAllFiles;
 
 	@Column
-	private boolean selectAllFolders;
+	private boolean selectAllFolders;*/
+
+	/*@Column
+	private boolean selectAllEmptyFolders;*/
 
 	@Column
-	private boolean selectAllEmptyFolders;
-
+	private String sourceDirectory;
+	
 	@Column
 	private String destinationRoot;
 
@@ -184,7 +184,7 @@ public class MediaConfig extends PersistentObject
 		regex.setParentConfig(null);
 	}*/
 
-	public String getExtensionsSelector()
+	/*public String getExtensionsSelector()
 	{
 		return extensionsSelector;
 	}
@@ -222,7 +222,7 @@ public class MediaConfig extends PersistentObject
 	public void setSelectAllEmptyFolders(boolean selectAllEmptyFolders)
 	{
 		this.selectAllEmptyFolders = selectAllEmptyFolders;
-	}
+	}*/
 
 	public String getRelativeDestinationPath()
 	{

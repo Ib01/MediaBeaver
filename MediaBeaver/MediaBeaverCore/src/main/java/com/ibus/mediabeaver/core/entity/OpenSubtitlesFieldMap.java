@@ -17,7 +17,7 @@ public class OpenSubtitlesFieldMap extends PersistentObject
 	private String openSubititleField;
 	
 	@Column
-	private String configField;
+	private String variableName;
 	
 	/*@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -31,21 +31,22 @@ public class OpenSubtitlesFieldMap extends PersistentObject
 	{
 		this.openSubititleField = openSubititleField;
 	}
-	public String getConfigField()
+	/*public String getConfigField()
 	{
 		return configField;
 	}
 	public void setConfigField(String configField)
 	{
 		this.configField = configField;
-	}
-	
-/*	public MediaConfig getParentConfig() {
-		return parentConfig;
-	}
-
-	public void setParentConfig(MediaConfig parentConfig) {
-		this.parentConfig = parentConfig;
 	}*/
+	public String getVariableName()
+	{
+		return variableName;
+	}
+	public void setVariableName(String variableName)
+	{
+		this.variableName = variableName;
+	}
 	
+
 }

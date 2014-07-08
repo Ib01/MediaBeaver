@@ -11,7 +11,7 @@ import java.util.Set;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.util.AutoPopulatingList;
 
-import com.ibus.mediabeaver.core.entity.RegExVariable;
+import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
 
 public class RegExSelectorViewModel extends ViewModel
 {

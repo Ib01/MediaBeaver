@@ -8,13 +8,13 @@ import org.modelmapper.Provider;
 import org.springframework.util.AutoPopulatingList;
 
 import com.ibus.mediabeaver.core.entity.RegExSelector;
-import com.ibus.mediabeaver.core.entity.RegExVariable;
+import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
 import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExVariableViewModel;
 
 public abstract class Mapper
 {
-	public class regExVariableMap extends PropertyMap<RegExVariable, RegExVariableViewModel>
+	public class regExVariableMap extends PropertyMap<RegExVariableSetter, RegExVariableViewModel>
 	{
 		protected void configure()
 		{

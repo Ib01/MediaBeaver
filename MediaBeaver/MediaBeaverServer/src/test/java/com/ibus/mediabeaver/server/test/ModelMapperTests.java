@@ -15,7 +15,7 @@ import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.ConfigVariable;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.RegExSelector;
-import com.ibus.mediabeaver.core.entity.RegExVariable;
+import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
 //import com.ibus.mediabeaver.core.test.TestHelper;
 import com.ibus.mediabeaver.core.util.TestHelper;
 import com.ibus.mediabeaver.server.util.Mapper;
@@ -228,7 +228,7 @@ public class ModelMapperTests
 	}
 	
 	
-	private void AssertRegExVariableObjsEqual(RegExVariable obj, RegExVariableViewModel vm)
+	private void AssertRegExVariableObjsEqual(RegExVariableSetter obj, RegExVariableViewModel vm)
 	{
 		assertTrue(vm.getGroupAssembly().equals(obj.getGroupAssembly()));
 		assertTrue(vm.getId().equals(obj.getId()));

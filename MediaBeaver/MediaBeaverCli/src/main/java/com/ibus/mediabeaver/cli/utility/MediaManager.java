@@ -14,7 +14,7 @@ import com.ibus.mediabeaver.cli.Main;
 import com.ibus.mediabeaver.core.entity.ConfigVariable;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.RegExSelector;
-import com.ibus.mediabeaver.core.entity.RegExVariable;
+import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 import com.ibus.mediabeaver.core.exception.MediaBeaverConfigurationException;
 import com.ibus.mediabeaver.core.util.RegExHelper;
@@ -107,7 +107,7 @@ public class MediaManager
 				isTarget = true;
 				
 				/*populate our config variables form the getRegExVariables list*/
-				for(RegExVariable rev : selector.getVariables())
+				for(RegExVariableSetter rev : selector.getVariables())
 				{
 					/*ConfigVariable cv = getConfigVariable(config.getConfigVariables(), rev.getConfigVariable().getName());
 					if(cv == null){

@@ -27,13 +27,13 @@ public class ConfigVariable extends PersistentObject
 	@Column
 	private String value;
 
-	@Column
-	private boolean required = false;
+	/*@Column
+	private boolean required = false;*/
 	
-	@Column
+	/*@Column
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "configVariable")
 	@Cascade({CascadeType.SAVE_UPDATE})
-	private Set<RegExVariable> regExVariables = new HashSet<RegExVariable>();
+	private Set<RegExVariableSetter> regExVariables = new HashSet<RegExVariableSetter>();*/
 	
 	public ConfigVariable(){}
 	
@@ -68,7 +68,7 @@ public class ConfigVariable extends PersistentObject
 		this.value = value;
 	}
 
-	public boolean isRequired()
+	/*public boolean isRequired()
 	{
 		return required;
 	}
@@ -76,19 +76,19 @@ public class ConfigVariable extends PersistentObject
 	public void setRequired(boolean required)
 	{
 		this.required = required;
-	}
+	}*/
 
-	public Set<RegExVariable> getRegExVariables()
+	/*public Set<RegExVariableSetter> getRegExVariables()
 	{
 		return regExVariables;
 	}
 
-	public void setRegExVariables(Set<RegExVariable> regExVariables)
+	public void setRegExVariables(Set<RegExVariableSetter> regExVariables)
 	{
 		this.regExVariables = regExVariables;
 	}
 	
-	public boolean addRegExVariable(RegExVariable var)
+	public boolean addRegExVariable(RegExVariableSetter var)
 	{
 		if (var != null && !regExVariables.contains(var))
 		{
@@ -101,7 +101,7 @@ public class ConfigVariable extends PersistentObject
 		return false;
 	}
 	
-	public boolean removeRegExVariable(RegExVariable var)
+	public boolean removeRegExVariable(RegExVariableSetter var)
 	{
 		if(var != null && regExVariables.contains(var))
 		{
@@ -111,7 +111,7 @@ public class ConfigVariable extends PersistentObject
 		}
 		
 		return false;
-	}
+	}*/
 
 	
 

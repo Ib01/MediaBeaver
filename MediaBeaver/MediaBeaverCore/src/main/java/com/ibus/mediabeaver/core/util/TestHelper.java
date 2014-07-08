@@ -6,7 +6,7 @@ import com.ibus.mediabeaver.core.entity.ConfigVariable;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.PersistentObject;
 import com.ibus.mediabeaver.core.entity.RegExSelector;
-import com.ibus.mediabeaver.core.entity.RegExVariable;
+import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 
 public class TestHelper
@@ -16,7 +16,7 @@ public class TestHelper
 		return getRegExSelector(null);
 	}
 	
-	public static RegExSelector getRegExSelector(RegExVariable var)
+	public static RegExSelector getRegExSelector(RegExVariableSetter var)
 	{
 		RegExSelector sel = new RegExSelector();
 		sel.setExpression("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}].*\\.([a-zA-Z]+)");
@@ -28,14 +28,14 @@ public class TestHelper
 		return sel;
 	}
 	
-	public static RegExVariable getRegExVariable()
+	public static RegExVariableSetter getRegExVariable()
 	{
 		return getRegExVariable1(null);
 	}
 	
-	public static RegExVariable getRegExVariable1(ConfigVariable cf)
+	public static RegExVariableSetter getRegExVariable1(ConfigVariable cf)
 	{
-		RegExVariable var = new RegExVariable();
+		RegExVariableSetter var = new RegExVariableSetter();
 		var.setGroupAssembly("{1}");
 		var.setReplaceExpression("[\\.-]+");
 		var.setReplaceWithCharacter(" ");
@@ -51,7 +51,7 @@ public class TestHelper
 		return getConfigVariable1(null);
 	}
 	
-	public static ConfigVariable getConfigVariable1(RegExVariable rev)
+	public static ConfigVariable getConfigVariable1(RegExVariableSetter rev)
 	{
 		ConfigVariable var = new ConfigVariable();
 		var.setName("name");
@@ -69,7 +69,7 @@ public class TestHelper
 		return getConfigVariable2(null);
 	}
 	
-	public static ConfigVariable getConfigVariable2(RegExVariable rev)
+	public static ConfigVariable getConfigVariable2(RegExVariableSetter rev)
 	{
 		ConfigVariable var = new ConfigVariable();
 		var.setName("year");
@@ -103,7 +103,7 @@ public class TestHelper
 		config.addConfigVariable(cf);
 		config.addConfigVariable(cf2);
 		
-		RegExVariable rev = getRegExVariable1(cf);
+		RegExVariableSetter rev = getRegExVariable1(cf);
 		RegExSelector res = getRegExSelector(rev);
 		
 		config.addRegExSelector(res);
@@ -182,8 +182,8 @@ public class TestHelper
 		
 		assertTrue(sel1.getVariables().size() == sel2.getVariables().size());
 		
-		RegExVariable[] vars1 = (RegExVariable[]) sel1.getVariables().toArray(new RegExVariable[0]);
-		RegExVariable[] vars2 = (RegExVariable[]) sel2.getVariables().toArray(new RegExVariable[0]);
+		RegExVariableSetter[] vars1 = (RegExVariableSetter[]) sel1.getVariables().toArray(new RegExVariableSetter[0]);
+		RegExVariableSetter[] vars2 = (RegExVariableSetter[]) sel2.getVariables().toArray(new RegExVariableSetter[0]);
 		
 		for(int i=0; i < vars1.length; i++)
 		{
@@ -192,7 +192,7 @@ public class TestHelper
 	}
 	
 	
-	public static void regExVariablesEqual(RegExVariable var1, RegExVariable var2, String caller)
+	public static void regExVariablesEqual(RegExVariableSetter var1, RegExVariableSetter var2, String caller)
 	{
 		assertTrue(var1.getConfigVariable().equals(var2.getConfigVariable()));
 		assertTrue(var1.getGroupAssembly().equals(var2.getGroupAssembly()));

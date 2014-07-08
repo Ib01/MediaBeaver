@@ -16,7 +16,7 @@ import com.ibus.mediabeaver.core.entity.ConfigVariable;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.OpenSubtitlesFieldMap;
 import com.ibus.mediabeaver.core.entity.RegExSelector;
-import com.ibus.mediabeaver.core.entity.RegExVariable;
+import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 import com.ibus.mediabeaver.core.util.TestHelper;
 
@@ -85,7 +85,7 @@ public class ModelTests
 		//OpenSubtitlesFieldMap a = (OpenSubtitlesFieldMap) s.get(OpenSubtitlesFieldMap.class, osfmId);
 		ConfigVariable b = (ConfigVariable) s.get(ConfigVariable.class, vcId);
 		RegExSelector c = (RegExSelector) s.get(RegExSelector.class, resId);
-		RegExVariable d = (RegExVariable) s.get(RegExVariable.class, revId);
+		RegExVariableSetter d = (RegExVariableSetter) s.get(RegExVariableSetter.class, revId);
 		MediaConfig e = (MediaConfig) s.get(MediaConfig.class, id);
 		
 		//assertTrue(a == null);
@@ -121,7 +121,7 @@ public class ModelTests
 		MediaConfig c2 = (MediaConfig) s.get(MediaConfig.class, id);
 		
 		ConfigVariable cv1 = c2.getConfigVariables().iterator().next();
-		RegExVariable rev1 = cv1.getRegExVariables().iterator().next();
+		RegExVariableSetter rev1 = cv1.getRegExVariables().iterator().next();
 		cv1.removeRegExVariable(rev1);
 		
 		s.save(c2);
@@ -136,7 +136,7 @@ public class ModelTests
 		MediaConfig c3 = (MediaConfig) s.get(MediaConfig.class, id);
 		
 		RegExSelector res = c3.getRegExSelectors().iterator().next();
-		RegExVariable rev = res.getVariables().iterator().next();
+		RegExVariableSetter rev = res.getVariables().iterator().next();
 		
 		assertTrue(rev.getConfigVariable() == null);
 		assertTrue(c3.getConfigVariables().size() == 1);
@@ -167,7 +167,7 @@ public class ModelTests
 		MediaConfig c2 = (MediaConfig) s.get(MediaConfig.class, id);
 		
 		ConfigVariable cv1 = c2.getConfigVariables().iterator().next();
-		RegExVariable rev1 = cv1.getRegExVariables().iterator().next();
+		RegExVariableSetter rev1 = cv1.getRegExVariables().iterator().next();
 		rev1.setReplaceExpression("configVariableCascadeUpdateTest");
 		
 		//UPDATE THROUGH ConfigVariable
@@ -183,7 +183,7 @@ public class ModelTests
 		MediaConfig c3 = (MediaConfig) s.get(MediaConfig.class, id);
 		
 		ConfigVariable cv2 = c2.getConfigVariables().iterator().next();
-		RegExVariable rev3 = cv1.getRegExVariables().iterator().next();
+		RegExVariableSetter rev3 = cv1.getRegExVariables().iterator().next();
 		
 		assertTrue(rev3.getReplaceExpression().equals("configVariableCascadeUpdateTest"));
 		
@@ -213,7 +213,7 @@ public class ModelTests
 		MediaConfig c2 = (MediaConfig) s.get(MediaConfig.class, id);
 		
 		ConfigVariable cv1 = c2.getConfigVariables().iterator().next();
-		RegExVariable rev1 = cv1.getRegExVariables().iterator().next();
+		RegExVariableSetter rev1 = cv1.getRegExVariables().iterator().next();
 		rev1.setReplaceExpression("configVariableCascadeUpdateTest");
 		
 		//UPDATE THROUGH MediaConfig
@@ -229,7 +229,7 @@ public class ModelTests
 		MediaConfig c3 = (MediaConfig) s.get(MediaConfig.class, id);
 		
 		ConfigVariable cv2 = c2.getConfigVariables().iterator().next();
-		RegExVariable rev3 = cv1.getRegExVariables().iterator().next();
+		RegExVariableSetter rev3 = cv1.getRegExVariables().iterator().next();
 		
 		assertTrue(rev3.getReplaceExpression().equals("configVariableCascadeUpdateTest"));
 		
