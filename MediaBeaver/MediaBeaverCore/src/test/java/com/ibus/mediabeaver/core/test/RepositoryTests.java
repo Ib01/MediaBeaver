@@ -51,7 +51,7 @@ public class RepositoryTests
 	}
 	
 	
-	@Test
+	/*@Test
 	public void refferenceTest()
 	{
 		StartTransaction();
@@ -83,7 +83,7 @@ public class RepositoryTests
 		
 		EndTransaction();
 	}
-	
+	*/
 	
 	
 	

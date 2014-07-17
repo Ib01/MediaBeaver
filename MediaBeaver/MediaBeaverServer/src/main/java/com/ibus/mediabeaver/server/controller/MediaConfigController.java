@@ -22,7 +22,7 @@ import com.ibus.mediabeaver.core.entity.TransformAction;
 import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
-import com.ibus.mediabeaver.server.viewmodel.RegExVariableViewModel;
+import com.ibus.mediabeaver.server.viewmodel.RegExVariableSetterViewModel;
 
 @Controller
 @RequestMapping(value = "/config")

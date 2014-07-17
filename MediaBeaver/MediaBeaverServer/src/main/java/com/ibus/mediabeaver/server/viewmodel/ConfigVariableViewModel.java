@@ -8,14 +8,10 @@ import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
 
 public class ConfigVariableViewModel extends ViewModel
 {
-
 	private static final long serialVersionUID = 1L;
 	
 	private String name;
-
 	private String value;
-
-	private boolean required = false;
 	
 	public ConfigVariableViewModel()
 	{
@@ -53,17 +49,6 @@ public class ConfigVariableViewModel extends ViewModel
 		this.value = value;
 	}
 
-	public boolean isRequired()
-	{
-		return required;
-	}
-
-	public void setRequired(boolean required)
-	{
-		this.required = required;
-	}
-
-	
 	
 	@Override
 	public int hashCode()

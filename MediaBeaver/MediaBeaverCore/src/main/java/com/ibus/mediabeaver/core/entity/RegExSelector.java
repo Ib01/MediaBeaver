@@ -34,7 +34,6 @@ public class RegExSelector extends PersistentObject
 	private Set<RegExVariableSetter> variables = new HashSet<RegExVariableSetter>();
 	
 	@Column
-	@NotEmpty(message = "This field cannot be left empty")
 	private FileSystemType fileSystemTarget;
 	
 	/*

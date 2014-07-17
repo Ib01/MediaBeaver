@@ -23,7 +23,7 @@ public class RegExSelectorViewModel extends ViewModel
 	@NotEmpty(message = "This field cannot be left empty")
 	private String expression;
 
-	private List<RegExVariableViewModel> variables = new ArrayList<RegExVariableViewModel>();
+	private List<RegExVariableSetterViewModel> variables = new ArrayList<RegExVariableSetterViewModel>();
 	
 	
 	//View properties////////////////////////////////////////
@@ -53,12 +53,12 @@ public class RegExSelectorViewModel extends ViewModel
 		this.expression = expression;
 	}
 	
-	public List<RegExVariableViewModel> getVariables()
+	public List<RegExVariableSetterViewModel> getVariables()
 	{
 		return variables;
 	}
 
-	public void setVariables(List<RegExVariableViewModel> variables)
+	public void setVariables(List<RegExVariableSetterViewModel> variables)
 	{
 		this.variables = variables;
 	}

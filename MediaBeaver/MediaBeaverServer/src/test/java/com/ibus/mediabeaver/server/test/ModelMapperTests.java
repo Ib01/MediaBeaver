@@ -22,7 +22,7 @@ import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
-import com.ibus.mediabeaver.server.viewmodel.RegExVariableViewModel;
+import com.ibus.mediabeaver.server.viewmodel.RegExVariableSetterViewModel;
 
 public class ModelMapperTests
 {
@@ -198,7 +198,7 @@ public class ModelMapperTests
 		assertTrue(vm.getAction().equals(obj.getAction()));
 		assertTrue(vm.getDescription().equals(obj.getDescription()));
 		assertTrue(vm.getDestinationRoot().equals(obj.getDestinationRoot()));
-		assertTrue(vm.getExtensionsSelector().equals(obj.getExtensionsSelector()));
+		
 		assertTrue(vm.getId().equals(obj.getId()));
 		assertTrue(vm.getRelativeDestinationPath().equals(obj.getRelativeDestinationPath()));
 		assertTrue(vm.getSourceDirectory().equals(obj.getSourceDirectory()));
@@ -228,7 +228,7 @@ public class ModelMapperTests
 	}
 	
 	
-	private void AssertRegExVariableObjsEqual(RegExVariableSetter obj, RegExVariableViewModel vm)
+	private void AssertRegExVariableObjsEqual(RegExVariableSetter obj, RegExVariableSetterViewModel vm)
 	{
 		assertTrue(vm.getGroupAssembly().equals(obj.getGroupAssembly()));
 		assertTrue(vm.getId().equals(obj.getId()));
@@ -236,9 +236,9 @@ public class ModelMapperTests
 		assertTrue(vm.getReplaceExpression().equals(obj.getReplaceExpression()));
 		
 		assertTrue(vm.getConfigVariable() != null);
-		assertTrue(obj.getConfigVariable() != null);
 		
-		AssertConfigVariableObjsEqual(obj.getConfigVariable(), vm.getConfigVariable());
+		
+		
 	}
 	
 	

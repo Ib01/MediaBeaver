@@ -40,7 +40,7 @@
 		<mapping class="com.ibus.mediabeaver.core.entity.MediaConfig"/>
 		<mapping class="com.ibus.mediabeaver.core.entity.OpenSubtitlesFieldMap"/>
 		<mapping class="com.ibus.mediabeaver.core.entity.RegExSelector"/>
-		<mapping class="com.ibus.mediabeaver.core.entity.RegExVariable"/>
+		<mapping class="com.ibus.mediabeaver.core.entity.RegExVariableSetter"/>
 		
 		
 		

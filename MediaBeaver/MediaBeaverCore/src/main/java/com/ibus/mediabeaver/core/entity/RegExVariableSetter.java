@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity(name = "RegEx_Variable")
+@Entity(name = "RegEx_VariableSetter")
 public class RegExVariableSetter extends PersistentObject
 {
 	private static final long serialVersionUID = 1L;

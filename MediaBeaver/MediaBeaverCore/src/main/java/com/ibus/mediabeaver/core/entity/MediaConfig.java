@@ -30,8 +30,8 @@ public class MediaConfig extends PersistentObject
 	@Cascade({ CascadeType.ALL })
 	private Set<ConfigVariable> configVariables = new HashSet<ConfigVariable>();
 
-	@Column
-	private boolean useOpenSubtitlesThumbprintService;
+	/*@Column
+	private boolean useOpenSubtitlesThumbprintService;*/
 
 	@Column
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
@@ -127,7 +127,7 @@ public class MediaConfig extends PersistentObject
 		variable.setParentConfig(null);
 	}*/
 
-	public boolean isUseOpenSubtitlesThumbprintService()
+	/*public boolean isUseOpenSubtitlesThumbprintService()
 	{
 		return useOpenSubtitlesThumbprintService;
 	}
@@ -136,7 +136,7 @@ public class MediaConfig extends PersistentObject
 			boolean useOpenSubtitlesThumbprintService)
 	{
 		this.useOpenSubtitlesThumbprintService = useOpenSubtitlesThumbprintService;
-	}
+	}*/
 
 	public Set<OpenSubtitlesFieldMap> getOpenSubtitlesFieldMaps()
 	{

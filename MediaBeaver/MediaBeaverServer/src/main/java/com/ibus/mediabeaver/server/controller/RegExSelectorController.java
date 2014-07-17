@@ -30,7 +30,7 @@ import com.ibus.mediabeaver.server.propertyeditor.ConfigVariableViewModelEditor;
 import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
-import com.ibus.mediabeaver.server.viewmodel.RegExVariableViewModel;
+import com.ibus.mediabeaver.server.viewmodel.RegExVariableSetterViewModel;
 
 /**
  * @author ikr
@@ -120,7 +120,7 @@ public class RegExSelectorController
 		
 		if(captures.size() > 0)
 		{
-			for(RegExVariableViewModel regExVar :  selector.getVariables())
+			for(RegExVariableSetterViewModel regExVar :  selector.getVariables())
 			{
 				String cleanedVar = regExHelper.assembleRegExVariable(captures, regExVar.getGroupAssembly());
 				
@@ -140,13 +140,13 @@ public class RegExSelectorController
 	
 	
 	//a hack to deal with the ridiculous dynamic list problem.
-	private void removeNullRegExVariables(List<RegExVariableViewModel> variables)
+	private void removeNullRegExVariables(List<RegExVariableSetterViewModel> variables)
 	{
-		Iterator<RegExVariableViewModel> i = variables.iterator();
+		Iterator<RegExVariableSetterViewModel> i = variables.iterator();
 		
 		while (i.hasNext()) 
 		{
-			RegExVariableViewModel v = i.next();
+			RegExVariableSetterViewModel v = i.next();
 			
 			if(v.getConfigVariable() == null)
 				i.remove();

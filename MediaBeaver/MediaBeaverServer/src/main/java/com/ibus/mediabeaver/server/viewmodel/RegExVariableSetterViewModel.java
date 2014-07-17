@@ -13,12 +13,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.ibus.mediabeaver.core.entity.ConfigVariable;
 
-public class RegExVariableViewModel extends ViewModel
+public class RegExVariableSetterViewModel extends ViewModel
 {
 	private static final long serialVersionUID = 1L;
 	
 	//Data properties ///////////////////////////////////////////////
-	private ConfigVariableViewModel configVariable;
+	private String variableName;
 
 	@NotEmpty(message = "This field cannot be left empty")
 	private String groupAssembly;
@@ -31,17 +31,6 @@ public class RegExVariableViewModel extends ViewModel
 	// View properties ///////////////////////////////////////////////
 	private String selectedConfigVariable;
 	
-	
-	public ConfigVariableViewModel getConfigVariable()
-	{
-		return configVariable;
-	}
-
-	//@JsonDeserialize(using=ConfigVariableIdDeserializer.class)
-	public void setConfigVariable(ConfigVariableViewModel configVariable)
-	{
-		this.configVariable = configVariable;
-	}
 
 	public String getGroupAssembly()
 	{
@@ -81,6 +70,16 @@ public class RegExVariableViewModel extends ViewModel
 	public void setSelectedConfigVariable(String selectedConfigVariable)
 	{
 		this.selectedConfigVariable = selectedConfigVariable;
+	}
+
+	public String getVariableName()
+	{
+		return variableName;
+	}
+
+	public void setVariableName(String variableName)
+	{
+		this.variableName = variableName;
 	}
 	
 	

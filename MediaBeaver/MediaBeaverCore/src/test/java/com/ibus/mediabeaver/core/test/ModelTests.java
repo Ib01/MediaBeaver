@@ -44,13 +44,13 @@ public class ModelTests
 	
 	
 	
-	
+	/*
 	@Test
 	public void mediaConfigCascadeDeleteTest()
 	{
 		StartTransaction();
 		
-		/*Add MediaConfig */
+		Add MediaConfig 
 		MediaConfig c1 = TestHelper.getMediaConfigFullGraph();
 		
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -60,7 +60,7 @@ public class ModelTests
 		EndTransaction();
 		
 		
-		/*delete MediaConfig*/
+		delete MediaConfig
 		StartTransaction();
 		
 		s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -77,7 +77,7 @@ public class ModelTests
 		EndTransaction();
 		
 		
-		/*check that RegExSelector has been deleted also */
+		check that RegExSelector has been deleted also 
 		StartTransaction();
 		
 		s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -104,7 +104,7 @@ public class ModelTests
 	{
 		StartTransaction();
 		
-		/*Add MediaConfig */
+		Add MediaConfig 
 		MediaConfig c1 = TestHelper.getMediaConfigFullGraph();
 		
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -114,7 +114,7 @@ public class ModelTests
 		EndTransaction();
 		
 		
-		/*remove all config vars*/
+		remove all config vars
 		StartTransaction();
 		
 		s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -129,7 +129,7 @@ public class ModelTests
 		EndTransaction();
 		
 		
-		/*check that RegExVariable still exists and has null for configVariable*/
+		check that RegExVariable still exists and has null for configVariable
 		StartTransaction();
 		
 		s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -150,7 +150,7 @@ public class ModelTests
 	{
 		StartTransaction();
 		
-		/*Add MediaConfig */
+		Add MediaConfig 
 		MediaConfig c1 = TestHelper.getMediaConfigFullGraph();
 		
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -160,7 +160,7 @@ public class ModelTests
 		EndTransaction();
 		
 		
-		/*remove all config vars*/
+		remove all config vars
 		StartTransaction();
 		
 		s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -176,7 +176,7 @@ public class ModelTests
 		EndTransaction();
 		
 		
-		/*check that RegExVariable still exists and has null for configVariable*/
+		check that RegExVariable still exists and has null for configVariable
 		StartTransaction();
 		
 		s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -196,7 +196,7 @@ public class ModelTests
 	{
 		StartTransaction();
 		
-		/*Add MediaConfig */
+		Add MediaConfig 
 		MediaConfig c1 = TestHelper.getMediaConfigFullGraph();
 		
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -206,7 +206,7 @@ public class ModelTests
 		EndTransaction();
 		
 		
-		/*remove all config vars*/
+		remove all config vars
 		StartTransaction();
 		
 		s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -222,7 +222,7 @@ public class ModelTests
 		EndTransaction();
 		
 		
-		/*check that RegExVariable still exists and has null for configVariable*/
+		check that RegExVariable still exists and has null for configVariable
 		StartTransaction();
 		
 		s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -235,8 +235,15 @@ public class ModelTests
 		
 		EndTransaction();
 		
-	}
+	}*/
 	
+	
+	
+	/*@Test
+	public void regenerateSchema()
+	{
+		assertTrue(true);
+	}*/
 	
 	
 	@Test
@@ -264,10 +271,10 @@ public class ModelTests
 		
 	}
 	
-	@Test
+	/*@Test
 	public void updateMediaconfigTest()
 	{
-		/*save a config*/
+		save a config
 		StartTransaction();
 		
 		MediaConfig c1 = TestHelper.getMediaConfigFullGraph();
@@ -279,7 +286,7 @@ public class ModelTests
 		EndTransaction();
 		
 		
-		/*update config*/
+		update config
 		StartTransaction();
 		
 		s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -290,7 +297,7 @@ public class ModelTests
 		EndTransaction();
 		
 		
-		/*validate updated config*/
+		validate updated config
 		StartTransaction();
 		
 		s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -301,6 +308,6 @@ public class ModelTests
 		EndTransaction();
 		
 		
-	}
+	}*/
 
 }
