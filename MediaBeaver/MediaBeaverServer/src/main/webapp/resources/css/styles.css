@@ -1,12 +1,13 @@
 body 
 {
-	text-align: center;
+	
 	padding: 0px; 
 	margin: 0px;
 	color: #484848;
 	font-family: "Open Sans",sans-serif;
 	font-size: 14px;
 	font-weight: 400;
+	background-color: #1F1F1F;
 }
 
 a:link {color:#FF8A00;text-decoration:none;}
@@ -14,22 +15,19 @@ a:visited {color:#FF8A00;text-decoration:none;}
 a:hover {color:#FF8A00;text-decoration:none;}  
 a:active {color:#FF8A00;text-decoration:none;} 
 
-#bodyDiv 
+#contentDiv 
 {
 	width: 800px;
 	height: 100%;
 	margin-left: auto;
 	margin-right: auto;
 	text-align: left;
+	padding-top:1px;
+	padding-right:15px;
+	padding-bottom:1px;
+	padding-left:15px; 
+	background-color: #FFFFFF; 
 }
-
-#contentDiv
-{
-	width: 100%;
-	height: 100%;
-	margin: 10px;
-}
-
 
 #headerDiv
 {
@@ -40,8 +38,18 @@ a:active {color:#FF8A00;text-decoration:none;}
 	color: white;
 	font-family: "Comic Sans MS";
 	font-size: 36px;
-	padding: 5px;
+	padding-left: 20px;
 }
+
+#Menu
+{
+	float:right; 
+	font-size: 20px; 
+	color: #FF8A00; 
+	padding-top: 18px; 
+	padding-right: 40px
+}
+
 
 
 #footerDiv
@@ -52,8 +60,10 @@ a:active {color:#FF8A00;text-decoration:none;}
 
 H2
 {
-	color: #484848;
+	color: #1F1F1F;
 }
+
+
 
 .shadowBox
 {

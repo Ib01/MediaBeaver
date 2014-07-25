@@ -4,13 +4,20 @@
 
 <%@include file="includes/header.jsp"%>
 	
-	<script type="text/javascript" >
+	 <script type="text/javascript" >
 	
 	
 		$(function ()
 		{	
 			$("#Next").click(function() 
 			{
+				$("form:first").attr("action", "/configWizard/configNext");
+				$("form:first").submit();
+			});
+			
+			$("#Cancel").click(function() 
+			{
+				$("form:first").attr("action", "/configWizard/configCancel");
 				$("form:first").submit();
 			});
 			
@@ -19,13 +26,13 @@
 	</script>
 
 	
-	<h2>Media Item Configuration </h2>
+	<h2>Config Wizard. Step 1</h2>
 	
-	<form:form method="POST" action="/configWizard/configNext" commandName="config" id="configForm" class="formLayout">
+	<form:form method="POST" commandName="config" id="configForm" class="formLayout">
 		
-		<%-- <form:hidden path="selectedRegExSelectorIndex"/> --%>
+		<form:hidden path="selectedRegExSelectorIndex"/>
 		<form:hidden path="id"/>
-		<%-- <form:hidden path="lastUpdate"/> --%>
+		<form:hidden path="lastUpdate"/>
 		
 		
 		<form:label path="description" >Description</form:label>
@@ -53,13 +60,14 @@
 			
 		<br>
 		<br>
-		<input type="button" value="Next" style="width: 100" id="Next"/><br>
-		<input type="button" value="Cancel" onclick="window.location.replace('/config/cancel');" style="width: 100"/>
+		<input type="button" value="Next" style="width: 100; float: right; margin-left: 5px;" id="Next"/>
+		<input type="button" value="Cancel" style="width: 100; float: right" id="Cancel"/>
 		<br>
 		<br>
 		<br>
 		
 	</form:form>
+	 
 	
 <%@include file="includes/footer.jsp"%>
 

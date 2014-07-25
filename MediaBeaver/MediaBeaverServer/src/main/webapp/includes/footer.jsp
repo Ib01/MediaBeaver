@@ -1,6 +1,6 @@
 
 
-		</div>
+		<!-- </div> -->
 		<!-- end contentDiv -->
 
 		<!-- <div id="footerDiv"> this is a heading</div> -->

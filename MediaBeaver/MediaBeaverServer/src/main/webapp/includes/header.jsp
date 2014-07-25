@@ -18,17 +18,22 @@
 	<script type="text/javascript" src="/resources/script/jquery.validationEngine.js" charset="utf-8"></script>
     
 </head>
-<body>
+<body >
 	
 		
-	
-	<div id="bodyDiv"> 
-		<div id="headerDiv" >
+	<div id="headerDiv">
 		Media Beaver
-		<div style="float:right; font-size: 20px; color: #FF8A00; padding-top: 18px">
-			<a href="/configList">Configuration</a> | <a href="/config">menu item 2</a></div>
+		<div id="Menu" style="">
+			<a href="/configList">Configuration</a>
 		</div>
-		<div id="contentDiv">
+	</div>
+	
+	<!-- <div style="background-color: blue; width: 100%;height:50px"></div> -->
+	
+		
+	<!-- <div id="bodyDiv" >  -->
+		
+	<div id="contentDiv">
 		
 		
 		

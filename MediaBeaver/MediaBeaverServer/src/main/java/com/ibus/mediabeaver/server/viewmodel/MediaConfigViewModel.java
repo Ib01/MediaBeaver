@@ -24,7 +24,10 @@ public class MediaConfigViewModel extends ViewModel
 	private String destinationRoot;
 	private String relativeDestinationPath;
 	
+	//TODO: REMOVE?
 	private int selectedRegExSelectorIndex;
+	//TODO: REMOVE?	
+	private RegExSelectorViewModel selectedRegExSelector = new RegExSelectorViewModel();
 
 	public String getDescription()
 	{
@@ -127,6 +130,18 @@ public class MediaConfigViewModel extends ViewModel
 	{
 		return selectedRegExSelectorIndex;
 	}
+	
+	public RegExSelectorViewModel getSelectedRegExSelector()
+	{
+		return selectedRegExSelector;
+	}
+
+	public void setSelectedRegExSelector(RegExSelectorViewModel selectedRegExSelector)
+	{
+		this.selectedRegExSelector = selectedRegExSelector;
+	}
+	
+	
 
 	public void setSelectedRegExSelectorIndex(int selectedRegExSelectorIndex)
 	{
@@ -159,6 +174,37 @@ public class MediaConfigViewModel extends ViewModel
 		}
 	}
 
+	//TODO: Used?
+	public RegExSelectorViewModel getRegExSelector(String id)
+	{
+		RegExSelectorViewModel returnValue = new RegExSelectorViewModel();
+		for(RegExSelectorViewModel sel : regExSelectors)
+		{
+			if(sel.getId().equals(id))
+				returnValue = sel;
+		}
+		
+		return  returnValue;
+	}
+
+	
+	public RegExSelectorViewModel updateOrAddRegExSelector(RegExSelectorViewModel selector)
+	{
+		for(RegExSelectorViewModel sel : regExSelectors)
+		{
+			if(sel.getId().equals(selector.getId()))
+			{
+				sel.setDescription(selector.getDescription());
+				sel.setExpression(selector.getExpression());
+				
+				for(RegExVariableSetterViewModel set : sel.getVariables())
+				{
+					
+				}
+			}
+		}
+		
+	}
 	
 	
 }
