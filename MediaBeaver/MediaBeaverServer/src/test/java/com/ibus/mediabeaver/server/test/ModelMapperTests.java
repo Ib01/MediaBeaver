@@ -69,7 +69,7 @@ public class ModelMapperTests
 		MediaConfigViewModel vm1 = modelMapper.map(mc1, MediaConfigViewModel.class);
 		MediaConfig mc2 = modelMapper.map(vm1, MediaConfig.class);
 		
-		/*Save entity*/
+		//Save entity
 		StartTransaction();
 				
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -79,7 +79,7 @@ public class ModelMapperTests
 		EndTransaction();
 		
 		
-		/*get entity out and check same as orriginal*/
+		//get entity out and check same as orriginal
 		StartTransaction();
 		s = HibernateUtil.getSessionFactory().getCurrentSession();
 		
@@ -102,7 +102,7 @@ public class ModelMapperTests
 		vm1.setDescription("maUpdateAndSaveTest");
 		MediaConfig mc2 = modelMapper.map(vm1, MediaConfig.class);
 		
-		/*Save entity*/
+		//Save entity
 		StartTransaction();
 				
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -112,7 +112,7 @@ public class ModelMapperTests
 		EndTransaction();
 		
 		
-		/*get entity out and check same as orriginal*/
+		//get entity out and check same as orriginal
 		StartTransaction();
 		s = HibernateUtil.getSessionFactory().getCurrentSession();
 		
@@ -198,7 +198,6 @@ public class ModelMapperTests
 		assertTrue(vm.getAction().equals(obj.getAction()));
 		assertTrue(vm.getDescription().equals(obj.getDescription()));
 		assertTrue(vm.getDestinationRoot().equals(obj.getDestinationRoot()));
-		
 		assertTrue(vm.getId().equals(obj.getId()));
 		assertTrue(vm.getRelativeDestinationPath().equals(obj.getRelativeDestinationPath()));
 		assertTrue(vm.getSourceDirectory().equals(obj.getSourceDirectory()));
@@ -234,10 +233,7 @@ public class ModelMapperTests
 		assertTrue(vm.getId().equals(obj.getId()));
 		assertTrue(vm.getReplaceWithCharacter().equals(obj.getReplaceWithCharacter()));
 		assertTrue(vm.getReplaceExpression().equals(obj.getReplaceExpression()));
-		
-		assertTrue(vm.getConfigVariable() != null);
-		
-		
+		assertTrue(vm.getVariableName().equals(obj.getVariableName()));
 		
 	}
 	

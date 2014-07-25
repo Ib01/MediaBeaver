@@ -13,9 +13,6 @@
 		<property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
 
 
-
-
-
 		<!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
 
@@ -42,7 +39,7 @@
 		<mapping class="com.ibus.mediabeaver.core.entity.MediaConfig"/>
 		<mapping class="com.ibus.mediabeaver.core.entity.OpenSubtitlesFieldMap"/>
 		<mapping class="com.ibus.mediabeaver.core.entity.RegExSelector"/>
-		<mapping class="com.ibus.mediabeaver.core.entity.RegExVariable"/>
+		<mapping class="com.ibus.mediabeaver.core.entity.RegExVariableSetter"/>
 		
     </session-factory>
 

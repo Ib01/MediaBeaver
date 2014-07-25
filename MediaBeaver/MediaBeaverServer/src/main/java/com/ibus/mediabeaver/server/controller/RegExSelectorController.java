@@ -148,8 +148,8 @@ public class RegExSelectorController
 		{
 			RegExVariableSetterViewModel v = i.next();
 			
-			if(v.getConfigVariable() == null)
-				i.remove();
+			/*if(v.getConfigVariable() == null)
+				i.remove();*/
 		}
 	}
 	
