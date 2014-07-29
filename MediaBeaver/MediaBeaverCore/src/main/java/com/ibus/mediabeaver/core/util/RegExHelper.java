@@ -1,6 +1,7 @@
 package com.ibus.mediabeaver.core.util;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -10,6 +11,33 @@ import com.ibus.mediabeaver.core.entity.ConfigVariable;
 
 public class RegExHelper 
 {
+	
+	/**
+	 * Get variable names from a path
+	 * @param regularExpression
+	 * @param text
+	 * @return
+	 */
+	public List<String> getVariableNames(String path)
+	{
+		Pattern pattern = Pattern.compile("\\{\\{(\\w+)\\}\\}");
+		Matcher matcher = pattern.matcher(path);
+		
+		//List<String> captures = new ArrayList<String>();
+		Hashtable<String, String> captures = new Hashtable<String, String>();
+		
+		while(matcher.find())
+		{
+			captures.put(matcher.group(1), matcher.group(1));
+		}
+		
+		return new ArrayList<String>(captures.values());
+	}
+	
+	
+	
+	
+	
 	/**
 	 * Capture text from a regular expression. the regular expression must contain capture groups 
 	 * @param regularExpression

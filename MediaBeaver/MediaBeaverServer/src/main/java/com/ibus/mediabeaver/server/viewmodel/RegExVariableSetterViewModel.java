@@ -15,6 +15,12 @@ import com.ibus.mediabeaver.core.entity.ConfigVariable;
 
 public class RegExVariableSetterViewModel extends ViewModel
 {
+	public RegExVariableSetterViewModel(){}
+	public RegExVariableSetterViewModel(String variableName){
+		this.variableName = variableName;
+	}
+	
+	
 	private static final long serialVersionUID = 1L;
 	
 	//Data properties ///////////////////////////////////////////////

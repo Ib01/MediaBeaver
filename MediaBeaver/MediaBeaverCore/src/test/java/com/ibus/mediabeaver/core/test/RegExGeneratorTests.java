@@ -13,6 +13,22 @@ public class RegExGeneratorTests
 {
 
 	@Test
+	public void getVariableNamesTest()
+	{
+		String path = "{{name}}\\{{name}}({{year}})";
+
+		RegExHelper rgen = new RegExHelper();
+
+		List<String> list = rgen.getVariableNames(path);
+		
+		assertTrue(list.size() == 2);
+		assertTrue(list.get(0).equals("name"));
+		assertTrue(list.get(1).equals("year"));
+	}
+	
+	
+	
+	@Test
 	public void captureStringsTest()
 	{
 		String fileName = "Iron-Man (1992).mkv";

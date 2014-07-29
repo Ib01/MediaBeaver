@@ -99,7 +99,7 @@ public class RegExSelectorController
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String saveSelector(RegExSelectorViewModel selector, BindingResult result, HttpServletRequest request)
 	{
-		removeNullRegExVariables(selector.getVariables());
+		removeNullRegExVariables(selector.getVariableSetters());
 		
 		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
 		if(selector.getIndex() > -1)
@@ -120,7 +120,7 @@ public class RegExSelectorController
 		
 		if(captures.size() > 0)
 		{
-			for(RegExVariableSetterViewModel regExVar :  selector.getVariables())
+			for(RegExVariableSetterViewModel regExVar :  selector.getVariableSetters())
 			{
 				String cleanedVar = regExHelper.assembleRegExVariable(captures, regExVar.getGroupAssembly());
 				

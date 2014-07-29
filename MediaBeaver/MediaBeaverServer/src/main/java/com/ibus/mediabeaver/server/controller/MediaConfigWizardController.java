@@ -2,6 +2,7 @@ package com.ibus.mediabeaver.server.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,9 +21,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.TransformAction;
+import com.ibus.mediabeaver.core.util.RegExHelper;
 import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
+import com.ibus.mediabeaver.server.viewmodel.RegExVariableSetterViewModel;
+import com.ibus.mediabeaver.server.viewmodel.ViewModel;
 
 @Controller
 @RequestMapping(value = "/configWizard")
@@ -59,27 +63,37 @@ public class MediaConfigWizardController
 		return vm;
 	}
 	
-	/*@ModelAttribute("selectedRegExSelector")
-	public RegExSelectorViewModel selectedRegExSelector(HttpServletRequest request)
+	/*@ModelAttribute("regExSelector")
+	public RegExSelectorViewModel regExSelector(HttpServletRequest request, HttpSession session)
 	{
+		MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
 		RegExSelectorViewModel sel = new RegExSelectorViewModel();
-		String id = request.getParameter("id");
 		
+		if(config == null)
+			return sel;
+		
+		String id = request.getParameter("id");
 		if(id != null && id.length() > 0)
 		{
+			sel = config.getRegExSelector(id);
 		}
+
+		//set the variableSetters we will use
+		RegExHelper rexHelper = new RegExHelper();
+		List<String> variableNames = rexHelper.getVariableNames(config.getRelativeDestinationPath());
+		sel.createVariableSetters(variableNames);
+		
 		return sel;
 	}*/
 	
 	
 	
 	@RequestMapping
-	public String addOrUpdateConfig(HttpServletRequest request)
+	public String configLoad(HttpServletRequest request)
 	{
 		//return new ModelAndView("MediaConfig","config", vm);
 		return "ConfigWizard_Config";
 	}
-	
 	
 	@RequestMapping("configCancel")
 	public String configCancel(@ModelAttribute("config")MediaConfigViewModel config, SessionStatus status)
@@ -89,7 +103,6 @@ public class MediaConfigWizardController
 		//TODO: REDIRECT TO ?
 		return "ConfigWizard_Config";
 	}
-	
 	
 	@RequestMapping("configNext")
 	public String configNext(@ModelAttribute("config")MediaConfigViewModel config)
@@ -103,7 +116,6 @@ public class MediaConfigWizardController
 		return "ConfigWizard_Config";
 	}
 	
-	
 	@RequestMapping("regExSelectorsNext")
 	public String regExSelectorsNext()
 	{
@@ -112,18 +124,32 @@ public class MediaConfigWizardController
 	}
 	
 	@RequestMapping("regExSelectorsAdd")
-	public String regExSelectorsAdd(HttpSession session)
+	public ModelAndView regExSelectorsAdd(HttpSession session, HttpServletRequest request)
 	{
-		return "ConfigWizard_AddRegExSelector";
+		MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
+		RegExSelectorViewModel sel = new RegExSelectorViewModel();
+		
+		String id = request.getParameter("id");
+		if(id != null && id.length() > 0)
+		{
+			sel = config.getRegExSelector(id);
+		}
+
+		//set the variableSetters we will use
+		RegExHelper rexHelper = new RegExHelper();
+		List<String> variableNames = rexHelper.getVariableNames(config.getRelativeDestinationPath());
+		sel.createVariableSetters(variableNames);
+		
+		return new ModelAndView("ConfigWizard_RegExSelector","regExSelector", sel);
 	}
 	
-	@RequestMapping("addRegExSelectorSave")
-	public String addRegExSelectorSave(@ModelAttribute("config")MediaConfigViewModel config)
+	@RequestMapping("regExSelectorSave")
+	public String regExSelectorSave(@ModelAttribute("config")RegExSelectorViewModel selector)
 	{
 		//SelectedRegExSelector will either be as new instance or point to an instance in our collection
-		if(config.getId().length() > 0)
+		if(selector.getId().length() > 0)
 		{
-			config.addRegExSelector(config.getSelectedRegExSelector());
+			selector.addRegExSelector(selector.getSelectedRegExSelector());
 		}
  
 		return "ConfigWizard_RegExSelectors";

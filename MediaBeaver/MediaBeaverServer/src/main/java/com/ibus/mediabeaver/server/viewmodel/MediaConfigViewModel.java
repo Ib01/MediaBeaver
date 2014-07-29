@@ -2,14 +2,18 @@ package com.ibus.mediabeaver.server.viewmodel;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.ibus.mediabeaver.core.entity.ConfigVariable;
 import com.ibus.mediabeaver.core.entity.OpenSubtitlesFieldMap;
 import com.ibus.mediabeaver.core.entity.RegExSelector;
 import com.ibus.mediabeaver.core.entity.TransformAction;
+
 
 public class MediaConfigViewModel extends ViewModel 
 {
@@ -177,18 +181,26 @@ public class MediaConfigViewModel extends ViewModel
 	//TODO: Used?
 	public RegExSelectorViewModel getRegExSelector(String id)
 	{
-		RegExSelectorViewModel returnValue = new RegExSelectorViewModel();
+		RegExSelectorViewModel selector = new RegExSelectorViewModel();
 		for(RegExSelectorViewModel sel : regExSelectors)
 		{
 			if(sel.getId().equals(id))
-				returnValue = sel;
+				selector = sel;
 		}
 		
-		return  returnValue;
+		return  selector;
 	}
 
 	
-	public RegExSelectorViewModel updateOrAddRegExSelector(RegExSelectorViewModel selector)
+	
+	
+	
+	
+	
+	
+	
+	
+	/*public RegExSelectorViewModel updateOrAddRegExSelector(RegExSelectorViewModel selector)
 	{
 		for(RegExSelectorViewModel sel : regExSelectors)
 		{
@@ -204,7 +216,7 @@ public class MediaConfigViewModel extends ViewModel
 			}
 		}
 		
-	}
+	}*/
 	
 	
 }
