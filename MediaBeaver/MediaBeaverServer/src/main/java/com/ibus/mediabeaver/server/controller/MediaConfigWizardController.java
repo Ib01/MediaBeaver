@@ -13,7 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -123,19 +127,25 @@ public class MediaConfigWizardController
 		return "ConfigWizard_RegExSelectors";
 	}
 	
-	@RequestMapping("regExSelectorsAdd")
-	public ModelAndView regExSelectorsAdd(HttpSession session, HttpServletRequest request)
+	@RequestMapping("regExSelectorsDelete/{index}")
+	public String regExSelectorsDelete(@PathVariable String index)
+	{
+		//TODO: REDIRECT TO ?
+		return "ConfigWizard_RegExSelectors";
+	}
+	
+	
+	
+	@RequestMapping("regExSelectorsUpdate/{index}")
+	public ModelAndView regExSelectorsUpdate(HttpSession session, HttpServletRequest request, @PathVariable String index)
 	{
 		MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
-		RegExSelectorViewModel sel = new RegExSelectorViewModel();
 		
-		String id = request.getParameter("id");
-		if(id != null && id.length() > 0)
-		{
-			sel = config.getRegExSelector(id);
-		}
-
-		//set the variableSetters we will use
+		//get a copy of the stored selector so we do not modify the selector until we save
+		RegExSelectorViewModel sel = config.getRegExSelectors().get(Integer.parseInt(index)).copy();
+		sel.setIndex(Integer.parseInt(index));
+		
+		//re/set the variableSetters we will use
 		RegExHelper rexHelper = new RegExHelper();
 		List<String> variableNames = rexHelper.getVariableNames(config.getRelativeDestinationPath());
 		sel.createVariableSetters(variableNames);
@@ -143,15 +153,34 @@ public class MediaConfigWizardController
 		return new ModelAndView("ConfigWizard_RegExSelector","regExSelector", sel);
 	}
 	
-	@RequestMapping("regExSelectorSave")
-	public String regExSelectorSave(@ModelAttribute("config")RegExSelectorViewModel selector)
+	@RequestMapping("regExSelectorsAdd")
+	public ModelAndView regExSelectorsAdd(HttpSession session, HttpServletRequest request)
 	{
-		//SelectedRegExSelector will either be as new instance or point to an instance in our collection
-		if(selector.getId().length() > 0)
+		MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
+		RegExSelectorViewModel sel = new RegExSelectorViewModel();
+
+		//re/set the variableSetters we will use
+		RegExHelper rexHelper = new RegExHelper();
+		List<String> variableNames = rexHelper.getVariableNames(config.getRelativeDestinationPath());
+		sel.createVariableSetters(variableNames);
+		
+		return new ModelAndView("ConfigWizard_RegExSelector","regExSelector", sel);
+	}
+	
+	
+	@RequestMapping("regExSelectorSave")
+	public String regExSelectorSave(RegExSelectorViewModel selector,HttpSession session)
+	{
+		MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
+		
+		if(selector.getIndex() > -1 )
 		{
-			selector.addRegExSelector(selector.getSelectedRegExSelector());
+			RegExSelectorViewModel toRemove = config.getRegExSelector(selector.getId());
+			config.getRegExSelectors().remove(toRemove);
 		}
- 
+		
+		config.getRegExSelectors().add(selector);
+ 		
 		return "ConfigWizard_RegExSelectors";
 	}
 	

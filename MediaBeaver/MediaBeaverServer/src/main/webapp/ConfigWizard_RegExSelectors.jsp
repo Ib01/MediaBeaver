@@ -48,8 +48,10 @@
 					<td align="left" valign="top"><c:out value="${selector.description}" /></td>
 					<td align="left" valign="top" style="margin-left: 100px;"><c:out value="${selector.expression}" /></td>
 					<td align="right" valign="top">
-						<a href="#" class="editExpression">edit</a> | 
-						<a href="#" class="deleteExpression">delete</a><input type="hidden" id="selectorIndex" value="${i.index}" />
+						<a href="/configWizard/regExSelectorsUpdate/${i.index}" class="editExpression">edit</a> | 
+						<a href="/configWizard/regExSelectorsDelete/${i.index}" class="deleteExpression">delete</a>
+						
+						<input type="hidden" id="selectorIndex" value="${i.index}" />
 					</td>
 				</tr>
 		    </c:forEach>

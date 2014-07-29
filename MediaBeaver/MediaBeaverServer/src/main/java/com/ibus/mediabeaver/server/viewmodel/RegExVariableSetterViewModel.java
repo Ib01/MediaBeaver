@@ -37,6 +37,21 @@ public class RegExVariableSetterViewModel extends ViewModel
 	// View properties ///////////////////////////////////////////////
 	private String selectedConfigVariable;
 	
+	
+	public RegExVariableSetterViewModel copy()
+	{
+		RegExVariableSetterViewModel setter = new RegExVariableSetterViewModel();
+		setter.setGroupAssembly(groupAssembly);
+		setter.setId(id);
+		setter.setLastUpdate(lastUpdate);
+		setter.setReplaceExpression(replaceExpression);
+		setter.setReplaceWithCharacter(replaceWithCharacter);
+		setter.setSelectedConfigVariable(selectedConfigVariable);
+		setter.setVariableName(variableName);
+		
+		return setter;
+	}
+	
 
 	public String getGroupAssembly()
 	{

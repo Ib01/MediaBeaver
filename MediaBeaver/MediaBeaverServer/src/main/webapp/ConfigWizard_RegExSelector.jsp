@@ -10,7 +10,7 @@
 		{	
 			$("#Save").click(function() 
 			{
-				$("form:first").attr("action", "/configWizard/addRegExSelectorSave");
+				$("form:first").attr("action", "/configWizard/regExSelectorSave");
 				$("form:first").submit();
 			});
 			
@@ -28,6 +28,9 @@
 	<h2>Config Wizard: Add or Update Regex Selector</h2>
 	
 	<form:form method="POST" commandName="regExSelector" id="configForm" class="formLayout">
+		<form:hidden path="id"/>
+		<form:hidden path="index"/>
+		<%-- <form:hidden path="lastUpdate"/> --%>
 		
 		<form:label path="description">Description</form:label>
    		<form:input path="description" style="width:400px" id="description" class="validate[required]" />
@@ -38,10 +41,13 @@
 		
 		<h2>Variable Setters</h2>
 		
-		<c:forEach items="${regExSelector.variableSetters}" varStatus="i" >
+		<c:forEach items="${regExSelector.variableSetters}" varStatus="i" var="setter">
+			<form:hidden path="id"/>
+			<%-- <form:hidden path="lastUpdate"/> --%>
 		
 			<form:label path="variableSetters[${i.index}].variableName">Name</form:label>
-			<form:input path="variableSetters[${i.index}].variableName" style="width:250px;" class="validate[required]" disabled="true"/> 
+			<c:out value="${setter.variableName}" ></c:out>
+			<form:hidden path="variableSetters[${i.index}].variableName"/>
 			<br style="clear: both"/>
 			
 			<form:label path="variableSetters[${i.index}].groupAssembly">Group Assembly</form:label>
@@ -64,8 +70,6 @@
 		   <br/>
 			
 		</c:forEach>
-		
-		
 		
 		
 		

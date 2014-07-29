@@ -33,6 +33,26 @@ public class RegExSelectorViewModel extends ViewModel
 	private List<ConfigVariableViewModel> testVariables = new ArrayList<ConfigVariableViewModel>();
 	private int index = -1;
 	
+	public RegExSelectorViewModel copy()
+	{
+		RegExSelectorViewModel selector = new RegExSelectorViewModel(); 
+		
+		selector.setDescription(description);
+		selector.setExpression(expression);
+		selector.setId(id);
+		selector.setIndex(index);
+		selector.setLastUpdate(lastUpdate);
+		selector.setTestFileName(testFileName);
+		//selector.setTestVariables(testVariables);
+		
+		for(RegExVariableSetterViewModel setter : variableSetters)
+		{
+			selector.getVariableSetters().add(setter.copy());
+		}
+		
+		return selector;
+	}
+	
 	
 	public String getDescription()
 	{
