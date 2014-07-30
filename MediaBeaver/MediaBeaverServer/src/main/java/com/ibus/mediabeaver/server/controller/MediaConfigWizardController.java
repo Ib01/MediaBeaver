@@ -37,6 +37,12 @@ import com.ibus.mediabeaver.server.viewmodel.ViewModel;
 @SessionAttributes({"config"})
 public class MediaConfigWizardController
 {
+	/*TODO
+	 *Add sort / processing order to selectors 
+	 *add validation
+	 *
+	 * */
+	
 	@InitBinder
 	public void initBinder(WebDataBinder webDataBinder) 
 	{
@@ -67,35 +73,9 @@ public class MediaConfigWizardController
 		return vm;
 	}
 	
-	/*@ModelAttribute("regExSelector")
-	public RegExSelectorViewModel regExSelector(HttpServletRequest request, HttpSession session)
-	{
-		MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
-		RegExSelectorViewModel sel = new RegExSelectorViewModel();
-		
-		if(config == null)
-			return sel;
-		
-		String id = request.getParameter("id");
-		if(id != null && id.length() > 0)
-		{
-			sel = config.getRegExSelector(id);
-		}
-
-		//set the variableSetters we will use
-		RegExHelper rexHelper = new RegExHelper();
-		List<String> variableNames = rexHelper.getVariableNames(config.getRelativeDestinationPath());
-		sel.createVariableSetters(variableNames);
-		
-		return sel;
-	}*/
-	
-	
-	
 	@RequestMapping
 	public String configLoad(HttpServletRequest request)
 	{
-		//return new ModelAndView("MediaConfig","config", vm);
 		return "ConfigWizard_Config";
 	}
 	
@@ -109,8 +89,10 @@ public class MediaConfigWizardController
 	}
 	
 	@RequestMapping("configNext")
-	public String configNext(@ModelAttribute("config")MediaConfigViewModel config)
+	public String configNext(@ModelAttribute("config")MediaConfigViewModel config, HttpSession session)
 	{
+		//the relative destination path might have changed so we need to reset all setters in all reg ex selectors 
+		resetAllSetters(session);
 		return "ConfigWizard_RegExSelectors";
 	}
 	
@@ -121,15 +103,18 @@ public class MediaConfigWizardController
 	}
 	
 	@RequestMapping("regExSelectorsNext")
-	public String regExSelectorsNext()
+	public String regExSelectorsNext(HttpSession session)
 	{
 		//TODO: REDIRECT TO ?
 		return "ConfigWizard_RegExSelectors";
 	}
 	
 	@RequestMapping("regExSelectorsDelete/{index}")
-	public String regExSelectorsDelete(@PathVariable String index)
+	public String regExSelectorsDelete(@PathVariable String index, HttpSession session)
 	{
+		MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
+		config.getRegExSelectors().remove(Integer.parseInt(index));
+		
 		//TODO: REDIRECT TO ?
 		return "ConfigWizard_RegExSelectors";
 	}
@@ -145,11 +130,6 @@ public class MediaConfigWizardController
 		RegExSelectorViewModel sel = config.getRegExSelectors().get(Integer.parseInt(index)).copy();
 		sel.setIndex(Integer.parseInt(index));
 		
-		//re/set the variableSetters we will use
-		RegExHelper rexHelper = new RegExHelper();
-		List<String> variableNames = rexHelper.getVariableNames(config.getRelativeDestinationPath());
-		sel.createVariableSetters(variableNames);
-		
 		return new ModelAndView("ConfigWizard_RegExSelector","regExSelector", sel);
 	}
 	
@@ -159,10 +139,7 @@ public class MediaConfigWizardController
 		MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
 		RegExSelectorViewModel sel = new RegExSelectorViewModel();
 
-		//re/set the variableSetters we will use
-		RegExHelper rexHelper = new RegExHelper();
-		List<String> variableNames = rexHelper.getVariableNames(config.getRelativeDestinationPath());
-		sel.createVariableSetters(variableNames);
+		resetSetters(session, sel, config);
 		
 		return new ModelAndView("ConfigWizard_RegExSelector","regExSelector", sel);
 	}
@@ -175,15 +152,35 @@ public class MediaConfigWizardController
 		
 		if(selector.getIndex() > -1 )
 		{
-			RegExSelectorViewModel toRemove = config.getRegExSelector(selector.getId());
-			config.getRegExSelectors().remove(toRemove);
+			config.getRegExSelectors().remove(selector.getIndex());
 		}
 		
-		config.getRegExSelectors().add(selector);
- 		
+		config.getRegExSelectors().add(selector);	
+		
 		return "ConfigWizard_RegExSelectors";
 	}
 	
+	
+	private void resetAllSetters(HttpSession session)
+	{
+		RegExHelper rexHelper = new RegExHelper();
+		MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
+		List<String> variableNames = rexHelper.getVariableNames(config.getRelativeDestinationPath());
+		
+		//add new setters and remove deleted setters from the setter collections of all selectors before proceeding further
+		for(RegExSelectorViewModel selector :  config.getRegExSelectors())
+		{
+			selector.createVariableSetters(variableNames);	
+		}
+	}
+
+	private void resetSetters(HttpSession session, RegExSelectorViewModel sel, MediaConfigViewModel config)
+	{
+		//set  ore reset the variableSetters we will use
+		RegExHelper rexHelper = new RegExHelper();
+		List<String> variableNames = rexHelper.getVariableNames(config.getRelativeDestinationPath());
+		sel.createVariableSetters(variableNames);
+	}
 	
 }
 

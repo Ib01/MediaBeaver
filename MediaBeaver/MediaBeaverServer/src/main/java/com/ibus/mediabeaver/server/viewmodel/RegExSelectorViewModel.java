@@ -12,6 +12,7 @@ import java.util.Set;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.util.AutoPopulatingList;
 
+import com.ibus.mediabeaver.core.entity.IdGenerator;
 import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
 
 public class RegExSelectorViewModel extends ViewModel
@@ -32,6 +33,12 @@ public class RegExSelectorViewModel extends ViewModel
 	private String testFileName;
 	private List<ConfigVariableViewModel> testVariables = new ArrayList<ConfigVariableViewModel>();
 	private int index = -1;
+	
+	public RegExSelectorViewModel()
+	{
+		//bit messy but allows us to reference objects in wizard without saving to db.
+		//id = IdGenerator.createId();	
+	}
 	
 	public RegExSelectorViewModel copy()
 	{
@@ -118,6 +125,26 @@ public class RegExSelectorViewModel extends ViewModel
 	{
 		this.index = index;
 	}
+	
+	
+	private String variablesValid = "";
+	
+	//the jsp framework may need this?
+	/*public void setVariablesValid(String value)
+	{
+		variablesValid = value;
+	}*/
+
+	public String getVariablesValid()
+	{
+		/*for(RegExVariableSetterViewModel set : variableSetters)
+		{
+			if(set.getVariableName().equals(name))
+				found = true;
+		}*/
+		
+		return variablesValid;
+	}	
 	
 	
 	public void createVariableSetters(List<String> variableNames)

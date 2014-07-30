@@ -10,8 +10,11 @@
 		{	
 			$("#Next").click(function() 
 			{
-				$("form:first").attr("action", "/configWizard/regExSelectorsNext");
-				$("form:first").submit();
+				if($("form:first").validationEngine('validate'))
+				{
+					$("form:first").attr("action", "/configWizard/regExSelectorsNext");
+					$("form:first").submit();
+				}
 			});
 			
 			$("#Previous").click(function() 
@@ -43,15 +46,16 @@
 			</tr>
 		
 			<c:forEach items="${config.regExSelectors}" var="selector" varStatus="i">
-			
+				
 				<tr>
-					<td align="left" valign="top"><c:out value="${selector.description}" /></td>
+					<td align="left" valign="top"><c:out value="${selector.description}" />
+						<%-- <form:hidden path="regExSelectors[${i.index}].variablesValid" class="validate[required]"/> --%>
+						<form:input path="regExSelectors[${i.index}].variablesValid" class="validate[required]" style="display: none"/>
+					</td>
 					<td align="left" valign="top" style="margin-left: 100px;"><c:out value="${selector.expression}" /></td>
 					<td align="right" valign="top">
 						<a href="/configWizard/regExSelectorsUpdate/${i.index}" class="editExpression">edit</a> | 
 						<a href="/configWizard/regExSelectorsDelete/${i.index}" class="deleteExpression">delete</a>
-						
-						<input type="hidden" id="selectorIndex" value="${i.index}" />
 					</td>
 				</tr>
 		    </c:forEach>

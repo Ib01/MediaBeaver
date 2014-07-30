@@ -5,7 +5,10 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.SessionManager;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
+import org.eclipse.jetty.server.session.HashSessionManager;
+import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 public class Main 
@@ -52,6 +55,12 @@ public class Main
 		    /*HandlerList handlers = new HandlerList();
 		    handlers.setHandlers(new Handler[] {webapp, new ShutdownHandler(server, ShutdownPassword)});
 		    server.setHandler(handlers);*/
+		    
+		    /*not sure if this session stuff works*/
+		    SessionHandler sessionHandler = new SessionHandler(); 
+	        SessionManager sessionManager = new HashSessionManager(); 
+	        sessionHandler.setSessionManager(sessionManager); 
+	        sessionManager.setMaxInactiveInterval(3600); 
 		    
 		    server.setHandler(webapp);
 		    server.start();

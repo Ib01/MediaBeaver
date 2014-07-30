@@ -11,8 +11,11 @@
 		{	
 			$("#Next").click(function() 
 			{
-				$("form:first").attr("action", "/configWizard/configNext");
-				$("form:first").submit();
+				if($("form:first").validationEngine('validate'))
+				{
+					$("form:first").attr("action", "/configWizard/configNext");
+					$("form:first").submit();
+				}
 			});
 			
 			$("#Cancel").click(function() 
