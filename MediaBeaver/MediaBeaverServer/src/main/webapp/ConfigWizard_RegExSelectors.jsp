@@ -10,11 +10,10 @@
 		{	
 			$("#Next").click(function() 
 			{
-				if($("form:first").validationEngine('validate'))
-				{
-					$("form:first").attr("action", "/configWizard/regExSelectorsNext");
-					$("form:first").submit();
-				}
+				$.ajax({
+					  url: "/configWizard/validateRegExSelectors",
+					  success: validateRegExSelectors
+					});
 			});
 			
 			$("#Previous").click(function() 
@@ -30,6 +29,23 @@
 			});
 			
 		}); 
+		
+		
+		function validateRegExSelectors(errors)
+		{
+			//ints returned are index numbers of inavalid selectors.  we will display an error next to its row
+			for (var i = 0; i < errors.length; i++) 
+			{
+				$("#selector" + errors[i]).validationEngine('showPrompt', 'This a custom msg', 'error','topLeft', true);
+			}
+			
+			if(errors.length == 0)
+			{
+				$("form:first").attr("action", "/configWizard/regExSelectorsNext");
+				$("form:first").submit();
+			}
+			
+		}
 			
 	</script>
 
@@ -47,10 +63,11 @@
 		
 			<c:forEach items="${config.regExSelectors}" var="selector" varStatus="i">
 				
-				<tr>
-					<td align="left" valign="top"><c:out value="${selector.description}" />
+				<tr  id="selector${i.index}">
+					<td align="left" valign="top"><c:out value="${selector.description}"/>
+					
 						<%-- <form:hidden path="regExSelectors[${i.index}].variablesValid" class="validate[required]"/> --%>
-						<form:input path="regExSelectors[${i.index}].variablesValid" class="validate[required]" style="display: none"/>
+						<%-- <form:input path="regExSelectors[${i.index}].variablesValid" class="validate[required]" style="display: none"/> --%>
 					</td>
 					<td align="left" valign="top" style="margin-left: 100px;"><c:out value="${selector.expression}" /></td>
 					<td align="right" valign="top">

@@ -127,24 +127,25 @@ public class RegExSelectorViewModel extends ViewModel
 	}
 	
 	
-	private String variablesValid = "";
+	/*private String variablesValid = "";
 	
 	//the jsp framework may need this?
-	/*public void setVariablesValid(String value)
+	public void setVariablesValid(String value)
 	{
 		variablesValid = value;
-	}*/
+	}
 
 	public String getVariablesValid()
 	{
-		/*for(RegExVariableSetterViewModel set : variableSetters)
+		boolean allHaveGroupAssembly = false;
+		for(RegExVariableSetterViewModel set : variableSetters)
 		{
-			if(set.getVariableName().equals(name))
+			if(set.getGroupAssembly())
 				found = true;
-		}*/
+		}
 		
 		return variablesValid;
-	}	
+	}	*/
 	
 	
 	public void createVariableSetters(List<String> variableNames)

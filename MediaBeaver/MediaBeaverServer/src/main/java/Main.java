@@ -51,16 +51,15 @@ public class Main
 		    WebAppContext webapp = new WebAppContext();
 		    webapp.setContextPath("/");
 		    webapp.setWar(location.toExternalForm());
-
+		    
+		    /*not sure if this session stuff works*/
+		    SessionHandler sh = webapp.getSessionHandler();
+		    SessionManager sm = sh.getSessionManager();
+            sm.setMaxInactiveInterval(60*60);
+            
 		    /*HandlerList handlers = new HandlerList();
 		    handlers.setHandlers(new Handler[] {webapp, new ShutdownHandler(server, ShutdownPassword)});
 		    server.setHandler(handlers);*/
-		    
-		    /*not sure if this session stuff works*/
-		    SessionHandler sessionHandler = new SessionHandler(); 
-	        SessionManager sessionManager = new HashSessionManager(); 
-	        sessionHandler.setSessionManager(sessionManager); 
-	        sessionManager.setMaxInactiveInterval(3600); 
 		    
 		    server.setHandler(webapp);
 		    server.start();
