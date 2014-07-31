@@ -49,7 +49,7 @@ public class MediaConfigWizardController
 	private @Autowired HttpServletRequest request;
 	private @Autowired HttpSession session;
 	//private @Autowired HttpServletResponse response;
-	private @Autowired ServletWebRequest  response;
+	private @Autowired HttpServletResponse response;
 	
 	
 	@InitBinder
