@@ -7,7 +7,7 @@ body
 	font-family: "Open Sans",sans-serif;
 	font-size: 14px;
 	font-weight: 400;
-	background-color: #1F1F1F;
+	background-color: #F1F1F1;
 }
 
 a:link {color:#FF8A00;text-decoration:none;}
@@ -15,10 +15,36 @@ a:visited {color:#FF8A00;text-decoration:none;}
 a:hover {color:#FF8A00;text-decoration:none;}  
 a:active {color:#FF8A00;text-decoration:none;} 
 
+a.button, a.mainButton
+{
+	margin-left: 5px;
+	background: #ff8a00;
+	color: #FFFFFF;
+	border-radius: 1000px;
+	text-transform: uppercase;
+	display: inline-table;
+	line-height: 1;
+	transition: none;
+	white-space: nowrap;
+	padding: 4px 12px 5px 12px;
+	font-weight: 700;
+	font-size: 14px;
+	text-decoration: none;
+	font-family: "Open Sans",sans-serif;
+	font-style: normal;
+}
+
+a.mainButton
+{
+	float: right; 
+}
+
+
 #contentDiv 
 {
 	width: 800px;
-	height: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
 	margin-left: auto;
 	margin-right: auto;
 	text-align: left;
@@ -27,6 +53,8 @@ a:active {color:#FF8A00;text-decoration:none;}
 	padding-bottom:1px;
 	padding-left:15px; 
 	background-color: #FFFFFF; 
+	box-shadow: 0px 0px 20px 3px #d3d3d3;
+	border-radius: 4px;
 }
 
 #headerDiv
@@ -117,7 +145,7 @@ input[type="text"], textarea
     font-size: 14px;
 }
 
-.formLayout label,.formLayout input[type="text"],.formLayout select 
+.formLayout label,.formLayout input[type="text"],.formLayout select, textarea 
 {
 	display: block;
 	float: left;

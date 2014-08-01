@@ -28,7 +28,14 @@
 			
 	</script>
 
+	<style>
 	
+	
+	
+	
+	</style>
+
+	<!-- a:link .button, a:visited .button, a:hover .button, a:active .button -->
 	<h2>Config Wizard. Step 1</h2>
 	
 	<form:form method="POST" commandName="config" id="configForm" class="formLayout">
@@ -57,15 +64,14 @@
 		<form:input path="destinationRoot" style="width: 550px" class="validate[required]"/>
 		<br>
 	
-		<form:label path="relativeDestinationPath">Relative Path</form:label>
+		<form:label path="relativeDestinationPath">Destination Path</form:label>
 		<form:input path="relativeDestinationPath" style="width: 550px" class="validate[required]"/>
 		<br>
 			
 		<br>
 		<br>
-		<input type="button" value="Next" style="width: 100; float: right; margin-left: 5px;" id="Next"/>
-		<input type="button" value="Cancel" style="width: 100; float: right" id="Cancel"/>
-		<br>
+		<a class="mainButton" href="#" id="Next">Next</a>
+		<a class="mainButton" href="#" id="Cancel">Cancel</a>
 		<br>
 		<br>
 		

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.Repository;
@@ -31,6 +32,7 @@ import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 import com.ibus.mediabeaver.core.util.RegExHelper;
 import com.ibus.mediabeaver.server.util.Mapper;
+import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExVariableSetterViewModel;
@@ -49,7 +51,7 @@ public class MediaConfigWizardController
 	private @Autowired HttpServletRequest request;
 	private @Autowired HttpSession session;
 	//private @Autowired HttpServletResponse response;
-	private @Autowired HttpServletResponse response;
+	//private @Autowired ServletWebRequest response;
 	
 	
 	@InitBinder
@@ -126,10 +128,6 @@ public class MediaConfigWizardController
 	}
 	
 	
-	
-	
-	
-	
 	@RequestMapping("regExSelectorsDelete/{index}")
 	public String regExSelectorsDelete(@PathVariable String index)
 	{
@@ -179,9 +177,51 @@ public class MediaConfigWizardController
 		}
 		
 		config.getRegExSelectors().add(selector);	
-		
 		return "ConfigWizard_RegExSelectors";
 	}
+	
+	@RequestMapping("regExSelectorCancel")
+	public String regExSelectorCancel()
+	{
+		return "ConfigWizard_RegExSelectors";
+	}
+	
+	
+	@RequestMapping("regExSelectorTest")
+	public ModelAndView regExSelectorTest(RegExSelectorViewModel selector)
+	{
+		String result = "";
+		RegExHelper regExHelper = new RegExHelper();
+		
+		if(!regExHelper.matchFound(selector.getExpression(), selector.getTestFileName()))
+		{
+			result ="A pattern matching the supplied expression WAS NOT found in the test file name";
+		}
+		else
+		{
+			result = "A pattern matching the supplied expression WAS found in the test file name \r\n" +
+					 "Variables were set as follows: \r\n";
+			 
+			List<String> captures = regExHelper.captureStrings(selector.getExpression(), selector.getTestFileName());
+			
+			if(captures.size() > 0)
+			{
+				for(RegExVariableSetterViewModel variableSetter :  selector.getVariableSetters())
+				{	
+					String variableValue = regExHelper.assembleRegExVariable(captures, variableSetter.getGroupAssembly());
+					
+					if(variableSetter.getReplaceExpression() != null && variableSetter.getReplaceExpression().length() > 0)
+						variableValue = regExHelper.cleanString(variableValue, variableSetter.getReplaceExpression(), variableSetter.getReplaceWithCharacter());
+					
+					result += String.format("%s = %s \r\n", variableSetter.getVariableName(), variableValue);
+				}
+			}
+		}
+		
+		selector.setTestResult(result);
+		return new ModelAndView("ConfigWizard_RegExSelector","regExSelector", selector);
+	}
+	
 	
 	
 	private void resetAllSetters()
@@ -238,13 +278,14 @@ public class MediaConfigWizardController
 	private MediaConfigViewModel getSotredMediaConfigViewModel()
 	{
 		MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
-		if(config == null)
+		/*if(config == null)
 		{
 			try
 			{
-				response.sendRedirect("/configWizard");
+				response.getResponse().sendRedirect("/configWizard");
+				//response.sendRedirect("/configWizard");
 			} catch (IOException e){}
-		}
+		}*/
 		
 		return config;
 	}

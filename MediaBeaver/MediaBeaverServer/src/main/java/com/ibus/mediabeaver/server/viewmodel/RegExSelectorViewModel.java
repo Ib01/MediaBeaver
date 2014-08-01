@@ -31,7 +31,10 @@ public class RegExSelectorViewModel extends ViewModel
 	//View properties////////////////////////////////////////
 	
 	private String testFileName;
+	//TODO: REMOVE?
 	private List<ConfigVariableViewModel> testVariables = new ArrayList<ConfigVariableViewModel>();
+	private String testResult;
+	
 	private int index = -1;
 	
 	public RegExSelectorViewModel()
@@ -126,6 +129,15 @@ public class RegExSelectorViewModel extends ViewModel
 		this.index = index;
 	}
 	
+	public String getTestResult()
+	{
+		return testResult;
+	}
+
+	public void setTestResult(String testResult)
+	{
+		this.testResult = testResult;
+	}
 	
 	/*private String variablesValid = "";
 	
@@ -184,6 +196,8 @@ public class RegExSelectorViewModel extends ViewModel
 		}
 				
 	}
+
+	
 	
 	
 }

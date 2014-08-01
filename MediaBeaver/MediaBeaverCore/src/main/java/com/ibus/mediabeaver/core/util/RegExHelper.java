@@ -36,20 +36,34 @@ public class RegExHelper
 	
 	
 	
+	public boolean matchFound(String regularExpression, String text)
+	{
+		if(regularExpression == null || regularExpression.trim().length() == 0 || text == null || text.trim().length() == 0)
+			return false;
+		
+		Pattern pattern = Pattern.compile(regularExpression);
+		Matcher matcher = pattern.matcher(text);
+		
+		return matcher.find();
+	}
 	
 	
 	/**
-	 * Capture text from a regular expression. the regular expression must contain capture groups 
+	 * Capture text from a regular expression. if the regular expression does not contain capture groups this method will return an empty list 
 	 * @param regularExpression
 	 * @param text
 	 * @return
 	 */
 	public List<String> captureStrings(String regularExpression, String text)
 	{
+		List<String> captures = new ArrayList<String>();
+		if(regularExpression == null || regularExpression.trim().length() == 0)
+			return  captures;
+		if(text == null || text.trim().length() == 0)
+			return  captures;
+		
 		Pattern pattern = Pattern.compile(regularExpression);
 		Matcher matcher = pattern.matcher(text);
-		
-		List<String> captures = new ArrayList<String>();
 		
 		if (matcher.find()) 
 		{
@@ -94,6 +108,9 @@ public class RegExHelper
 	public String assembleRegExVariable(List<String> capturedStrings, String assemblyString)
 	{
 		String s = assemblyString;
+		if(s == null)
+			return "";
+		
 		for(int i=0; i < capturedStrings.size(); i++)
 		{
 			s = s.replace(String.format("{%d}", i), capturedStrings.get(i));
@@ -130,10 +147,10 @@ public class RegExHelper
 		if(regEx == null || replaceWith == null)
 			return toClean;
 		
-		String cs = toClean;
-		cs = cs.replaceAll(regEx, replaceWith);
+		String s = toClean;
+		s = s.replaceAll(regEx, replaceWith);
 		
-		return cs;
+		return s;
 	}
 	
 	

@@ -36,7 +36,7 @@
 			//ints returned are index numbers of inavalid selectors.  we will display an error next to its row
 			for (var i = 0; i < errors.length; i++) 
 			{
-				$("#selector" + errors[i]).validationEngine('showPrompt', 'This a custom msg', 'error','topLeft', true);
+				$("#selector" + errors[i]).validationEngine('showPrompt', 'Variable setter data is missing for this selector', 'error','topLeft', true);
 			}
 			
 			if(errors.length == 0)
@@ -55,7 +55,7 @@
 	<form:form method="POST" commandName="config" id="configForm" class="formLayout">
 		
 		<table style="width:100%">
-			<tr style="background-color: #2A2F33; color: #FFFFFF">
+			<tr style="background-color: #555555; color: #FFFFFF">
 				<td align="left" width="350px" valign="top" style="padding :3px; text-align: center;" >Description</td>
 				<td align="left" width="350px" valign="top" style="margin-left: 100px;padding :3px; text-align: center;">Expression</td>
 				<td align="right" width="80px" valign="top" style="padding :3px; text-align: center;">Action</td>
@@ -65,9 +65,6 @@
 				
 				<tr  id="selector${i.index}">
 					<td align="left" valign="top"><c:out value="${selector.description}"/>
-					
-						<%-- <form:hidden path="regExSelectors[${i.index}].variablesValid" class="validate[required]"/> --%>
-						<%-- <form:input path="regExSelectors[${i.index}].variablesValid" class="validate[required]" style="display: none"/> --%>
 					</td>
 					<td align="left" valign="top" style="margin-left: 100px;"><c:out value="${selector.expression}" /></td>
 					<td align="right" valign="top">
@@ -80,13 +77,11 @@
 	    </table>
 	
 		
-		
-		<input type="button" value="Add" style="width: 100" id="Add"/>
+		<a class="button" href="#" id="Add">Add</a>
 		<br>
 		<br>
-		<input type="button" value="Next" style="width: 100; float: right" id="Next"/>
-		<input type="button" value="Previous" style="width: 100; float: right" id="Previous"/>
-		<br>
+		<a class="mainButton" href="#" id="Next">Next</a>
+		<a class="mainButton" href="#" id="Previous">Previous</a>
 		<br>
 		<br>
 		

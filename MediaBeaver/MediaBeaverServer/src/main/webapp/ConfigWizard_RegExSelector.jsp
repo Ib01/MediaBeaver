@@ -4,30 +4,38 @@
 <%@include file="includes/header.jsp"%>
 	
 	<script type="text/javascript" >
-	
-	
 		$(function ()
 		{	
 			$("#Save").click(function() 
 			{
-				$("form:first").attr("action", "/configWizard/regExSelectorSave");
-				$("form:first").submit();
+				if($("form:first").validationEngine('validate'))
+				{
+					$("form:first").attr("action", "/configWizard/regExSelectorSave");
+					$("form:first").submit();
+				}
 			});
 			
 			$("#Cancel").click(function() 
 			{
-				$("form:first").attr("action", "/configWizard/configNext");
+				$("form:first").attr("action", "/configWizard/regExSelectorCancel");
 				$("form:first").submit();
 			});
 			
-		}); 
+			$("#Test").click(function() 
+			{
+				$("form:first").attr("action", "/configWizard/regExSelectorTest");
+				$("form:first").submit();
+			});
 			
+			
+		}); 
 	</script>
 
-	
-	<h2>Config Wizard: Add or Update Regex Selector</h2>
-	
+
 	<form:form method="POST" commandName="regExSelector" id="configForm" class="formLayout">
+	
+		<h2>Config Wizard: Add or Update Regex Selector</h2>
+	
 		<form:hidden path="id"/>
 		<form:hidden path="index"/>
 		<%-- <form:hidden path="lastUpdate"/> --%>
@@ -38,6 +46,8 @@
 		
    		<form:label path="expression">Expression</form:label>
    		<form:input path="expression" style="width:650px" id="expression" class="validate[required]" data-prompt-position="topRight: -130"/>
+		
+		
 		
 		<h2>Variable Setters</h2>
 		
@@ -56,29 +66,32 @@
 			
 			
 			<form:label path="variableSetters[${i.index}].replaceExpression">Replace RegEx</form:label>
-			<form:input path="variableSetters[${i.index}].replaceExpression" style="width:250px" class="validate[required]" /> 
+			<form:input path="variableSetters[${i.index}].replaceExpression" style="width:250px"/> 
 			<br style="clear: both"/>
 			
 			
 			<form:label path="variableSetters[${i.index}].replaceWithCharacter">Replace String</form:label>
-			<form:input path="variableSetters[${i.index}].replaceWithCharacter" style="width:100px" class="validate[required]" /> 
+			<form:input path="variableSetters[${i.index}].replaceWithCharacter" style="width:100px" /> 
 			<br style="clear: both"/>
-			
-			<hr style="clear: both"/>
 		
-		   <br/>
-		   <br/>
-			
+		    <br/>
 		</c:forEach>
 		
+	
+		<h2>Test Expression</h2>	
 		
+		<form:label path="testFileName">File Name</form:label>
+		<form:input path="testFileName" style="width:610px"/>
+		<a class="button" href="#" id="Test" style="margin-left: 5px;">Test</a>
+		<br/>
 		
+		<form:label path="testResult">Results</form:label>
+		<form:textarea path="testResult" cols="40" style="width:680px; height: 100px"/>
 		
-		<br>
-		<br>
-		<input type="button" value="Save" style="width: 100" id="Save"/><br>
-		<input type="button" value="Cancel" style="width: 100" id="Cancel"/>
-		<br>
+		<br/>
+		
+		<a class="mainButton" href="#" id="Save">Save</a>
+		<a class="mainButton" href="#" id="Cancel">Cancel</a>
 		<br>
 		<br>
 		
