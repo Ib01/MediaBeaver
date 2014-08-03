@@ -1,8 +1,5 @@
 package com.ibus.mediabeaver.server.controller;
 
-import java.util.Iterator;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -12,17 +9,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 import com.ibus.mediabeaver.server.util.Mapper;
-import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
-import com.ibus.mediabeaver.server.viewmodel.RegExVariableSetterViewModel;
 
 @Controller
 @RequestMapping(value = "/config")

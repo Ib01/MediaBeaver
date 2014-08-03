@@ -71,7 +71,7 @@
 		<br>
 		<br>
 		<a class="mainButton" href="#" id="Next">Next</a>
-		<a class="mainButton" href="#" id="Cancel">Cancel</a>
+		<a class="mainButton" href="/configList" id="Cancel">Cancel</a>
 		<br>
 		<br>
 		

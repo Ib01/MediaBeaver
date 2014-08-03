@@ -1,10 +1,6 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.ibus.mediabeaver.core.entity.IdGenerator;
-import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
 
 public class ConfigVariableViewModel extends ViewModel
 {

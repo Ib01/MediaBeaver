@@ -1,30 +1,25 @@
 package com.ibus.mediabeaver.server.controller;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.Repository;
@@ -32,11 +27,9 @@ import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 import com.ibus.mediabeaver.core.util.RegExHelper;
 import com.ibus.mediabeaver.server.util.Mapper;
-import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExVariableSetterViewModel;
-import com.ibus.mediabeaver.server.viewmodel.ViewModel;
 
 @Controller
 @RequestMapping(value = "/configWizard")
@@ -46,13 +39,11 @@ public class MediaConfigWizardController
 	/*TODO
 	 *Add sort / processing order to selectors 
 	 *add validation
-	 *
 	 * */
 	private @Autowired HttpServletRequest request;
 	private @Autowired HttpSession session;
 	//private @Autowired HttpServletResponse response;
 	//private @Autowired ServletWebRequest response;
-	
 	
 	@InitBinder
 	public void initBinder(WebDataBinder webDataBinder) 
@@ -69,11 +60,17 @@ public class MediaConfigWizardController
 		return TransformAction.values();
 	}
 	
-	@ModelAttribute("config")
-	public MediaConfigViewModel config()
+	
+	@RequestMapping
+	public ModelAndView configLoad()
+	{
+		return new ModelAndView("ConfigWizard_Config", "config", new MediaConfigViewModel());
+	}
+	
+	@RequestMapping("/{id}")
+	public ModelAndView configLoad(@PathVariable String id)
 	{
 		MediaConfigViewModel vm = new MediaConfigViewModel();
-		String id = request.getParameter("id");
 		
 		if(id != null && id.length() > 0)
 		{
@@ -81,23 +78,9 @@ public class MediaConfigWizardController
 			vm = Mapper.getMapper().map(mc, MediaConfigViewModel.class);
 		}
 		
-		return vm;
+		return new ModelAndView("ConfigWizard_Config", "config", vm);
 	}
 	
-	@RequestMapping
-	public String configLoad()
-	{
-		return "ConfigWizard_Config";
-	}
-	
-	@RequestMapping("configCancel")
-	public String configCancel(@ModelAttribute("config")MediaConfigViewModel config, SessionStatus status)
-	{
-		status.setComplete();
-		
-		//TODO: REDIRECT TO ?
-		return "ConfigWizard_Config";
-	}
 	
 	@RequestMapping("configNext")
 	public String configNext(@ModelAttribute("config")MediaConfigViewModel config)
@@ -114,8 +97,11 @@ public class MediaConfigWizardController
 	@RequestMapping("regExSelectorsNext")
 	public String regExSelectorsNext()
 	{
-		//TODO: REDIRECT TO ?
-		return "ConfigWizard_RegExSelectors";
+		MediaConfigViewModel config = getSotredMediaConfigViewModel();
+		MediaConfig mc = Mapper.getMapper().map(config, MediaConfig.class);
+		Repository.saveOrUpdate(mc);
+		
+		return "redirect:/configList";	
 	}
 	
 	
@@ -147,6 +133,7 @@ public class MediaConfigWizardController
 		
 		//get a copy of the stored selector so we do not modify the selector until we save
 		RegExSelectorViewModel sel = config.getRegExSelectors().get(Integer.parseInt(index)).copy();
+		resetSetters(sel, config);
 		sel.setIndex(Integer.parseInt(index));
 		
 		return new ModelAndView("ConfigWizard_RegExSelector","regExSelector", sel);

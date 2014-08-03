@@ -1,27 +1,13 @@
 package com.ibus.mediabeaver.core.test;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-import java.util.Set;
-
-import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.Expression;
-import org.hibernate.criterion.Restrictions;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
-import com.ibus.mediabeaver.core.entity.ConfigVariable;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
-import com.ibus.mediabeaver.core.entity.RegExSelector;
-import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
-import com.ibus.mediabeaver.core.entity.TransformAction;
 import com.ibus.mediabeaver.core.util.TestHelper;
 
 public class RepositoryTests

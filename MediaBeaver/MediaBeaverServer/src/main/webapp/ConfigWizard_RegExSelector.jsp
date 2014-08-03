@@ -52,7 +52,7 @@
 		<h2>Variable Setters</h2>
 		
 		<c:forEach items="${regExSelector.variableSetters}" varStatus="i" var="setter">
-			<form:hidden path="id"/>
+			<form:hidden path="variableSetters[${i.index}].id"/>
 			<%-- <form:hidden path="lastUpdate"/> --%>
 		
 			<form:label path="variableSetters[${i.index}].variableName">Name</form:label>

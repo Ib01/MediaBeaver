@@ -147,10 +147,10 @@ public class TestHelper
 		assertTrue(sel1.getExpression().equals(sel2.getExpression()));
 		assertTrue(sel1.getDescription().equals(sel2.getDescription()));
 		
-		assertTrue(sel1.getVariables().size() == sel2.getVariables().size());
+		assertTrue(sel1.getVariableSetters().size() == sel2.getVariableSetters().size());
 		
-		RegExVariableSetter[] vars1 = (RegExVariableSetter[]) sel1.getVariables().toArray(new RegExVariableSetter[0]);
-		RegExVariableSetter[] vars2 = (RegExVariableSetter[]) sel2.getVariables().toArray(new RegExVariableSetter[0]);
+		RegExVariableSetter[] vars1 = (RegExVariableSetter[]) sel1.getVariableSetters().toArray(new RegExVariableSetter[0]);
+		RegExVariableSetter[] vars2 = (RegExVariableSetter[]) sel2.getVariableSetters().toArray(new RegExVariableSetter[0]);
 		
 		for(int i=0; i < vars1.length; i++)
 		{

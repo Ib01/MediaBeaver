@@ -4,19 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
 import com.ibus.mediabeaver.cli.Main;
-import com.ibus.mediabeaver.core.entity.ConfigVariable;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.RegExSelector;
 import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
 import com.ibus.mediabeaver.core.entity.TransformAction;
-import com.ibus.mediabeaver.core.exception.MediaBeaverConfigurationException;
 import com.ibus.mediabeaver.core.util.RegExHelper;
 
 public class MediaManager
@@ -107,7 +102,7 @@ public class MediaManager
 				isTarget = true;
 				
 				/*populate our config variables form the getRegExVariables list*/
-				for(RegExVariableSetter rev : selector.getVariables())
+				for(RegExVariableSetter rev : selector.getVariableSetters())
 				{
 					/*ConfigVariable cv = getConfigVariable(config.getConfigVariables(), rev.getConfigVariable().getName());
 					if(cv == null){

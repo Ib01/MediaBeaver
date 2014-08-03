@@ -1,22 +1,10 @@
 package com.ibus.mediabeaver.cli.test;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
-import org.junit.Test;
-
-import com.ibus.mediabeaver.cli.utility.MediaManager;
-import com.ibus.mediabeaver.core.entity.ConfigVariable;
-import com.ibus.mediabeaver.core.entity.MediaConfig;
-import com.ibus.mediabeaver.core.entity.RegExSelector;
-import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
-import com.ibus.mediabeaver.core.entity.TransformAction;
 
 public class MediaManagerTests
 {

@@ -223,7 +223,7 @@ public class ModelMapperTests
 		assertTrue(vm.getExpression().equals(obj.getExpression()));
 		
 		assertTrue(vm.getVariableSetters().size() > 0);
-		AssertRegExVariableObjsEqual(obj.getVariables().iterator().next(),vm.getVariableSetters().iterator().next());
+		AssertRegExVariableObjsEqual(obj.getVariableSetters().iterator().next(),vm.getVariableSetters().iterator().next());
 	}
 	
 	

@@ -1,19 +1,10 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.util.AutoPopulatingList;
-
-import com.ibus.mediabeaver.core.entity.IdGenerator;
-import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
 
 public class RegExSelectorViewModel extends ViewModel
 {
@@ -34,8 +25,8 @@ public class RegExSelectorViewModel extends ViewModel
 	//TODO: REMOVE?
 	private List<ConfigVariableViewModel> testVariables = new ArrayList<ConfigVariableViewModel>();
 	private String testResult;
-	
 	private int index = -1;
+	
 	
 	public RegExSelectorViewModel()
 	{

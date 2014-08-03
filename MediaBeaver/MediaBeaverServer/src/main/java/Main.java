@@ -1,13 +1,10 @@
 import java.net.URL;
 import java.security.ProtectionDomain;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.SessionManager;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
-import org.eclipse.jetty.server.session.HashSessionManager;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.webapp.WebAppContext;
 

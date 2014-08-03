@@ -1,20 +1,16 @@
 package com.ibus.mediabeaver.core.entity;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.NotEmpty;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "RegEx_Selector")
 public class RegExSelector extends PersistentObject
@@ -31,7 +27,7 @@ public class RegExSelector extends PersistentObject
 	@Column
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
-	private Set<RegExVariableSetter> variables = new HashSet<RegExVariableSetter>();
+	private Set<RegExVariableSetter> variableSetters = new HashSet<RegExVariableSetter>();
 	
 	@Column
 	private FileSystemType fileSystemTarget;
@@ -52,20 +48,20 @@ public class RegExSelector extends PersistentObject
 	}
 	
 	//TODO RENAME
-	public Set<RegExVariableSetter> getVariables()
+	public Set<RegExVariableSetter> getVariableSetters()
 	{
-		return variables;
+		return variableSetters;
 	}
 
 	//TODO RENAME
-	public void setVariables(Set<RegExVariableSetter> variables)
+	public void setVariableSetters(Set<RegExVariableSetter> variables)
 	{
-		this.variables = variables;
+		this.variableSetters = variables;
 	}
 	
 	public void addRegExVariable(RegExVariableSetter var)
 	{
-		getVariables().add(var);
+		getVariableSetters().add(var);
 	}
 
 	

@@ -1,17 +1,9 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import com.ibus.mediabeaver.core.entity.ConfigVariable;
-import com.ibus.mediabeaver.core.entity.OpenSubtitlesFieldMap;
-import com.ibus.mediabeaver.core.entity.RegExSelector;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 
 

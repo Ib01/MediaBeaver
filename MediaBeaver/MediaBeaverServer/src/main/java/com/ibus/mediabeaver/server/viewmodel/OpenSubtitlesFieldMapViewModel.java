@@ -1,6 +1,5 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
-import javax.persistence.Column;
 
 public class OpenSubtitlesFieldMapViewModel extends ViewModel
 {

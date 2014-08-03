@@ -1,12 +1,9 @@
 package com.ibus.mediabeaver.cli;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.ibus.mediabeaver.cli.utility.MediaManager;
 import com.ibus.mediabeaver.core.data.DataInitialiser;
-import com.ibus.mediabeaver.core.data.HibernateUtil;
 
 public class Main
 {

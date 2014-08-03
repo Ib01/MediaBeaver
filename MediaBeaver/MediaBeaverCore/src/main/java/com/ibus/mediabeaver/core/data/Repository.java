@@ -41,6 +41,13 @@ public abstract class Repository
 	}
 
 	
+	public static <T extends Persistable> void deleteEntity(T obj)
+	{
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		s.delete(obj);
+	}
+	
+	
 	public static <T extends Persistable> String updateEntity(T obj)
 	{
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();

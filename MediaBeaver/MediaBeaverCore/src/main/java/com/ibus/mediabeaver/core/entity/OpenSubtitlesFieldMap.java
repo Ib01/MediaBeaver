@@ -2,10 +2,6 @@ package com.ibus.mediabeaver.core.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity(name = "Open_Subtitles_Field_Map")

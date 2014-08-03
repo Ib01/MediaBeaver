@@ -1,15 +1,9 @@
 package com.ibus.mediabeaver.server.util;
 
-import java.util.ArrayList;
-
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
-import org.modelmapper.Provider;
-import org.springframework.util.AutoPopulatingList;
 
-import com.ibus.mediabeaver.core.entity.RegExSelector;
 import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
-import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExVariableSetterViewModel;
 
 public abstract class Mapper
