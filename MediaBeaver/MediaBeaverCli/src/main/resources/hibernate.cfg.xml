@@ -34,11 +34,11 @@
         
         
         
-		<mapping class="com.ibus.mediaBeaverCore.entity.MediaTransformConfig"/>
-		<mapping class="com.ibus.mediaBeaverCore.entity.MovieRegEx"/>
-		<mapping class="com.ibus.mediaBeaverCore.entity.RegExItemParser"/>
-		
-		
+		<mapping class="com.ibus.mediabeaver.core.entity.ConfigVariable"/>
+		<mapping class="com.ibus.mediabeaver.core.entity.MediaConfig"/>
+		<mapping class="com.ibus.mediabeaver.core.entity.OpenSubtitlesFieldMap"/>
+		<mapping class="com.ibus.mediabeaver.core.entity.RegExSelector"/>
+		<mapping class="com.ibus.mediabeaver.core.entity.RegExVariableSetter"/>
 		
 		
     </session-factory>

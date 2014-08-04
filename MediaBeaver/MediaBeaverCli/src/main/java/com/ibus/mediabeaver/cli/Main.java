@@ -1,9 +1,17 @@
 package com.ibus.mediabeaver.cli;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.ibus.mediabeaver.cli.utility.MediaManager;
 import com.ibus.mediabeaver.core.data.DataInitialiser;
+import com.ibus.mediabeaver.core.data.HibernateUtil;
+import com.ibus.mediabeaver.core.data.QueryTransactable;
+import com.ibus.mediabeaver.core.data.Repository;
+import com.ibus.mediabeaver.core.entity.MediaConfig;
 
 public class Main
 {
@@ -12,7 +20,17 @@ public class Main
 	public static void main(String[] args)
 	{
 		log.debug("initialising data");
-		DataInitialiser.Initialise();
+		//DataInitialiser.Initialise();
+		
+		
+		List<MediaConfig> configs = Repository.getInTransaction(
+				new QueryTransactable<List<MediaConfig>>() {
+					public List<MediaConfig> run()
+					{
+						return Repository.getAllMediaConfig();
+					}
+				});
+		
 		
 		
 		log.debug("Starting media movement");

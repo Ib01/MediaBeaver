@@ -115,9 +115,9 @@ public class MediaManager
 					String cleanVariable = regExHelper.cleanString(uncleanVariable, rev.getReplaceExpression(), rev.getReplaceWithCharacter());
 				
 					//TODO: CHECK THAT THE CONFIG OBJECT HOLDS A REFERENCE TO THIS getConfigVariable AND NOT SOME OTHER INSTACE!!!!!
-					rev.getConfigVariable().setValue(cleanVariable);
+					//rev.getConfigVariable().setValue(cleanVariable);
 					
-					log.debug(String.format("config variable %s was set to %s", rev.getConfigVariable().getName(), rev.getConfigVariable().getValue()));
+					//log.debug(String.format("config variable %s was set to %s", rev.getConfigVariable().getName(), rev.getConfigVariable().getValue()));
 					
 					//cv.setValue(cleanVariable);
 					    
