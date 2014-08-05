@@ -38,7 +38,7 @@ public class Main
 		
 		log.debug("Starting media movement");
 		MediaManager h = new MediaManager();
-		//h.processConfigs(configs);
+		h.processConfigs(configs);
 
 		
 	}

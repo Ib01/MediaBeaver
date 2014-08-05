@@ -144,7 +144,7 @@ public class RegExHelper
 	
 	public boolean containsTokenPlaceholders(String text)
 	{
-		Pattern pattern = Pattern.compile("\\{\\{\\d\\}\\}");
+		Pattern pattern = Pattern.compile("\\{\\{\\w+\\}\\}");
 		Matcher matcher = pattern.matcher(text);
 		
 		return matcher.find();
@@ -202,7 +202,7 @@ public class RegExHelper
 		while(i.hasNext()) 
 		{
 			Map.Entry<String, String> me = (Map.Entry<String, String>)i.next();
-			s = s.replace(String.format("{%s}", me.getKey()), me.getValue());
+			s = s.replace(String.format("{{%s}}", me.getKey()), me.getValue());
 		}
 		
 		return s;
