@@ -35,8 +35,8 @@ public class FileSystemTests
 		}
 	}
 	
-	@Test
-	public void makeDirsInPathTest()
+	//@Test
+	/*public void makeDirsInPathTest()
 	{
 		FileSystem fileSys = new FileSystem();
 		String destRoot ="D:\\MediabeaverTests\\Destination\\Movies";
@@ -45,8 +45,9 @@ public class FileSystemTests
 		boolean success = fileSys.makeDirsInPath(destRoot, destRelative);
 		
 		assertTrue(success);
-	}
-
+	}*/
+	
+	/*
 	@Test
 	public void movieFile()
 	{
@@ -59,7 +60,7 @@ public class FileSystemTests
 		fileSys.moveFile(source, destRoot, destRelative);
 		
 		assertTrue(success);
-	}
+	}*/
 	
 	
 	

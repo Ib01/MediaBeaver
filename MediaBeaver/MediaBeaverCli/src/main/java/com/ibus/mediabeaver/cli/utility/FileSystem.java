@@ -23,7 +23,7 @@ public class FileSystem
 	 * @param relativePath
 	 * @return
 	 */
-	public boolean makeDirsInPath(String rootPath, String relativePath)
+	/*public boolean makeDirsInPath(String rootPath, String relativePath)
 	{
 		if(!fileExists(rootPath))
 		{
@@ -41,6 +41,38 @@ public class FileSystem
 		String path = FilenameUtils.concat(rootPath, relativePath);
 		return makeDirsInPath(path);
 	}
+	*/
+	/**
+	 * Attempts to make all dirs in path. returns true if successful
+	 * @param path
+	 * @return
+	 */
+	/*public boolean makeDirsInPath(String path)
+	{
+		try
+		{
+			if file has no path (ie no parent dir) then we will simply return true to indicate that all dirs in path exist which is what we really want to know
+			if(FilenameUtils.getPath(path).length() >  0)
+			{
+				File parentDir = new File(path).getParentFile();
+				parentDir.mkdirs();
+				log.debug(String.format("All directories in the following path were successfully created: %s ", path));	
+			}
+			else
+			{
+				log.debug(String.format("Creating all dirs in path: %s, is not required. no parent directory was found ", path));		
+			}
+			
+			return true;
+		}
+		catch(SecurityException ex)
+		{
+			log.error(String.format("A security violation was thrown when attempting to make all directories in path: %s.", path), ex);
+			throw ex;
+		}
+	}
+	*/
+	
 	
 	
 	
@@ -66,39 +98,8 @@ public class FileSystem
 			log.error(String.format("A security violation was thrown when attempting to determine the exitance of: %s.", path), ex);
 			throw ex;
 		}
-		
 	}
 	
-	
-	/**
-	 * Attempts to make all dirs in path. returns true if successful
-	 * @param path
-	 * @return
-	 */
-	public boolean makeDirsInPath(String path)
-	{
-		try
-		{
-			/*if file has no path (ie no parent dir) then we will simply return true to indicate that all dirs in path exist which is what we really want to know*/
-			if(FilenameUtils.getPath(path).length() >  0)
-			{
-				File parentDir = new File(path).getParentFile();
-				parentDir.mkdirs();
-				log.debug(String.format("All directories in the following path were successfully created: %s ", path));	
-			}
-			else
-			{
-				log.debug(String.format("Creating all dirs in path: %s, is not required. no parent directory was found ", path));		
-			}
-			
-			return true;
-		}
-		catch(SecurityException ex)
-		{
-			log.error(String.format("A security violation was thrown when attempting to make all directories in path: %s.", path), ex);
-			throw ex;
-		}
-	}
 	
 	
 	
@@ -117,6 +118,15 @@ public class FileSystem
 	
 	
 	
+	/**
+	 * moves a file from source to destination. all directories in the destination path will be 
+	 * created if they do not already exist. If the file already exists the move will be 
+	 * aborted and the method will return false.
+	 * 
+	 * @param source
+	 * @param destination
+	 * @return
+	 */
 	public boolean moveFile(String source, String destination)
 	{
 		try
@@ -129,10 +139,16 @@ public class FileSystem
 			
 			File srcFile = new File(source);
 			File destFile = new File(destination);
+			
+			if(fileExists(destination))
+			{
+				log.debug(String.format("%s was NOT moved to %s. This file already exists.", source, destination));
+				return false;
+			}
+			
 			FileUtils.moveFile(srcFile, destFile);
 			
 			log.debug(String.format("%s was succesfully moved to %s", source, destination));
-			
 			return true;
 		}
 		catch(IOException ex)
