@@ -12,9 +12,14 @@ public class DataInitialiser
 {
 	static Logger log = Logger.getLogger(DataInitialiser.class.getName());
 	
-	public static void Initialise()
+	public static void Initialise(List<MediaConfig> configs)
 	{
-		Transaction tx = null; 
+		if(configs.size() == 0)
+		{
+			//addMovieConfig();
+		}
+		
+		/*Transaction tx = null; 
 		try
 		{
 			Session s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -38,9 +43,8 @@ public class DataInitialiser
 		{
 			tx.rollback();
 			throw e;
-		}
-	
-			
+		}	
+		 */			
 	}
 	
 	/*private static void addMovieConfig()

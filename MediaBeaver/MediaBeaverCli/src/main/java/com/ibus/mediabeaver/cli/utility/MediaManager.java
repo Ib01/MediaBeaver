@@ -2,9 +2,12 @@ package com.ibus.mediabeaver.cli.utility;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
 import com.ibus.mediabeaver.cli.Main;
@@ -53,45 +56,78 @@ public class MediaManager
 			} 
 			else
 			{
-				
 				/*
 				 * if deleting 
 				 * 	
-				 * 
-				 * if new File Name does not have variables in it
+				 * 	if new File Name does not have variables in it
 				 * 		move or delete file
-				 * else 
+				 * 	else 
 				 * 		if all variables are set 
-				 * 			 
-				*/
+				 * 
+				 * if moving 
+				 * 
+				 * 	if destination path has no tokens then 
+				 * 		move x from p to q  with no change of file name
+				 * 
+				 * 	if destination path has tokens
+				 * 		if we have nominated use of open subtitles service then 
+				 * 			get tokens from the service
+				 * 		else
+				 * 			get tokens from selectors	
+				 * 
+				 * 		move file using the tokes in the file name
+				 * */
 				
-				if(!fileIsTarget(fso, config))
-					continue;
-	
 				if (config.getAction() == TransformAction.Move)
 				{
-					String fileName = regExHelper.assembleFileName(config.getConfigVariables(), config.getRelativeDestinationPath());
-					fileSys.moveFile(fso.getAbsolutePath(), config.getDestinationRoot(), fileName);
+					if(regExHelper.containsTokenPlaceholders(config.getRelativeDestinationPath()))
+					{
+						//if we have nominated use of open subtitles service then 
+						//		get tokens from the service
+						//else 	 
+						
+						HashMap<String, String> tokens = getFileTokensFromRegexSelectors(fso, config);
+						String fileName = regExHelper.assembleFileName(tokens, config.getRelativeDestinationPath());
+						
+						//if we still have placehonders in the file name abort move 
+						if(regExHelper.containsTokenPlaceholders(fileName))
+						{
+							log.debug(String.format("Aborting move of %s. could not assemble new filename for the file", fso.getPath()));
+							break;
+						}
+						
+						log.debug(String.format("Attempting to moving %s to %s", fso.getPath(), FilenameUtils.concat(config.getDestinationRoot(), fileName)));
+						fileSys.moveFile(fso.getAbsolutePath(), config.getDestinationRoot(), fileName);	
+					}
+					//else
+					//...
 				}
-
 			}
 		}
 	}
 
-	private boolean fileIsTarget(File fso, MediaConfig config)
-	{
-		return processRegExSelectors(fso, config);
-	}
-
-	private boolean processRegExSelectors(File fso, MediaConfig config)
+	
+	/**
+	 * foreach selector if expression is found in file name then 
+	 * get variable value collection.  if a null is returned then no 
+	 * match found for any selector.  
+	 * @param fso
+	 * @param config
+	 * @return
+	 */
+	private HashMap<String, String> getFileTokensFromRegexSelectors(File fso, MediaConfig config)
 	{
 		log.debug("processing regex selectors");
-		boolean isTarget = false;
+		HashMap<String, String> tokens = null;
+		
 		
 		/*go through each regex selectors*/
 		for(RegExSelector selector : config.getRegExSelectors())
 		{
+			log.debug(String.format("Processing regex selctor with description: %s.", selector.getDescription()));
 			log.debug(String.format("Matching regex %s against file name: %s", selector.getExpression(), fso.getName()));
+
+			tokens = new HashMap<String, String>();
 			
 			/*capture substrings from file name*/
 			List<String> captures = regExHelper.captureStrings(selector.getExpression(), fso.getName());
@@ -99,62 +135,43 @@ public class MediaManager
 			{
 				log.debug(String.format("regex %s matched file name: %s", selector.getExpression(), fso.getName()));
 				
-				isTarget = true;
-				
-				/*populate our config variables form the getRegExVariables list*/
+				/*populate our tokens list*/
 				for(RegExVariableSetter rev : selector.getVariableSetters())
 				{
-					/*ConfigVariable cv = getConfigVariable(config.getConfigVariables(), rev.getConfigVariable().getName());
-					if(cv == null){
-						 //our UI should ensure this should never happens
-						log.error("An exception occured: no corresponding ConfigVariable for RegExVariable");
-						throw new MediaBeaverConfigurationException("An exception occured: no corresponding ConfigVariable for RegExVariable");
-					}*/
+					String tokenValue = regExHelper.assembleRegExVariable(captures, rev.getGroupAssembly());
+					if(regExHelper.containsCaptureGroup(tokenValue))
+					{
+						log.debug(String.format("Aborting match against regex selctor. the selector has an invalid value for the token setter with name: "
+								, selector.getDescription(), rev.getVariableName()));
+						tokens = null;
+						break; //we have an invalid token which contains an unassigned token.ie the string contains somethig like: {1}. 
+							   //go to next selector
+					}
 					
-					String uncleanVariable = regExHelper.assembleRegExVariable(captures, rev.getGroupAssembly());	
-					String cleanVariable = regExHelper.cleanString(uncleanVariable, rev.getReplaceExpression(), rev.getReplaceWithCharacter());
-				
-					//TODO: CHECK THAT THE CONFIG OBJECT HOLDS A REFERENCE TO THIS getConfigVariable AND NOT SOME OTHER INSTACE!!!!!
-					//rev.getConfigVariable().setValue(cleanVariable);
+					tokenValue = regExHelper.cleanString(tokenValue, rev.getReplaceExpression(), rev.getReplaceWithCharacter()); 
+					if(tokenValue.trim().length() == 0)
+					{
+						log.debug(String.format("Aborting match against regex selctor. the selector has an invalid value for the token setter with name: "
+								, selector.getDescription(), rev.getVariableName()));
+						tokens = null;
+						break; //we have an invalid token which contains an unassigned token.ie the string contains somethig like: {1}. 
+							   //go to next selector
+					}
 					
-					//log.debug(String.format("config variable %s was set to %s", rev.getConfigVariable().getName(), rev.getConfigVariable().getValue()));
-					
-					//cv.setValue(cleanVariable);
-					    
-					//log.debug(String.format("config variable %s was set to %s", cv.getName(), cv.getValue()));
+					tokens.put(rev.getVariableName(), tokenValue);
 				}
 				
-				/*
-				 * if new File Name does not have variables in it  
-				*/
-				
+				//if tokens = null then selector matched but we do not have a valid list of tokens so go to next selector.  
+				//otherwise so just return our token list to indicate a successful match
+				if(tokens != null)
+					return tokens;
 			}
 		}
 		
-		/*
-			each RegExSelector
-				Iron Man (2013).mkv
-				Iron Man
-				2013
-				mkv
-		
-		
-		*/
-		
-		return isTarget;
+		return tokens;
 	}
 	
-	/*private ConfigVariable getConfigVariable(Set<ConfigVariable> variables, String variableName)
-	{
-		for(ConfigVariable v : variables)
-		{
-			if(v.getName().equals(variableName))
-				return v;
-		}
-		
-		return null;
-	}
-	*/
+	
 	
 	
 	

@@ -1,8 +1,12 @@
 package com.ibus.mediabeaver.core.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,6 +24,9 @@ public class RegExHelper
 	 */
 	public List<String> getVariableNames(String path)
 	{
+		if(path == null || path.trim().length() == 0)
+			new IllegalArgumentException("path cannot be null or empty");
+		
 		Pattern pattern = Pattern.compile("\\{\\{(\\w+)\\}\\}");
 		Matcher matcher = pattern.matcher(path);
 		
@@ -38,8 +45,10 @@ public class RegExHelper
 	
 	public boolean matchFound(String regularExpression, String text)
 	{
-		if(regularExpression == null || regularExpression.trim().length() == 0 || text == null || text.trim().length() == 0)
-			return false;
+		if(regularExpression == null || regularExpression.trim().length() == 0)
+			new IllegalArgumentException("regularExpression cannot be null or empty");
+		if(text == null || text.trim().length() == 0)
+			new IllegalArgumentException("text cannot be null or empty");
 		
 		Pattern pattern = Pattern.compile(regularExpression);
 		Matcher matcher = pattern.matcher(text);
@@ -56,11 +65,12 @@ public class RegExHelper
 	 */
 	public List<String> captureStrings(String regularExpression, String text)
 	{
-		List<String> captures = new ArrayList<String>();
 		if(regularExpression == null || regularExpression.trim().length() == 0)
-			return  captures;
+			new IllegalArgumentException("regularExpression cannot be null or empty");
 		if(text == null || text.trim().length() == 0)
-			return  captures;
+			new IllegalArgumentException("text cannot be null or empty");
+		
+		List<String> captures = new ArrayList<String>();
 		
 		Pattern pattern = Pattern.compile(regularExpression);
 		Matcher matcher = pattern.matcher(text);
@@ -83,7 +93,7 @@ public class RegExHelper
 	 * @param text
 	 * @return
 	 */
-	public String cleanStringRegEx(String keepExpression, String text, String joinString)
+	/*public String cleanStringRegEx(String keepExpression, String text, String joinString)
 	{
 		//TODO: THIS IS PROBABLY REDUNDANT NOW
 		Pattern pattern = Pattern.compile(keepExpression);
@@ -102,14 +112,26 @@ public class RegExHelper
 		}
 		
 		return parsedString;
-	}
+	}*/
 	
 	
-	public String assembleRegExVariable(List<String> capturedStrings, String assemblyString)
+	/**
+	 * parse a group assembly string and regex capture groups, to something that could be used as a file token.
+	 * ie. pass {1}  (the number corresponds to a regex capture group),to for example "Iron Man".  this method 
+	 * assumes that 
+	 * @param capturedStrings
+	 * @param assemblyString
+	 * @return
+	 */
+	public String assembleRegExVariable(List<String> capturedStrings, String assemblyString) throws IllegalArgumentException
 	{
+		if(assemblyString == null || assemblyString.trim().length() == 0)
+			new IllegalArgumentException("assemblyString cannot be null or empty");
+		
+		if(!containsCaptureGroup(assemblyString))//assemblyString must contain atleast one capture group
+			new IllegalArgumentException("assemblyString must contain at least one capture group");
+
 		String s = assemblyString;
-		if(s == null)
-			return "";
 		
 		for(int i=0; i < capturedStrings.size(); i++)
 		{
@@ -119,10 +141,22 @@ public class RegExHelper
 		return s;
 	}
 	
-	public boolean containsCaptureGroup(String string)
+	
+	public boolean containsTokenPlaceholders(String text)
 	{
+		Pattern pattern = Pattern.compile("\\{\\{\\d\\}\\}");
+		Matcher matcher = pattern.matcher(text);
+		
+		return matcher.find();
+	}
+	
+	public boolean containsCaptureGroup(String text)
+	{
+		if(text == null || text.trim().length() == 0)
+			new IllegalArgumentException("text cannot be null or empty");
+		
 		Pattern pattern = Pattern.compile("\\{\\d\\}");
-		Matcher matcher = pattern.matcher(string);
+		Matcher matcher = pattern.matcher(text);
 		
 		return matcher.find();
 	}
@@ -144,8 +178,10 @@ public class RegExHelper
 	
 	public String cleanString(String toClean, String regEx, String replaceWith)
 	{
-		if(regEx == null || replaceWith == null)
-			return toClean;
+		if(toClean == null || toClean.trim().length() == 0)
+			new IllegalArgumentException("toClean cannot be null or empty");
+		if(regEx == null || regEx.trim().length() == 0)
+			new IllegalArgumentException("regEx cannot be null or empty");
 		
 		String s = toClean;
 		s = s.replaceAll(regEx, replaceWith);
@@ -155,16 +191,23 @@ public class RegExHelper
 	
 	
 	
-	public String assembleFileName(Set<ConfigVariable> variables, String assemblyString)
+	public String assembleFileName(HashMap<String, String> tokens, String fileName)
 	{
-		String s = assemblyString;
-		for(ConfigVariable v : variables)
+		if(fileName == null || fileName.trim().length() == 0)
+			new IllegalArgumentException("fileName cannot be null or empty");
+		
+		String s = fileName;
+		
+		Iterator<Entry<String, String>> i = tokens.entrySet().iterator();
+		while(i.hasNext()) 
 		{
-			s = s.replace(String.format("{%s}", v.getName()), v.getValue());
+			Map.Entry<String, String> me = (Map.Entry<String, String>)i.next();
+			s = s.replace(String.format("{%s}", me.getKey()), me.getValue());
 		}
 		
 		return s;
 	}
+	
 	
 	
 	

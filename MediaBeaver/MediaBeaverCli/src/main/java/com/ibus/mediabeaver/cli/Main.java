@@ -19,17 +19,20 @@ public class Main
 	
 	public static void main(String[] args)
 	{
-		log.debug("initialising data");
-		//DataInitialiser.Initialise();
-		
-		
+		log.debug("Retreiving Media Configuration Items");
 		List<MediaConfig> configs = Repository.getInTransaction(
-				new QueryTransactable<List<MediaConfig>>() {
+				new QueryTransactable<List<MediaConfig>>() 
+				{
 					public List<MediaConfig> run()
 					{
 						return Repository.getAllMediaConfig();
 					}
 				});
+		
+		//log.debug("initialising data");
+		//DataInitialiser.Initialise();
+		
+		
 		
 		
 		
