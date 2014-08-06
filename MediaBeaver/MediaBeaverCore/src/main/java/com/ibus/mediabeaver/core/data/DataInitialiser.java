@@ -6,73 +6,124 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.ibus.mediabeaver.core.entity.ConfigVariable;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
+import com.ibus.mediabeaver.core.entity.RegExSelector;
+import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
+import com.ibus.mediabeaver.core.entity.TransformAction;
 
 public class DataInitialiser 
 {
 	static Logger log = Logger.getLogger(DataInitialiser.class.getName());
 	
-	public static void Initialise(List<MediaConfig> configs)
+	public static void addDefaultConfigs()
 	{
-		if(configs.size() == 0)
-		{
-			//addMovieConfig();
-		}
-		
-		/*Transaction tx = null; 
-		try
-		{
-			Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-			tx = s.beginTransaction();
-
-			log.debug("Getting configuration from h2 db");
-			
-			List<MediaConfig> configs =  Repository.getAllMediaConfig();
-			
-			log.debug(String.format("Retreived %d configs from db", configs.size()));
-			
-			//initialise some useful default config only if the db is fresh (i.e this is the first time the app has run)
-			if(configs.size() == 0)
-			{
-				//addMovieConfig();
-			}
-			
-			tx.commit();
-		}
-		catch(RuntimeException e)
-		{
-			tx.rollback();
-			throw e;
-		}	
-		 */			
+		//addMoveMoviesConfig();
+		addMoveTVEpisodesConfig();
 	}
 	
-	/*private static void addMovieConfig()
+	/*Move Movie files ----------------------------------------------------------------------------*/
+	public static void addMoveMoviesConfig()
 	{
-		RegExSelector re = new RegExSelector();
-		re.setExpression("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}]");
-		re.getNameParser().setAssembledItem("{1}");
-		re.getNameParser().setCleaningRegEx("([a-z,A-Z']+)");
-		re.getYearParser().setAssembledItem("{2}");
-		re.setTestFileName("Iron-Man (1992).mkv");
+		log.debug(String.format("Adding Move Movie Config"));
 		
+		MediaConfig config = new MediaConfig();
+		config.setAction(TransformAction.Move);
+		config.setDescription("Move Movie files");
+		config.setSourceDirectory("D:\\MediabeaverTests\\Source");
+		config.setDestinationRoot("D:\\MediabeaverTests\\Destination\\Movies");
+		config.setRelativeDestinationPath("{{name}} ({{year}})\\{{name}} ({{year}}).({{extension}})");
 		
-		MediaConfig it = new MediaTransformConfig();
-		it.setAction(TransformAction.Move);
-		it.setTargetDirectory("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Target");
-		it.setMediaType(MediaType.Movie);
-		it.setName("Move Movie Files");
-		it.setProcessOrder(1);
-		it.setDestinationFolder("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Destination\\Movies");
-		it.setRenamingService(RenamingService.TMDB);
-		it.addSelectExpression(re);
+		config.getRegExSelectors().add(getMovieWithYearAndAnyExtensionSetter());
 		
-		
-		Repository.addEntity(it);
-		
-		log.debug("added 1 config to db");
+		Repository.saveEntity(config);
 	}
-	*/
+	
+	private static RegExSelector getMovieWithYearAndAnyExtensionSetter()
+	{
+		RegExSelector selector = new RegExSelector();
+		selector.setDescription("Movies with year and any extension");
+		selector.setExpression("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}].*\\.([a-zA-Z]+)");
+		
+		RegExVariableSetter setter = new RegExVariableSetter();
+		setter.setVariableName("name");
+		setter.setGroupAssembly("{1}");
+		setter.setReplaceExpression("[\\.-]+");
+		setter.setReplaceWithCharacter(" ");
+		
+		selector.getVariableSetters().add(setter);
+		
+		setter = new RegExVariableSetter();
+		setter.setVariableName("year");
+		setter.setGroupAssembly("{2}");
+		
+		selector.getVariableSetters().add(setter);
+		
+		setter = new RegExVariableSetter();
+		setter.setVariableName("extension");
+		setter.setGroupAssembly("{3}");
+		
+		selector.getVariableSetters().add(setter);
+		
+		return selector;
+	}
+	
+	/*Move Tv Episodes files ----------------------------------------------------------------------------*/
+	
+	
+	public static void addMoveTVEpisodesConfig()
+	{
+		log.debug(String.format("Adding Move Tv Episodes Config"));
+		
+		MediaConfig config = new MediaConfig();
+		config.setAction(TransformAction.Move);
+		config.setDescription("Move Tv Episode files");
+		config.setSourceDirectory("D:\\MediabeaverTests\\Source");
+		config.setDestinationRoot("D:\\MediabeaverTests\\Destination\\Tv Series");
+		config.setRelativeDestinationPath("{{SeriesName}}\\Season {{SeasonNumber}}\\{{SeriesName}} S{{SeasonNumber}}E{{EpisodeNumber}}.{{Extension}}");
+		
+		config.getRegExSelectors().add(getTVEpisodeWithSeriesSeasonAndAnyExtensionSetter());
+		
+		Repository.saveEntity(config);
+	}
+	
+	private static RegExSelector getTVEpisodeWithSeriesSeasonAndAnyExtensionSetter()
+	{
+		RegExSelector selector = new RegExSelector();
+		selector.setDescription("Movies Tv Series with Name Season and Episode information");
+		selector.setExpression("(.+)[Ss](\\d\\d)[Ee](\\d\\d).*\\.([a-zA-Z]+)");
+		
+		RegExVariableSetter setter = new RegExVariableSetter();
+		setter.setVariableName("SeriesName");
+		setter.setGroupAssembly("{1}");
+		setter.setReplaceExpression("[\\.-]+");
+		setter.setReplaceWithCharacter(" ");
+		
+		selector.getVariableSetters().add(setter);
+		
+		setter = new RegExVariableSetter();
+		setter.setVariableName("SeasonNumber");
+		setter.setGroupAssembly("{2}");
+		
+		selector.getVariableSetters().add(setter);
+		
+		setter = new RegExVariableSetter();
+		setter.setVariableName("EpisodeNumber");
+		setter.setGroupAssembly("{3}");
+		
+		selector.getVariableSetters().add(setter);
+		
+		setter = new RegExVariableSetter();
+		setter.setVariableName("Extension");
+		setter.setGroupAssembly("{4}");
+		
+		selector.getVariableSetters().add(setter);
+		
+		return selector;
+	}
+	
+	
+	
 	
 	
 }

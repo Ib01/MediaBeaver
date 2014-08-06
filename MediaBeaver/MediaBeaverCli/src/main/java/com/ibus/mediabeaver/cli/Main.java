@@ -19,6 +19,15 @@ public class Main
 	
 	public static void main(String[] args)
 	{
+		//add some defualt configs if we have none already
+		//TODO: we should only add default configs when app initialises for the first time. need a better trigger than 
+		//when configs is empty (i.e what if user deletes all configs? they will be magically restored!)  
+		//if(is first run of app?){
+		//	DataInitialiser.Initialise(configs);
+			
+		//}
+		
+		
 		log.debug("Retreiving Media Configuration Items");
 		List<MediaConfig> configs = Repository.getInTransaction(
 				new QueryTransactable<List<MediaConfig>>() 
@@ -28,11 +37,6 @@ public class Main
 						return Repository.getAllMediaConfig();
 					}
 				});
-		
-		//log.debug("initialising data");
-		//DataInitialiser.Initialise();
-		
-		
 		
 		
 		

@@ -148,7 +148,8 @@ public class MediaManager
 							   //go to next selector
 					}
 					
-					tokenValue = regExHelper.cleanString(tokenValue, rev.getReplaceExpression(), rev.getReplaceWithCharacter()); 
+					tokenValue = regExHelper.cleanString(tokenValue, rev.getReplaceExpression(), rev.getReplaceWithCharacter());
+					
 					if(tokenValue.trim().length() == 0)
 					{
 						log.debug(String.format("Aborting match against regex selctor. the selector has an invalid value for the token setter with name: "

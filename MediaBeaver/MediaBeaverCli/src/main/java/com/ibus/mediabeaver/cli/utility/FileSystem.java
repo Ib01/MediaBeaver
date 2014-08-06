@@ -153,8 +153,8 @@ public class FileSystem
 		}
 		catch(IOException ex)
 		{
-			log.error(String.format("an io exception occured while attempting to move file %s to %s.", source, destination), ex);
-			throw new MediaBeaverFileSystemException(String.format("an io exception occured while attempting to move file %s to %s.", source, destination));
+			log.error(String.format("an io exception occured while attempting to move file %s to %s", source, destination), ex);
+			throw new MediaBeaverFileSystemException(String.format("an io exception occured while attempting to move file %s to %s", source, destination));
 		}
 	}
 	
