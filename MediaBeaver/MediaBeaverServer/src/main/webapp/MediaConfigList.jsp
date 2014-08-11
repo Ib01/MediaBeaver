@@ -22,11 +22,11 @@
 			padding: 10px;
 			padding-bottom: 15px;
 		}
-		.formLayout .detailedListItem label{
+		label{
 			width: 200px;
 		}
 		
-		.detailedListItemLevel1Box{
+		.detailedListItem .level1Box{
 			background-color: white; 
 			padding:7px;
 			border-radius: 8px;
@@ -57,7 +57,7 @@
 			
 				<h3>Configuration detail</h3>
 				
-				<div class="detailedListItemLevel1Box">
+				<div class="level1Box">
 					<label>Description: </label><c:out value="${config.description}" />
 					<br>
 					<label>Action: </label><c:out value="${config.action}" />
@@ -71,20 +71,19 @@
 				</div>
 				
 				<h3>Regex Selectors</h3>
-		 		
-				<div class="detailedListItemLevel1Box">
-						
-					<c:forEach items="${config.regExSelectors}" var="selector" varStatus="ii">		
+		 			
+				<c:forEach items="${config.regExSelectors}" var="selector" varStatus="ii">
+					
+					<div class="level1Box">
+							
 						<label>Description: </label><c:out value="${selector.description}" />
 						<br>
 						<label>expression: </label><c:out value="${selector.expression}" />
 						<br>
 						
-						<h3>Regex Setters</h3>
-						
-						<c:forEach items="${selector.variableSetters}" var="setter" varStatus="iii">
-							<br>
-							<label>Name: </label><c:out value="${setter.variableName}" />
+						<p style="font-style: italic;">Regex Setters:</p>
+						<c:forEach items="${selector.pathTokenSetters}" var="setter" varStatus="iii">
+							<label>Name: </label><c:out value="${setter.pathTokenName}" />
 							<br>	
 							<label>Group Assembly: </label><c:out value="${setter.groupAssembly}" />
 							<br>	
@@ -93,16 +92,18 @@
 							<label>Replace Character: </label><c:out value="${setter.replaceWithCharacter}" />
 							<br>
 						</c:forEach>
-						
-					</c:forEach>	
-				</div>
-				
-			</div>
-			<br>
-			<br>
+					</div>
+					
+				</c:forEach>
+			</div>				
+		</c:forEach>	
+		
 			
+		<br>
+		<br>
+		
 			
-		</c:forEach>
+		
 		
 		<br>
 		<br>

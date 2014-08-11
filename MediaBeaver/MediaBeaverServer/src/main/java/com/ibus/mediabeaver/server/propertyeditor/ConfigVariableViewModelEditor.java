@@ -3,11 +3,9 @@ package com.ibus.mediabeaver.server.propertyeditor;
 import java.beans.PropertyEditorSupport;
 import java.util.List;
 
-import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
-
 public class ConfigVariableViewModelEditor extends PropertyEditorSupport
 {
-	List<ConfigVariableViewModel> configs;
+	/*List<ConfigVariableViewModel> configs;
 	
 	public ConfigVariableViewModelEditor(List<ConfigVariableViewModel> list)
 	{
@@ -26,6 +24,6 @@ public class ConfigVariableViewModelEditor extends PropertyEditorSupport
 		}
 		
 		setValue(selected);
-	}
+	}*/
 }
 

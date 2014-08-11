@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
-import com.ibus.mediabeaver.core.util.TestHelper;
 
 public class ModelTests
 {
@@ -234,7 +233,7 @@ public class ModelTests
 	}*/
 	
 	
-	@Test
+	/*@Test
 	public void addMediaconfigTest()
 	{
 		StartTransaction();
@@ -257,7 +256,7 @@ public class ModelTests
 		
 		EndTransaction();
 		
-	}
+	}*/
 	
 	/*@Test
 	public void updateMediaconfigTest()

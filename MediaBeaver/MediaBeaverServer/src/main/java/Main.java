@@ -50,9 +50,9 @@ public class Main
 		    webapp.setWar(location.toExternalForm());
 		    
 		    /*not sure if this session stuff works*/
-		    SessionHandler sh = webapp.getSessionHandler();
+		    /*SessionHandler sh = webapp.getSessionHandler();
 		    SessionManager sm = sh.getSessionManager();
-            sm.setMaxInactiveInterval(60*60);
+            sm.setMaxInactiveInterval(60*60);*/
             
 		    /*HandlerList handlers = new HandlerList();
 		    handlers.setHandlers(new Handler[] {webapp, new ShutdownHandler(server, ShutdownPassword)});

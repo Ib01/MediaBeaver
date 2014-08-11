@@ -7,7 +7,6 @@
     
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
     <link rel="stylesheet" href="/resources/css/validationEngine.jquery.css" type="text/css"/>
-	<!-- <link rel="stylesheet" href="/resources/css/template.css" type="text/css"/> -->
 	<link rel="stylesheet" href="/resources/css/styles.css" type="text/css" />
 	
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>

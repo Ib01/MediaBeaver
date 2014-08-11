@@ -50,7 +50,7 @@
 			
 			if(saveError())
 				return; 
-						
+			
 			$("form:first").attr("action", "/regExSelector/save");
 			$("form:first").submit();
 		});

@@ -21,10 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.util.RegExHelper;
 import com.ibus.mediabeaver.server.propertyeditor.ConfigVariableViewModelEditor;
-import com.ibus.mediabeaver.server.viewmodel.ConfigVariableViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
-import com.ibus.mediabeaver.server.viewmodel.RegExVariableSetterViewModel;
+import com.ibus.mediabeaver.server.viewmodel.RegExPathTokenSetterViewModel;
 
 /**
  * @author ikr
@@ -51,7 +50,7 @@ import com.ibus.mediabeaver.server.viewmodel.RegExVariableSetterViewModel;
 public class RegExSelectorController
 {
 	
-	@InitBinder
+	/*@InitBinder
 	public void initBinder(WebDataBinder binder, HttpServletRequest request)
 	{
 		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
@@ -67,7 +66,7 @@ public class RegExSelectorController
 	{
 		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
 		return c.getConfigVariables();
-	}
+	}*/
 
 	@RequestMapping
 	public ModelAndView addSelector(HttpServletRequest request, SessionStatus sessionStatus)
@@ -93,7 +92,7 @@ public class RegExSelectorController
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String saveSelector(RegExSelectorViewModel selector, BindingResult result, HttpServletRequest request)
 	{
-		removeNullRegExVariables(selector.getVariableSetters());
+		removeNullRegExVariables(selector.getPathTokenSetters());
 		
 		MediaConfigViewModel c = (MediaConfigViewModel) request.getSession().getAttribute("config");
 		if(selector.getIndex() > -1)
@@ -106,7 +105,7 @@ public class RegExSelectorController
 	
 	
 
-	@RequestMapping(value = "/test", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/test", method = RequestMethod.POST)
 	public @ResponseBody RegExSelectorViewModel testRegEx(@Valid @RequestBody RegExSelectorViewModel selector, BindingResult result, HttpServletRequest request)
 	{
 		RegExHelper regExHelper = new RegExHelper();
@@ -114,7 +113,7 @@ public class RegExSelectorController
 		
 		if(captures.size() > 0)
 		{
-			for(RegExVariableSetterViewModel regExVar :  selector.getVariableSetters())
+			for(RegExPathTokenSetterViewModel regExVar :  selector.getPathTokenSetters())
 			{
 				String cleanedVar = regExHelper.assembleRegExVariable(captures, regExVar.getGroupAssembly());
 				
@@ -130,17 +129,17 @@ public class RegExSelectorController
 		}
 		
 		return selector;
-	}
+	}*/
 	
 	
 	//a hack to deal with the ridiculous dynamic list problem.
-	private void removeNullRegExVariables(List<RegExVariableSetterViewModel> variables)
+	private void removeNullRegExVariables(List<RegExPathTokenSetterViewModel> variables)
 	{
-		Iterator<RegExVariableSetterViewModel> i = variables.iterator();
+		Iterator<RegExPathTokenSetterViewModel> i = variables.iterator();
 		
 		while (i.hasNext()) 
 		{
-			RegExVariableSetterViewModel v = i.next();
+			RegExPathTokenSetterViewModel v = i.next();
 			
 			/*if(v.getConfigVariable() == null)
 				i.remove();*/

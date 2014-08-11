@@ -5,11 +5,9 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
-import com.ibus.mediabeaver.core.entity.ConfigVariable;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.RegExSelector;
-import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
+import com.ibus.mediabeaver.core.entity.RegExPathTokenSetter;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 
 public class DataInitialiser 
@@ -18,8 +16,8 @@ public class DataInitialiser
 	
 	public static void addDefaultConfigs()
 	{
-		//addMoveMoviesConfig();
-		addMoveTVEpisodesConfig();
+		addMoveMoviesConfig();
+		//addMoveTVEpisodesConfig();
 	}
 	
 	/*Move Movie files ----------------------------------------------------------------------------*/
@@ -44,26 +42,27 @@ public class DataInitialiser
 		RegExSelector selector = new RegExSelector();
 		selector.setDescription("Movies with year and any extension");
 		selector.setExpression("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}].*\\.([a-zA-Z]+)");
+		selector.setSorOrder(1);
 		
-		RegExVariableSetter setter = new RegExVariableSetter();
-		setter.setVariableName("name");
+		RegExPathTokenSetter setter = new RegExPathTokenSetter();
+		setter.setPathTokenName("name");
 		setter.setGroupAssembly("{1}");
 		setter.setReplaceExpression("[\\.-]+");
 		setter.setReplaceWithCharacter(" ");
 		
-		selector.getVariableSetters().add(setter);
+		selector.getPathTokenSetters().add(setter);
 		
-		setter = new RegExVariableSetter();
-		setter.setVariableName("year");
+		setter = new RegExPathTokenSetter();
+		setter.setPathTokenName("year");
 		setter.setGroupAssembly("{2}");
 		
-		selector.getVariableSetters().add(setter);
+		selector.getPathTokenSetters().add(setter);
 		
-		setter = new RegExVariableSetter();
-		setter.setVariableName("extension");
+		setter = new RegExPathTokenSetter();
+		setter.setPathTokenName("extension");
 		setter.setGroupAssembly("{3}");
 		
-		selector.getVariableSetters().add(setter);
+		selector.getPathTokenSetters().add(setter);
 		
 		return selector;
 	}
@@ -93,31 +92,31 @@ public class DataInitialiser
 		selector.setDescription("Movies Tv Series with Name Season and Episode information");
 		selector.setExpression("(.+)[Ss](\\d\\d)[Ee](\\d\\d).*\\.([a-zA-Z]+)");
 		
-		RegExVariableSetter setter = new RegExVariableSetter();
-		setter.setVariableName("SeriesName");
+		RegExPathTokenSetter setter = new RegExPathTokenSetter();
+		setter.setPathTokenName("SeriesName");
 		setter.setGroupAssembly("{1}");
 		setter.setReplaceExpression("[\\.-]+");
 		setter.setReplaceWithCharacter(" ");
 		
-		selector.getVariableSetters().add(setter);
+		selector.getPathTokenSetters().add(setter);
 		
-		setter = new RegExVariableSetter();
-		setter.setVariableName("SeasonNumber");
+		setter = new RegExPathTokenSetter();
+		setter.setPathTokenName("SeasonNumber");
 		setter.setGroupAssembly("{2}");
 		
-		selector.getVariableSetters().add(setter);
+		selector.getPathTokenSetters().add(setter);
 		
-		setter = new RegExVariableSetter();
-		setter.setVariableName("EpisodeNumber");
+		setter = new RegExPathTokenSetter();
+		setter.setPathTokenName("EpisodeNumber");
 		setter.setGroupAssembly("{3}");
 		
-		selector.getVariableSetters().add(setter);
+		selector.getPathTokenSetters().add(setter);
 		
-		setter = new RegExVariableSetter();
-		setter.setVariableName("Extension");
+		setter = new RegExPathTokenSetter();
+		setter.setPathTokenName("Extension");
 		setter.setGroupAssembly("{4}");
 		
-		selector.getVariableSetters().add(setter);
+		selector.getPathTokenSetters().add(setter);
 		
 		return selector;
 	}

@@ -16,17 +16,21 @@ public class RegExSelectorViewModel extends ViewModel
 	@NotEmpty(message = "This field cannot be left empty")
 	private String expression;
 
-	private List<RegExVariableSetterViewModel> variableSetters = new ArrayList<RegExVariableSetterViewModel>();
+	private List<RegExPathTokenSetterViewModel> pathTokenSetters = new ArrayList<RegExPathTokenSetterViewModel>();
 	
+	private int sorOrder = -1;
 	
 	//View properties////////////////////////////////////////
 	
 	private String testFileName;
-	//TODO: REMOVE?
-	private List<ConfigVariableViewModel> testVariables = new ArrayList<ConfigVariableViewModel>();
 	private String testResult;
 	private int index = -1;
 	
+	
+	public RegExSelectorViewModel(int sortOrder)
+	{
+		setSorOrder(sortOrder);
+	}
 	
 	public RegExSelectorViewModel()
 	{
@@ -44,11 +48,13 @@ public class RegExSelectorViewModel extends ViewModel
 		selector.setIndex(index);
 		selector.setLastUpdate(lastUpdate);
 		selector.setTestFileName(testFileName);
+		selector.setSorOrder(sorOrder);
+		
 		//selector.setTestVariables(testVariables);
 		
-		for(RegExVariableSetterViewModel setter : variableSetters)
+		for(RegExPathTokenSetterViewModel setter : pathTokenSetters)
 		{
-			selector.getVariableSetters().add(setter.copy());
+			selector.getPathTokenSetters().add(setter.copy());
 		}
 		
 		return selector;
@@ -75,15 +81,26 @@ public class RegExSelectorViewModel extends ViewModel
 		this.expression = expression;
 	}
 	
-	public List<RegExVariableSetterViewModel> getVariableSetters()
+	public List<RegExPathTokenSetterViewModel> getPathTokenSetters()
 	{
-		return variableSetters;
+		return pathTokenSetters;
 	}
 
-	public void setVariableSetters(List<RegExVariableSetterViewModel> setters)
+	public void setPathTokenSetters(List<RegExPathTokenSetterViewModel> setters)
 	{
-		this.variableSetters = setters;
+		this.pathTokenSetters = setters;
 	}
+	
+	public int getSorOrder()
+	{
+		return sorOrder;
+	}
+
+	public void setSorOrder(int sorOrder)
+	{
+		this.sorOrder = sorOrder;
+	}
+	
 
 	public String getTestFileName()
 	{
@@ -95,19 +112,9 @@ public class RegExSelectorViewModel extends ViewModel
 		this.testFileName = testFileName;
 	}
 
-	public void deleteRegExVariableViewModel(String index)
+	public void deletePathTokenSetterViewModel(String index)
 	{
-		variableSetters.remove(Integer.parseInt(index));
-	}
-
-	public List<ConfigVariableViewModel> getTestVariables()
-	{
-		return testVariables;
-	}
-
-	public void setTestVariables(List<ConfigVariableViewModel> testVariables)
-	{
-		this.testVariables = testVariables;
+		pathTokenSetters.remove(Integer.parseInt(index));
 	}
 
 	public int getIndex()
@@ -130,25 +137,6 @@ public class RegExSelectorViewModel extends ViewModel
 		this.testResult = testResult;
 	}
 	
-	/*private String variablesValid = "";
-	
-	//the jsp framework may need this?
-	public void setVariablesValid(String value)
-	{
-		variablesValid = value;
-	}
-
-	public String getVariablesValid()
-	{
-		boolean allHaveGroupAssembly = false;
-		for(RegExVariableSetterViewModel set : variableSetters)
-		{
-			if(set.getGroupAssembly())
-				found = true;
-		}
-		
-		return variablesValid;
-	}	*/
 	
 	
 	public void createVariableSetters(List<String> variableNames)
@@ -157,28 +145,28 @@ public class RegExSelectorViewModel extends ViewModel
 		for(String name : variableNames)
 		{
 			boolean found = false;
-			for(RegExVariableSetterViewModel set : variableSetters)
+			for(RegExPathTokenSetterViewModel set : pathTokenSetters)
 			{
-				if(set.getVariableName().equals(name))
+				if(set.getPathTokenName().equals(name))
 					found = true;
 			}
 			
 			if(!found)
 			{
-				variableSetters.add(new RegExVariableSetterViewModel(name));
+				pathTokenSetters.add(new RegExPathTokenSetterViewModel(name));
 			}
 		}
 		
 		//remove setters for variables that no longer exist
-		Iterator<RegExVariableSetterViewModel> it = variableSetters.iterator();
+		Iterator<RegExPathTokenSetterViewModel> it = pathTokenSetters.iterator();
 		while(it.hasNext())
 		{
-			RegExVariableSetterViewModel setter = it.next();
+			RegExPathTokenSetterViewModel setter = it.next();
 
 			boolean found = false;
 			for(String name : variableNames)
 			{
-				if(name.equals(setter.getVariableName()))
+				if(name.equals(setter.getPathTokenName()))
 					found = true;
 			}
 			

@@ -27,15 +27,15 @@ public class RegExSelector extends PersistentObject
 	@Column
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
-	private Set<RegExVariableSetter> variableSetters = new HashSet<RegExVariableSetter>();
+	private Set<RegExPathTokenSetter> pathTokenSetters = new HashSet<RegExPathTokenSetter>();
 	
 	@Column
-	private FileSystemType fileSystemTarget;
+	private int sorOrder;
 	
-	/*
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.EAGER)
-	private MediaConfig parentConfig;*/
+	
+	//TODO: DELETE?
+	@Column
+	private FileSystemType fileSystemTarget;
 
 	public String getExpression()
 	{
@@ -48,45 +48,22 @@ public class RegExSelector extends PersistentObject
 	}
 	
 	//TODO RENAME
-	public Set<RegExVariableSetter> getVariableSetters()
+	public Set<RegExPathTokenSetter> getPathTokenSetters()
 	{
-		return variableSetters;
+		return pathTokenSetters;
 	}
 
 	//TODO RENAME
-	public void setVariableSetters(Set<RegExVariableSetter> variables)
+	public void setPathTokenSetters(Set<RegExPathTokenSetter> pathTokens)
 	{
-		this.variableSetters = variables;
+		this.pathTokenSetters = pathTokens;
 	}
 	
-	public void addRegExVariable(RegExVariableSetter var)
+	public void addPathTokenSetter(RegExPathTokenSetter var)
 	{
-		getVariableSetters().add(var);
+		getPathTokenSetters().add(var);
 	}
 
-	
-
-	/*public void addRegExVariable(RegExVariable var)
-	{
-		getVariables().add(var);
-		var.setRegExSelector(this);
-	}
-
-	public void removeRegExVariable(RegExVariable var)
-	{
-		getVariables().remove(var);
-		var.setRegExSelector(null);
-	}
-*/
-/*	public MediaConfig getParentConfig()
-	{
-		return parentConfig;
-	}
-
-	public void setParentConfig(MediaConfig parentConfig)
-	{
-		this.parentConfig = parentConfig;
-	}*/
 
 	public String getDescription()
 	{
@@ -96,6 +73,16 @@ public class RegExSelector extends PersistentObject
 	public void setDescription(String description)
 	{
 		this.description = description;
+	}
+
+	public int getSorOrder()
+	{
+		return sorOrder;
+	}
+
+	public void setSorOrder(int sorOrder)
+	{
+		this.sorOrder = sorOrder;
 	}
 
 	

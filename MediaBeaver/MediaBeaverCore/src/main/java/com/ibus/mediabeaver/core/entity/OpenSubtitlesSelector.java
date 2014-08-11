@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 
 
 @Entity(name = "Open_Subtitles_Field_Map")
-public class OpenSubtitlesFieldMap extends PersistentObject
+public class OpenSubtitlesSelector extends PersistentObject
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -13,7 +13,7 @@ public class OpenSubtitlesFieldMap extends PersistentObject
 	private String openSubititleField;
 	
 	@Column
-	private String variableName;
+	private String pathTokenName;
 	
 	/*@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -35,13 +35,13 @@ public class OpenSubtitlesFieldMap extends PersistentObject
 	{
 		this.configField = configField;
 	}*/
-	public String getVariableName()
+	public String getPathTokenName()
 	{
-		return variableName;
+		return pathTokenName;
 	}
-	public void setVariableName(String variableName)
+	public void setPathTokenName(String name)
 	{
-		this.variableName = variableName;
+		this.pathTokenName = name;
 	}
 	
 

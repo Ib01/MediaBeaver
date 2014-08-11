@@ -29,7 +29,7 @@ import com.ibus.mediabeaver.core.util.RegExHelper;
 import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
-import com.ibus.mediabeaver.server.viewmodel.RegExVariableSetterViewModel;
+import com.ibus.mediabeaver.server.viewmodel.RegExPathTokenSetterViewModel;
 
 @Controller
 @RequestMapping(value = "/configWizard")
@@ -144,7 +144,7 @@ public class MediaConfigWizardController
 	{
 		//MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
 		MediaConfigViewModel config = getSotredMediaConfigViewModel();
-		RegExSelectorViewModel sel = new RegExSelectorViewModel();
+		RegExSelectorViewModel sel = new RegExSelectorViewModel(config.getNextRegExSelectorSortNumber());
 
 		resetSetters(sel, config);
 		
@@ -163,7 +163,7 @@ public class MediaConfigWizardController
 			config.getRegExSelectors().remove(selector.getIndex());
 		}
 		
-		config.getRegExSelectors().add(selector);	
+		config.addRegExSelector(selector);
 		return "ConfigWizard_RegExSelectors";
 	}
 	
@@ -193,14 +193,14 @@ public class MediaConfigWizardController
 			
 			if(captures.size() > 0)
 			{
-				for(RegExVariableSetterViewModel variableSetter :  selector.getVariableSetters())
+				for(RegExPathTokenSetterViewModel variableSetter :  selector.getPathTokenSetters())
 				{	
 					String variableValue = regExHelper.assembleRegExVariable(captures, variableSetter.getGroupAssembly());
 					
 					if(variableSetter.getReplaceExpression() != null && variableSetter.getReplaceExpression().length() > 0)
 						variableValue = regExHelper.cleanString(variableValue, variableSetter.getReplaceExpression(), variableSetter.getReplaceWithCharacter());
 					
-					result += String.format("%s = %s \r\n", variableSetter.getVariableName(), variableValue);
+					result += String.format("%s = %s \r\n", variableSetter.getPathTokenName(), variableValue);
 				}
 			}
 		}
@@ -208,6 +208,9 @@ public class MediaConfigWizardController
 		selector.setTestResult(result);
 		return new ModelAndView("ConfigWizard_RegExSelector","regExSelector", selector);
 	}
+	
+	
+	
 	
 	
 	
@@ -245,10 +248,10 @@ public class MediaConfigWizardController
 		for(int selIndx = 0; selIndx < config.getRegExSelectors().size(); selIndx++)
 		{
 			RegExSelectorViewModel selector = config.getRegExSelectors().get(selIndx);
-			for(int setIdx = 0; setIdx < selector.getVariableSetters().size(); setIdx++)
+			for(int setIdx = 0; setIdx < selector.getPathTokenSetters().size(); setIdx++)
 			{
-				if(selector.getVariableSetters().get(setIdx).getGroupAssembly() == null || 
-						selector.getVariableSetters().get(setIdx).getGroupAssembly().trim().length() == 0){
+				if(selector.getPathTokenSetters().get(setIdx).getGroupAssembly() == null || 
+						selector.getPathTokenSetters().get(setIdx).getGroupAssembly().trim().length() == 0){
 					invalidList.add(selIndx);
 					break;
 				}

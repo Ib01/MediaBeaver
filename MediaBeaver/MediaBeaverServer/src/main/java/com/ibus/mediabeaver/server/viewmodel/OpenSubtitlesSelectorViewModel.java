@@ -1,12 +1,12 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
 
-public class OpenSubtitlesFieldMapViewModel extends ViewModel
+public class OpenSubtitlesSelectorViewModel extends ViewModel
 {
 	private static final long serialVersionUID = 1L;
 	
 	private String openSubititleField;
-	private String configField;
+	private String pathTokenName;
 	
 	public String getOpenSubititleField()
 	{
@@ -16,12 +16,12 @@ public class OpenSubtitlesFieldMapViewModel extends ViewModel
 	{
 		this.openSubititleField = openSubititleField;
 	}
-	public String getConfigField()
+	public String getPathTokenName()
 	{
-		return configField;
+		return pathTokenName;
 	}
-	public void setConfigField(String configField)
+	public void setPathTokenName(String configField)
 	{
-		this.configField = configField;
+		this.pathTokenName = configField;
 	}
 }

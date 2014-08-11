@@ -1,8 +1,12 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.persistence.Column;
 
 import com.ibus.mediabeaver.core.entity.TransformAction;
 
@@ -13,18 +17,29 @@ public class MediaConfigViewModel extends ViewModel
 	
 	private String description;
 	private TransformAction action;
-	private List<ConfigVariableViewModel> configVariables = new ArrayList<ConfigVariableViewModel>();
-	private List<OpenSubtitlesFieldMapViewModel> openSubtitlesFieldMaps = new ArrayList<OpenSubtitlesFieldMapViewModel>();
+	private List<OpenSubtitlesSelectorViewModel> openSubtitlesSelectors = new ArrayList<OpenSubtitlesSelectorViewModel>();
 	private List<RegExSelectorViewModel> regExSelectors = new ArrayList<RegExSelectorViewModel>();
 	private String sourceDirectory;
 	private String destinationRoot;
 	private String relativeDestinationPath;
+	private int sorOrder;
+
 	
 	//TODO: REMOVE?
 	private int selectedRegExSelectorIndex;
 	//TODO: REMOVE?	
 	private RegExSelectorViewModel selectedRegExSelector = new RegExSelectorViewModel();
 
+	
+	public int getSorOrder()
+	{
+		return sorOrder;
+	}
+
+	public void setSorOrder(int sorOrder)
+	{
+		this.sorOrder = sorOrder;
+	}
 	public String getDescription()
 	{
 		return description;
@@ -55,36 +70,19 @@ public class MediaConfigViewModel extends ViewModel
 		this.sourceDirectory = sourceDirectory;
 	}
 
-	public List<ConfigVariableViewModel> getConfigVariables()
+	public List<OpenSubtitlesSelectorViewModel> getOpenSubtitlesSelectors()
 	{
-		return configVariables;
+		return openSubtitlesSelectors;
 	}
 	
-	/*required by jsp and jstl*/ 
-	public void setConfigVariables(List<ConfigVariableViewModel> vars)
+	public void setOpenSubtitlesSelectors(List<OpenSubtitlesSelectorViewModel> selectors)
 	{
-		configVariables = vars;
+		this.openSubtitlesSelectors = selectors;
 	}
 
-	public void addConfigVariable(ConfigVariableViewModel variable)
+	public void addOpenSubtitlesSelector(OpenSubtitlesSelectorViewModel selector)
 	{
-		configVariables.add(variable);
-	}
-
-	
-	public List<OpenSubtitlesFieldMapViewModel> getOpenSubtitlesFieldMaps()
-	{
-		return openSubtitlesFieldMaps;
-	}
-	
-	public void setOpenSubtitlesFieldMaps(List<OpenSubtitlesFieldMapViewModel> openSubtitlesFieldMaps)
-	{
-		this.openSubtitlesFieldMaps = openSubtitlesFieldMaps;
-	}
-
-	public void addOpenSubtitlesFieldMap(OpenSubtitlesFieldMapViewModel map)
-	{
-		getOpenSubtitlesFieldMaps().add(map);
+		getOpenSubtitlesSelectors().add(selector);
 	}
 	
 	public List<RegExSelectorViewModel> getRegExSelectors()
@@ -95,13 +93,16 @@ public class MediaConfigViewModel extends ViewModel
 	public void setRegExSelectors(List<RegExSelectorViewModel> regExSelectors)
 	{
 		this.regExSelectors = regExSelectors;
+		sortRegExSelectorViewModels();
 	}
 	
-	public void addRegExSelector(RegExSelectorViewModel regex)
+	public void addRegExSelector(RegExSelectorViewModel selector)
 	{
-		regExSelectors.add(regex);
+		this.regExSelectors.add(selector);
+		sortRegExSelectorViewModels();
 	}
-
+	
+	
 	public String getRelativeDestinationPath()
 	{
 		return relativeDestinationPath;
@@ -136,38 +137,10 @@ public class MediaConfigViewModel extends ViewModel
 	{
 		this.selectedRegExSelector = selectedRegExSelector;
 	}
-	
-	
 
 	public void setSelectedRegExSelectorIndex(int selectedRegExSelectorIndex)
 	{
 		this.selectedRegExSelectorIndex = selectedRegExSelectorIndex;
-	}
-
-	public ConfigVariableViewModel getConfigVariable(String configName)
-	{
-		for(ConfigVariableViewModel cv : configVariables)
-		{
-			if(cv.getName().equals(configName))
-				return cv;
-		}
-		
-		return null;
-	} 
-	
-	
-	//a hack to deal with the ridiculous dynamic list problem.
-	public void removeNullConfigVariables()
-	{
-		Iterator<ConfigVariableViewModel> i = configVariables.iterator();
-		
-		while (i.hasNext()) 
-		{
-			ConfigVariableViewModel v = i.next();
-			
-			if(v == null)
-				i.remove();
-		}
 	}
 
 	//TODO: Used?
@@ -183,33 +156,25 @@ public class MediaConfigViewModel extends ViewModel
 		return  selector;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*public RegExSelectorViewModel updateOrAddRegExSelector(RegExSelectorViewModel selector)
+	public int getNextRegExSelectorSortNumber()
 	{
-		for(RegExSelectorViewModel sel : regExSelectors)
-		{
-			if(sel.getId().equals(selector.getId()))
-			{
-				sel.setDescription(selector.getDescription());
-				sel.setExpression(selector.getExpression());
-				
-				for(RegExVariableSetterViewModel set : sel.getVariables())
-				{
-					
-				}
-			}
-		}
-		
-	}*/
+		int highestSortNumber =getRegExSelectors().get(getRegExSelectors().size() -1).getSorOrder();
+		return highestSortNumber + 1;
+	}
 	
+	
+	public void sortRegExSelectorViewModels()
+	{
+		Collections.sort(regExSelectors, new RegExSelectorViewModelComparator());
+	}
+	
+	private class RegExSelectorViewModelComparator implements Comparator<RegExSelectorViewModel> 
+	{
+		public int compare(RegExSelectorViewModel selector1, RegExSelectorViewModel selector2)
+		{
+			return Integer.compare(selector1.getSorOrder(), selector2.getSorOrder());
+		}
+	}
 	
 }
 

@@ -43,6 +43,7 @@ TODO:
 	
 		<form:hidden path="id"/>
 		<form:hidden path="index"/>
+		<form:hidden path="sorOrder"/>
 		<%-- <form:hidden path="lastUpdate"/> --%>
 		
 		<form:label path="description">Description</form:label>
@@ -56,27 +57,27 @@ TODO:
 		
 		<h2>Variable Setters</h2>
 		
-		<c:forEach items="${regExSelector.variableSetters}" varStatus="i" var="setter">
-			<form:hidden path="variableSetters[${i.index}].id"/>
+		<c:forEach items="${regExSelector.pathTokenSetters}" varStatus="i" var="setter">
+			<form:hidden path="pathTokenSetters[${i.index}].id"/>
 			<%-- <form:hidden path="lastUpdate"/> --%>
 		
-			<form:label path="variableSetters[${i.index}].variableName">Name</form:label>
-			<c:out value="${setter.variableName}" ></c:out>
-			<form:hidden path="variableSetters[${i.index}].variableName"/>
+			<form:label path="pathTokenSetters[${i.index}].pathTokenName">Name</form:label>
+			<c:out value="${setter.pathTokenName}" ></c:out>
+			<form:hidden path="pathTokenSetters[${i.index}].pathTokenName"/>
 			<br style="clear: both"/>
 			
-			<form:label path="variableSetters[${i.index}].groupAssembly">Group Assembly</form:label>
-			<form:input path="variableSetters[${i.index}].groupAssembly" style="width:100px" class="validate[required]" /> 
-			<br style="clear: both"/>
-			
-			
-			<form:label path="variableSetters[${i.index}].replaceExpression">Replace RegEx</form:label>
-			<form:input path="variableSetters[${i.index}].replaceExpression" style="width:250px"/> 
+			<form:label path="pathTokenSetters[${i.index}].groupAssembly">Group Assembly</form:label>
+			<form:input path="pathTokenSetters[${i.index}].groupAssembly" style="width:100px" class="validate[required]" /> 
 			<br style="clear: both"/>
 			
 			
-			<form:label path="variableSetters[${i.index}].replaceWithCharacter">Replace String</form:label>
-			<form:input path="variableSetters[${i.index}].replaceWithCharacter" style="width:100px" /> 
+			<form:label path="pathTokenSetters[${i.index}].replaceExpression">Replace RegEx</form:label>
+			<form:input path="pathTokenSetters[${i.index}].replaceExpression" style="width:250px"/> 
+			<br style="clear: both"/>
+			
+			
+			<form:label path="pathTokenSetters[${i.index}].replaceWithCharacter">Replace String</form:label>
+			<form:input path="pathTokenSetters[${i.index}].replaceWithCharacter" style="width:100px" /> 
 			<br style="clear: both"/>
 		
 		    <br/>

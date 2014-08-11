@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import com.ibus.mediabeaver.cli.Main;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.RegExSelector;
-import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
+import com.ibus.mediabeaver.core.entity.RegExPathTokenSetter;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 import com.ibus.mediabeaver.core.util.RegExHelper;
 
@@ -92,7 +92,8 @@ public class MediaManager
 						//if we still have placehonders in the file name abort move 
 						if(regExHelper.containsTokenPlaceholders(fileName))
 						{
-							log.debug(String.format("Aborting move of %s. could not assemble new filename for the file", fso.getPath()));
+							log.debug(String.format("Aborting move of %s. could not assemble new filename for the file. Token placeholders remained in filename after assembly.", 
+									fso.getPath()));
 							break;
 						}
 						
@@ -109,7 +110,7 @@ public class MediaManager
 	
 	/**
 	 * foreach selector if expression is found in file name then 
-	 * get variable value collection.  if a null is returned then no 
+	 * get token collection.  if a null is returned then no 
 	 * match found for any selector.  
 	 * @param fso
 	 * @param config
@@ -136,13 +137,13 @@ public class MediaManager
 				log.debug(String.format("regex %s matched file name: %s", selector.getExpression(), fso.getName()));
 				
 				/*populate our tokens list*/
-				for(RegExVariableSetter rev : selector.getVariableSetters())
+				for(RegExPathTokenSetter rev : selector.getPathTokenSetters())
 				{
 					String tokenValue = regExHelper.assembleRegExVariable(captures, rev.getGroupAssembly());
 					if(regExHelper.containsCaptureGroup(tokenValue))
 					{
-						log.debug(String.format("Aborting match against regex selctor. the selector has an invalid value for the token setter with name: "
-								, selector.getDescription(), rev.getVariableName()));
+						log.debug(String.format("Aborting match against regex selctor. the selector %s has an invalid value for the token setter with name: %s"
+								, selector.getDescription(), rev.getPathTokenName()));
 						tokens = null;
 						break; //we have an invalid token which contains an unassigned token.ie the string contains somethig like: {1}. 
 							   //go to next selector
@@ -152,14 +153,14 @@ public class MediaManager
 					
 					if(tokenValue.trim().length() == 0)
 					{
-						log.debug(String.format("Aborting match against regex selctor. the selector has an invalid value for the token setter with name: "
-								, selector.getDescription(), rev.getVariableName()));
+						log.debug(String.format("Aborting match against regex selctor. the selector %s has an invalid value for the token setter with name: %s"
+								, selector.getDescription(), rev.getPathTokenName()));
 						tokens = null;
 						break; //we have an invalid token which contains an unassigned token.ie the string contains somethig like: {1}. 
 							   //go to next selector
 					}
 					
-					tokens.put(rev.getVariableName(), tokenValue);
+					tokens.put(rev.getPathTokenName(), tokenValue);
 				}
 				
 				//if tokens = null then selector matched but we do not have a valid list of tokens so go to next selector.  

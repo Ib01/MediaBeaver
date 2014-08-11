@@ -4,11 +4,10 @@ import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
-import com.ibus.mediabeaver.core.util.TestHelper;
+
 
 public class RepositoryTests
 {
@@ -74,7 +73,7 @@ public class RepositoryTests
 	
 	
 	
-	@Test
+	/*@Test
 	public void addMediaconfigTest()
 	{
 		StartTransaction();
@@ -135,7 +134,7 @@ public class RepositoryTests
 		
 		
 	}
-	
+	*/
 	
 	
 	

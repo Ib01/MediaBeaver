@@ -3,12 +3,12 @@ package com.ibus.mediabeaver.server.util;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
-import com.ibus.mediabeaver.core.entity.RegExVariableSetter;
-import com.ibus.mediabeaver.server.viewmodel.RegExVariableSetterViewModel;
+import com.ibus.mediabeaver.core.entity.RegExPathTokenSetter;
+import com.ibus.mediabeaver.server.viewmodel.RegExPathTokenSetterViewModel;
 
 public abstract class Mapper
 {
-	public class regExVariableMap extends PropertyMap<RegExVariableSetter, RegExVariableSetterViewModel>
+	public class regExVariableMap extends PropertyMap<RegExPathTokenSetter, RegExPathTokenSetterViewModel>
 	{
 		protected void configure()
 		{

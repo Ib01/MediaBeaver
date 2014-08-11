@@ -2,18 +2,18 @@ package com.ibus.mediabeaver.server.viewmodel;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class RegExVariableSetterViewModel extends ViewModel
+public class RegExPathTokenSetterViewModel extends ViewModel
 {
-	public RegExVariableSetterViewModel(){}
-	public RegExVariableSetterViewModel(String variableName){
-		this.variableName = variableName;
+	public RegExPathTokenSetterViewModel(){}
+	public RegExPathTokenSetterViewModel(String tokenName){
+		this.pathTokenName = tokenName;
 	}
 	
 	
 	private static final long serialVersionUID = 1L;
 	
 	//Data properties ///////////////////////////////////////////////
-	private String variableName;
+	private String pathTokenName;
 
 	@NotEmpty(message = "This field cannot be left empty")
 	private String groupAssembly;
@@ -27,16 +27,16 @@ public class RegExVariableSetterViewModel extends ViewModel
 	private String selectedConfigVariable;
 	
 	
-	public RegExVariableSetterViewModel copy()
+	public RegExPathTokenSetterViewModel copy()
 	{
-		RegExVariableSetterViewModel setter = new RegExVariableSetterViewModel();
+		RegExPathTokenSetterViewModel setter = new RegExPathTokenSetterViewModel();
 		setter.setGroupAssembly(groupAssembly);
 		setter.setId(id);
 		setter.setLastUpdate(lastUpdate);
 		setter.setReplaceExpression(replaceExpression);
 		setter.setReplaceWithCharacter(replaceWithCharacter);
 		setter.setSelectedConfigVariable(selectedConfigVariable);
-		setter.setVariableName(variableName);
+		setter.setPathTokenName(pathTokenName);
 		
 		return setter;
 	}
@@ -82,34 +82,17 @@ public class RegExVariableSetterViewModel extends ViewModel
 		this.selectedConfigVariable = selectedConfigVariable;
 	}
 
-	public String getVariableName()
+	public String getPathTokenName()
 	{
-		return variableName;
+		return pathTokenName;
 	}
 
-	public void setVariableName(String variableName)
+	public void setPathTokenName(String pathTokenName)
 	{
-		this.variableName = variableName;
+		this.pathTokenName = pathTokenName;
 	}
 	
 	
 	
-	
-/*	public class ConfigVariableIdDeserializer extends StdDeserializer<ConfigVariableViewModel> 
-	{
-		private static final long serialVersionUID = 1L;
-
-		public ConfigVariableIdDeserializer(){
-	        super(ConfigVariableViewModel.class);
-	    }
-		
-		@Override
-		public ConfigVariableViewModel deserialize(JsonParser arg0, DeserializationContext arg1) throws IOException, JsonProcessingException
-		{
-			return new ConfigVariableViewModel();
-		}
-		
-		
-	}*/
 	
 }

@@ -11,8 +11,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.ibus.mediabeaver.core.entity.ConfigVariable;
-
 public class RegExHelper 
 {
 	

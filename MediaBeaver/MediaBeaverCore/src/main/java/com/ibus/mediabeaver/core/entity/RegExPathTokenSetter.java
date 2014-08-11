@@ -6,16 +6,12 @@ import javax.persistence.Entity;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity(name = "RegEx_VariableSetter")
-public class RegExVariableSetter extends PersistentObject
+public class RegExPathTokenSetter extends PersistentObject
 {
 	private static final long serialVersionUID = 1L;
 
-	/*@JsonIgnore
-	@ManyToOne(fetch = FetchType.EAGER)
-	private ConfigVariable configVariable;*/
-	
 	@Column
-	private String variableName;
+	private String pathTokenName;
 
 	/**
 	 * the item assembled form regex groups found in parent regex expression
@@ -41,14 +37,14 @@ public class RegExVariableSetter extends PersistentObject
 	@ManyToOne(fetch = FetchType.EAGER)
 	private RegExSelector regExSelector;*/
 
-	public String getVariableName()
+	public String getPathTokenName()
 	{
-		return variableName;
+		return pathTokenName;
 	}
 
-	public void setVariableName(String variable)
+	public void setPathTokenName(String name)
 	{
-		this.variableName = variable;
+		this.pathTokenName = name;
 	}
 
 	public String getGroupAssembly()
@@ -81,30 +77,7 @@ public class RegExVariableSetter extends PersistentObject
 		this.replaceWithCharacter = replaceWithCharacter;
 	}
 
-	/*public ConfigVariable getConfigVariable()
-	{
-		return configVariable;
-	}
-
-	public void setConfigVariable(ConfigVariable newVariable)
-	{
-		ConfigVariable oldVariable = this.configVariable; 
-		
-		//already set
-		if (oldVariable == newVariable)
-			return;
-		
-		this.configVariable = newVariable;
-		
-		
-		if (oldVariable != null)
-			oldVariable.removeRegExVariable(this);
-		
-		
-		if (newVariable != null)
-			newVariable.addRegExVariable(this);
-	}*/
-
+	
 }
 
 

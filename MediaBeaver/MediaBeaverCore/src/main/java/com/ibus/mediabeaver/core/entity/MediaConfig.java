@@ -22,10 +22,10 @@ public class MediaConfig extends PersistentObject
 	@Column
 	private TransformAction action;
 
-	@Column
+	/*@Column
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({ CascadeType.ALL })
-	private Set<ConfigVariable> configVariables = new HashSet<ConfigVariable>();
+	private Set<ConfigVariable> configVariables = new HashSet<ConfigVariable>();*/
 
 	/*@Column
 	private boolean useOpenSubtitlesThumbprintService;*/
@@ -33,7 +33,7 @@ public class MediaConfig extends PersistentObject
 	@Column
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({ CascadeType.ALL })
-	private Set<OpenSubtitlesFieldMap> openSubtitlesFieldMaps = new HashSet<OpenSubtitlesFieldMap>();
+	private Set<OpenSubtitlesSelector> openSubtitlesSelectors = new HashSet<OpenSubtitlesSelector>();
 
 	@Column
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
@@ -61,6 +61,9 @@ public class MediaConfig extends PersistentObject
 	@Column
 	private String relativeDestinationPath;
 
+	@Column
+	private int sorOrder;
+	
 	/*
 	 * to implement
 	 * 
@@ -70,6 +73,16 @@ public class MediaConfig extends PersistentObject
 
 	// Properties //////////////////////////////////////////////////
 
+	public int getSorOrder()
+	{
+		return sorOrder;
+	}
+
+	public void setSorOrder(int sorOrder)
+	{
+		this.sorOrder = sorOrder;
+	}
+	
 	public String getDescription()
 	{
 		return description;
@@ -100,63 +113,21 @@ public class MediaConfig extends PersistentObject
 		this.sourceDirectory = sourceDirectory;
 	}
 
-	public Set<ConfigVariable> getConfigVariables()
+	public Set<OpenSubtitlesSelector> getOpenSubtitlesSelectors()
 	{
-		return configVariables;
+		return openSubtitlesSelectors;
 	}
 	
-	/*required by jsp and jstl*/ 
-	public void setConfigVariables(Set<ConfigVariable> vars)
+	public void setOpenSubtitlesSelectors(Set<OpenSubtitlesSelector> selectors)
 	{
-		configVariables = vars;
+		this.openSubtitlesSelectors = selectors;
 	}
 
-	public void addConfigVariable(ConfigVariable variable)
+	public void addOpenSubtitlesSelector(OpenSubtitlesSelector selector)
 	{
-		configVariables.add(variable);
-	}
-	
-	/*
-
-	public void removeConfigVariable(ConfigVariable variable)
-	{
-		configVariables.remove(variable);
-		variable.setParentConfig(null);
-	}*/
-
-	/*public boolean isUseOpenSubtitlesThumbprintService()
-	{
-		return useOpenSubtitlesThumbprintService;
-	}
-
-	public void setUseOpenSubtitlesThumbprintService(
-			boolean useOpenSubtitlesThumbprintService)
-	{
-		this.useOpenSubtitlesThumbprintService = useOpenSubtitlesThumbprintService;
-	}*/
-
-	public Set<OpenSubtitlesFieldMap> getOpenSubtitlesFieldMaps()
-	{
-		return openSubtitlesFieldMaps;
+		getOpenSubtitlesSelectors().add(selector);
 	}
 	
-	public void setOpenSubtitlesFieldMaps(Set<OpenSubtitlesFieldMap> openSubtitlesFieldMaps)
-	{
-		this.openSubtitlesFieldMaps = openSubtitlesFieldMaps;
-	}
-
-	public void addOpenSubtitlesFieldMap(OpenSubtitlesFieldMap map)
-	{
-		getOpenSubtitlesFieldMaps().add(map);
-	}
-	
-/*	
-	public void removeOpenSubtitlesFieldMap(OpenSubtitlesFieldMap map)
-	{
-		getOpenSubtitlesFieldMaps().remove(map);
-		map.setParentConfig(null);
-	}*/
-
 	public Set<RegExSelector> getRegExSelectors()
 	{
 		return regExSelectors;
@@ -171,55 +142,6 @@ public class MediaConfig extends PersistentObject
 	{
 		regExSelectors.add(regex);
 	}
-	
-	
-	/*
-
-	public void removeRegExSelector(RegExSelector regex)
-	{
-		regExSelectors.remove(regex);
-		regex.setParentConfig(null);
-	}*/
-
-	/*public String getExtensionsSelector()
-	{
-		return extensionsSelector;
-	}
-
-	public void setExtensionsSelector(String extensionsSelector)
-	{
-		this.extensionsSelector = extensionsSelector;
-	}
-
-	public boolean isSelectAllFiles()
-	{
-		return selectAllFiles;
-	}
-
-	public void setSelectAllFiles(boolean selectAllFiles)
-	{
-		this.selectAllFiles = selectAllFiles;
-	}
-
-	public boolean isSelectAllFolders()
-	{
-		return selectAllFolders;
-	}
-
-	public void setSelectAllFolders(boolean selectAllFolders)
-	{
-		this.selectAllFolders = selectAllFolders;
-	}
-
-	public boolean isSelectAllEmptyFolders()
-	{
-		return selectAllEmptyFolders;
-	}
-
-	public void setSelectAllEmptyFolders(boolean selectAllEmptyFolders)
-	{
-		this.selectAllEmptyFolders = selectAllEmptyFolders;
-	}*/
 
 	public String getRelativeDestinationPath()
 	{
@@ -241,23 +163,9 @@ public class MediaConfig extends PersistentObject
 		this.destinationRoot = destinationRoot;
 	}
 
-	
-
-	
-
 	// utilities ///////////////////////////////////////////
 
-	/*public ConfigVariable getConfigVariable(int index)
-	{
-		ConfigVariable[] vars = (ConfigVariable[])configVariables.toArray();
-		
-		if(index >= 0 && index < vars.length)
-			return (ConfigVariable)vars[index];
-			
-		return null;
-		
-	}
-	
+	/*
 	public RegExSelector getRegExSelector(int index)
 	{
 		RegExSelector[] vars = (RegExSelector[])regExSelectors.toArray();
