@@ -60,14 +60,38 @@
 			
 			for (var i = 0; i < items.length; i++) 
 			{
-				alert($(items[i]).val());
 				varList[i] = $(items[i]).val(); 
 			}
 			
-			
 			alert(varList);
+			
+			sendAjax("/configWizard/orderSelectors", varList);
 		}
 		 
+		
+		
+		function sendAjax(url, model) 
+		{
+			
+			
+			//{"myData": model}
+			$.ajax({ 
+			    url: url, 
+			    type: 'POST', 
+			    dataType: 'json', 
+			    data: JSON.stringify("{myData: [0,1]}"), 
+			    contentType: 'application/json',
+			    mimeType: 'application/json',
+			    success: function(data) 
+			    { 
+			    	alert("done");
+			    },
+			    error:function(data,status,er) { 
+			        alert("erro occured");
+			    }
+			}); 
+		}
+
 	</script>
 	
 	<style>
