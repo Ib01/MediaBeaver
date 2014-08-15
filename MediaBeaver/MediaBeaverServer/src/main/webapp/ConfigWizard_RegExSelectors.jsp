@@ -153,7 +153,7 @@
 			
 				<div class="detailedListItem">
 					<div style="float:right; background-color: #ffffff; padding: 4px; margin: 2px">
-						<a class="editSelector">edit</a>
+						<a class="editSelector" href="#">edit</a>
 						
 						<%-- <a href="/configWizard/regExSelectorsUpdate/${i.index}" class="editExpression">edit</a> --%> | 
 						<a href="/configWizard/regExSelectorsDelete/${i.index}" class="deleteExpression">delete</a>

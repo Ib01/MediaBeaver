@@ -104,6 +104,8 @@ public class MediaConfigWizardController
 	@RequestMapping("configNext")
 	public String configNext(@ModelAttribute("config")MediaConfigViewModel config)
 	{
+		config.sortRegExSelectorViewModels();
+		
 		//note: @ModelAttribute("config") ensures that incomming data is assigned to the session object stored 
 		//under the "config" key. we dont need to return any object because the jsp page automatically gets data 
 		//from "config" session state 
@@ -140,7 +142,7 @@ public class MediaConfigWizardController
 	@RequestMapping("regExSelectorsPrevious")
 	public String regExSelectorsPrevious(@ModelAttribute("config")MediaConfigViewModel config)
 	{
-		config.sortRegExSelectorViewModels();
+		//config.sortRegExSelectorViewModels();
 		return "ConfigWizard_Config";
 	}
 	
@@ -198,8 +200,6 @@ public class MediaConfigWizardController
 		//MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
 		//MediaConfigViewModel config = getSotredMediaConfigViewModel();
 		
-		config.sortRegExSelectorViewModels();
-		
 		//get a copy of the stored selector so we do not modify the selector until we save
 		RegExSelectorViewModel sel = config.getRegExSelectors().get(config.getSelectedRegExSelectorIndex()).copy();
 		resetSetters(sel, config);
@@ -238,6 +238,7 @@ public class MediaConfigWizardController
 			config.getRegExSelectors().remove(selector.getIndex());
 		}
 		
+		//this will also sort the selectors
 		config.addRegExSelector(selector);
 		return "ConfigWizard_RegExSelectors";
 	}
@@ -245,6 +246,9 @@ public class MediaConfigWizardController
 	@RequestMapping("regExSelectorCancel")
 	public String regExSelectorCancel()
 	{
+		MediaConfigViewModel config = getSotredMediaConfigViewModel();
+		config.sortRegExSelectorViewModels();
+		
 		return "ConfigWizard_RegExSelectors";
 	}
 	

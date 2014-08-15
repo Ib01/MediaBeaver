@@ -41,6 +41,7 @@
 			background-color: #F1F1F1;
 			padding: 10px;
 			padding-bottom: 15px;
+			margin-bottom: 15px;
 		}
 		label{
 			width: 200px;
@@ -119,7 +120,9 @@
 						</c:forEach>
 					
 					</div>
-				</div>				
+				</div>	
+				
+							
 			</c:forEach>	
 		</div>
 			
