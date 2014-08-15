@@ -7,12 +7,32 @@
 	<script type="text/javascript" >
 		$(function ()
 		{	
-			/* $("#addExpression").click(function() 
+			
+			$("#toggleHide" ).click(function() 
 			{
-				submitRegExSelectorChange("/config/addRegExSelector", this);
+				$("#visibilityPanel").toggle( "blind", 500 );
+				
 			});
-			*/
+			
+			
+			$( "#sortable" ).sortable({
+				  stop: sortStop,
+				  start: sortStart
+			});
+			
+		    $( "#sortable" ).disableSelection();
 		});
+		
+		
+		function sortStop( event, ui ) 
+		{
+			alert("afd");
+		}
+		
+		function sortStart( event, ui ) 
+		{
+			//$("#visibilityPanel").toggle( "blind", 500 );
+		}
 	</script>
 	
 	<style>
@@ -26,7 +46,7 @@
 			width: 200px;
 		}
 		
-		.detailedListItem .level1Box{
+		.detailedListItem_level1Box{
 			background-color: white; 
 			padding:7px;
 			border-radius: 8px;
@@ -46,58 +66,62 @@
 	
 	<form:form method="POST" action="/config/save" commandName="configList" class="formLayout">
 		
-		<c:forEach items="${configList}" var="config" varStatus="i">
-			
-			<div class="detailedListItem">
-			
-				<div style="float:right; background-color: #ffffff; padding: 4px; margin: 2px">
-					<a href="/configWizard/${config.id}" class="editExpression">edit</a> | 
-					<a href="/configList/delete/${config.id}" class="deleteExpression">delete</a>
-				</div>
-			
-				<h3>Configuration detail</h3>
+		<div id="sortable">
+			<c:forEach items="${configList}" var="config" varStatus="i">
 				
-				<div class="level1Box">
-					<label>Description: </label><c:out value="${config.description}" />
-					<br>
-					<label>Action: </label><c:out value="${config.action}" />
-					<br>
-					<label>Source Directory: </label><c:out value="${config.sourceDirectory}" />
-					<br>
-					<label>Destination Root: </label><c:out value="${config.destinationRoot}" />
-					<br>
-					<label>Destination Path: </label><c:out value="${config.relativeDestinationPath}" />
-					<br>
-				</div>
+				<div class="detailedListItem">
 				
-				<h3>Regex Selectors</h3>
-		 			
-				<c:forEach items="${config.regExSelectors}" var="selector" varStatus="ii">
-					
-					<div class="level1Box">
-							
-						<label>Description: </label><c:out value="${selector.description}" />
-						<br>
-						<label>expression: </label><c:out value="${selector.expression}" />
-						<br>
-						
-						<p style="font-style: italic;">Regex Setters:</p>
-						<c:forEach items="${selector.pathTokenSetters}" var="setter" varStatus="iii">
-							<label>Name: </label><c:out value="${setter.pathTokenName}" />
-							<br>	
-							<label>Group Assembly: </label><c:out value="${setter.groupAssembly}" />
-							<br>	
-							<label>Replace Expression: </label><c:out value="${setter.replaceExpression}" />
-							<br>
-							<label>Replace Character: </label><c:out value="${setter.replaceWithCharacter}" />
-							<br>
-						</c:forEach>
+					<div style="float:right; background-color: #ffffff; padding: 4px; margin: 2px">
+						<a href="/configWizard/${config.id}" class="editExpression">edit</a> | 
+						<a href="/configList/delete/${config.id}" class="deleteExpression">delete</a>
 					</div>
+				
+					<h3><a href="#" id="toggleHide">Configuration detail</a></h3>
 					
-				</c:forEach>
-			</div>				
-		</c:forEach>	
-		
+					<div id="visibilityPanel">
+					
+						<div class="detailedListItem_level1Box">
+							<label>Description: </label><c:out value="${config.description}" />
+							<br>
+							<label>Action: </label><c:out value="${config.action}" />
+							<br>
+							<label>Source Directory: </label><c:out value="${config.sourceDirectory}" />
+							<br>
+							<label>Destination Root: </label><c:out value="${config.destinationRoot}" />
+							<br>
+							<label>Destination Path: </label><c:out value="${config.relativeDestinationPath}" />
+							<br>
+						</div>
+						
+						<h3>Regex Selectors</h3>
+				 			
+						<c:forEach items="${config.regExSelectors}" var="selector" varStatus="ii">
+						
+							<div class="detailedListItem_level1Box">
+								<label>Description: </label><c:out value="${selector.description}" />
+								<br>
+								<label>expression: </label><c:out value="${selector.expression}" />
+								<br>
+								
+								<p style="font-style: italic;">Regex Setters:</p>
+								<c:forEach items="${selector.pathTokenSetters}" var="setter" varStatus="iii">
+									<label>Name: </label><c:out value="${setter.pathTokenName}" />
+									<br>	
+									<label>Group Assembly: </label><c:out value="${setter.groupAssembly}" />
+									<br>	
+									<label>Replace Expression: </label><c:out value="${setter.replaceExpression}" />
+									<br>
+									<label>Replace Character: </label><c:out value="${setter.replaceWithCharacter}" />
+									<br>
+								</c:forEach>
+							</div>
+							
+						</c:forEach>
+					
+					</div>
+				</div>				
+			</c:forEach>	
+		</div>
 			
 		<br>
 		<br>

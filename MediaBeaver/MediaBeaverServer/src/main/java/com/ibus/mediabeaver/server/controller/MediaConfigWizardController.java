@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -39,7 +40,6 @@ public class MediaConfigWizardController
 {
 	/*TODO
 	 *Add sort / processing order to selectors 
-	 *add validation
 	 * */
 	private @Autowired HttpServletRequest request;
 	private @Autowired HttpSession session;
@@ -61,13 +61,26 @@ public class MediaConfigWizardController
 		return TransformAction.values();
 	}
 	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//ConfigWizard_Config ///////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	/**
+	 * default method of wizard. called to create a new config item
+	 * @return
+	 */
 	@RequestMapping
 	public ModelAndView configLoad()
 	{
 		return new ModelAndView("ConfigWizard_Config", "config", new MediaConfigViewModel());
 	}
 	
+	/**
+	 * Edit an existing config item. sets up the wizard with the config item coresponding to the index passed 
+	 * on the query string 
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/{id}")
 	public ModelAndView configLoad(@PathVariable String id)
 	{
@@ -83,43 +96,73 @@ public class MediaConfigWizardController
 	}
 	
 	
+	/**
+	 * Go to next wizard step from the "config" step
+	 * @param config
+	 * @return
+	 */
 	@RequestMapping("configNext")
 	public String configNext(@ModelAttribute("config")MediaConfigViewModel config)
 	{
+		//note: @ModelAttribute("config") ensures that incomming data is assigned to the session object stored 
+		//under the "config" key. we dont need to return any object because the jsp page automatically gets data 
+		//from "config" session state 
 		return "ConfigWizard_RegExSelectors";
 	}
 	
-	@RequestMapping("regExSelectorsPrevious")
-	public String regExSelectorsPrevious()
+	/*@RequestMapping(value = "orderSelectors", method = RequestMethod.POST)
+	public @ResponseBody RegExSelectorViewModel orderSelectors(@RequestBody RegExSelectorViewModel selector)
 	{
+		MediaConfigViewModel config = getSotredMediaConfigViewModel();
+		
+		//resort sort orders for all selectors according to the order presented in the UI
+		for(int i=0; i < selector.getReorderList().length; i++)
+		{
+			config.getRegExSelectors().get(selector.getReorderList()[i]).setSorOrder(i);
+		}
+		
+		//Need to explicitly call sort.  this is normally done internally in config object whenever properties are set. 
+		config.sortRegExSelectorViewModels();
+		
+		return selector;
+	}*/
+	
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//ConfigWizard_RegExSelectors ///////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * previous step from regExSelectors step
+	 * @return
+	 */
+	@RequestMapping("regExSelectorsPrevious")
+	public String regExSelectorsPrevious(@ModelAttribute("config")MediaConfigViewModel config)
+	{
+		config.sortRegExSelectorViewModels();
 		return "ConfigWizard_Config";
 	}
 	
+	/**
+	 * next step from regExSelectors step
+	 * @return
+	 */
 	@RequestMapping("regExSelectorsNext")
-	public String regExSelectorsNext()
+	public String regExSelectorsNext(@ModelAttribute("config")MediaConfigViewModel config)
 	{
-		MediaConfigViewModel config = getSotredMediaConfigViewModel();
 		MediaConfig mc = Mapper.getMapper().map(config, MediaConfig.class);
 		Repository.saveOrUpdate(mc);
 		
 		return "redirect:/configList";	
 	}
 	
-	//@RequestBody
-	@RequestMapping(value = "orderSelectors", method = RequestMethod.POST)
-	public void orderSelectors(@ModelAttribute(value="myData[]") int[] myData)
-	{
-		MediaConfigViewModel config = getSotredMediaConfigViewModel();
-		
-	}
-	
-	
-	
-	
-	
-	
+	/**
+	 * validate RegExSelectors.  we need to make sure each selector has the required token setter data
+	 * @return
+	 */
 	@RequestMapping(value = "/validateRegExSelectors", method = RequestMethod.GET)
-	public @ResponseBody Integer[] deleteConfig()
+	public @ResponseBody Integer[] validateRegExSelectors()
 	{
 		//the relative destination path might have changed so we need to reset all setters in all reg ex selectors 
 		resetAllSetters();
@@ -127,6 +170,11 @@ public class MediaConfigWizardController
 	}
 	
 	
+	/**
+	 * delete selector with respective index 
+	 * @param index
+	 * @return
+	 */
 	@RequestMapping("regExSelectorsDelete/{index}")
 	public String regExSelectorsDelete(@PathVariable String index)
 	{
@@ -138,31 +186,45 @@ public class MediaConfigWizardController
 		return "ConfigWizard_RegExSelectors";
 	}
 	
-	@RequestMapping("regExSelectorsUpdate/{index}")
-	public ModelAndView regExSelectorsUpdate(@PathVariable String index)
+	
+	
+	
+	/*@RequestMapping("regExSelectorsUpdate/{index}")
+	public ModelAndView regExSelectorsUpdate(@PathVariable String index)*/
+	
+	@RequestMapping("regExSelectorsUpdate")
+	public ModelAndView regExSelectorsUpdate(@ModelAttribute("config")MediaConfigViewModel config)
 	{
 		//MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
-		MediaConfigViewModel config = getSotredMediaConfigViewModel();
+		//MediaConfigViewModel config = getSotredMediaConfigViewModel();
+		
+		config.sortRegExSelectorViewModels();
 		
 		//get a copy of the stored selector so we do not modify the selector until we save
-		RegExSelectorViewModel sel = config.getRegExSelectors().get(Integer.parseInt(index)).copy();
+		RegExSelectorViewModel sel = config.getRegExSelectors().get(config.getSelectedRegExSelectorIndex()).copy();
 		resetSetters(sel, config);
-		sel.setIndex(Integer.parseInt(index));
+		sel.setIndex(config.getSelectedRegExSelectorIndex());
 		
 		return new ModelAndView("ConfigWizard_RegExSelector","regExSelector", sel);
 	}
 	
+	
 	@RequestMapping("regExSelectorsAdd")
-	public ModelAndView regExSelectorsAdd()
+	public ModelAndView regExSelectorsAdd(@ModelAttribute("config")MediaConfigViewModel config)
 	{
 		//MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
-		MediaConfigViewModel config = getSotredMediaConfigViewModel();
+		//MediaConfigViewModel config = getSotredMediaConfigViewModel();
 		RegExSelectorViewModel sel = new RegExSelectorViewModel(config.getNextRegExSelectorSortNumber());
 
 		resetSetters(sel, config);
 		
 		return new ModelAndView("ConfigWizard_RegExSelector","regExSelector", sel);
 	}
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//ConfigWizard_RegExSelector ///////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
 	@RequestMapping("regExSelectorSave")
@@ -185,7 +247,6 @@ public class MediaConfigWizardController
 	{
 		return "ConfigWizard_RegExSelectors";
 	}
-	
 	
 	@RequestMapping("regExSelectorTest")
 	public ModelAndView regExSelectorTest(RegExSelectorViewModel selector)
@@ -224,7 +285,9 @@ public class MediaConfigWizardController
 	
 	
 	
-	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//Utilities /////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
 	private void resetAllSetters()

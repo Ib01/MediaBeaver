@@ -34,6 +34,17 @@
 				$("form:first").submit();
 			});
 			
+			
+			$(".editSelector").click(function() 
+			{
+				/* alert($(this).parent().parent().find(".selectorIndex").val()); */
+				
+				var index = $(this).parent().parent().find(".selectorIndex").val();
+				$("#selectedRegExSelectorIndex").val(index);
+				
+				$("form:first").attr("action", "/configWizard/regExSelectorsUpdate");
+				$("form:first").submit();
+			});
 		}); 
 		
 		
@@ -55,40 +66,47 @@
 		
 		function sortStop( event, ui ) 
 		{
-			var varList = [];
-			var items = $(".selectorIndex");
+			var newSortInputs = $(".sorOrder");
 			
-			for (var i = 0; i < items.length; i++) 
+			//set new sort orders
+			for (var i = 0; i < newSortInputs.length; i++) 
 			{
-				varList[i] = $(items[i]).val(); 
+				$(newSortInputs[i]).val(i);
 			}
 			
-			alert(varList);
 			
-			sendAjax("/configWizard/orderSelectors", varList);
+			/* 
+			var indexArray = [];
+			var indexInputs = $(".selectorIndex");
+			
+			//get orriginal index values of reshuffled selectors
+			for (var i = 0; i < indexInputs.length; i++) {
+				indexArray[i] = $(indexInputs[i]).val(); 
+			}
+			
+			//Send indexes of reshufled selectors 
+			sendAjax("/configWizard/orderSelectors", indexArray);
+			
+			//re-index selectors
+			for (var i = 0; i < indexInputs.length; i++) 
+			{
+				$(indexInputs[i]).val(i);
+			} */
 		}
 		 
 		
 		
-		function sendAjax(url, model) 
+		function sendAjax(url, data) 
 		{
-			
-			
-			//{"myData": model}
 			$.ajax({ 
 			    url: url, 
 			    type: 'POST', 
 			    dataType: 'json', 
-			    data: JSON.stringify("{myData: [0,1]}"), 
+			    data: JSON.stringify({reorderList: data}), 
 			    contentType: 'application/json',
 			    mimeType: 'application/json',
-			    success: function(data) 
-			    { 
-			    	alert("done");
-			    },
-			    error:function(data,status,er) { 
-			        alert("erro occured");
-			    }
+			    success: function(data) {},
+			    error:function(data,status,er) {}
 			}); 
 		}
 
@@ -126,6 +144,8 @@
 	<h2>Config Wizard. Step 2</h2>
 	
 	<form:form method="POST" commandName="config" id="configForm" class="formLayout">
+	
+		<form:hidden path="selectedRegExSelectorIndex"/>
 		
 		<div id="sortable">
 		
@@ -133,12 +153,16 @@
 			
 				<div class="detailedListItem">
 					<div style="float:right; background-color: #ffffff; padding: 4px; margin: 2px">
-						<a href="/configWizard/regExSelectorsUpdate/${i.index}" class="editExpression">edit</a> | 
-								<a href="/configWizard/regExSelectorsDelete/${i.index}" class="deleteExpression">delete</a>
+						<a class="editSelector">edit</a>
+						
+						<%-- <a href="/configWizard/regExSelectorsUpdate/${i.index}" class="editExpression">edit</a> --%> | 
+						<a href="/configWizard/regExSelectorsDelete/${i.index}" class="deleteExpression">delete</a>
+						
 					</div>
+					
+					<form:hidden path="regExSelectors[${i.index}].sorOrder" class="sorOrder"/>
 				
 					<input type="hidden" class="selectorIndex" value='<c:out value="${i.index}" />'>
-					
 					<label>Description: </label><c:out value="${selector.description}" />
 					<br>
 					<label>expression: </label><c:out value="${selector.expression}" />
@@ -150,29 +174,6 @@
 		</div>
 		<br>
 		
-		
-		<%-- <table style="width:100%" >
-			<tr style="background-color: #555555; color: #FFFFFF">
-				<td align="left" width="350px" valign="top" style="padding :3px; text-align: center;" >Description</td>
-				<td align="left" width="350px" valign="top" style="margin-left: 100px;padding :3px; text-align: center;">Expression</td>
-				<td align="right" width="80px" valign="top" style="padding :3px; text-align: center;">Action</td>
-			</tr>
-		
-			<c:forEach items="${config.regExSelectors}" var="selector" varStatus="i">
-				
-				<tr  id="selector${i.index}" class="sortable">
-					<td align="left" valign="top"><c:out value="${selector.description}"/>
-					</td>
-					<td align="left" valign="top" style="margin-left: 100px;"><c:out value="${selector.expression}" /></td>
-					<td align="right" valign="top">
-						<a href="/configWizard/regExSelectorsUpdate/${i.index}" class="editExpression">edit</a> | 
-						<a href="/configWizard/regExSelectorsDelete/${i.index}" class="deleteExpression">delete</a>
-					</td>
-				</tr>
-		    </c:forEach>
-		    
-	    </table> --%>
-	
 		
 		<a class="button" href="#" id="Add">Add</a>
 		<br>

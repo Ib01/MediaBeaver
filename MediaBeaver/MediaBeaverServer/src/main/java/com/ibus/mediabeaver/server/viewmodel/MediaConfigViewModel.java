@@ -25,8 +25,9 @@ public class MediaConfigViewModel extends ViewModel
 	private int sorOrder;
 
 	
-	//TODO: REMOVE?
+	//view properties
 	private int selectedRegExSelectorIndex;
+	
 	//TODO: REMOVE?	
 	private RegExSelectorViewModel selectedRegExSelector = new RegExSelectorViewModel();
 
@@ -158,6 +159,9 @@ public class MediaConfigViewModel extends ViewModel
 
 	public int getNextRegExSelectorSortNumber()
 	{
+		if(getRegExSelectors().size() == 0)
+			return 1;
+		
 		int highestSortNumber =getRegExSelectors().get(getRegExSelectors().size() -1).getSorOrder();
 		return highestSortNumber + 1;
 	}

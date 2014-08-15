@@ -25,6 +25,8 @@ public class RegExSelectorViewModel extends ViewModel
 	private String testFileName;
 	private String testResult;
 	private int index = -1;
+	//private int[] reorderList;
+	private int newSorOrder = -1;
 	
 	
 	public RegExSelectorViewModel(int sortOrder)
@@ -59,6 +61,9 @@ public class RegExSelectorViewModel extends ViewModel
 		
 		return selector;
 	}
+	
+	
+	
 	
 	
 	public String getDescription()
@@ -137,6 +142,25 @@ public class RegExSelectorViewModel extends ViewModel
 		this.testResult = testResult;
 	}
 	
+	/*public int[] getReorderList()
+	{
+		return reorderList;
+	}
+
+	public void setReorderList(int[] reorderList)
+	{
+		this.reorderList = reorderList;
+	}*/
+	public int getNewSorOrder()
+	{
+		return newSorOrder;
+	}
+
+	public void setNewSorOrder(int newSorOrder)
+	{
+		this.newSorOrder = newSorOrder;
+	}
+
 	
 	
 	public void createVariableSetters(List<String> variableNames)
@@ -175,6 +199,9 @@ public class RegExSelectorViewModel extends ViewModel
 		}
 				
 	}
+
+	
+	
 
 	
 	
