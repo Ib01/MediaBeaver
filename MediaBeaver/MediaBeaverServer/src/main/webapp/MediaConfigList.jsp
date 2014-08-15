@@ -7,10 +7,11 @@
 	<script type="text/javascript" >
 		$(function ()
 		{	
+			$(".visibilityPanel").hide();
 			
-			$("#toggleHide" ).click(function() 
+			$(".toggleHide" ).click(function() 
 			{
-				$("#visibilityPanel").toggle( "blind", 500 );
+				$(this).parent().parent().find(".visibilityPanel").toggle( "blind", 500 );
 				
 			});
 			
@@ -26,7 +27,7 @@
 		
 		function sortStop( event, ui ) 
 		{
-			alert("afd");
+			//alert("afd");
 		}
 		
 		function sortStart( event, ui ) 
@@ -55,8 +56,8 @@
 		}
 		
 		.detailedListItem H3{
-			color:#FF8A00;
-			margin-top: 2px;
+			color:#1F1F1F;
+			margin-top: 4px;
 			font-size: 14px;
 			font-weight: normal;
 		}
@@ -73,17 +74,19 @@
 				<div class="detailedListItem">
 				
 					<div style="float:right; background-color: #ffffff; padding: 4px; margin: 2px">
+						<a href="/configList/sortUp/${i.index}" class="editExpression">&nbsp;&nbsp;&#8657;&nbsp;&nbsp;</a> |
+						<a href="/configList/sortDown/${i.index}" class="editExpression">&nbsp;&nbsp;&#8659;&nbsp;&nbsp;</a>  |
 						<a href="/configWizard/${config.id}" class="editExpression">edit</a> | 
 						<a href="/configList/delete/${config.id}" class="deleteExpression">delete</a>
 					</div>
 				
-					<h3><a href="#" id="toggleHide">Configuration detail</a></h3>
+					<h3><c:out value="${config.description}" /> <a href="#" class="toggleHide">[ show details ]</a></h3>
 					
-					<div id="visibilityPanel">
+					<div class="visibilityPanel">
 					
 						<div class="detailedListItem_level1Box">
-							<label>Description: </label><c:out value="${config.description}" />
-							<br>
+							<%-- <label>Description: </label><c:out value="${config.description}" />
+							<br> --%>
 							<label>Action: </label><c:out value="${config.action}" />
 							<br>
 							<label>Source Directory: </label><c:out value="${config.sourceDirectory}" />

@@ -112,6 +112,9 @@ public class MediaConfigWizardController
 		return "ConfigWizard_RegExSelectors";
 	}
 	
+	
+	
+	
 	/*@RequestMapping(value = "orderSelectors", method = RequestMethod.POST)
 	public @ResponseBody RegExSelectorViewModel orderSelectors(@RequestBody RegExSelectorViewModel selector)
 	{

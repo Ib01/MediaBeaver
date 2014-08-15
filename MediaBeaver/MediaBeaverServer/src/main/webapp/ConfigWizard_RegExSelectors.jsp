@@ -45,7 +45,41 @@
 				$("form:first").attr("action", "/configWizard/regExSelectorsUpdate");
 				$("form:first").submit();
 			});
+			
+			
+			
+			
+			
+			
+			
+			$(".sortUp").click(function() 
+			{
+				var toMove = $(this).parent().parent();
+				var prev = toMove.prev(".detailedListItem");
+				
+				toMove.detach().insertBefore(prev);
+				
+				///here/////////////////////////////////////////
+				//
+				
+				
+			});
+			
+			$(".sortDown").click(function() 
+			{
+				alert("sortDown");
+			});
+			
 		}); 
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		function validateRegExSelectors(errors)
@@ -153,9 +187,10 @@
 			
 				<div class="detailedListItem">
 					<div style="float:right; background-color: #ffffff; padding: 4px; margin: 2px">
-						<a class="editSelector" href="#">edit</a>
 						
-						<%-- <a href="/configWizard/regExSelectorsUpdate/${i.index}" class="editExpression">edit</a> --%> | 
+						<a href="#" class="sortUp">&nbsp;&nbsp;&#8657;&nbsp;&nbsp;</a> |
+						<a href="#" class="sortDown">&nbsp;&nbsp;&#8659;&nbsp;&nbsp;</a>  |
+						<a class="editSelector" href="#">edit</a>
 						<a href="/configWizard/regExSelectorsDelete/${i.index}" class="deleteExpression">delete</a>
 						
 					</div>

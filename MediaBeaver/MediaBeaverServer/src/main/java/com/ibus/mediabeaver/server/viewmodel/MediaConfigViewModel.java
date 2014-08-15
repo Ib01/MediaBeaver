@@ -22,7 +22,7 @@ public class MediaConfigViewModel extends ViewModel
 	private String sourceDirectory;
 	private String destinationRoot;
 	private String relativeDestinationPath;
-	private int sorOrder;
+	private int sorOrder = -1;
 
 	
 	//view properties

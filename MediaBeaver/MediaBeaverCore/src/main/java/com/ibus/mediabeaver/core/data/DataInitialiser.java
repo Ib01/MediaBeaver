@@ -17,7 +17,7 @@ public class DataInitialiser
 	public static void addDefaultConfigs()
 	{
 		addMoveMoviesConfig();
-		//addMoveTVEpisodesConfig();
+		addMoveTVEpisodesConfig();
 	}
 	
 	/*Move Movie files ----------------------------------------------------------------------------*/
@@ -31,6 +31,7 @@ public class DataInitialiser
 		config.setSourceDirectory("D:\\MediabeaverTests\\Source");
 		config.setDestinationRoot("D:\\MediabeaverTests\\Destination\\Movies");
 		config.setRelativeDestinationPath("{{name}} ({{year}})\\{{name}} ({{year}}).({{extension}})");
+		config.setSorOrder(1);
 		
 		config.getRegExSelectors().add(getMovieWithYearAndAnyExtensionSetter());
 		
@@ -80,6 +81,7 @@ public class DataInitialiser
 		config.setSourceDirectory("D:\\MediabeaverTests\\Source");
 		config.setDestinationRoot("D:\\MediabeaverTests\\Destination\\Tv Series");
 		config.setRelativeDestinationPath("{{SeriesName}}\\Season {{SeasonNumber}}\\{{SeriesName}} S{{SeasonNumber}}E{{EpisodeNumber}}.{{Extension}}");
+		config.setSorOrder(2);
 		
 		config.getRegExSelectors().add(getTVEpisodeWithSeriesSeasonAndAnyExtensionSetter());
 		
@@ -91,6 +93,7 @@ public class DataInitialiser
 		RegExSelector selector = new RegExSelector();
 		selector.setDescription("Movies Tv Series with Name Season and Episode information");
 		selector.setExpression("(.+)[Ss](\\d\\d)[Ee](\\d\\d).*\\.([a-zA-Z]+)");
+		selector.setSorOrder(1);
 		
 		RegExPathTokenSetter setter = new RegExPathTokenSetter();
 		setter.setPathTokenName("SeriesName");
