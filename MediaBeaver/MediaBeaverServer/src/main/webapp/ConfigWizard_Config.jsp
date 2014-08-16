@@ -3,17 +3,17 @@
 
 <!-- 
 TODO:  
+
 1) Hide destination path if action is delete.  also ensure that having nothing in this field is handled else where.
+2) ensure that all paths use a separator appropriate for the platform. ie. linux vs windows
 -->
 
 <%@include file="includes/header.jsp"%>
 	
-	 <script type="text/javascript" >
-	
-	
+	<script type="text/javascript" >
+	 
 		$(function ()
 		{	
-			
 			$("#Next").click(function() 
 			{
 				if($("form:first").validationEngine('validate'))

@@ -104,6 +104,13 @@ public class MediaConfigWizardController
 	@RequestMapping("configNext")
 	public String configNext(@ModelAttribute("config")MediaConfigViewModel config)
 	{
+		/*
+		 * TODO: CHECK THAT ALL PATHS WILL WORK FOR THE ENVIRONMENT ??
+		 * */
+		String h = System.getProperty("file.separator");
+		
+		
+		
 		config.sortRegExSelectorViewModels();
 		
 		//note: @ModelAttribute("config") ensures that incomming data is assigned to the session object stored 

@@ -1,5 +1,11 @@
 package com.ibus.mediabeaver.cli;
 
+
+/*
+ * TODO: 
+ * 
+ * 1) ensure that the logger writes to a file and that the location can be configured to something sensible in production.
+ * */
 import java.util.List;
 
 import org.apache.log4j.Logger;
