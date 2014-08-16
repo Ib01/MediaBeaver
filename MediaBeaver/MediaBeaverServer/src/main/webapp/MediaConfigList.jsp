@@ -16,12 +16,12 @@
 			});
 			
 			
-			$( "#sortable" ).sortable({
+			/* $( "#sortable" ).sortable({
 				  stop: sortStop,
 				  start: sortStart
 			});
 			
-		    $( "#sortable" ).disableSelection();
+		    $( "#sortable" ).disableSelection(); */
 		});
 		
 		

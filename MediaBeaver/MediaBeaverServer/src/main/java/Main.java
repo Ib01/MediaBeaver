@@ -8,6 +8,11 @@ import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.webapp.WebAppContext;
 
+
+/*TODO
+ * 
+ * run jetty in a thread allow starting and stopping 
+ * */
 public class Main 
 {
 	static Logger log = Logger.getLogger(Main.class.getName());

@@ -79,7 +79,7 @@ public class DataInitialiser
 		config.setAction(TransformAction.Move);
 		config.setDescription("Move Tv Episode files");
 		config.setSourceDirectory("D:\\MediabeaverTests\\Source");
-		config.setDestinationRoot("D:\\MediabeaverTests\\Destination\\Tv Series");
+		config.setDestinationRoot("D:\\MediabeaverTests\\Destination\\TV");
 		config.setRelativeDestinationPath("{{SeriesName}}\\Season {{SeasonNumber}}\\{{SeriesName}} S{{SeasonNumber}}E{{EpisodeNumber}}.{{Extension}}");
 		config.setSorOrder(2);
 		

@@ -41,7 +41,7 @@ TODO:
 	</style>
 
 	<!-- a:link .button, a:visited .button, a:hover .button, a:active .button -->
-	<h2>Config Wizard. Step 1</h2>
+	<h2>Config Wizard Step 1: Enter Description, Type and Paths</h2>
 	
 	<form:form method="POST" commandName="config" id="configForm" class="formLayout">
 		

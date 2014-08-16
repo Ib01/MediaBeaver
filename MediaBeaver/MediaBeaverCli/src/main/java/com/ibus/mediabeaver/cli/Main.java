@@ -11,23 +11,53 @@ import com.ibus.mediabeaver.core.data.DataInitialiser;
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.QueryTransactable;
 import com.ibus.mediabeaver.core.data.Repository;
+import com.ibus.mediabeaver.core.data.UpdateTransactable;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 
 public class Main
 {
 	static Logger log = Logger.getLogger(Main.class.getName());
+	public static final String initialiseArg = "-initialise";
+	public static final String moveArg = "-move";
 	
 	public static void main(String[] args)
 	{
-		//add some defualt configs if we have none already
-		//TODO: we should only add default configs when app initialises for the first time. need a better trigger than 
-		//when configs is empty (i.e what if user deletes all configs? they will be magically restored!)  
-		//if(is first run of app?){
-		//	DataInitialiser.Initialise(configs);
-			
-		//}
+		if(args[0].equals(initialiseArg))
+		{
+			initialiseApp();
+			return;
+		}
+		
+		if(args[0].equals(moveArg))
+		{
+			moveMedia();
+		}
 		
 		
+		moveMedia();
+	}
+	
+	
+	public static void initialiseApp()
+	{
+		log.debug("Starting initialisation of Media Beaver");
+		log.debug("Creating Database Schema");
+		HibernateUtil.createSchema();
+		
+		log.debug("Creating default configuration items");
+		Repository.doInTransaction(
+				new UpdateTransactable() 
+				{
+					public void run()
+					{
+						DataInitialiser.addDefaultConfigs();
+					}
+				});
+		
+	}
+	
+	public static void moveMedia()
+	{
 		log.debug("Retreiving Media Configuration Items");
 		List<MediaConfig> configs = Repository.getInTransaction(
 				new QueryTransactable<List<MediaConfig>>() 
@@ -38,13 +68,9 @@ public class Main
 					}
 				});
 		
-		
-		
 		log.debug("Starting media movement");
 		MediaManager h = new MediaManager();
 		h.processConfigs(configs);
-
-		
 	}
 
 }

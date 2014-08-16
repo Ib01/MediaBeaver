@@ -8,6 +8,14 @@
 	
 		$(function ()
 		{	
+			$(".visibilityPanel").hide();
+			
+			$(".toggleHide" ).click(function() 
+			{
+				$(this).parent().parent().find(".visibilityPanel").toggle( "blind", 500 );
+				
+			});
+			
 			$( "#sortable" ).sortable({
 				  stop: sortStop
 			});
@@ -34,7 +42,6 @@
 				$("form:first").submit();
 			});
 			
-			
 			$(".editSelector").click(function() 
 			{
 				/* alert($(this).parent().parent().find(".selectorIndex").val()); */
@@ -47,41 +54,48 @@
 			});
 			
 			
-			
-			
-			
-			
-			
 			$(".sortUp").click(function() 
 			{
-				var toMove = $(this).parent().parent();
-				var prev = toMove.prev(".detailedListItem");
+				var toMoveSelector = $(this).parent().parent();
+				var previousSelector = toMoveSelector.prev(".detailedListItem");
 				
-				toMove.detach().insertBefore(prev);
+				if(previousSelector.length == 0)
+					return;
 				
-				///here/////////////////////////////////////////
-				//
+				//move selector up in the list
+				toMoveSelector.detach().insertBefore(previousSelector);
 				
+				//swap sort orders
+				var prevSortOrder = previousSelector.find(".sorOrder").val();
+				var toMoveSortOrder = toMoveSelector.find(".sorOrder").val();
 				
+				previousSelector.find(".sorOrder").val(toMoveSortOrder);
+				toMoveSelector.find(".sorOrder").val(prevSortOrder);
 			});
+			
+			
 			
 			$(".sortDown").click(function() 
 			{
-				alert("sortDown");
+				var toMoveSelector = $(this).parent().parent();
+				var nextSelector = toMoveSelector.next(".detailedListItem");
+				
+				if(nextSelector.length == 0)
+					return;
+				
+				//move selector up in the list
+				toMoveSelector.detach().insertAfter(nextSelector);
+				
+				//swap sort orders
+				var nextSortOrder = nextSelector.find(".sorOrder").val();
+				var toMoveSortOrder = toMoveSelector.find(".sorOrder").val();
+				
+				nextSelector.find(".sorOrder").val(toMoveSortOrder);
+				toMoveSelector.find(".sorOrder").val(nextSortOrder);
 			});
 			
 		}); 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		function validateRegExSelectors(errors)
 		{
 			//ints returned are index numbers of inavalid selectors.  we will display an error next to its row
@@ -107,28 +121,7 @@
 			{
 				$(newSortInputs[i]).val(i);
 			}
-			
-			
-			/* 
-			var indexArray = [];
-			var indexInputs = $(".selectorIndex");
-			
-			//get orriginal index values of reshuffled selectors
-			for (var i = 0; i < indexInputs.length; i++) {
-				indexArray[i] = $(indexInputs[i]).val(); 
-			}
-			
-			//Send indexes of reshufled selectors 
-			sendAjax("/configWizard/orderSelectors", indexArray);
-			
-			//re-index selectors
-			for (var i = 0; i < indexInputs.length; i++) 
-			{
-				$(indexInputs[i]).val(i);
-			} */
 		}
-		 
-		
 		
 		function sendAjax(url, data) 
 		{
@@ -167,7 +160,7 @@
 		}
 		
 		.detailedListItem H3{
-			color:#FF8A00;
+			color:#1F1F1F;
 			margin-top: 2px;
 			font-size: 14px;
 			font-weight: normal;
@@ -175,7 +168,7 @@
 	</style>
 
 	
-	<h2>Config Wizard. Step 2</h2>
+	<h2>Config Wizard Step 2: Add or Update Regular Expression Selectors</h2>
 	
 	<form:form method="POST" commandName="config" id="configForm" class="formLayout">
 	
@@ -186,22 +179,24 @@
 			<c:forEach items="${config.regExSelectors}" var="selector" varStatus="i">
 			
 				<div class="detailedListItem">
+				
 					<div style="float:right; background-color: #ffffff; padding: 4px; margin: 2px">
-						
 						<a href="#" class="sortUp">&nbsp;&nbsp;&#8657;&nbsp;&nbsp;</a> |
 						<a href="#" class="sortDown">&nbsp;&nbsp;&#8659;&nbsp;&nbsp;</a>  |
-						<a class="editSelector" href="#">edit</a>
+						<a class="editSelector" href="#">edit</a>  | 
 						<a href="/configWizard/regExSelectorsDelete/${i.index}" class="deleteExpression">delete</a>
-						
 					</div>
 					
+					<h3><c:out value="${selector.description}" /> <a href="#" class="toggleHide">[ show details ]</a></h3>
+					
 					<form:hidden path="regExSelectors[${i.index}].sorOrder" class="sorOrder"/>
-				
 					<input type="hidden" class="selectorIndex" value='<c:out value="${i.index}" />'>
-					<label>Description: </label><c:out value="${selector.description}" />
-					<br>
-					<label>expression: </label><c:out value="${selector.expression}" />
-					<br>
+					
+					<div class="visibilityPanel">
+						<label>expression: </label><c:out value="${selector.expression}" />
+						<br>
+					</div>
+					
 				</div>
 					
 			</c:forEach>

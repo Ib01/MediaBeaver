@@ -107,6 +107,27 @@ public abstract class Repository
 		return result;
 	}
 
+	public static void doInTransaction(UpdateTransactable transactable)
+	{
+		Transaction tx = null; 
+		try
+		{
+			Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+			tx = s.beginTransaction();
+
+			transactable.run();
+			
+			tx.commit();
+		}
+		catch(RuntimeException e)
+		{
+			tx.rollback();
+			throw e;
+		}	
+	}	
+	
+	
+	
 	
 }
 
