@@ -31,10 +31,11 @@ public class Main
 		if(args[0].equals(moveArg))
 		{
 			moveMedia();
+			return; 
 		}
 		
 		
-		moveMedia();
+		showUsage();
 	}
 	
 	
@@ -71,6 +72,19 @@ public class Main
 		log.debug("Starting media movement");
 		MediaManager h = new MediaManager();
 		h.processConfigs(configs);
+	}
+	
+	
+	public static void showUsage()
+	{
+		System.out.println("");
+		System.out.println("Usage: ");
+		System.out.println("");
+		System.out.println("MediaBeaver "+initialiseArg);
+		System.out.println("    Initialise the Media Beaver application.  This command must be run before the application is used.");
+		System.out.println("MediaBeaver "+ moveArg);
+		System.out.println("    Move content around according to the applications configuration.");
+		System.out.println("");
 	}
 
 }

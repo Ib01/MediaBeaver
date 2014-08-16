@@ -20,7 +20,7 @@ public class RegExHelper
 	 * @param text
 	 * @return
 	 */
-	public List<String> getVariableNames(String path)
+	public List<String> getFileTokenNames(String path)
 	{
 		if(path == null || path.trim().length() == 0)
 			throw new IllegalArgumentException("path cannot be null or empty");
@@ -33,7 +33,7 @@ public class RegExHelper
 		
 		while(matcher.find())
 		{
-			captures.put(matcher.group(1), matcher.group(1));
+			captures.put(matcher.group(1).trim(), matcher.group(1));
 		}
 		
 		return new ArrayList<String>(captures.values());
@@ -77,40 +77,17 @@ public class RegExHelper
 		{
 			for(int i = 0; i <= matcher.groupCount(); i++)
 			{
-				if(matcher.group(i) != null)
-					captures.add(matcher.group(i));	
+				if(matcher.group(i)!= null )
+				{
+					String group = matcher.group(i).trim();
+					if(group.length() > 0)
+						captures.add(group);
+				}
 			}
 		}	
 		
 		return captures;		
 	}
-	
-	/**
-	 * Clean a string with a regular expression designed to keep portions of the string.
-	 * @param keepExpression
-	 * @param text
-	 * @return
-	 */
-	/*public String cleanStringRegEx(String keepExpression, String text, String joinString)
-	{
-		//TODO: THIS IS PROBABLY REDUNDANT NOW
-		Pattern pattern = Pattern.compile(keepExpression);
-		Matcher matcher = pattern.matcher(text);
-		
-		String parsedString = "";
-		while(matcher.find())
-		{
-			if(matcher.groupCount() <= 0)
-				continue;
-			
-			if(parsedString.length() > 0)
-				parsedString += joinString + matcher.group(1);
-			else
-				parsedString += matcher.group(1);
-		}
-		
-		return parsedString;
-	}*/
 	
 	
 	/**
@@ -121,7 +98,7 @@ public class RegExHelper
 	 * @param assemblyString
 	 * @return
 	 */
-	public String assembleRegExVariable(List<String> capturedStrings, String assemblyString) throws IllegalArgumentException
+	public String assembleFileToken(List<String> capturedStrings, String assemblyString) throws IllegalArgumentException
 	{
 		if(assemblyString == null || assemblyString.trim().length() == 0)
 			throw new IllegalArgumentException("assemblyString cannot be null or empty");
@@ -133,7 +110,7 @@ public class RegExHelper
 		
 		for(int i=0; i < capturedStrings.size(); i++)
 		{
-			s = s.replace(String.format("{%d}", i), capturedStrings.get(i));
+			s = s.replace(String.format("{%d}", i), capturedStrings.get(i).trim());
 		}
 		
 		return s;
@@ -159,22 +136,8 @@ public class RegExHelper
 		return matcher.find();
 	}
 	                                          
-	/*public String cleanString(String toClean, String replaceChars, String replaceWith)
-	{
-		if(replaceChars == null || replaceWith == null)
-			return toClean;
-		
-		String cs = toClean;
-		for(int i = 0; i < replaceChars.length(); i++)
-		{
-			String s = new StringBuilder().append(replaceChars.charAt(i)).toString();
-			cs = cs.replace(s, replaceWith);
-		}
-		
-		return cs;
-	}*/
 	
-	public String cleanString(String toClean, String regEx, String replaceWith)
+	public String cleanFileToken(String toClean, String regEx, String replaceWith)
 	{
 		if(toClean == null || toClean.trim().length() == 0)
 			throw new IllegalArgumentException("toClean cannot be null or empty");
@@ -185,7 +148,7 @@ public class RegExHelper
 		if(replaceWith == null)
 			replaceWith = "";
 		
-		String s = toClean;
+		String s = toClean.trim();
 		s = s.replaceAll(regEx, replaceWith);
 		
 		return s;
@@ -204,7 +167,7 @@ public class RegExHelper
 		while(i.hasNext()) 
 		{
 			Map.Entry<String, String> me = (Map.Entry<String, String>)i.next();
-			s = s.replace(String.format("{{%s}}", me.getKey()), me.getValue());
+			s = s.replace(String.format("{{%s}}", me.getKey()), me.getValue().trim());
 		}
 		
 		return s;

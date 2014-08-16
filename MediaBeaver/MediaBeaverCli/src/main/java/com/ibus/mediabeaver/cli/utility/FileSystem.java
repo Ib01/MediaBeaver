@@ -89,7 +89,7 @@ public class FileSystem
 			boolean exists = file.exists(); 
 			
 			if(exists)
-				log.debug(String.format("The following file or folder exists: %s ", path));
+				log.debug(String.format("It was determined that the following file system object exists: %s ", path));
 			
 			return exists; 
 		}

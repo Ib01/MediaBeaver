@@ -17,6 +17,12 @@ import com.ibus.mediabeaver.core.entity.RegExPathTokenSetter;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 import com.ibus.mediabeaver.core.util.RegExHelper;
 
+/*TODO:
+ * 
+ * 1) Capitalise file tokens 
+ * 
+ * */
+
 public class MediaManager
 {
 	private Logger log = Logger.getLogger(Main.class.getName());
@@ -80,25 +86,38 @@ public class MediaManager
 				
 				if (config.getAction() == TransformAction.Move)
 				{
+					
 					if(regExHelper.containsTokenPlaceholders(config.getRelativeDestinationPath()))
 					{
+						log.debug(String.format("Destination path %s contains file token placeholders that will need to be resolved before the file can be processed", config.getRelativeDestinationPath()));
+						
 						//if we have nominated use of open subtitles service then 
 						//		get tokens from the service
 						//else 	 
 						
 						HashMap<String, String> tokens = getFileTokensFromRegexSelectors(fso, config);
-						String fileName = regExHelper.assembleFileName(tokens, config.getRelativeDestinationPath());
-						
-						//if we still have placehonders in the file name abort move 
-						if(regExHelper.containsTokenPlaceholders(fileName))
+						if(tokens.size() > 0)
 						{
-							log.debug(String.format("Aborting move of %s. could not assemble new filename for the file. Token placeholders remained in filename after assembly.", 
+							String fileName = regExHelper.assembleFileName(tokens, config.getRelativeDestinationPath());
+							
+							//if we still have placehonders in the file name abort move 
+							if(!regExHelper.containsTokenPlaceholders(fileName))
+							{
+								log.debug(String.format("Attempting to move %s to %s", fso.getPath(), FilenameUtils.concat(config.getDestinationRoot(), fileName)));
+								fileSys.moveFile(fso.getAbsolutePath(), config.getDestinationRoot(), fileName);	
+							}
+							else
+							{
+								log.debug(String.format("Aborting move of %s. could not assemble new filename for the file. Data could not be found for all of the file token placeholders.", 
+										fso.getPath()));
+							}
+						}
+						else
+						{
+							log.debug(String.format("Aborting movement of %s. Tokens could not be found to populate the token placeholders present in the destination path", 
 									fso.getPath()));
-							break;
 						}
 						
-						log.debug(String.format("Attempting to moving %s to %s", fso.getPath(), FilenameUtils.concat(config.getDestinationRoot(), fileName)));
-						fileSys.moveFile(fso.getAbsolutePath(), config.getDestinationRoot(), fileName);	
 					}
 					//else
 					//...
@@ -119,8 +138,7 @@ public class MediaManager
 	private HashMap<String, String> getFileTokensFromRegexSelectors(File fso, MediaConfig config)
 	{
 		log.debug("processing regex selectors");
-		HashMap<String, String> tokens = null;
-		
+		HashMap<String, String> tokens = new HashMap<String, String>();
 		
 		/*go through each regex selectors*/
 		for(RegExSelector selector : config.getRegExSelectors())
@@ -128,45 +146,47 @@ public class MediaManager
 			log.debug(String.format("Processing regex selctor with description: %s.", selector.getDescription()));
 			log.debug(String.format("Matching regex %s against file name: %s", selector.getExpression(), fso.getName()));
 
-			tokens = new HashMap<String, String>();
-			
-			/*capture substrings from file name*/
+			/*capture substrings from file name. These substrings will be used to create the final file name.*/
 			List<String> captures = regExHelper.captureStrings(selector.getExpression(), fso.getName());
 			if(captures.size() > 0)
 			{
 				log.debug(String.format("regex %s matched file name: %s", selector.getExpression(), fso.getName()));
 				
-				/*populate our tokens list*/
-				for(RegExPathTokenSetter rev : selector.getPathTokenSetters())
+				/*populate our token setters*/
+				for(RegExPathTokenSetter setter : selector.getPathTokenSetters())
 				{
-					String tokenValue = regExHelper.assembleRegExVariable(captures, rev.getGroupAssembly());
+					String tokenValue = regExHelper.assembleFileToken(captures, setter.getGroupAssembly());
 					if(regExHelper.containsCaptureGroup(tokenValue))
 					{
 						log.debug(String.format("Aborting match against regex selctor. the selector %s has an invalid value for the token setter with name: %s"
-								, selector.getDescription(), rev.getPathTokenName()));
-						tokens = null;
-						break; //we have an invalid token which contains an unassigned token.ie the string contains somethig like: {1}. 
+								, selector.getDescription(), setter.getPathTokenName()));
+						tokens.clear();
+						break; //we have an invalid token which contains an unassigned token.ie the string contains something like: {1}. 
 							   //go to next selector
 					}
 					
-					tokenValue = regExHelper.cleanString(tokenValue, rev.getReplaceExpression(), rev.getReplaceWithCharacter());
-					
+					tokenValue = regExHelper.cleanFileToken(tokenValue, setter.getReplaceExpression(), setter.getReplaceWithCharacter());
 					if(tokenValue.trim().length() == 0)
 					{
-						log.debug(String.format("Aborting match against regex selctor. the selector %s has an invalid value for the token setter with name: %s"
-								, selector.getDescription(), rev.getPathTokenName()));
-						tokens = null;
-						break; //we have an invalid token which contains an unassigned token.ie the string contains somethig like: {1}. 
-							   //go to next selector
+						//don't think this should ever happen.
+						log.debug(String.format("Aborting match against regex selctor: %s. File token setter %s, is 0 length."
+								, selector.getDescription(), setter.getPathTokenName()));
+						tokens.clear();
+						break; 
 					}
 					
-					tokens.put(rev.getPathTokenName(), tokenValue);
+					tokens.put(setter.getPathTokenName(), tokenValue);
 				}
 				
 				//if tokens = null then selector matched but we do not have a valid list of tokens so go to next selector.  
 				//otherwise so just return our token list to indicate a successful match
-				if(tokens != null)
+				if(tokens.size() > 0)
 					return tokens;
+			}
+			else
+			{
+				log.debug(String.format("Either regex %s did not match on file name %s, or the regular expression did not define any capture groups", 
+						selector.getExpression(), fso.getName()));
 			}
 		}
 		

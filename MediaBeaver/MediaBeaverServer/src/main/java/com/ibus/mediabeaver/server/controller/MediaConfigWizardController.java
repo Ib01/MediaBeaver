@@ -276,10 +276,10 @@ public class MediaConfigWizardController
 			{
 				for(RegExPathTokenSetterViewModel variableSetter :  selector.getPathTokenSetters())
 				{	
-					String variableValue = regExHelper.assembleRegExVariable(captures, variableSetter.getGroupAssembly());
+					String variableValue = regExHelper.assembleFileToken(captures, variableSetter.getGroupAssembly());
 					
 					if(variableSetter.getReplaceExpression() != null && variableSetter.getReplaceExpression().length() > 0)
-						variableValue = regExHelper.cleanString(variableValue, variableSetter.getReplaceExpression(), variableSetter.getReplaceWithCharacter());
+						variableValue = regExHelper.cleanFileToken(variableValue, variableSetter.getReplaceExpression(), variableSetter.getReplaceWithCharacter());
 					
 					result += String.format("%s = %s \r\n", variableSetter.getPathTokenName(), variableValue);
 				}
@@ -302,7 +302,7 @@ public class MediaConfigWizardController
 		//MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
 		MediaConfigViewModel config = getSotredMediaConfigViewModel();
 		RegExHelper rexHelper = new RegExHelper();
-		List<String> variableNames = rexHelper.getVariableNames(config.getRelativeDestinationPath());
+		List<String> variableNames = rexHelper.getFileTokenNames(config.getRelativeDestinationPath());
 		
 		//add new setters and remove deleted setters from the setter collections of all selectors before proceeding further
 		for(RegExSelectorViewModel selector :  config.getRegExSelectors())
@@ -315,7 +315,7 @@ public class MediaConfigWizardController
 	{
 		//set  ore reset the variableSetters we will use
 		RegExHelper rexHelper = new RegExHelper();
-		List<String> variableNames = rexHelper.getVariableNames(config.getRelativeDestinationPath());
+		List<String> variableNames = rexHelper.getFileTokenNames(config.getRelativeDestinationPath());
 		sel.createVariableSetters(variableNames);
 	}
 	

@@ -19,7 +19,7 @@ public class RegExGeneratorTests
 
 		RegExHelper rgen = new RegExHelper();
 
-		List<String> list = rgen.getVariableNames(path);
+		List<String> list = rgen.getFileTokenNames(path);
 		
 		assertTrue(list.size() == 2);
 		assertTrue(list.get(0).equals("name"));
@@ -117,7 +117,7 @@ public class RegExGeneratorTests
 		String before = "asdf-_-_-_-_-xxxx";
 		String expectedResult = "asdf xxxx";
 
-		String result = rgen.cleanString(before, "[-_]+", " ");
+		String result = rgen.cleanFileToken(before, "[-_]+", " ");
 
 		assertTrue(result.equals(expectedResult));
 
