@@ -1,0 +1,2 @@
+May need to provide more flexibility in how file tokens are modified before being added to the path for eg in the file "game of thrones s1e2.mkv" we 
+may extract the season as "1".  We may want to further pad the data with 0's on the left.    

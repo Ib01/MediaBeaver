@@ -39,12 +39,10 @@ import com.ibus.mediabeaver.server.viewmodel.RegExPathTokenSetterViewModel;
 public class MediaConfigWizardController
 {
 	/*TODO
-	 *Add sort / processing order to selectors 
+	 * 
 	 * */
 	private @Autowired HttpServletRequest request;
 	private @Autowired HttpSession session;
-	//private @Autowired HttpServletResponse response;
-	//private @Autowired ServletWebRequest response;
 	
 	@InitBinder
 	public void initBinder(WebDataBinder webDataBinder) 
@@ -190,7 +188,6 @@ public class MediaConfigWizardController
 	@RequestMapping("regExSelectorsDelete/{index}")
 	public String regExSelectorsDelete(@PathVariable String index)
 	{
-		//MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
 		MediaConfigViewModel config = getSotredMediaConfigViewModel();
 		config.getRegExSelectors().remove(Integer.parseInt(index));
 		
@@ -198,18 +195,9 @@ public class MediaConfigWizardController
 		return "ConfigWizard_RegExSelectors";
 	}
 	
-	
-	
-	
-	/*@RequestMapping("regExSelectorsUpdate/{index}")
-	public ModelAndView regExSelectorsUpdate(@PathVariable String index)*/
-	
 	@RequestMapping("regExSelectorsUpdate")
 	public ModelAndView regExSelectorsUpdate(@ModelAttribute("config")MediaConfigViewModel config)
 	{
-		//MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
-		//MediaConfigViewModel config = getSotredMediaConfigViewModel();
-		
 		//get a copy of the stored selector so we do not modify the selector until we save
 		RegExSelectorViewModel sel = config.getRegExSelectors().get(config.getSelectedRegExSelectorIndex()).copy();
 		resetSetters(sel, config);
@@ -218,14 +206,10 @@ public class MediaConfigWizardController
 		return new ModelAndView("ConfigWizard_RegExSelector","regExSelector", sel);
 	}
 	
-	
 	@RequestMapping("regExSelectorsAdd")
 	public ModelAndView regExSelectorsAdd(@ModelAttribute("config")MediaConfigViewModel config)
 	{
-		//MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
-		//MediaConfigViewModel config = getSotredMediaConfigViewModel();
 		RegExSelectorViewModel sel = new RegExSelectorViewModel(config.getNextRegExSelectorSortNumber());
-
 		resetSetters(sel, config);
 		
 		return new ModelAndView("ConfigWizard_RegExSelector","regExSelector", sel);
@@ -369,6 +353,11 @@ public class MediaConfigWizardController
 		
 		return config;
 	}
+	
+	
+
+	/*@RequestMapping("regExSelectorsUpdate/{index}")
+	public ModelAndView regExSelectorsUpdate(@PathVariable String index)*/
 	
 	
 }
