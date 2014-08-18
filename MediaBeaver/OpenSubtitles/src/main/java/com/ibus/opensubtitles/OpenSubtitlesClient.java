@@ -13,11 +13,12 @@ public class OpenSubtitlesClient
 {
 	/*
 	 * useragent: used by opensubtitles to identify the connecting application.
-	 * Looks like u/n and pass can be blank if this is a test userName: name of
-	 * the connecting user password: password of the connecting user host: the
-	 * OpenSubtitles web service host sublanguageid: the id of the language(s)
-	 * to download subtitles for. token: a security token. Once logged on the
-	 * security token will remain valid for 30 minutes.
+	 * Looks like u/n and pass can be blank if this is a test 
+	 * userName: name of the connecting user 
+	 * password: password of the connecting user 
+	 * host: the OpenSubtitles web service host 
+	 * sublanguageid: the id of the language(s) to download subtitles for. 
+	 * token: a security token. Once logged on the security token will remain valid for 30 minutes.
 	 */
 
 	// private static Logger logger = Logger.getLogger("moviejukebox");
