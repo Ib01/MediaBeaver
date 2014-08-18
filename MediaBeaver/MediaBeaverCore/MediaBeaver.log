@@ -1,0 +1,102 @@
+2014-08-18 13:12:44,156 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - USERPROFILE=C:\Users\ikr
+
+2014-08-18 13:12:44,160 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables -  MAVEN_OPTS=-Xms256m -Xmx512m
+
+2014-08-18 13:12:44,160 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - JAVA_HOME=C:\Program Files\Java\jdk1.6.0_45
+
+2014-08-18 13:12:44,161 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - VS110COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\Tools\
+
+2014-08-18 13:12:44,161 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - SystemDrive=C:
+
+2014-08-18 13:12:44,161 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - M2=C:\Program Files (x86)\Maven\apache-maven-3.2.1\bin
+
+2014-08-18 13:12:44,161 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - Path=C:\Oracle\Client_11_2_32bit\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Interactive Intelligence\;C:\Program Files (x86)\Interactive Intelligence\;C:\Program Files (x86)\Interactive Intelligence\ININ Trace Initialization\;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files\Microsoft\Web Platform Installer\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files (x86)\Maven\apache-maven-3.2.1\bin;%JAVA_HOME%\bin;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\TortoiseSVN\bin;C:\packages\NuGet.CommandLine.2.8.1\tools;C:\Program Files (x86)\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files\Microsoft SQL Server\110\DTS\Binn\;C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.0\
+
+2014-08-18 13:12:44,162 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - PROCESSOR_REVISION=2d07
+
+2014-08-18 13:12:44,162 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - USERDOMAIN=AMSA_AD
+
+2014-08-18 13:12:44,162 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - ALLUSERSPROFILE=C:\ProgramData
+
+2014-08-18 13:12:44,163 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - SESSIONNAME=Console
+
+2014-08-18 13:12:44,163 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - TMP=C:\Users\ikr\AppData\Local\Temp
+
+2014-08-18 13:12:44,163 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - M2_HOME=C:\Program Files (x86)\Maven\apache-maven-3.2.1
+
+2014-08-18 13:12:44,163 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - LOGONSERVER=\\VDRFDC04
+
+2014-08-18 13:12:44,163 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - CommonProgramFiles=C:\Program Files\Common Files
+
+2014-08-18 13:12:44,164 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - PROCESSOR_LEVEL=6
+
+2014-08-18 13:12:44,165 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - LOCALAPPDATA=C:\Users\ikr\AppData\Local
+
+2014-08-18 13:12:44,166 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - COMPUTERNAME=E02-J2RVWX1
+
+2014-08-18 13:12:44,166 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - SYBASE=C:\Program Files (x86)\Quest Software\Toad for Data Analysts 3.1\
+
+2014-08-18 13:12:44,166 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - SystemRoot=C:\Windows
+
+2014-08-18 13:12:44,166 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - USERNAME=ikr
+
+2014-08-18 13:12:44,166 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - APPDATA=C:\Users\ikr\AppData\Roaming
+
+2014-08-18 13:12:44,167 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - ProgramData=C:\ProgramData
+
+2014-08-18 13:12:44,167 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+
+2014-08-18 13:12:44,167 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - USERDNSDOMAIN=AMSA.GOV.AU
+
+2014-08-18 13:12:44,167 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - windows_tracing_logfile=C:\BVTBin\Tests\installpackage\csilogfile.log
+
+2014-08-18 13:12:44,168 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - MB_HOME=C:\Users\ikr
+
+2014-08-18 13:12:44,168 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - ProgramFiles(x86)=C:\Program Files (x86)
+
+2014-08-18 13:12:44,168 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - windows_tracing_flags=3
+
+2014-08-18 13:12:44,168 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - TEMP=C:\Users\ikr\AppData\Local\Temp
+
+2014-08-18 13:12:44,169 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - ProgramFiles=C:\Program Files
+
+2014-08-18 13:12:44,169 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - HOMEDRIVE=H:
+
+2014-08-18 13:12:44,169 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - UATDATA=C:\Windows\SysWOW64\CCM\UATData\D9F8C395-CAB8-491d-B8AC-179A1FE1BE77
+
+2014-08-18 13:12:44,169 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - ProgramW6432=C:\Program Files
+
+2014-08-18 13:12:44,170 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 45 Stepping 7, GenuineIntel
+
+2014-08-18 13:12:44,170 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - PROCESSOR_ARCHITECTURE=AMD64
+
+2014-08-18 13:12:44,170 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - OS=Windows_NT
+
+2014-08-18 13:12:44,170 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - FP_NO_HOST_CHECK=NO
+
+2014-08-18 13:12:44,170 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - HOMEPATH=\
+
+2014-08-18 13:12:44,171 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - ININ_TRACE_TOPIC_ROOT=C:\Program Files (x86)\Common Files\Interactive Intelligence\inin_tracing\
+
+2014-08-18 13:12:44,171 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - CommonProgramW6432=C:\Program Files\Common Files
+
+2014-08-18 13:12:44,171 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - VS120COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools\
+
+2014-08-18 13:12:44,171 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - HOMESHARE=\\cbr02\users\ikr
+
+2014-08-18 13:12:44,172 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - windir=C:\Windows
+
+2014-08-18 13:12:44,172 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - DellClientSystemUpdatePath=C:\Program Files (x86)\Dell\ClientSystemUpdate\
+
+2014-08-18 13:12:44,172 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - NUMBER_OF_PROCESSORS=16
+
+2014-08-18 13:12:44,172 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - SFT_SOFTGRIDSERVER=vcbrappv01.amsa.gov.au
+
+2014-08-18 13:12:44,173 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - PSModulePath=C:\Windows\system32\WindowsPowerShell\v1.0\Modules\;C:\Program Files\Microsoft Application Virtualization\Client\;C:\Program Files (x86)\Microsoft SQL Server\110\Tools\PowerShell\Modules\
+
+2014-08-18 13:12:44,173 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - PUBLIC=C:\Users\Public
+
+2014-08-18 13:12:44,173 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+
+2014-08-18 13:12:44,173 DEBUG main com.ibus.mediabeaver.core.test.EnvironmentVariables - ComSpec=C:\Windows\system32\cmd.exe
+
