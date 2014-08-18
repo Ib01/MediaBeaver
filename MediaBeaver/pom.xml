@@ -12,6 +12,7 @@
 		<module>./MediaBeaverCore</module>
 		<module>./MediaBeaverServer</module>
 		<module>./MediaBeaverCli</module>
+		<module>./OpenSubtitles</module>
 	</modules>
 
 

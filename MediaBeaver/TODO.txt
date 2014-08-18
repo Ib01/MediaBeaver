@@ -1,6 +1,6 @@
 * Ensure error is thrown if destination root and source paths specified in configs is not found during processing  
 
-* enable logging in production
+* upgrade logger to log4j2
 
 * add move history to the db
 
