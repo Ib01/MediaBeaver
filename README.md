@@ -29,3 +29,5 @@ on the target system.
 The only complex thing about this screen is the **Destination Path** field.  this field is critical as it defines the directory structure and name that will be used for the file when moving it. This field uses variables which you define. These variables must be wrapped in double braces like this: {{SomeVaraible}}. you will assign values to these variables in subsequent steps. See image below for example
 
 ![generalInfo.png](https://bitbucket.org/repo/5MgKjp/images/1991323788-generalInfo.png)
+
+2) click on next and then select a regular expression selector to edit. you will see a screen like below.
