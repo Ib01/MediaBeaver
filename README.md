@@ -63,3 +63,5 @@ A file will only be moved if the regular expression selector gets data into all 
 * allow for global paths i.e should  only have to enter path to movie directory once 
 
 * look into http://acoustid.org/ and http://musicbrainz.org/ for music identification?
+
+* destination path rename? "naming format" or "naming and placement"? 
