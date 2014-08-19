@@ -26,6 +26,6 @@ on the target system.
 
 1) from **http;//{ip address of your host}:8081/configList** select a configuration item to edit.  you should see the creen below.  
 
-The only complex thing about this screen is the **Destination Path** field.  this field is critical as it defines the directory structure and name that will be used for the file when moving it. This field uses variables which you define. These variables must be wrapped in double braces {{SomeVaraible}}. you will assign values to these variables in subsequent steps. See image below for example
+The only complex thing about this screen is the **Destination Path** field.  this field is critical as it defines the directory structure and name that will be used for the file when moving it. This field uses variables which you define. These variables must be wrapped in double braces like this: {{SomeVaraible}}. you will assign values to these variables in subsequent steps. See image below for example
 
 ![generalInfo.png](https://bitbucket.org/repo/5MgKjp/images/1991323788-generalInfo.png)
