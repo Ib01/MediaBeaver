@@ -21,7 +21,7 @@ public class OpenSubtitlesToken
 		tokenExpiry = null;
 		if(token == null || token.length() == 0)
 			return;
-		
+		   
 		resetExpiry();
 	    this.token = token;
 	}	
