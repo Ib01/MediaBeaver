@@ -67,3 +67,5 @@ A file will only be moved if the regular expression selector gets data into all 
 * destination path rename? "naming format" or "naming and placement"?
 
 * Configuration Wizard Screen 1 add a copy option as well as the move option in the Action dropdown. Useful for testing.
+
+* Bell & Whistle - add a option to select common regular expressions in the Advanced config page.
