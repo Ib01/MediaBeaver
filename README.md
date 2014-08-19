@@ -36,4 +36,8 @@ The expression field contains the regular expression that will be used to both s
 
 In the variable setters section you will assign groups captured by the regular expression to variables. group assembly will contain at least one group number surrounded by brackets.  You can optionaly define a replace regex and replace string to clean the variable before it is added to the path. Use the test expression section to test the expression works and that data is captured in to your variables as expected.
 
+A file will only be moved if the regular expression selector gets data into all of the variables required by the path. Selectors will be processed in the order they are sorted in on the  **Add or Update Regular Expression Selectors** wizard step.
+
 ![regExSelector.png](https://bitbucket.org/repo/5MgKjp/images/1079213183-regExSelector.png)
+
+3) after you have created / modified and sorted your regular expression selectors click Next to end the wizard and save your config item data
