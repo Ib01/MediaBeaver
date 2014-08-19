@@ -31,3 +31,9 @@ The only complex thing about this screen is the **Destination Path** field.  thi
 ![generalInfo.png](https://bitbucket.org/repo/5MgKjp/images/1991323788-generalInfo.png)
 
 2) click on next and then select a regular expression selector to edit. you will see a screen like below.
+
+The expression field contains the regular expression that will be used to both select a file for movement and to populate the variables used in its path. the expression must define groups (google regular expresion groups if you dont know what these are).
+
+In the variable setters section you will assign groups captured by the regular expression to variables. group assembly will contain at least one group number surrounded by brackets.  You can optionaly define a replace regex and replace string to clean the variable before it is added to the path. Use the test expression section to test the expression works and that data is captured in to your variables as expected.
+
+![regExSelector.png](https://bitbucket.org/repo/5MgKjp/images/1079213183-regExSelector.png)
