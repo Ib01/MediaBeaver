@@ -8,6 +8,7 @@ import java.net.URLConnection;
 import java.util.Scanner;
 
 import com.ibus.opensubtitles.dto.OpenSubtitlesResponse;
+import com.ibus.opensubtitles.utilities.OpenSubtitlesHashData;
 
 public class OpenSubtitlesClient
 {
@@ -36,12 +37,12 @@ public class OpenSubtitlesClient
 	{
 	}
 
-	public OpenSubtitlesResponse getTitleForHash(String hash, String bytes) throws MalformedURLException, IOException
+	public OpenSubtitlesResponse getTitleForHash(OpenSubtitlesHashData data) throws MalformedURLException, IOException
 	{
-		//TODO: should we be doing this every time. surely we should use: if (token.tokenHasExpired()) ...
-		login();
+		if (token.tokenHasExpired())
+			throw new RuntimeException("OpenSubtitlesClient token has expired.  you must call OpenSubtitlesClient.login() before calling any other method");
 
-		String requestXml = generateXMLRPCSS(hash, bytes);
+		String requestXml = generateXMLRPCSS(data.getHashData(), data.getTotalBytes());
 		String responseXml = sendRPC(requestXml);
 
 		return new OpenSubtitlesResponse(getValue("MovieName", responseXml), getValue("MovieYear", responseXml));
@@ -49,8 +50,8 @@ public class OpenSubtitlesClient
 
 	public void logOut() throws MalformedURLException, IOException
 	{
-		//TODO: should we be doing this every time. surely we should use: if (token.tokenHasExpired()) ...
-		login();
+		if (token.tokenHasExpired())
+			return;
 
 		String methodParams[] = { token.getToken() };
 		String methodName = "LogOut";
@@ -60,22 +61,22 @@ public class OpenSubtitlesClient
 	}
 	
 	// this method should be called before any other.
-	private void login() throws MalformedURLException, IOException
+	public boolean login() throws MalformedURLException, IOException
 	{
-		if (token.tokenHasExpired())
-		{
-			String methodParams[] =
-			{ userName, password, "", useragent };
-			String methodName = "LogIn";
+		String methodParams[] =
+		{ userName, password, "", useragent };
+		String methodName = "LogIn";
 
-			String requestXml = generateXMLRPC(methodName, methodParams);
-			String tokenXml = sendRPC(requestXml);
+		String requestXml = generateXMLRPC(methodName, methodParams);
+		String tokenXml = sendRPC(requestXml);
 
-			// store the token for future calls
-			token.setToken(getValue("token", tokenXml));
-		}
+		// store the token for future calls
+		token.setToken(getValue("token", tokenXml));
+		return !token.tokenHasExpired();
 	}
 
+	
+	
 	private String generateXMLRPC(String methodName, String s[])
 	{
 		StringBuffer str = new StringBuffer();
