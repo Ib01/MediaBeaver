@@ -60,7 +60,7 @@ public class OpenSubtitlesClient
 	
 	
 	// this method should be called before any other.
-	public void login() throws MalformedURLException, IOException
+	public boolean login() throws MalformedURLException, IOException
 	{
 		String methodParams[] =
 		{ userName, password, "", useragent };
@@ -71,6 +71,8 @@ public class OpenSubtitlesClient
 
 		// store the token for future calls
 		token.setToken(getValue("token", tokenXml));
+		
+		return !token.tokenHasExpired(); 		
 	}
 	
 	
