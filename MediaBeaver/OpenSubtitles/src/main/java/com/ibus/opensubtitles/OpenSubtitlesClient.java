@@ -20,7 +20,6 @@ public class OpenSubtitlesClient
 	 * sublanguageid: the id of the language(s) to download subtitles for. 
 	 * token: a security token. Once logged on the security token will remain valid for 30 minutes.
 	 */
-
 	// private static Logger logger = Logger.getLogger("moviejukebox");
 
 	//TODO; INJECT THIS INFORMATION
@@ -38,8 +37,8 @@ public class OpenSubtitlesClient
 
 	public OpenSubtitlesResponse getTitleForHash(String hash, String bytes) throws MalformedURLException, IOException
 	{
-		//TODO: should we be doing this every time. surely we should use: if (token.tokenHasExpired()) ...
-		login();
+		if (token.tokenHasExpired())
+			throw new RuntimeException("Open subtitles conection token has timed out.  you need to call logon on the OpenSubtitlesClient before calling any other methods.");
 
 		String requestXml = generateXMLRPCSS(hash, bytes);
 		String responseXml = sendRPC(requestXml);
@@ -49,8 +48,8 @@ public class OpenSubtitlesClient
 
 	public void logOut() throws MalformedURLException, IOException
 	{
-		//TODO: should we be doing this every time. surely we should use: if (token.tokenHasExpired()) ...
-		login();
+		if (token.tokenHasExpired())
+			return; 
 
 		String methodParams[] = { token.getToken() };
 		String methodName = "LogOut";
@@ -59,22 +58,22 @@ public class OpenSubtitlesClient
 		sendRPC(requestXml);
 	}
 	
+	
 	// this method should be called before any other.
-	private void login() throws MalformedURLException, IOException
+	public void login() throws MalformedURLException, IOException
 	{
-		if (token.tokenHasExpired())
-		{
-			String methodParams[] =
-			{ userName, password, "", useragent };
-			String methodName = "LogIn";
+		String methodParams[] =
+		{ userName, password, "", useragent };
+		String methodName = "LogIn";
 
-			String requestXml = generateXMLRPC(methodName, methodParams);
-			String tokenXml = sendRPC(requestXml);
+		String requestXml = generateXMLRPC(methodName, methodParams);
+		String tokenXml = sendRPC(requestXml);
 
-			// store the token for future calls
-			token.setToken(getValue("token", tokenXml));
-		}
+		// store the token for future calls
+		token.setToken(getValue("token", tokenXml));
 	}
+	
+	
 
 	private String generateXMLRPC(String methodName, String s[])
 	{
