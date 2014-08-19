@@ -68,4 +68,8 @@ A file will only be moved if the regular expression selector gets data into all 
 
 * Configuration Wizard Screen 1 add a copy option as well as the move option in the Action dropdown. Useful for testing.
 
-* Bell & Whistle - add a option to select common regular expressions in the Advanced config page.
+* Bell & Whistle - add a option to select common regular expressions in the Advanced config page
+
+* Test this on Freenas with a Custom Jail Plugin
+
+* Add log file viewer to web app component
