@@ -24,7 +24,7 @@ on the target system.
 
 # Getting started
 
-1) from **http;//{ip address of your host}:8081/configList** select a configuration item to edit.  you should see the creen below.  
+1) from **http;//{ip address of your host}:8081/configList** select a configuration item to edit.  you should see the screen below.  
 
 The only complex thing about this screen is the **Destination Path** field.  this field is critical as it defines the directory structure and name that will be used for the file when moving it. This field uses variables which you define. These variables must be wrapped in double braces like this: {{SomeVaraible}}. you will assign values to these variables in subsequent steps. See image below for example
 
