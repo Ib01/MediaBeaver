@@ -17,7 +17,6 @@ on the target system.
 
 8) execute **java -jar mediaBeaverServer-0.0.1-SNAPSHOT.war** (this will start the web app)
 
-9) navigate to the web app: using http;//{ip address of your host}:8081/configList.  modify your configuration to suit.
+9) navigate to the web app: using **http;//{ip address of your host}:8081/configList**.  modify your configuration to suit.
 
-10) to move media on your server navigate to the directory containing **mediaBeaverServer-0.0.1-SNAPSHOT.war** and execute **java -jar mediaBeaverServer-0.0.1-SNAPSHOT.war -move** 
- 
+10) to move media on your server navigate to the directory containing **mediaBeaverServer-0.0.1-SNAPSHOT.war** and execute **java -jar mediaBeaverServer-0.0.1-SNAPSHOT.war -move**
