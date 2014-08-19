@@ -44,22 +44,22 @@ A file will only be moved if the regular expression selector gets data into all 
 
 # Features to be added before our first beta:
 
+* Add Media Service Selectors.  These will Use TVDB, TMDB and Open subtitles services to select files for movement and to populate variables used in the destination path.
+
+* add move history to the db
+
+* and undo move capability
+
+* get subtitles    
+
 * Ensure error is thrown if destination root and source paths specified in configs is not found during processing  
 
 * upgrade logger to log4j2
-
-* add move history to the db
 
 * May need to provide more flexibility in how file tokens are modified before being added to the path for eg in the file "game of thrones s1e2.mkv" we 
 may extract the season as "1".  We may want to further pad the data with 0's on the left.
 
 * would be nice to find a way to title case titles (i.e not just capitalise the first letter of each word but to not capitalise words like 'a' or 'it' etc)  
-
-* history of every move and undo capability
-
-* Use TVDB, TMDB and Open subtitles to determine generate file names.
-
-* get subtitles    
 
 * allow for global paths i.e should  only have to enter path to movie directory once 
 
