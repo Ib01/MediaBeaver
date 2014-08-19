@@ -18,13 +18,22 @@ public class OpenSubtitlesToken
 	
 	public void setToken(String token)
 	{
+		tokenExpiry = null;
+		if(token == null || token.length() == 0)
+			return;
+		
 		resetExpiry();
 	    this.token = token;
 	}	
 	
-	//if token has expired will return null
+	/**
+	 * before calling this method call tokenHasExpired to ensure that the 
+	 * token is valid and has not expired.    
+	 * @return
+	 */
 	public String getToken()
 	{
+		//will return null if token has expired 
 		return token;
 	}
 	
