@@ -30,7 +30,7 @@ public class DataInitialiser
 		config.setDescription("Move Movie files");
 		config.setSourceDirectory("D:\\MediabeaverTests\\Source");
 		config.setDestinationRoot("D:\\MediabeaverTests\\Destination\\Movies");
-		config.setRelativeDestinationPath("{{name}} ({{year}})\\{{name}} ({{year}}).({{extension}})");
+		config.setRelativeDestinationPath("{{name}} ({{year}})\\{{name}} ({{year}}).{{extension}}");
 		config.setSorOrder(1);
 		
 		config.getRegExSelectors().add(getMovieWithYearAndAnyExtensionSetter());
