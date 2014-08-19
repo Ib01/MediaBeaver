@@ -64,4 +64,6 @@ A file will only be moved if the regular expression selector gets data into all 
 
 * look into http://acoustid.org/ and http://musicbrainz.org/ for music identification?
 
-* destination path rename? "naming format" or "naming and placement"? 
+* destination path rename? "naming format" or "naming and placement"?
+
+* Configuration Wizard Screen 1 add a copy option as well as the move option in the Action dropdown. Useful for testing.
