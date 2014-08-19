@@ -41,3 +41,26 @@ A file will only be moved if the regular expression selector gets data into all 
 ![regExSelector.png](https://bitbucket.org/repo/5MgKjp/images/1079213183-regExSelector.png)
 
 3) after you have created / modified and sorted your regular expression selectors click Next to end the wizard and save your config item data
+
+# Features to be added before our first beta:
+
+* Ensure error is thrown if destination root and source paths specified in configs is not found during processing  
+
+* upgrade logger to log4j2
+
+* add move history to the db
+
+* May need to provide more flexibility in how file tokens are modified before being added to the path for eg in the file "game of thrones s1e2.mkv" we 
+may extract the season as "1".  We may want to further pad the data with 0's on the left.
+
+* would be nice to find a way to title case titles (i.e not just capitalise the first letter of each word but to not capitalise words like 'a' or 'it' etc)  
+
+* history of every move and undo capability
+
+* Use TVDB, TMDB and Open subtitles to determine generate file names.
+
+* get subtitles    
+
+* allow for global paths i.e should  only have to enter path to movie directory once 
+
+* look into http://acoustid.org/ and http://musicbrainz.org/ for music identification?
