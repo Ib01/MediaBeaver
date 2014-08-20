@@ -68,6 +68,20 @@ public class OpenSubtitlesClientTest
 		
 	}
 	
+	
+	
+	@Test
+	public void logon2Test()
+	{
+		OpenSubtitlesClient osClient = new OpenSubtitlesClient();
+		
+		boolean logedIn = osClient.login2();
+		/*assertTrue(logedIn);
+		osClient.logOut();*/
+		
+		assertTrue(true);
+		
+	}
 }
 
 

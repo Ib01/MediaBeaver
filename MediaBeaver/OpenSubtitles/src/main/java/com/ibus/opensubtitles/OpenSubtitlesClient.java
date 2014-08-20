@@ -5,7 +5,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+
+import org.apache.xmlrpc.XmlRpcException;
+import org.apache.xmlrpc.client.XmlRpcClient;
+import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 import com.ibus.opensubtitles.dto.OpenSubtitlesResponse;
 import com.ibus.opensubtitles.utilities.OpenSubtitlesHashData;
@@ -36,6 +42,66 @@ public class OpenSubtitlesClient
 	{
 	}
 
+	
+	
+	
+	// this method should be called before any other.
+	public boolean login2() 
+	{
+	        try
+			{
+	        	XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+				config.setServerURL(new URL(host));
+				
+		        XmlRpcClient client = new XmlRpcClient();
+		        client.setConfig(config);
+		        
+		        Object[] params = new Object[]{ userName, password, "", useragent };
+		    
+		        Map result = (Map) client.execute("LogIn", params);
+
+		        
+		        
+		        int ii = result.size();
+		        
+			} 
+	        catch (MalformedURLException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			catch (XmlRpcException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}   
+		
+		
+		
+		
+		return false;
+		
+	}
+
+
+	
+	
+	
+	// this method should be called before any other.
+	public boolean login() throws MalformedURLException, IOException
+	{
+		String methodParams[] =
+		{ userName, password, "", useragent };
+		String methodName = "LogIn";
+
+		String requestXml = generateXMLRPC(methodName, methodParams);
+		String tokenXml = sendRPC(requestXml);
+		
+		// store the token for future calls
+		token.setToken(getValue("token", tokenXml));
+		return !token.tokenHasExpired();
+	}
+	
 	public OpenSubtitlesResponse getTitleForHash(OpenSubtitlesHashData data) throws MalformedURLException, IOException
 	{
 		if (token.tokenHasExpired())
@@ -60,23 +126,30 @@ public class OpenSubtitlesClient
 	}
 	
 	
-	// this method should be called before any other.
-	public boolean login() throws MalformedURLException, IOException
-	{
-		String methodParams[] =
-		{ userName, password, "", useragent };
-		String methodName = "LogIn";
 
-		String requestXml = generateXMLRPC(methodName, methodParams);
-		String tokenXml = sendRPC(requestXml);
-		
-		// store the token for future calls
-		token.setToken(getValue("token", tokenXml));
-		return !token.tokenHasExpired();
-	}
 	
 	
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	private String generateXMLRPC(String methodName, String s[])
