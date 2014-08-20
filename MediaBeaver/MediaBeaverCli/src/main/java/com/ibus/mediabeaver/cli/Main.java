@@ -6,6 +6,7 @@ package com.ibus.mediabeaver.cli;
  * 
  * 1) ensure that the logger writes to a file and that the location can be configured to something sensible in production.
  * */
+import java.io.InputStreamReader;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -28,6 +29,9 @@ public class Main
 	
 	public static void main(String[] args)
 	{
+		//new BufferedReader(new InputStreamReader(getResourceAsStream("/resources/" + filename)))
+		
+		
 		if(args[0].equals(initialiseArg))
 		{
 			initialiseApp();
