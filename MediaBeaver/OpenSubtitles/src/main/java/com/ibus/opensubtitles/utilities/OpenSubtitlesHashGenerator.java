@@ -43,9 +43,9 @@ public class OpenSubtitlesHashGenerator
 	 * @return
 	 * @throws IOException
 	 */
-	public static String[] computeHash(File file) throws IOException 
+	public static OpenSubtitlesHashData computeHash(File file) throws IOException 
 	{
-			String[] ret = new String[2];
+			OpenSubtitlesHashData hashData = new OpenSubtitlesHashData(); 
 			
 			long size = file.length();
 			long chunkSizeForFile = Math.min(HASH_CHUNK_SIZE, size);
@@ -56,17 +56,14 @@ public class OpenSubtitlesHashGenerator
 			        long head = computeHashForChunk(fileChannel.map(MapMode.READ_ONLY, 0, chunkSizeForFile));
 			        long tail = computeHashForChunk(fileChannel.map(MapMode.READ_ONLY, Math.max(size - HASH_CHUNK_SIZE, 0), chunkSizeForFile));
 			        
-			        //first element contains the hash 
-			        ret[0] =String.format("%016x", size + head + tail); 
-			        
-			        //second element contains the number of bytes in the file
-			        ret[1] =Long.toString(size);
+			        hashData.setHashData(String.format("%016x", size + head + tail)); 
+			        hashData.setTotalBytes(Long.toString(size));
 			        
 			} finally {
 			        fileChannel.close();
 			}
 			
-			return ret;
+			return hashData;
 	}
 	
 	

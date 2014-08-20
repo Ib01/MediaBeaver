@@ -8,6 +8,7 @@ import java.net.URLConnection;
 import java.util.Scanner;
 
 import com.ibus.opensubtitles.dto.OpenSubtitlesResponse;
+import com.ibus.opensubtitles.utilities.OpenSubtitlesHashData;
 
 public class OpenSubtitlesClient
 {
@@ -35,12 +36,12 @@ public class OpenSubtitlesClient
 	{
 	}
 
-	public OpenSubtitlesResponse getTitleForHash(String hash, String bytes) throws MalformedURLException, IOException
+	public OpenSubtitlesResponse getTitleForHash(OpenSubtitlesHashData data) throws MalformedURLException, IOException
 	{
 		if (token.tokenHasExpired())
 			throw new RuntimeException("Open subtitles conection token has timed out.  you need to call logon on the OpenSubtitlesClient before calling any other methods.");
 
-		String requestXml = generateXMLRPCSS(hash, bytes);
+		String requestXml = generateXMLRPCSS(data.getHashData(), data.getTotalBytes());
 		String responseXml = sendRPC(requestXml);
 
 		return new OpenSubtitlesResponse(getValue("MovieName", responseXml), getValue("MovieYear", responseXml));
@@ -68,15 +69,16 @@ public class OpenSubtitlesClient
 
 		String requestXml = generateXMLRPC(methodName, methodParams);
 		String tokenXml = sendRPC(requestXml);
-
+		
 		// store the token for future calls
 		token.setToken(getValue("token", tokenXml));
-		
-		return !token.tokenHasExpired(); 		
+		return !token.tokenHasExpired();
 	}
 	
 	
 
+	
+	
 	private String generateXMLRPC(String methodName, String s[])
 	{
 		StringBuffer str = new StringBuffer();
