@@ -73,3 +73,5 @@ A file will only be moved if the regular expression selector gets data into all 
 * Test this on Freenas with a Custom Jail Plugin
 
 * Add log file viewer to web app component
+
+* in the case where we cannot fine a match in open subtitles service using hash value we can search using movie name/ season info? 
