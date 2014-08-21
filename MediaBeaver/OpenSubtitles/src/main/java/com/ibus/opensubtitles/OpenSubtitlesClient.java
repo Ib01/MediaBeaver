@@ -5,14 +5,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-
+import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-
 import com.ibus.opensubtitles.dto.OpenSubtitlesResponse;
 import com.ibus.opensubtitles.utilities.OpenSubtitlesHashData;
 
@@ -27,8 +25,8 @@ public class OpenSubtitlesClient
 	 * sublanguageid: the id of the language(s) to download subtitles for. 
 	 * token: a security token. Once logged on the security token will remain valid for 30 minutes.
 	 */
-	// private static Logger logger = Logger.getLogger("moviejukebox");
-
+	static Logger log = Logger.getLogger(OpenSubtitlesClient.class.getName());
+	
 	//TODO; INJECT THIS INFORMATION
 	private static String userName = " ";
 	private static String password = " ";
@@ -42,48 +40,98 @@ public class OpenSubtitlesClient
 	{
 	}
 
+	// this method should be called before any other.
+	public boolean login2() throws MalformedURLException, XmlRpcException 
+	{
+		Object[] params = new Object[]{ userName, password, "", useragent };
+		Map<String, String> result = CallRemoteProcedure("LogIn",params);
+		
+		token.setToken((String)result.get("token"));
+		
+		return (responsOk(result));
+	}
+
+	public boolean logOut2() throws MalformedURLException, IOException, XmlRpcException
+	{
+		if (token.tokenHasExpired())
+			return true; 
+
+		Object[] params = new Object[]{ token.getToken() };
+		Map<String, String> result = CallRemoteProcedure("LogOut",params);
+		
+		return (responsOk(result));
+	}
+	
+	public OpenSubtitlesResponse getTitleForHash2(OpenSubtitlesHashData data) throws MalformedURLException, IOException
+	{
+		if (token.tokenHasExpired())
+			throw new RuntimeException("Open subtitles conection token has timed out.  you need to call logon on the OpenSubtitlesClient before calling any other methods.");
+
+		
+		
+		
+		String requestXml = generateXMLRPCSS(data.getHashData(), data.getTotalBytes());
+		String responseXml = sendRPC(requestXml);
+
+		return new OpenSubtitlesResponse(getValue("MovieName", responseXml), getValue("MovieYear", responseXml));
+	}
+
+	
+	
+	
+	
+	
+	private <T> T  CallRemoteProcedure(String methodName, Object[] params) throws MalformedURLException, XmlRpcException
+	{
+		XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+		config.setServerURL(new URL(host));
+		
+		XmlRpcClient client = new XmlRpcClient();
+		client.setConfig(config);
+		
+		T result = (T) client.execute(methodName, params);
+		return result;
+	}
+	
+	private boolean responsOk(Map<String, String> response)
+	{
+		return response.get("status").trim().toUpperCase() == "200 OK"; 
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
 	// this method should be called before any other.
-	public boolean login2() 
-	{
-	        try
-			{
-	        	XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
-				config.setServerURL(new URL(host));
-				
-		        XmlRpcClient client = new XmlRpcClient();
-		        client.setConfig(config);
-		        
-		        Object[] params = new Object[]{ userName, password, "", useragent };
-		    
-		        Map result = (Map) client.execute("LogIn", params);
-
-		        
-		        
-		        int ii = result.size();
-		        
-			} 
-	        catch (MalformedURLException e1)
-			{
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			catch (XmlRpcException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}   
-		
-		
-		
-		
-		return false;
-		
-	}
-
-
+/*		public boolean login2() throws MalformedURLException, XmlRpcException 
+		{
+			XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+			config.setServerURL(new URL(host));
+			
+			XmlRpcClient client = new XmlRpcClient();
+			client.setConfig(config);
+			
+			Object[] params = new Object[]{ userName, password, "", useragent };
+			
+			Map<String, String> result = (Map<String, String>) client.execute("LogIn", params);
+			token.setToken((String)result.get("token"));
+			
+			return !token.tokenHasExpired();
+		}
+*/
+	
 	
 	
 	
