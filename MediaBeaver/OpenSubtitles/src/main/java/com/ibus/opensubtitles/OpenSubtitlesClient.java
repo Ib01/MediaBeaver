@@ -30,8 +30,8 @@ public class OpenSubtitlesClient
 	// private static Logger logger = Logger.getLogger("moviejukebox");
 
 	//TODO; INJECT THIS INFORMATION
-	private static String userName = " ";
-	private static String password = " ";
+	private static String userName = "";
+	private static String password = "";
 	private static String useragent = "OS Test User Agent";
 	private static String host = "http://api.opensubtitles.org/xml-rpc";
 	private static String sublanguageid = "eng";
@@ -42,11 +42,104 @@ public class OpenSubtitlesClient
 	{
 	}
 
-	
-	
-	
 	// this method should be called before any other.
-	public boolean login2() 
+	public boolean login2() throws MalformedURLException, XmlRpcException 
+	{
+		Object[] params = new Object[]{"", "", "eng", "moviejukebox 1.0.15"};
+		
+        //Object[] params = new Object[]{ userName, password, "", useragent };
+        Map<String, String> result = (Map<String, String>)callRemoteProcedure("LogIn", params);
+		        		        
+        token.setToken((String) result.get("token"));
+		
+        return responseOk(result);
+	}
+
+	public boolean logOut2() throws MalformedURLException, IOException, XmlRpcException
+	{
+		if (token.tokenHasExpired())
+			return true; 
+
+		Object[] params = new Object[]{ token.getToken() };
+        Map<String, String> result = (Map<String, String>)callRemoteProcedure("LogOut", params);
+        
+        return responseOk(result);	
+	}
+
+	
+	
+	public void getTitleForHash2(OpenSubtitlesHashData data) throws MalformedURLException, IOException, XmlRpcException
+	{
+		if (token.tokenHasExpired())
+			throw new RuntimeException("Open subtitles conection token has timed out.  you need to call logon on the OpenSubtitlesClient before calling any other methods.");
+
+/*		Object[] params = new Object[]{token.getToken(), new Object[]{data.getHashData()}};
+		Map result = (Map)callRemoteProcedure("CheckMovieHash2", params);*/
+		
+		
+		/*Map<String, String> mapQuery = new HashMap<String, String>();
+        mapQuery.put("sublanguageid", sublanguageid);
+        mapQuery.put("moviehash", data.getHashData());
+        mapQuery.put("moviebytesize", data.getTotalBytes());
+
+        Object[] params = new Object[]{token.getToken(), new Object[]{mapQuery}};
+        Map result = (Map)callRemoteProcedure("LogOut", params);*/
+        
+        
+        
+        
+		String[] params33 = new String[]{ token.getToken(), "Aliens"};
+        Map result = (Map)callRemoteProcedure("SearchMoviesOnIMDB", params33);
+        
+        
+        
+       /* HashMap<?, ?> x = (HashMap<?, ?>) rpcClient.execute("SearchSubtitles", objParams);
+		
+		
+		
+		
+		
+		String requestXml = generateXMLRPCSS(data.getHashData(), data.getTotalBytes());
+		String responseXml = sendRPC(requestXml);
+
+		return new OpenSubtitlesResponse(getValue("MovieName", responseXml), getValue("MovieYear", responseXml));*/
+ 	}
+	
+	
+	
+	
+	
+	
+	
+	public <T> T callRemoteProcedure(String method, Object[] params) throws MalformedURLException, XmlRpcException
+	{
+		XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+		config.setServerURL(new URL(host));
+		
+        XmlRpcClient client = new XmlRpcClient();
+        client.setConfig(config);
+        
+    
+        T result = (T) client.execute("LogIn", params);
+        return result;
+	}
+	
+	private boolean responseOk(Map result)
+	{
+		return (result.get("status") != null || ((String) result.get("status")).trim().toUpperCase() =="200 OK");
+	}
+	
+	//[status] => 200 OK
+	
+	
+	
+	
+	
+	
+	
+	
+	
+/*	public boolean login2() 
 	{
 	        try
 			{
@@ -60,8 +153,6 @@ public class OpenSubtitlesClient
 		    
 		        Map result = (Map) client.execute("LogIn", params);
 
-		        
-		        
 		        int ii = result.size();
 		        
 			} 
@@ -81,9 +172,7 @@ public class OpenSubtitlesClient
 		
 		return false;
 		
-	}
-
-
+	}*/
 	
 	
 	
@@ -208,6 +297,8 @@ public class OpenSubtitlesClient
 
 		return substring;
 	}
+	
+	
 
 	private String generateXMLRPCSS(String moviehash, String moviebytesize)
 	{

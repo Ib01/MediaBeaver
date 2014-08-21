@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 
+import org.apache.xmlrpc.XmlRpcException;
 import org.junit.Test;
 
 import com.ibus.opensubtitles.OpenSubtitlesClient;
@@ -71,17 +73,39 @@ public class OpenSubtitlesClientTest
 	
 	
 	@Test
-	public void logon2Test()
+	public void logon2Test() throws MalformedURLException, XmlRpcException
 	{
 		OpenSubtitlesClient osClient = new OpenSubtitlesClient();
 		
 		boolean logedIn = osClient.login2();
-		/*assertTrue(logedIn);
-		osClient.logOut();*/
+		assertTrue(logedIn);
+	}
+	
+	@Test
+	public void logout2Test() throws XmlRpcException, IOException
+	{
+		OpenSubtitlesClient osClient = new OpenSubtitlesClient();
+		
+		osClient.login2();
+		boolean logedOut = osClient.logOut2();
+		assertTrue(logedOut);
+		
+	}
+	
+	@Test
+	public void getTitleForHash2Test() throws XmlRpcException, IOException
+	{
+		OpenSubtitlesHashData data = OpenSubtitlesHashGenerator.computeHash(new File("D:\\MediabeaverTests\\Aliens (1986) Special Edition.avi"));
+		OpenSubtitlesClient osClient = new OpenSubtitlesClient();
+		
+		osClient.login2();
+		osClient.getTitleForHash2(data);
+		osClient.logOut2();
 		
 		assertTrue(true);
 		
 	}
+	
 }
 
 
