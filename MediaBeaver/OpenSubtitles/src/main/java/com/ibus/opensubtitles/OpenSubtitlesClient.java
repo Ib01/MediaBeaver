@@ -17,8 +17,6 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import com.ibus.opensubtitles.dto.OpenSubtitlesResponse;
 import com.ibus.opensubtitles.utilities.OpenSubtitlesHashData;
 
-//CHHHHHANGED
-
 public class OpenSubtitlesClient
 {
 	/*
@@ -49,9 +47,9 @@ public class OpenSubtitlesClient
 	// this method should be called before any other.
 	public boolean login2() throws MalformedURLException, XmlRpcException 
 	{
-		Object[] params = new Object[]{"", "", "eng", "moviejukebox 1.0.15"};
+		//Object[] params = new Object[]{"", "", "eng", "moviejukebox 1.0.15"};
 		
-        //Object[] params = new Object[]{ userName, password, "", useragent };
+        Object[] params = new Object[]{ userName, password, "", useragent };
         Map<String, String> result = (Map<String, String>)callRemoteProcedure("LogIn", params);
 		        		        
         token.setToken((String) result.get("token"));
@@ -76,10 +74,6 @@ public class OpenSubtitlesClient
 	{
 		if (token.tokenHasExpired())
 			throw new RuntimeException("Open subtitles conection token has timed out.  you need to call logon on the OpenSubtitlesClient before calling any other methods.");
-
-/*		Object[] params = new Object[]{token.getToken(), new Object[]{data.getHashData()}};
-		Map result = (Map)callRemoteProcedure("CheckMovieHash2", params);*/
-		
 		
 		Map<String, String> mapQuery = new HashMap<String, String>();
         mapQuery.put("sublanguageid", sublanguageid);
@@ -87,26 +81,8 @@ public class OpenSubtitlesClient
         mapQuery.put("moviebytesize", data.getTotalBytes());
 
         Object[] params = new Object[]{token.getToken(), new Object[]{mapQuery}};
-        Map result = (Map)callRemoteProcedure("LogOut", params);
+        Map result = (Map)callRemoteProcedure("SearchSubtitles", params);
         
-        
-        
-        /*
-		String[] params33 = new String[]{ token.getToken(), "Aliens"};
-        Map result = (Map)callRemoteProcedure("SearchMoviesOnIMDB", params33);
-        */
-        
-        
-       /* HashMap<?, ?> x = (HashMap<?, ?>) rpcClient.execute("SearchSubtitles", objParams);
-		
-		
-		
-		
-		
-		String requestXml = generateXMLRPCSS(data.getHashData(), data.getTotalBytes());
-		String responseXml = sendRPC(requestXml);
-
-		return new OpenSubtitlesResponse(getValue("MovieName", responseXml), getValue("MovieYear", responseXml));*/
  	}
 	
 	
@@ -119,13 +95,13 @@ public class OpenSubtitlesClient
         client.setConfig(config);
         
     
-        T result = (T) client.execute("LogIn", params);
+        T result = (T) client.execute(method, params);
         return result;
 	}
 	
 	private boolean responseOk(Map result)
 	{
-		return (result.get("status") != null || ((String) result.get("status")).trim().toUpperCase() =="200 OK");
+		return (result.get("status") != null && ((String) result.get("status")).trim().toUpperCase() =="200 OK");
 	}
 	
 	
