@@ -17,6 +17,8 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import com.ibus.opensubtitles.dto.OpenSubtitlesResponse;
 import com.ibus.opensubtitles.utilities.OpenSubtitlesHashData;
 
+//CHHHHHANGED
+
 public class OpenSubtitlesClient
 {
 	/*
