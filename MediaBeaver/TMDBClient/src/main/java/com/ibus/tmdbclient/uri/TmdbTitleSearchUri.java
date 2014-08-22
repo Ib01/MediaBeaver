@@ -1,7 +1,9 @@
-package com.ibus.tmdbclient;
+package com.ibus.tmdbclient.uri;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import com.ibus.tmdbclient.exception.ServiceSearchException;
 
 public class TmdbTitleSearchUri extends TmdbUri
 {
