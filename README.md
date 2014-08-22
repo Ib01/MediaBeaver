@@ -56,7 +56,9 @@ A file will only be moved if the regular expression selector gets data into all 
 
 * get subtitles    
 
-* Ensure error is thrown if destination root and source paths specified in configs is not found during processing  
+* Ensure error is thrown if destination root and source paths specified in configs is not found during processing 
+
+* validate paths based on environment. i.e linux vs windows etc. 
 
 * upgrade logger to log4j2
 
@@ -73,3 +75,5 @@ A file will only be moved if the regular expression selector gets data into all 
 * Test this on Freenas with a Custom Jail Plugin
 
 * Add log file viewer to web app component
+
+* in the case where we cannot fine a match in open subtitles service using hash value we can search using movie name/ season info?
