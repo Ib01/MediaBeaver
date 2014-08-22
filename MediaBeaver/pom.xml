@@ -13,6 +13,7 @@
 		<module>./MediaBeaverServer</module>
 		<module>./MediaBeaverCli</module>
 		<module>./OpenSubtitles</module>
+		<module>./TMDBClient</module>
 	</modules>
 
 
