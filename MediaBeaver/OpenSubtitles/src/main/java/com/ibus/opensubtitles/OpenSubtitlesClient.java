@@ -14,7 +14,7 @@ import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
-import com.ibus.opensubtitles.dto.OpenSubtitlesResponse;
+import com.ibus.opensubtitles.dto.OstTitleDto;
 import com.ibus.opensubtitles.utilities.OpenSubtitlesHashData;
 
 public class OpenSubtitlesClient
@@ -29,25 +29,29 @@ public class OpenSubtitlesClient
 	 * token: a security token. Once logged on the security token will remain valid for 30 minutes.
 	 */
 	static Logger log = Logger.getLogger(OpenSubtitlesClient.class.getName());
-	
-	//TODO; INJECT THIS INFORMATION
-	private static String userName = "";
-	private static String password = "";
-	private static String useragent = "OS Test User Agent";
-	private static String host = "http://api.opensubtitles.org/xml-rpc";
-	private static String sublanguageid = "eng";
 	private OpenSubtitlesToken token = new OpenSubtitlesToken();
 	
+	private static String userName;
+	private static String password;
+	private static String useragent;
+	private static String host;
+	private static String sublanguageid;
 
-	public OpenSubtitlesClient()
+	public OpenSubtitlesClient(String host,String useragent,String userName, String password,String sublanguageid)
 	{
+		this.userName = userName;
+		this.password = password;
+		this.useragent = useragent;
+		this.host = host;
+		this.sublanguageid = sublanguageid;
 	}
 
-	
 	// this method should be called before any other.
-	public boolean login2() throws MalformedURLException, XmlRpcException 
+	@SuppressWarnings("unchecked")
+	public boolean login() throws MalformedURLException, XmlRpcException 
 	{
-		//Object[] params = new Object[]{"", "", "eng", "moviejukebox 1.0.15"};
+		if (!token.tokenHasExpired())
+			return true; 
 		
         Object[] params = new Object[]{ userName, password, "", useragent };
         Map<String, String> result = (Map<String, String>)callRemoteProcedure("LogIn", params);
@@ -57,7 +61,8 @@ public class OpenSubtitlesClient
         return responseOk(result);
 	}
 
-	public boolean logOut2() throws MalformedURLException, IOException, XmlRpcException
+	@SuppressWarnings("unchecked")
+	public boolean logOut() throws MalformedURLException, IOException, XmlRpcException
 	{
 		if (token.tokenHasExpired())
 			return true; 
@@ -70,7 +75,8 @@ public class OpenSubtitlesClient
 
 	
 	
-	public void getTitleForHash2(OpenSubtitlesHashData data) throws MalformedURLException, IOException, XmlRpcException
+	@SuppressWarnings("unchecked")
+	public OstTitleDto getTitleForHash(OpenSubtitlesHashData data) throws MalformedURLException, IOException, XmlRpcException
 	{
 		if (token.tokenHasExpired())
 			throw new RuntimeException("Open subtitles conection token has timed out.  you need to call logon on the OpenSubtitlesClient before calling any other methods.");
@@ -83,10 +89,16 @@ public class OpenSubtitlesClient
         Object[] params = new Object[]{token.getToken(), new Object[]{mapQuery}};
         Map result = (Map)callRemoteProcedure("SearchSubtitles", params);
         
+    	OstTitleDto dto = new OstTitleDto();
+        if(responseOk(result))
+        	dto.setPossibleTitles((Object[]) result.get("data"));
+        
+    	return dto;
  	}
 	
 	
-	public <T> T callRemoteProcedure(String method, Object[] params) throws MalformedURLException, XmlRpcException
+	@SuppressWarnings("unchecked")
+	private <T> T callRemoteProcedure(String method, Object[] params) throws MalformedURLException, XmlRpcException
 	{
 		XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
 		config.setServerURL(new URL(host));
@@ -94,222 +106,22 @@ public class OpenSubtitlesClient
         XmlRpcClient client = new XmlRpcClient();
         client.setConfig(config);
         
-    
         T result = (T) client.execute(method, params);
         return result;
 	}
 	
 	private boolean responseOk(Map result)
 	{
-		return (result.get("status") != null && ((String) result.get("status")).trim().toUpperCase() =="200 OK");
+		return (result.get("status") != null && ((String) result.get("status")).trim().toUpperCase().equals("200 OK"));
 	}
 	
 	
 	
 	
 	
-	// this method should be called before any other.
-/*		public boolean login2() throws MalformedURLException, XmlRpcException 
-		{
-			XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
-			config.setServerURL(new URL(host));
-			
-			XmlRpcClient client = new XmlRpcClient();
-			client.setConfig(config);
-			
-			Object[] params = new Object[]{ userName, password, "", useragent };
-			
-			Map<String, String> result = (Map<String, String>) client.execute("LogIn", params);
-			token.setToken((String)result.get("token"));
-			
-			return !token.tokenHasExpired();
-		}
-*/
 	
 	
-	
-	
-	// this method should be called before any other.
-	public boolean login() throws MalformedURLException, IOException
-	{
-		String methodParams[] =
-		{ userName, password, "", useragent };
-		String methodName = "LogIn";
-
-		String requestXml = generateXMLRPC(methodName, methodParams);
-		String tokenXml = sendRPC(requestXml);
 		
-		// store the token for future calls
-		token.setToken(getValue("token", tokenXml));
-		return !token.tokenHasExpired();
-	}
-	
-	public OpenSubtitlesResponse getTitleForHash(OpenSubtitlesHashData data) throws MalformedURLException, IOException
-	{
-		if (token.tokenHasExpired())
-			throw new RuntimeException("Open subtitles conection token has timed out.  you need to call logon on the OpenSubtitlesClient before calling any other methods.");
-
-		String requestXml = generateXMLRPCSS(data.getHashData(), data.getTotalBytes());
-		String responseXml = sendRPC(requestXml);
-
-		return new OpenSubtitlesResponse(getValue("MovieName", responseXml), getValue("MovieYear", responseXml));
-	}
-
-	public void logOut() throws MalformedURLException, IOException
-	{
-		if (token.tokenHasExpired())
-			return; 
-
-		String methodParams[] = { token.getToken() };
-		String methodName = "LogOut";
-		
-		String requestXml = generateXMLRPC(methodName, methodParams);
-		sendRPC(requestXml);
-	}
-	
-	
-
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	private String generateXMLRPC(String methodName, String s[])
-	{
-		StringBuffer str = new StringBuffer();
-		str.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><methodCall><methodName>");
-		str.append(methodName + "</methodName><params>");
-
-		for (int i = 0; i < s.length; i++)
-		{
-			str.append("<param><value><string>" + s[i]
-					+ "</string></value></param>");
-		}
-
-		str.append("</params></methodCall>");
-		return str.toString();
-	}
-
-	private String sendRPC(String xml) throws MalformedURLException, IOException
-	{
-		StringBuffer str = new StringBuffer();
-		URL url = new URL(host);
-		
-		URLConnection connection = url.openConnection();
-		connection.setRequestProperty("Connection", "Close"); //ensures connections not reused?
-		connection.setRequestProperty("Content-Type", "text/xml");
-		connection.setDoOutput(true);
-
-		connection.getOutputStream().write(xml.getBytes("UTF-8"));
-
-		Scanner in = new Scanner(connection.getInputStream());
-		while (in.hasNextLine())
-		{
-			str.append(in.nextLine());
-		}
-		in.close();
-		
-		((HttpURLConnection) connection).disconnect();
-
-		return str.toString();
-	}
-
-	private String getValue(String toFind, String xml)
-	{
-		String substring = "";
-		int foundAt = xml.indexOf(toFind);
-		if (foundAt != -1)
-		{
-			int getFrom = xml.indexOf("<string>", foundAt);
-			int getTo = xml.indexOf("</string>", getFrom);
-			if ((getFrom != -1) && (getTo != -1))
-			{
-				return xml.substring(getFrom + 8, getTo);
-			}
-		}
-
-		return substring;
-	}
-	
-	
-
-	private String generateXMLRPCSS(String moviehash, String moviebytesize)
-	{
-		String str = "";
-		str += "<?xml version=\"1.0\" encoding=\"utf-8\"?><methodCall><methodName>";
-		str += "SearchSubtitles";
-		str += "</methodName><params><param><value><string>";
-		str += token.getToken();
-		str += "</string></value></param><param><value><struct>";
-		str += "<member><value><struct>";
-
-		str += addymember("sublanguageid", sublanguageid);
-		str += addymember("moviehash", moviehash);
-		str += addymember("moviebytesize", moviebytesize);
-
-		str += "</struct></value></member>";
-
-		str += "</struct></value></param></params></methodCall>";
-		return str;
-		
-		/*String methodName = "SearchSubtitles";
-		str += token.getToken();
-		
-		String str = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-				+ "<methodCall>"
-				+ "<methodName>%s</methodName>"
-				+ "<params>"
-				+ "<param><value><string>%s</string></value></param>";
-				+ "<param><value><struct>"
-				
-		str += "<member><value><struct>";
-
-		str += addymember("sublanguageid", sublanguageid);
-		str += addymember("moviehash", moviehash);
-		str += addymember("moviebytesize", moviebytesize);
-
-		str += "</struct></value></member>";
-
-		str += "</struct></value></param></params></methodCall>";
-		return str;*/
-		
-	};
-
-	private String addymember(String name, String value)
-	{
-		return "<member><name>" + name + "</name><value><string>"
-				+ addEncje(value) + "</string></value></member>";
-	}
-
-	private String addEncje(String a)
-	{
-		a = a.replace("&", "&amp;");
-		a = a.replace("<", "&lt;");
-		a = a.replace(">", "&gt;");
-		a = a.replace("'", "&apos;");
-		a = a.replace("\"", "&quot;");
-		return a;
-	}
 
 	/***************************************************************************
 	 ************************************************************************** 
@@ -319,6 +131,146 @@ public class OpenSubtitlesClient
 	 *************************************************************************** 
 	 ****************************************************************************/
 
+	/*
+	// this method should be called before any other.
+			public boolean login() throws MalformedURLException, IOException
+			{
+				String methodParams[] =
+				{ userName, password, "", useragent };
+				String methodName = "LogIn";
+
+				String requestXml = generateXMLRPC(methodName, methodParams);
+				String tokenXml = sendRPC(requestXml);
+				
+				// store the token for future calls
+				token.setToken(getValue("token", tokenXml));
+				return !token.tokenHasExpired();
+			}
+			
+			public OpenSubtitlesResponse getTitleForHash(OpenSubtitlesHashData data) throws MalformedURLException, IOException
+			{
+				if (token.tokenHasExpired())
+					throw new RuntimeException("Open subtitles conection token has timed out.  you need to call logon on the OpenSubtitlesClient before calling any other methods.");
+
+				String requestXml = generateXMLRPCSS(data.getHashData(), data.getTotalBytes());
+				String responseXml = sendRPC(requestXml);
+
+				return new OpenSubtitlesResponse(getValue("MovieName", responseXml), getValue("MovieYear", responseXml));
+			}
+
+			public void logOut() throws MalformedURLException, IOException
+			{
+				if (token.tokenHasExpired())
+					return; 
+
+				String methodParams[] = { token.getToken() };
+				String methodName = "LogOut";
+				
+				String requestXml = generateXMLRPC(methodName, methodParams);
+				sendRPC(requestXml);
+			}
+			
+			
+		
+		private String generateXMLRPC(String methodName, String s[])
+		{
+			StringBuffer str = new StringBuffer();
+			str.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><methodCall><methodName>");
+			str.append(methodName + "</methodName><params>");
+
+			for (int i = 0; i < s.length; i++)
+			{
+				str.append("<param><value><string>" + s[i]
+						+ "</string></value></param>");
+			}
+
+			str.append("</params></methodCall>");
+			return str.toString();
+		}
+
+		private String sendRPC(String xml) throws MalformedURLException, IOException
+		{
+			StringBuffer str = new StringBuffer();
+			URL url = new URL(host);
+			
+			URLConnection connection = url.openConnection();
+			connection.setRequestProperty("Connection", "Close"); //ensures connections not reused?
+			connection.setRequestProperty("Content-Type", "text/xml");
+			connection.setDoOutput(true);
+
+			connection.getOutputStream().write(xml.getBytes("UTF-8"));
+
+			Scanner in = new Scanner(connection.getInputStream());
+			while (in.hasNextLine())
+			{
+				str.append(in.nextLine());
+			}
+			in.close();
+			
+			((HttpURLConnection) connection).disconnect();
+
+			return str.toString();
+		}
+
+		private String getValue(String toFind, String xml)
+		{
+			String substring = "";
+			int foundAt = xml.indexOf(toFind);
+			if (foundAt != -1)
+			{
+				int getFrom = xml.indexOf("<string>", foundAt);
+				int getTo = xml.indexOf("</string>", getFrom);
+				if ((getFrom != -1) && (getTo != -1))
+				{
+					return xml.substring(getFrom + 8, getTo);
+				}
+			}
+
+			return substring;
+		}
+		
+		
+
+		private String generateXMLRPCSS(String moviehash, String moviebytesize)
+		{
+			String str = "";
+			str += "<?xml version=\"1.0\" encoding=\"utf-8\"?><methodCall><methodName>";
+			str += "SearchSubtitles";
+			str += "</methodName><params><param><value><string>";
+			str += token.getToken();
+			str += "</string></value></param><param><value><struct>";
+			str += "<member><value><struct>";
+
+			str += addymember("sublanguageid", sublanguageid);
+			str += addymember("moviehash", moviehash);
+			str += addymember("moviebytesize", moviebytesize);
+
+			str += "</struct></value></member>";
+
+			str += "</struct></value></param></params></methodCall>";
+			return str;
+			
+			
+		};
+
+		private String addymember(String name, String value)
+		{
+			return "<member><name>" + name + "</name><value><string>"
+					+ addEncje(value) + "</string></value></member>";
+		}
+
+		private String addEncje(String a)
+		{
+			a = a.replace("&", "&amp;");
+			a = a.replace("<", "&lt;");
+			a = a.replace(">", "&gt;");
+			a = a.replace("'", "&apos;");
+			a = a.replace("\"", "&quot;");
+			return a;
+		}*/
+	
+	
+	
 	/*
 	 * 
 	 * 
@@ -460,3 +412,10 @@ public class OpenSubtitlesClient
 	 * s; }
 	 */
 }
+
+
+
+
+
+
+

@@ -23,6 +23,13 @@ import com.ibus.mediabeaver.core.entity.MediaConfig;
 
 public class Main
 {
+	/*private static String userName = "";
+	private static String password = "";
+	private static String useragent = "OS Test User Agent";
+	private static String host = "http://api.opensubtitles.org/xml-rpc";
+	private static String sublanguageid = "eng";
+	private OpenSubtitlesToken token = new OpenSubtitlesToken();*/
+	
 	static Logger log = Logger.getLogger(Main.class.getName());
 	public static final String initialiseArg = "-initialise";
 	public static final String moveArg = "-move";
