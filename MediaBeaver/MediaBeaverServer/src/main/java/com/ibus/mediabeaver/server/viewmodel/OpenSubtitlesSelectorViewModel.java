@@ -5,14 +5,28 @@ public class OpenSubtitlesSelectorViewModel extends ViewModel
 {
 	private static final long serialVersionUID = 1L;
 	
-	private String openSubititleField;
+	private OpenSubtitlesFieldViewModel openSubititleField;
 	private String pathTokenName;
 	
-	public String getOpenSubititleField()
+	public OpenSubtitlesSelectorViewModel(){}
+	
+	
+	public OpenSubtitlesSelectorViewModel(String pathTokenName)
+	{
+		this.pathTokenName = pathTokenName;
+	}
+	
+	public OpenSubtitlesSelectorViewModel(String pathTokenName, OpenSubtitlesFieldViewModel openSubititleField)
+	{
+		this.openSubititleField = openSubititleField;
+		this.pathTokenName = pathTokenName;
+	}
+	
+	public OpenSubtitlesFieldViewModel getOpenSubititleField()
 	{
 		return openSubititleField;
 	}
-	public void setOpenSubititleField(String openSubititleField)
+	public void setOpenSubititleField(OpenSubtitlesFieldViewModel openSubititleField)
 	{
 		this.openSubititleField = openSubititleField;
 	}

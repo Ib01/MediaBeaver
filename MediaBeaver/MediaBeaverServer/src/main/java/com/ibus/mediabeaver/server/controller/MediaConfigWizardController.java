@@ -108,13 +108,15 @@ public class MediaConfigWizardController
 		String h = System.getProperty("file.separator");
 		
 		
-		
 		config.sortRegExSelectorViewModels();
+		
+		resetOpenSubtitlesSelectors(config);
 		
 		//note: @ModelAttribute("config") ensures that incomming data is assigned to the session object stored 
 		//under the "config" key. we dont need to return any object because the jsp page automatically gets data 
 		//from "config" session state 
-		return "ConfigWizard_RegExSelectors";
+		//return "ConfigWizard_RegExSelectors";
+		return "ConfigWizard_OpenSubtitlesSelectors";
 	}
 	
 	
@@ -137,6 +139,13 @@ public class MediaConfigWizardController
 		return selector;
 	}*/
 	
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//ConfigWizard_OpenSubtitlesSelectors ///////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	..........
 	
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -309,6 +318,17 @@ public class MediaConfigWizardController
 		List<String> variableNames = rexHelper.getFileTokenNames(config.getRelativeDestinationPath());
 		sel.createVariableSetters(variableNames);
 	}
+	
+	
+	private void resetOpenSubtitlesSelectors(MediaConfigViewModel config)
+	{
+		//set  ore reset the variableSetters we will use
+		RegExHelper rexHelper = new RegExHelper();
+		List<String> names = rexHelper.getFileTokenNames(config.getRelativeDestinationPath());
+		config.createOpenSubtitlesSelectors(names);
+	}
+	
+	
 	
 	
 	private Integer[] getIndexsOfInvalidSelectors()

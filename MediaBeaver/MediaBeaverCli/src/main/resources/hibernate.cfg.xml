@@ -37,6 +37,7 @@
 		
 		<mapping class="com.ibus.mediabeaver.core.entity.MediaConfig"/>
 		<mapping class="com.ibus.mediabeaver.core.entity.OpenSubtitlesSelector"/>
+		<mapping class="com.ibus.mediabeaver.core.entity.OpenSubtitlesField"/>
 		<mapping class="com.ibus.mediabeaver.core.entity.RegExSelector"/>
 		<mapping class="com.ibus.mediabeaver.core.entity.RegExPathTokenSetter"/>
 		

@@ -24,8 +24,6 @@ public class RepositoryInitialiser
 	{
 	}
 
-	
-	
 
 	@Test
 	public void initialiseDatabase()

@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
 import com.ibus.mediabeaver.core.entity.MediaConfig;
+import com.ibus.mediabeaver.core.entity.OpenSubtitlesField;
 import com.ibus.mediabeaver.core.entity.RegExSelector;
 import com.ibus.mediabeaver.core.entity.RegExPathTokenSetter;
 import com.ibus.mediabeaver.core.entity.TransformAction;
@@ -16,9 +18,69 @@ public class DataInitialiser
 	
 	public static void addDefaultConfigs()
 	{
+		addOpenSubtitlesFields();
 		addMoveMoviesConfig();
 		addMoveTVEpisodesConfig();
 	}
+	
+	
+	/*Add OpenSubtitlesField lookups --------------------------------------------------------------*/	
+	public static void addOpenSubtitlesFields()
+	{
+		addOpenSubtitlesField("UserNickName");
+		addOpenSubtitlesField("SubFormat");
+		addOpenSubtitlesField("SeriesIMDBParent");
+		addOpenSubtitlesField("IDSubtitle");
+		addOpenSubtitlesField("IDMovie");
+		addOpenSubtitlesField("SubBad");
+		addOpenSubtitlesField("UserID");
+		addOpenSubtitlesField("ZipDownloadLink");
+		addOpenSubtitlesField("SubSize");
+		addOpenSubtitlesField("SubFileName");
+		addOpenSubtitlesField("SubDownloadLink");
+		addOpenSubtitlesField("MovieKind");
+		addOpenSubtitlesField("UserRank");
+		addOpenSubtitlesField("SubActualCD");
+		addOpenSubtitlesField("MovieImdbRating");
+		addOpenSubtitlesField("SubAuthorComment");
+		addOpenSubtitlesField("SubRating");
+		addOpenSubtitlesField("SeriesSeason");
+		addOpenSubtitlesField("SubFeatured");
+		addOpenSubtitlesField("SubtitlesLink");
+		addOpenSubtitlesField("SubHearingImpaired");
+		addOpenSubtitlesField("SubHash");
+		addOpenSubtitlesField("IDSubMovieFile");
+		addOpenSubtitlesField("ISO639");
+		addOpenSubtitlesField("MovieFPS");
+		addOpenSubtitlesField("SubDownloadsCnt");
+		addOpenSubtitlesField("MovieHash");
+		addOpenSubtitlesField("SubSumCD");
+		addOpenSubtitlesField("SubComments");
+		addOpenSubtitlesField("MovieByteSize");
+		addOpenSubtitlesField("LanguageName");
+		addOpenSubtitlesField("MovieYear");
+		addOpenSubtitlesField("SubLanguageID");
+		addOpenSubtitlesField("MovieReleaseName");
+		addOpenSubtitlesField("SeriesEpisode");
+		addOpenSubtitlesField("MovieName");
+		addOpenSubtitlesField("MovieTimeMS");
+		addOpenSubtitlesField("MatchedBy");
+		addOpenSubtitlesField("SubHD");
+		addOpenSubtitlesField("MovieNameEng");
+		addOpenSubtitlesField("SubAddDate");
+		addOpenSubtitlesField("IDMovieImdb");
+		addOpenSubtitlesField("IDSubtitleFile");
+	}
+	
+	
+	public static void addOpenSubtitlesField(String name)
+	{
+		OpenSubtitlesField field = new  OpenSubtitlesField();
+		field.setName(name);
+		Repository.saveEntity(field);
+	}
+	
+	
 	
 	/*Move Movie files ----------------------------------------------------------------------------*/
 	public static void addMoveMoviesConfig()

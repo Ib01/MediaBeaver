@@ -180,6 +180,46 @@ public class MediaConfigViewModel extends ViewModel
 		}
 	}
 	
+	
+	
+	
+	public void createOpenSubtitlesSelectors(List<String> pathTokens)
+	{
+		//add setters for new variables
+		for(String name : pathTokens)
+		{
+			boolean found = false;
+			for(OpenSubtitlesSelectorViewModel sel : openSubtitlesSelectors)
+			{
+				if(sel.getPathTokenName().equals(name))
+					found = true;
+			}
+			
+			if(!found)
+			{
+				openSubtitlesSelectors.add(new OpenSubtitlesSelectorViewModel(name));
+			}
+		}
+		
+		//remove setters for variables that no longer exist
+		Iterator<OpenSubtitlesSelectorViewModel> it = openSubtitlesSelectors.iterator();
+		while(it.hasNext())
+		{
+			OpenSubtitlesSelectorViewModel selector = it.next();
+
+			boolean found = false;
+			for(String name : pathTokens)
+			{
+				if(name.equals(selector.getPathTokenName()))
+					found = true;
+			}
+			
+			if(!found)
+				it.remove(); 
+		}
+				
+	}
+	
 }
 
 
