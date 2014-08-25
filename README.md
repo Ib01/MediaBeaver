@@ -50,6 +50,8 @@ A file will only be moved if the regular expression selector gets data into all 
 
 * would be nice to find a way to title case titles (i.e not just capitalise the first letter of each word but to not capitalise words like 'a' or 'it' etc)
 
+* Need to capture file extension regadless of the file selection method(regex open subtitles etc...)
+
 * add move history to the db
 
 * and undo move capability
