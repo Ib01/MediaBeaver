@@ -2,6 +2,8 @@ package com.ibus.mediabeaver.core.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 
 @Entity(name = "Open_Subtitles_Selector")
 public class OpenSubtitlesSelector extends PersistentObject
@@ -9,7 +11,7 @@ public class OpenSubtitlesSelector extends PersistentObject
 	private static final long serialVersionUID = 1L;
 	
 	@Column
-	private OpenSubtitlesField openSubititleField;
+	private String openSubititleField;
 	
 	@Column
 	private String pathTokenName;
@@ -18,11 +20,11 @@ public class OpenSubtitlesSelector extends PersistentObject
 	@ManyToOne(fetch = FetchType.EAGER)
 	private MediaConfig parentConfig;*/
 	
-	public OpenSubtitlesField getOpenSubititleField()
+	public String getOpenSubititleField()
 	{
 		return openSubititleField;
 	}
-	public void setOpenSubititleField(OpenSubtitlesField openSubititleField)
+	public void setOpenSubititleField(String openSubititleField)
 	{
 		this.openSubititleField = openSubititleField;
 	}
