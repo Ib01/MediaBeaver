@@ -77,8 +77,17 @@
 			'{SubAddDate}',
 			'{IDMovieImdb}',
 			'{IDSubtitleFile}',		                 
-            '.Trim', 
-            '.Replace'];
+			'.normalizeSpace(str)',
+			'.leftPad(str, size, padStr)',
+			'.rightPad(str, size, padStr)',
+			'.capitalizeFully()',
+			'.capitalizeFully(delimiters)',
+			'.replaceFirst(regex, replacement)',
+			'.replaceAll(regex, replacement)',
+			'.toUpperCase()',
+			'.toLowerCase()',
+			'.trim()'];
+			
 					 
              $('.autoComplete').autocomplete({
             	 lookup: openSubtitlesFields,
