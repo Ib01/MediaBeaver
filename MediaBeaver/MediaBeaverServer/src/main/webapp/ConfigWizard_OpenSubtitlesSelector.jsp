@@ -103,7 +103,7 @@
 			margin-bottom: 5px;
 		}
 		.formLayout .detailedListItem label{
-			width: 200px;
+			width: 150px;
 		}
 		
 		.detailedListItemLevel1Box{
@@ -136,18 +136,10 @@
 		<div class="detailedListItem ui-widget">
 		
 			<c:forEach items="${config.openSubtitlesSelectors}" var="selector" varStatus="i">
-	
-				<%-- <div class="ui-widget">
-				  <label for="tags">Tags: </label>
-				  <!-- <input id="tags" class="tags"> -->
-				  <form:input path="openSubtitlesSelectors[${i.index}].openSubititleField" style="width: 400px" class="tags"/>
-				</div> --%>
-	
-	  
 				   
 				<label><c:out value="${selector.pathTokenName}" /></label>
 			
-				<form:input path="openSubtitlesSelectors[${i.index}].openSubititleField" style="width: 400px" class="autoComplete"/>
+				<form:input path="openSubtitlesSelectors[${i.index}].openSubititleField" style="width: 550px" class="autoComplete"/>
 				
 				<br/ >
 			</c:forEach>
