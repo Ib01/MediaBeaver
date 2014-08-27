@@ -110,13 +110,10 @@ public class MediaConfigWizardController
 		
 		config.sortRegExSelectorViewModels();
 		
-		resetOpenSubtitlesSelectors(config);
-		
 		//note: @ModelAttribute("config") ensures that incomming data is assigned to the session object stored 
 		//under the "config" key. we dont need to return any object because the jsp page automatically gets data 
 		//from "config" session state 
-		//return "ConfigWizard_RegExSelectors";
-		return "ConfigWizard_OpenSubtitlesSelectors";
+		return "ConfigWizard_OpenSubtitlesSelector";
 	}
 	
 	
@@ -145,36 +142,50 @@ public class MediaConfigWizardController
 	//ConfigWizard_OpenSubtitlesSelectors ///////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	..........
 	
+	/**
+	 * Include or Exclude the open subtitles selector.
+	 * @return
+	 */
+	@RequestMapping("openSubtitlesSelectorsEnable")
+	public String openSubtitlesSelectorsEnable(@ModelAttribute("config")MediaConfigViewModel config)
+	{
+		config.getOpenSubtitlesSelectors().clear();
+		if(config.isIncludeOpenSubtitles())
+		{
+			resetOpenSubtitlesSelectors(config);
+		}
+		
+		return "ConfigWizard_OpenSubtitlesSelector";
+	}
 	
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//ConfigWizard_RegExSelectors ///////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
 	 * previous step from regExSelectors step
 	 * @return
 	 */
-	@RequestMapping("regExSelectorsPrevious")
-	public String regExSelectorsPrevious(@ModelAttribute("config")MediaConfigViewModel config)
+	@RequestMapping("openSubtitlesSelectorsPrevious")
+	public String openSubtitlesSelectorsPrevious(@ModelAttribute("config")MediaConfigViewModel config)
 	{
-		//config.sortRegExSelectorViewModels();
 		return "ConfigWizard_Config";
 	}
 	
+
 	/**
-	 * next step from regExSelectors step
+	 * previous step from regExSelectors step
 	 * @return
 	 */
-	@RequestMapping("regExSelectorsNext")
-	public String regExSelectorsNext(@ModelAttribute("config")MediaConfigViewModel config)
+	@RequestMapping("openSubtitlesSelectorsNext")
+	public String openSubtitlesSelectorsNext(@ModelAttribute("config")MediaConfigViewModel config)
 	{
-		MediaConfig mc = Mapper.getMapper().map(config, MediaConfig.class);
-		Repository.saveOrUpdate(mc);
-		
-		return "redirect:/configList";	
+		return "ConfigWizard_RegExSelectors";
 	}
+	
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//ConfigWizard_RegExSelectors ///////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
 	 * validate RegExSelectors.  we need to make sure each selector has the required token setter data
@@ -224,6 +235,29 @@ public class MediaConfigWizardController
 		return new ModelAndView("ConfigWizard_RegExSelector","regExSelector", sel);
 	}
 	
+	
+	/**
+	 * previous step from regExSelectors step
+	 * @return
+	 */
+	@RequestMapping("regExSelectorsPrevious")
+	public String regExSelectorsPrevious(@ModelAttribute("config")MediaConfigViewModel config)
+	{
+		return "ConfigWizard_OpenSubtitlesSelector";
+	}
+	
+	/**
+	 * next step from regExSelectors step
+	 * @return
+	 */
+	@RequestMapping("regExSelectorsNext")
+	public String regExSelectorsNext(@ModelAttribute("config")MediaConfigViewModel config)
+	{
+		MediaConfig mc = Mapper.getMapper().map(config, MediaConfig.class);
+		Repository.saveOrUpdate(mc);
+		
+		return "redirect:/configList";	
+	}
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//ConfigWizard_RegExSelector ///////////////////////////////////////////////////////////////////////////
