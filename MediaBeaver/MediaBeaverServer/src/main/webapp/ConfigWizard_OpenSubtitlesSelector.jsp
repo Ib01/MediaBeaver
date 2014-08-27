@@ -1,32 +1,28 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<%-- <%@include file="includes/header.jsp"%> --%>
-<html>
+<%@include file="includes/header.jsp"%>
+<!-- <html>
 	<head>
-		<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css"> -->
-		 <!-- <script src="//code.jquery.com/jquery-1.10.2.js"></script> -->
-		 <!-- <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script> -->
-		 
 		 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 		 <script type="text/javascript" src="/resources/script/jquery.autocomplete.js"></script>
-		 
-		 <style>
-		 
-			 body { font-family: sans-serif; font-size: 14px; line-height: 1.6em; margin: 0; padding: 0; }
-			.container { width: 800px; margin: 0 auto; }
-			
-			.autocomplete-suggestions { border: 1px solid #999; background: #FFF; cursor: default; overflow: auto; -webkit-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); -moz-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); }
-			.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
-			.autocomplete-no-suggestion { padding: 2px 5px;}
-			.autocomplete-selected { background: #F0F0F0; }
-			.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
-			
-			input { font-size: 28px; padding: 10px; border: 1px solid #CCC; display: block; margin: 20px 0; }
-		 </style>
 	</head>
-	<body>
+	<body> -->
 	
+	
+	<style>
+		 
+		 body { font-family: sans-serif; font-size: 14px; line-height: 1.6em; margin: 0; padding: 0; }
+		.container { width: 800px; margin: 0 auto; }
+		
+		.autocomplete-suggestions { border: 1px solid #999; background: #FFF; cursor: default; overflow: auto; -webkit-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); -moz-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); }
+		.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+		.autocomplete-no-suggestion { padding: 2px 5px;}
+		.autocomplete-selected { background: #F0F0F0; }
+		.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+		
+		/* input { font-size: 28px; padding: 10px; border: 1px solid #CCC; display: block; margin: 20px 0; } */
+	 </style>
 	
 
 	<script type="text/javascript" >
@@ -79,11 +75,6 @@
                 { value: '.Split', data: 'Split' }
              ];
 
-			 var methods = [
-			                  { value: '.Trim', data: 'Trim' },
-			                  { value: '.Split', data: 'Split' }
-			               ];
-			 
 			 
              $('.autoComplete').autocomplete({
                  lookup: countries,
@@ -91,9 +82,6 @@
                  delimiter: /\s*/
              });
              
-             
-             
-             alert("adf");
 		}
 		 
 
@@ -169,11 +157,11 @@
 		
 	</form:form>
 	
-<%-- <%@include file="includes/footer.jsp"%> --%>
+<%@include file="includes/footer.jsp"%>
 
-</body>
+<!-- </body>
 </html>
-
+ -->
 
 
 

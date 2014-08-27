@@ -19,6 +19,7 @@
     <script type="text/javascript" src="/resources/script/jquery.validationEngine-en.js" charset="utf-8"></script>
 	<script type="text/javascript" src="/resources/script/jquery.validationEngine.js" charset="utf-8"></script>
     
+    <script type="text/javascript" src="/resources/script/jquery.autocomplete.js"></script>
 </head>
 <body >
 	
