@@ -2,28 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@include file="includes/header.jsp"%>
-<!-- <html>
-	<head>
-		 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-		 <script type="text/javascript" src="/resources/script/jquery.autocomplete.js"></script>
-	</head>
-	<body> -->
-	
-	
-	<style>
-		 
-		 body { font-family: sans-serif; font-size: 14px; line-height: 1.6em; margin: 0; padding: 0; }
-		.container { width: 800px; margin: 0 auto; }
-		
-		.autocomplete-suggestions { border: 1px solid #999; background: #FFF; cursor: default; overflow: auto; -webkit-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); -moz-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); }
-		.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
-		.autocomplete-no-suggestion { padding: 2px 5px;}
-		.autocomplete-selected { background: #F0F0F0; }
-		.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
-		
-		/* input { font-size: 28px; padding: 10px; border: 1px solid #CCC; display: block; margin: 20px 0; } */
-	 </style>
-	
+
 
 	<script type="text/javascript" >
 	
@@ -51,37 +30,64 @@
 			setAutoComplete();
 		}); 
 
-		/* function setAutoComplete()
-		{
-			var availableTags = [
-	           "{Dog}",
-	           "{Cat}"
-	         ];
-			
-			$( ".autoComplete" ).autocomplete({
-			  source: availableTags
-			});
-			
-			alert("fd");
-		}
-		 */
-		 
+		
 		function setAutoComplete()
 		{
-			 var countries = [
-                { value: '{Andorra}', data: 'AD' },
-                { value: '{Zimbabwe}', data: 'ZZ' },
-                { value: '.Trim', data: 'Trim' },
-                { value: '.Split', data: 'Split' }
-             ];
-
-			 
+			var openSubtitlesFields = [
+			'{UserNickName}', 
+			'{SubFormat}',
+			'{SeriesIMDBParent}',
+			'{IDSubtitle}',
+			'{IDMovie}',
+			'{SubBad}',
+			'{UserID}',
+			'{ZipDownloadLink}',
+			'{SubSize}',
+			'{SubFileName}',
+			'{SubDownloadLink}',
+			'{MovieKind}',
+			'{UserRank}',
+			'{SubActualCD}',
+			'{MovieImdbRating}',
+			'{SubAuthorComment}',
+			'{SubRating}',
+			'{SeriesSeason}',
+			'{SubFeatured}',
+			'{SubtitlesLink}',
+			'{SubHearingImpaired}',
+			'{SubHash}',
+			'{IDSubMovieFile}',
+			'{ISO639}',
+			'{MovieFPS}',
+			'{SubDownloadsCnt}',
+			'{MovieHash}',
+			'{SubSumCD}',
+			'{SubComments}',
+			'{MovieByteSize}',
+			'{LanguageName}',
+			'{MovieYear}',
+			'{SubLanguageID}',
+			'{MovieReleaseName}',
+			'{SeriesEpisode}',
+			'{MovieName}',
+			'{MovieTimeMS}',
+			'{MatchedBy}',
+			'{SubHD}',
+			'{MovieNameEng}',
+			'{SubAddDate}',
+			'{IDMovieImdb}',
+			'{IDSubtitleFile}',		                 
+            '.Trim', 
+            '.Replace'];
+					 
              $('.autoComplete').autocomplete({
-                 lookup: countries,
+            	 lookup: openSubtitlesFields,
                  minChars: 1,
                  delimiter: /\s*/
              });
-             
+			 
+			 //lookup: countries,
+             //	 serviceUrl:'/configWizard/testAjax',
 		}
 		 
 
@@ -158,10 +164,6 @@
 	</form:form>
 	
 <%@include file="includes/footer.jsp"%>
-
-<!-- </body>
-</html>
- -->
 
 
 

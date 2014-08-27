@@ -30,6 +30,7 @@ import com.ibus.mediabeaver.core.entity.TransformAction;
 import com.ibus.mediabeaver.core.util.RegExHelper;
 import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
+import com.ibus.mediabeaver.server.viewmodel.OpenSubtitlesFieldViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExPathTokenSetterViewModel;
 
@@ -58,6 +59,50 @@ public class MediaConfigWizardController
 	{
 		return TransformAction.values();
 	}
+	
+	/*{
+	    // Query is not required as of version 1.2.5
+	    "query": "Unit",
+	    "suggestions": [
+	        { "value": "United Arab Emirates", "data": "AE" },
+	        { "value": "United Kingdom",       "data": "UK" },
+	        { "value": "United States",        "data": "US" }
+	    ]
+	}
+	*/
+	
+	/*public class AutoCompleteSuggestion
+	{
+		public String value;
+		public String data;
+	}
+	
+	public class AutoComplete
+	{
+		public String query = "Unit";
+		public AutoCompleteSuggestion[] suggestions;
+	}
+	
+	
+	@RequestMapping(value = "/testAjax", method = RequestMethod.GET)
+	public @ResponseBody AutoComplete testRegEx()
+	{
+		AutoComplete c = new AutoComplete();
+		
+		AutoCompleteSuggestion s = new AutoCompleteSuggestion();
+		s.data = "s1";
+		s.value = "s1";
+		c.suggestions = new AutoCompleteSuggestion[]{s};
+		
+		s = new AutoCompleteSuggestion();
+		s.data = "s2";
+		s.value = "s2";
+		c.suggestions = new AutoCompleteSuggestion[]{s};
+		
+		AutoCompleteSuggestion[] d = new AutoCompleteSuggestion[]{s};
+		
+		return c;
+	}*/
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//ConfigWizard_Config ///////////////////////////////////////////////////////////////////////////////////
