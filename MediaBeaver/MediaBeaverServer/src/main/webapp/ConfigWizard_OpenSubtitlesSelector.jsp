@@ -103,7 +103,7 @@
 				  <form:input path="openSubtitlesSelectors[${i.index}].openSubititleField" style="width: 400px" class="tags"/>
 				</div> --%>
 	
-	
+	  
 				   
 				<label><c:out value="${selector.pathTokenName}" /></label>
 			
