@@ -77,6 +77,7 @@ public class Main
 	public static void moveMedia()
 	{
 		log.debug("Retreiving Media Configuration Items");
+		
 		List<MediaConfig> configs = Repository.getInTransaction(
 				new QueryTransactable<List<MediaConfig>>() 
 				{

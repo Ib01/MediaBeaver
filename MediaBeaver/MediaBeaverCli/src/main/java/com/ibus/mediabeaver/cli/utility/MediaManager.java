@@ -42,7 +42,6 @@ public class MediaManager
 			{
 				log.error("An exception occured while moving movies", e);
 			}
-
 		}
 
 	}
