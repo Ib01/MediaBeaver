@@ -81,13 +81,14 @@
 			'.leftPad(size, padStr)',
 			'.rightPad(size, padStr)',
 			'.capitalizeFully()',
-			'.capitalizeFully(delimiters)',
 			'.replaceFirst(regex, replacement)',
 			'.replaceAll(regex, replacement)',
 			'.toUpperCase()',
 			'.toLowerCase()',
 			'.trim()'];
 			
+			
+			//'.capitalizeFully(delimiters)',
 					 
              $('.autoComplete').autocomplete({
             	 lookup: openSubtitlesFields,

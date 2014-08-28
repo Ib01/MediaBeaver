@@ -49,9 +49,6 @@ public class ServiceFieldParser
 	 */
 	public String parseField(String fieldValue, String transformFormat)
 	{
-		String s = "";
-		s.replaceAll("","");
-		
 		Pattern methodPattern = Pattern.compile("\\.([a-zA-Z]+)\\((.*?[^\\\\])\\)");
 		Matcher methodMatcher = methodPattern.matcher(transformFormat.trim());
 		
@@ -76,7 +73,8 @@ public class ServiceFieldParser
 		return fieldValue;
 	}
 	
-	public String executeMethod(String fieldValue, String methodName, List<String> parameters)
+	
+	private String executeMethod(String fieldValue, String methodName, List<String> parameters)
 	{
 		if(methodName.equals("normalizeSpace"))
 		{
@@ -104,13 +102,10 @@ public class ServiceFieldParser
 		}
 		if(methodName.equals("capitalizeFully"))
 		{
-			
+			//TODO: IMPLEMENT THIS?
 			//WordUtils.capitalizeFully(fieldValue, new char[]{'.'});
 			
-			/*.capitalizeFully()
-			.capitalizeFully(delimiters)*/
-			
-			return fieldValue;
+			return WordUtils.capitalizeFully(fieldValue);
 		}
 		if(methodName.equals("replaceFirst"))
 		{
@@ -138,8 +133,6 @@ public class ServiceFieldParser
 		{
 			return fieldValue.trim();
 		}
-		
-		
 		
 		throw new RuntimeException("Service Field Method not recognised");
 	}
