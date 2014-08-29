@@ -103,7 +103,7 @@ public class OpenSubtitlesMediaManager extends MediaManager
 				break;
 			}
 		}
-	
+	   
 	}
 	
 	private void MoveFile(File file, MediaConfig config, String path)
