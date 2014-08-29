@@ -58,6 +58,8 @@ A file will only be moved if the regular expression selector gets data into all 
 
 * get subtitles    
 
+* add valid extensions field to configs
+
 * Ensure error is thrown if destination root and source paths specified in configs is not found during processing 
 
 * validate paths based on environment. i.e linux vs windows etc. 
