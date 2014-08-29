@@ -19,7 +19,7 @@ public class RegExGeneratorTests
 
 		RegExHelper rgen = new RegExHelper();
 
-		List<String> list = rgen.getFileTokenNames(path);
+		List<String> list = rgen.getPathTokenList(path);
 		
 		assertTrue(list.size() == 2);
 		assertTrue(list.get(0).equals("name"));

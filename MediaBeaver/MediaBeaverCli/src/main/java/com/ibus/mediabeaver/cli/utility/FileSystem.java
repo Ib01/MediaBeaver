@@ -8,8 +8,10 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
 import com.ibus.mediabeaver.cli.Main;
+import com.ibus.mediabeaver.core.exception.FileExistsException;
 import com.ibus.mediabeaver.core.exception.MediaBeaverConfigurationException;
 import com.ibus.mediabeaver.core.exception.MediaBeaverFileSystemException;
+import com.ibus.mediabeaver.core.exception.FileNotExistException;
 
 public class FileSystem
 {
@@ -83,35 +85,24 @@ public class FileSystem
 	 */
 	public boolean fileExists(String path)
 	{
-		try
-		{
-			File file = new File(path);
-			boolean exists = file.exists(); 
-			
-			if(exists)
-				log.debug(String.format("It was determined that the following file system object exists: %s ", path));
-			
-			return exists; 
-		}
-		catch(SecurityException ex)
-		{
-			log.error(String.format("A security violation was thrown when attempting to determine the exitance of: %s.", path), ex);
-			throw ex;
-		}
+		File file = new File(path);
+		boolean exists = file.exists(); 
+		
+		if(exists)
+			log.debug(String.format("It was determined that the following file system object exists: %s ", path));
+		
+		return exists; 
 	}
 	
 	
 	
 	
-	public boolean moveFile(String source, String destinationRootPath, String destinationRelativePath)
+	public boolean moveFile(String source, String destinationRootPath, String destinationRelativePath, String extension) throws IOException, FileNotExistException, FileExistsException
 	{
 		if(!fileExists(destinationRootPath))
-		{
-			log.error(String.format("Root path does not exist %s", destinationRootPath));
-			throw new MediaBeaverConfigurationException(String.format("Root path does not exist %s", destinationRootPath));
-		}
-		
-		String path = FilenameUtils.concat(destinationRootPath, destinationRelativePath);
+			throw new FileNotExistException(String.format("Root path does not exist %s", destinationRootPath));		
+
+		String path = FilenameUtils.concat(destinationRootPath, destinationRelativePath + "." + extension);
 		
 		return moveFile(source, path);
 	}
@@ -126,36 +117,33 @@ public class FileSystem
 	 * @param source
 	 * @param destination
 	 * @return
+	 * @throws MediaBeaverConfigurationException 
+	 * @throws IOException 
+	 * @throws FileNotExistException 
 	 */
-	public boolean moveFile(String source, String destination)
+	public boolean moveFile(String source, String destination) throws IOException, FileNotExistException, FileExistsException
 	{
-		try
-		{
-			if(!fileExists(source))
-			{
-				log.error(String.format("Source file does not exist %s", source));
-				throw new MediaBeaverConfigurationException(String.format("Source file does not exist %s", source));
-			}
+		//source = "C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Source\\S01E01 .avi";
+		
+		//destination = "C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Destination\\Movies\\S01E01.avi";
+		
+		if(!fileExists(source))  
+			throw new FileNotExistException(String.format("Source file does not exist %s", source));
+		
+		File srcFile = new File(source);
+		File destFile = new File(destination);
+		
+		if(fileExists(destination))
+			throw new FileExistsException(String.format("Destination file %s already exists", destination));
 			
-			File srcFile = new File(source);
-			File destFile = new File(destination);
-			
-			if(fileExists(destination))
-			{
-				log.debug(String.format("%s was NOT moved to %s. This file already exists.", source, destination));
-				return false;
-			}
-			
-			FileUtils.moveFile(srcFile, destFile);
-			
-			log.debug(String.format("%s was succesfully moved to %s", source, destination));
-			return true;
-		}
-		catch(IOException ex)
-		{
-			log.error(String.format("an io exception occured while attempting to move file %s to %s", source, destination), ex);
-			throw new MediaBeaverFileSystemException(String.format("an io exception occured while attempting to move file %s to %s", source, destination));
-		}
+		FileUtils.copyFile(srcFile, destFile);
+		srcFile.delete();
+		
+		//does not work on external file systems!!
+		//FileUtils.moveFile(srcFile, destFile);
+		
+		log.debug(String.format("%s was succesfully moved to %s", source, destination));
+		return true;
 	}
 	
 	public boolean deleteQuietly(String file)

@@ -23,7 +23,7 @@ public class MediaConfigViewModel extends ViewModel
 	private String destinationRoot;
 	private String relativeDestinationPath;
 	private int sorOrder = -1;
-	private boolean includeOpenSubtitles;
+	private boolean openSubtitlesEnabled;
 
 	
 	//view properties
@@ -32,16 +32,17 @@ public class MediaConfigViewModel extends ViewModel
 	//TODO: REMOVE?	
 	private RegExSelectorViewModel selectedRegExSelector = new RegExSelectorViewModel();
 
-	public boolean isIncludeOpenSubtitles()
+	
+	public boolean isOpenSubtitlesEnabled()
 	{
-		return includeOpenSubtitles;
+		return openSubtitlesEnabled;
 	}
 
-	public void setIncludeOpenSubtitles(boolean includeOpenSubtitles)
+	public void setOpenSubtitlesEnabled(boolean openSubtitlesEnabled)
 	{
-		this.includeOpenSubtitles = includeOpenSubtitles;
+		this.openSubtitlesEnabled = openSubtitlesEnabled;
 	}
-	
+
 	public int getSorOrder()
 	{
 		return sorOrder;

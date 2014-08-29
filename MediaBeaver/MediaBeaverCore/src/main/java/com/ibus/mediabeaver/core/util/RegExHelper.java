@@ -15,12 +15,29 @@ public class RegExHelper
 {
 	
 	/**
-	 * Get variable names from a path
+	 * Get unique variable names from a path.  for example will parse the path {{MovieName}} ({{MovieYear}})\{{MovieName}} ({{MovieYear}}) 
+	 * to the following list:  {"MovieName", "MovieYear"}
 	 * @param regularExpression
 	 * @param text
 	 * @return
 	 */
-	public List<String> getFileTokenNames(String path)
+	@SuppressWarnings("unchecked")
+	public List<String> getPathTokenList(String path)
+	{
+		HashMap<String, String> captures = getPathTokenHashMap(path);
+		List<String> ret = new ArrayList<String>(captures.keySet());
+		
+		return ret;
+	}
+	
+	/**
+	 * Get unique variable names from a path.  for example will parse the path {{MovieName}} ({{MovieYear}})\{{MovieName}} ({{MovieYear}}) 
+	 * to the following HashMap:  {{"MovieName",""} {"MovieYear",""}}
+	 * @param regularExpression
+	 * @param text
+	 * @return
+	 */
+	public HashMap<String, String> getPathTokenHashMap(String path)
 	{
 		if(path == null || path.trim().length() == 0)
 			throw new IllegalArgumentException("path cannot be null or empty");
@@ -28,16 +45,18 @@ public class RegExHelper
 		Pattern pattern = Pattern.compile("\\{\\{(\\w+)\\}\\}");
 		Matcher matcher = pattern.matcher(path);
 		
-		//List<String> captures = new ArrayList<String>();
-		Hashtable<String, String> captures = new Hashtable<String, String>();
+		HashMap<String, String> captures = new HashMap<String, String>();
 		
 		while(matcher.find())
 		{
-			captures.put(matcher.group(1).trim(), matcher.group(1));
+			captures.put(matcher.group(1).trim(), "");
 		}
 		
-		return new ArrayList<String>(captures.values());
+		return captures;
+		
+		
 	}
+	
 	
 	
 	
@@ -92,8 +111,7 @@ public class RegExHelper
 	
 	/**
 	 * parse a group assembly string and regex capture groups, to something that could be used as a file token.
-	 * ie. pass {1}  (the number corresponds to a regex capture group),to for example "Iron Man".  this method 
-	 * assumes that 
+	 * ie. pass {1}  (the number corresponds to a regex capture group),to for example "Iron Man".  
 	 * @param capturedStrings
 	 * @param assemblyString
 	 * @return
@@ -156,6 +174,13 @@ public class RegExHelper
 	
 	
 	
+	/**
+	 * parses the file tokens in a path.  for example given the following HashMap {{"MovieName", "Iron Man"},{"MovieYear", "2010"}}, the path   
+	 * {{MovieName}} ({{MovieYear}})\{{MovieName}} ({{MovieYear}}) will be parsed to Iron Man (2010)\Iron Man (2010)
+	 * @param tokens
+	 * @param fileName
+	 * @return
+	 */
 	public String assembleFileName(HashMap<String, String> tokens, String fileName)
 	{
 		if(fileName == null || fileName.trim().length() == 0)

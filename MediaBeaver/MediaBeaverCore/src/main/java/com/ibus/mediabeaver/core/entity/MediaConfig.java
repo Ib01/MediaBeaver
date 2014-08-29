@@ -22,14 +22,6 @@ public class MediaConfig extends PersistentObject
 	@Column
 	private TransformAction action;
 
-	/*@Column
-	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
-	@Cascade({ CascadeType.ALL })
-	private Set<ConfigVariable> configVariables = new HashSet<ConfigVariable>();*/
-
-	/*@Column
-	private boolean useOpenSubtitlesThumbprintService;*/
-
 	@Column
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({ CascadeType.ALL })
@@ -39,18 +31,6 @@ public class MediaConfig extends PersistentObject
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({ CascadeType.ALL })
 	private Set<RegExSelector> regExSelectors = new HashSet<RegExSelector>();
-	
-/*	@Column
-	private String extensionsSelector;
-
-	@Column
-	private boolean selectAllFiles;
-
-	@Column
-	private boolean selectAllFolders;*/
-
-	/*@Column
-	private boolean selectAllEmptyFolders;*/
 
 	@Column
 	private String sourceDirectory;
@@ -64,6 +44,9 @@ public class MediaConfig extends PersistentObject
 	@Column
 	private int sorOrder;
 	
+	@Column
+	private boolean openSubtitlesEnabled;
+	
 	/*
 	 * to implement
 	 * 
@@ -72,6 +55,18 @@ public class MediaConfig extends PersistentObject
 	 */
 
 	// Properties //////////////////////////////////////////////////
+
+	
+
+	public boolean isOpenSubtitlesEnabled()
+	{
+		return openSubtitlesEnabled;
+	}
+
+	public void setOpenSubtitlesEnabled(boolean openSubtitlesEnabled)
+	{
+		this.openSubtitlesEnabled = openSubtitlesEnabled;
+	}
 
 	public int getSorOrder()
 	{

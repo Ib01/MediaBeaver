@@ -196,7 +196,7 @@ public class MediaConfigWizardController
 	public String openSubtitlesSelectorsEnable(@ModelAttribute("config")MediaConfigViewModel config)
 	{
 		config.getOpenSubtitlesSelectors().clear();
-		if(config.isIncludeOpenSubtitles())
+		if(config.isOpenSubtitlesEnabled())
 		{
 			resetOpenSubtitlesSelectors(config);
 		}
@@ -381,7 +381,7 @@ public class MediaConfigWizardController
 		//MediaConfigViewModel config = (MediaConfigViewModel)session.getAttribute("config");
 		MediaConfigViewModel config = getSotredMediaConfigViewModel();
 		RegExHelper rexHelper = new RegExHelper();
-		List<String> variableNames = rexHelper.getFileTokenNames(config.getRelativeDestinationPath());
+		List<String> variableNames = rexHelper.getPathTokenList(config.getRelativeDestinationPath());
 		
 		//add new setters and remove deleted setters from the setter collections of all selectors before proceeding further
 		for(RegExSelectorViewModel selector :  config.getRegExSelectors())
@@ -394,7 +394,7 @@ public class MediaConfigWizardController
 	{
 		//set  ore reset the variableSetters we will use
 		RegExHelper rexHelper = new RegExHelper();
-		List<String> variableNames = rexHelper.getFileTokenNames(config.getRelativeDestinationPath());
+		List<String> variableNames = rexHelper.getPathTokenList(config.getRelativeDestinationPath());
 		sel.createVariableSetters(variableNames);
 	}
 	
@@ -403,7 +403,7 @@ public class MediaConfigWizardController
 	{
 		//set  ore reset the variableSetters we will use
 		RegExHelper rexHelper = new RegExHelper();
-		List<String> names = rexHelper.getFileTokenNames(config.getRelativeDestinationPath());
+		List<String> names = rexHelper.getPathTokenList(config.getRelativeDestinationPath());
 		config.createOpenSubtitlesSelectors(names);
 	}
 	

@@ -139,7 +139,7 @@
 
 	<form:form method="POST" commandName="config" id="configForm" class="formLayout">
 
-		<form:checkbox path="includeOpenSubtitles" id="enableOpenSubtitles"/> Enable Open Subtitles Selector
+		<form:checkbox path="openSubtitlesEnabled" id="enableOpenSubtitles"/> Enable Open Subtitles Selector
 	
 		<form:hidden path="selectedRegExSelectorIndex"/>
 		

@@ -20,4 +20,9 @@ public class OpenSubtitlesHashData
 	{
 		this.totalBytes = totalBytes;
 	}
+	
+	public boolean isValid()
+	{
+		return (hashData != null && hashData.length() > 0 && totalBytes != null && totalBytes.length() > 0);
+	}
 }
