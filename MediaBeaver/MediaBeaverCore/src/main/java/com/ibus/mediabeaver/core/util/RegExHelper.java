@@ -53,13 +53,18 @@ public class RegExHelper
 		}
 		
 		return captures;
-		
-		
 	}
 	
 	
 	
 	
+	/**
+	 * Determine if if the pattern defined by regularExpression is found inside text. 
+	 * used by regExSelector to populate path tokens 
+	 * @param regularExpression
+	 * @param text
+	 * @return
+	 */
 	public boolean matchFound(String regularExpression, String text)
 	{
 		if(regularExpression == null || regularExpression.trim().length() == 0)
@@ -75,7 +80,8 @@ public class RegExHelper
 	
 	
 	/**
-	 * Capture text from a regular expression. if the regular expression does not contain capture groups this method will return an empty list 
+	 * Capture text from a regular expression. if the regular expression does not contain capture groups 
+	 * this method will return an empty list. used by regExSelector to populate path tokens 
 	 * @param regularExpression
 	 * @param text
 	 * @return
@@ -111,7 +117,8 @@ public class RegExHelper
 	
 	/**
 	 * parse a group assembly string and regex capture groups, to something that could be used as a file token.
-	 * ie. pass {1}  (the number corresponds to a regex capture group),to for example "Iron Man".  
+	 * ie. pass {1}  (the number corresponds to a regex capture group),to for example "Iron Man".  used by regExSelector 
+	 * to populate path tokens. soon to be deprecated
 	 * @param capturedStrings
 	 * @param assemblyString
 	 * @return
@@ -135,6 +142,12 @@ public class RegExHelper
 	}
 	
 	
+	/**
+	 * determines whether a path contains token place holders such as 
+	 * {{MovieName}} ({{MovieYear}})\{{MovieName}} ({{MovieYear}}).  
+	 * @param text
+	 * @return
+	 */
 	public boolean containsTokenPlaceholders(String text)
 	{
 		Pattern pattern = Pattern.compile("\\{\\{\\w+\\}\\}");
@@ -143,6 +156,12 @@ public class RegExHelper
 		return matcher.find();
 	}
 	
+	/**
+	 * used to determine whether a string contains a regExCapture group.  capture groups are used in 
+	 * assembly fields of the regexSlector and must be surrounded by brackets.  soon to be deprecated
+	 * @param text
+	 * @return
+	 */
 	public boolean containsCaptureGroup(String text)
 	{
 		if(text == null || text.trim().length() == 0)
@@ -155,6 +174,13 @@ public class RegExHelper
 	}
 	                                          
 	
+	/**
+	 * used by regexselector to clean populated values of path tokens.  soon to be deprecated 
+	 * @param toClean
+	 * @param regEx
+	 * @param replaceWith
+	 * @return
+	 */
 	public String cleanFileToken(String toClean, String regEx, String replaceWith)
 	{
 		if(toClean == null || toClean.trim().length() == 0)
@@ -200,8 +226,35 @@ public class RegExHelper
 	}
 	
 	
+	/**
+	 * The white list of characters we allow for file names
+	 * @param text
+	 * @return
+	 */
+	public boolean containsValidFileNameCharacters(String text)
+	{
+		Pattern pattern = Pattern.compile("[^a-zA-Z0-9~`!@#\\$%\\^&\\(\\)_-\\+=\\{\\}\\[\\];'',\\.]");
+		Matcher matcher = pattern.matcher(text);
+		
+		return matcher.find(); 
+	}
 	
+	/*
+	 * illegal windows characters
+	 * < (less than)
+	> (greater than)
+	: (colon)
+	" (double quote)
+	/ (forward slash)
+	\ (backslash)
+	| (vertical bar or pipe)
+	? (question mark)
+	* (asterisk)*/
 	
+	//illegal windows file names?
+	//CON, PRN, AUX, NUL, COM1, COM2, COM3, COM4, COM5, COM6, COM7, COM8, COM9, LPT1, LPT2, LPT3, 
+	//LPT4, LPT5, LPT6, LPT7, LPT8, and LPT9. Also avoid these names followed immediately by an extension; 
+	//for example, NUL.txt is not recommended. For more information, see Namespaces.
 	
 	
 }

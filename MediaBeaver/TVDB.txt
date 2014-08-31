@@ -1,0 +1,18 @@
+api key used by file bot: 694FAD89942D3827
+
+addreseses:
+http://www.thetvdb.com/api/GetSeries.php?seriesname=Game Of Thrones
+http://www.thetvdb.com/api/694FAD89942D3827/series/121361/all/en.xml
+
+/api/GetSeriesByRemoteID.php?imdbid=" + imdbid + "&language=" + getLanguageCode(locale)
+
+process:
+
+using opensubtitles:
+	get thumbprint and call service to get imdbid of series.
+
+using tvdb:
+call GetSeriesByRemoteID using imdbid on to get series id 
+call http://www.thetvdb.com/api/{api key}/series/{series id}/all/en.xml to get episode information (for everty episode!!A)
+
+

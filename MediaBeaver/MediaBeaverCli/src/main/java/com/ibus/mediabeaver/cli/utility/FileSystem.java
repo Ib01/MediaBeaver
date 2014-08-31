@@ -1,5 +1,10 @@
 package com.ibus.mediabeaver.cli.utility;
 
+import java.nio.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.io.File;
 import java.io.IOException;
 
@@ -123,10 +128,6 @@ public class FileSystem
 	 */
 	public boolean moveFile(String source, String destination) throws IOException, FileNotExistException, FileExistsException
 	{
-		//source = "C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Source\\S01E01 .avi";
-		
-		//destination = "C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Destination\\Movies\\S01E01.avi";
-		
 		if(!fileExists(source))  
 			throw new FileNotExistException(String.format("Source file does not exist %s", source));
 		
@@ -135,16 +136,35 @@ public class FileSystem
 		
 		if(fileExists(destination))
 			throw new FileExistsException(String.format("Destination file %s already exists", destination));
-			
+	
 		FileUtils.copyFile(srcFile, destFile);
 		srcFile.delete();
-		
-		//does not work on external file systems!!
-		//FileUtils.moveFile(srcFile, destFile);
 		
 		log.debug(String.format("%s was succesfully moved to %s", source, destination));
 		return true;
 	}
+	
+	public boolean moveFile2(String source, String dest) throws IOException, FileNotExistException, FileExistsException
+	{
+		source = "C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Source\\S01E01.avi";
+		dest = "C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Destination\\TV\\S01E01.avi";
+		
+		Path original = Paths.get(source); 
+		Path destination = Paths.get(dest); 
+		
+		try 
+		{ 
+			Files.move(original, destination, StandardCopyOption.REPLACE_EXISTING);
+			
+		} 
+		catch (IOException x) 
+		{ //catch all for IO problems }
+		}
+		
+		return true;
+	}
+	
+	
 	
 	public boolean deleteQuietly(String file)
 	{
