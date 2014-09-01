@@ -1,4 +1,4 @@
-package com.ibus.opensubtitles.dto;
+package com.ibus.opensubtitles.client.dto;
 
 import java.util.ArrayList;
 import java.util.List;

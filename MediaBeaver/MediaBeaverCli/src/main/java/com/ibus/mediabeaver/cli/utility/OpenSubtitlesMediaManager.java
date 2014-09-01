@@ -20,9 +20,9 @@ import com.ibus.mediabeaver.core.exception.MediaBeaverConfigurationException;
 import com.ibus.mediabeaver.core.util.RegExHelper;
 import com.ibus.mediabeaver.core.util.ServiceFieldParser;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
-import com.ibus.opensubtitles.dto.OstTitleDto;
-import com.ibus.opensubtitles.utilities.OpenSubtitlesHashData;
-import com.ibus.opensubtitles.utilities.OpenSubtitlesHashGenerator;
+import com.ibus.opensubtitles.client.dto.OstTitleDto;
+import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashData;
+import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashGenerator;
 
 public class OpenSubtitlesMediaManager extends MediaManager
 {

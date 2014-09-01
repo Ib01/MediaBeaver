@@ -14,8 +14,8 @@ import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
-import com.ibus.opensubtitles.dto.OstTitleDto;
-import com.ibus.opensubtitles.utilities.OpenSubtitlesHashData;
+import com.ibus.opensubtitles.client.dto.OstTitleDto;
+import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashData;
 
 public class OpenSubtitlesClient
 {

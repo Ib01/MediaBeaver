@@ -1,4 +1,4 @@
-package com.ibus.opensubtitles.utilities;
+package com.ibus.opensubtitles.client.utilities;
 
 import java.io.DataInputStream;
 import java.io.File;
