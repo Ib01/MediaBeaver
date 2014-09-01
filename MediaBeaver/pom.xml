@@ -14,8 +14,8 @@
 		<module>./MediaBeaverCli</module>
 		<module>./OpenSubtitles</module>
 		<module>./TMDBClient</module>
+		<module>./TVDBClient</module>
 	</modules>
-
 
 	<dependencies>
 
