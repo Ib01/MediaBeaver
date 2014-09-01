@@ -24,7 +24,7 @@ import com.ibus.mediabeaver.core.data.QueryTransactable;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.data.UpdateTransactable;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
-import com.ibus.opensubtitles.OpenSubtitlesClient;
+import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 
 public class Main
 {

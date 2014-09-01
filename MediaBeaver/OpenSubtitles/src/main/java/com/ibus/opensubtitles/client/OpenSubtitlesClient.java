@@ -1,4 +1,4 @@
-package com.ibus.opensubtitles;
+package com.ibus.opensubtitles.client;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

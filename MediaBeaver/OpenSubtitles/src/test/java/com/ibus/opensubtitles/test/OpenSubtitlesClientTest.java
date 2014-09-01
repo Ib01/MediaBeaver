@@ -14,8 +14,8 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.junit.Test;
 
-import com.ibus.opensubtitles.OpenSubtitlesClient;
-import com.ibus.opensubtitles.OpenSubtitlesToken;
+import com.ibus.opensubtitles.client.OpenSubtitlesClient;
+import com.ibus.opensubtitles.client.OpenSubtitlesToken;
 import com.ibus.opensubtitles.dto.OstTitleDto;
 import com.ibus.opensubtitles.utilities.OpenSubtitlesHashData;
 import com.ibus.opensubtitles.utilities.OpenSubtitlesHashGenerator;
