@@ -4,7 +4,7 @@ addreseses:
 http://www.thetvdb.com/api/GetSeries.php?seriesname=Game Of Thrones
 http://www.thetvdb.com/api/694FAD89942D3827/series/121361/all/en.xml
 
-/api/GetSeriesByRemoteID.php?imdbid=" + imdbid + "&language=" + getLanguageCode(locale)
+http://www.thetvdb.com/api/GetSeriesByRemoteID.php?imdbid=tt0944947&language=en
 
 process:
 

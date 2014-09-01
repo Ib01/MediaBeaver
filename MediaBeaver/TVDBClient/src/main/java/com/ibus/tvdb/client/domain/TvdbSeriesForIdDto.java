@@ -5,55 +5,34 @@
 // Generated on: 2011.04.30 at 09:14:47 PM EST 
 //
 
-
 package com.ibus.tvdb.client.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
-/**
- * <p>Java class for anonymous complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;choice>
- *         &lt;sequence>
- *           &lt;element name="images" type="{http://a9.com/-/spec/opensearch/1.1}Movie" maxOccurs="unbounded"/>
- *         &lt;/sequence>
- *       &lt;/choice>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Data")
-public class SeriesDetailedDto {
+public class TvdbSeriesForIdDto 
+{
+	@XmlElement(name="Series")
+	protected TvdbSeriesDto series = new TvdbSeriesDto();
 
-	@XmlElementWrapper(name="Episodes")
+	//XmlElementWrapper(name="Episodes")
     @XmlElement(name="Episode")
-	private List<EpisodeDto> episodes;
+	protected List<TvdbEpisodeDto> episodes= new ArrayList<TvdbEpisodeDto>();
 	
 
-	public List<EpisodeDto> getEpisodes()
+	public List<TvdbEpisodeDto> getEpisodes()
 	{
-		return episodes;
+        return this.episodes;
 	}
 
-	public void setEpisodes(List<EpisodeDto> episodes)
+	public void setEpisodes(List<TvdbEpisodeDto> episodes)
 	{
 		this.episodes = episodes;
 	}

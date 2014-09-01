@@ -18,26 +18,38 @@ public abstract class ServiceUri
 	
 	public abstract URI getURI() throws ServiceSearchException;
 
-	protected URI getURI(String path, String scheme, String host) throws ServiceSearchException
+	//RESDTRUCTURE THIS CRAP
+	
+	/*protected URI getURI(String path, String scheme, String host) throws ServiceSearchException
 	{
 		return getURI(path, scheme, host, 0);
 	}
 	
 	protected URI getURI(String path, String scheme, String host, int port) throws ServiceSearchException
 	{
+		return getURI(path, scheme, host, 0, null);
+	}
+	
+	protected URI getURI(String path, String scheme, String host, String query) throws ServiceSearchException
+	{
+		return getURI(path, scheme, host, 0, query);
+	}
+	
+	private URI getURI(String path, String scheme, String host, int port, String query) throws ServiceSearchException
+	{
 		try 
 		{
 			if(port == 0)
 				return new URI(scheme, host, path, null);
 			else
-				return new URI(scheme, null, host, port, path, null, null);
+				return new URI(scheme, null, host, port, path, query, null);
 			
 		} catch (URISyntaxException e) 
 		{
 			throw new ServiceSearchException("The Uri used to communicate with the service is not well formed", e);
 		}
 	}
-	
+	*/
 	
 }
 

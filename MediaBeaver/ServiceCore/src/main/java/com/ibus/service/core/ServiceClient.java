@@ -87,6 +87,10 @@ public abstract class ServiceClient
 	{	
 		try 
 		{
+
+			WebResource webResource = client.resource(uri.getURI());
+			R result = webResource.get(returnType);
+			
 			R ret;
 			ret = doGet(returnType, uri.getURI());
 			
@@ -94,6 +98,7 @@ public abstract class ServiceClient
 		}
 		catch (Exception ex)
 		{
+			int i = 0;
 			//_log.warn(String.format("An attempt to communicate with {0} failed.", uri.toString()), ex);
 		}
 		
