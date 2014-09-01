@@ -1,4 +1,4 @@
-package tvdbClient;
+package com.ibus.tvdb.client.test;
 
 import org.junit.Test;
 

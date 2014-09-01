@@ -1,4 +1,4 @@
-package com.ibus.tmdbclient.domain;
+package com.ibus.tmdb.client.domain;
 
 public enum ImageSize {
 	original,

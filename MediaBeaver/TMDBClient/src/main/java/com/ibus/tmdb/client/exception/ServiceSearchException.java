@@ -1,4 +1,4 @@
-package com.ibus.tmdbclient.exception;
+package com.ibus.tmdb.client.exception;
 
 
 public class ServiceSearchException extends RuntimeException 

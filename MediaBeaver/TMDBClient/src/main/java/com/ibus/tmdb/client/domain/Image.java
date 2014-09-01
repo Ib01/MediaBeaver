@@ -5,7 +5,7 @@
 // Generated on: 2011.04.30 at 09:14:47 PM EST 
 //
 
-package com.ibus.tmdbclient.domain;
+package com.ibus.tmdb.client.domain;
 
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlAccessType;

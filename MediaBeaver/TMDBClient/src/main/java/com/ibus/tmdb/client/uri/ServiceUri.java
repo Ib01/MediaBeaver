@@ -1,9 +1,9 @@
-package com.ibus.tmdbclient.uri;
+package com.ibus.tmdb.client.uri;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import com.ibus.tmdbclient.exception.ServiceSearchException;
+import com.ibus.tmdb.client.exception.ServiceSearchException;
 
 public abstract class ServiceUri 
 {	

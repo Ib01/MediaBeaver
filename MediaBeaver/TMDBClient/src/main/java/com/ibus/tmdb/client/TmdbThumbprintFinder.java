@@ -1,10 +1,10 @@
-package com.ibus.tmdbclient;
+package com.ibus.tmdb.client;
 
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.ibus.tmdbclient.domain.IServicePoster;
+import com.ibus.tmdb.client.domain.IServicePoster;
 
 public class TmdbThumbprintFinder implements IServicePoster
 {	

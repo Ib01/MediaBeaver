@@ -1,4 +1,4 @@
-package com.ibus.tmdbclient.test;
+package com.ibus.tmdb.client.test;
 
 import static org.junit.Assert.*;
 
@@ -11,9 +11,9 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.ibus.tmdbclient.ServiceClient;
-import com.ibus.tmdbclient.domain.OpenSearchDescription;
-import com.ibus.tmdbclient.uri.TmdbThumbprintSearchUri;
+import com.ibus.tmdb.client.ServiceClient;
+import com.ibus.tmdb.client.domain.OpenSearchDescription;
+import com.ibus.tmdb.client.uri.TmdbThumbprintSearchUri;
 
 public class OpenSubtitlesClientTest
 {

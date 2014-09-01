@@ -24,7 +24,7 @@
 		
 		<dependency>
 			<groupId>com.ibus</groupId>
-			<artifactId>openSubtitles</artifactId>
+			<artifactId>openSubtitlesClient</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		

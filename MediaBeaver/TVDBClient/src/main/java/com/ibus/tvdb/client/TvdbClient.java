@@ -1,4 +1,4 @@
-package com.ibus.tvdbclient;
+package com.ibus.tvdb.client;
 
 public class TvdbClient
 {

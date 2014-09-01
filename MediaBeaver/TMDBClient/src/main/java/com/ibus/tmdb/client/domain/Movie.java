@@ -5,7 +5,7 @@
 // Generated on: 2011.04.30 at 09:14:47 PM EST 
 //
 
-package com.ibus.tmdbclient.domain;
+package com.ibus.tmdb.client.domain;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

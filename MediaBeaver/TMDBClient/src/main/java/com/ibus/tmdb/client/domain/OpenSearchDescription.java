@@ -6,7 +6,7 @@
 //
 
 
-package com.ibus.tmdbclient.domain;
+package com.ibus.tmdb.client.domain;
 
 import java.util.ArrayList;
 import java.util.List;
