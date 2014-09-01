@@ -11,7 +11,6 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.ibus.tmdb.client.ServiceClient;
 import com.ibus.tmdb.client.domain.OpenSearchDescription;
 import com.ibus.tmdb.client.uri.TmdbThumbprintSearchUri;
 

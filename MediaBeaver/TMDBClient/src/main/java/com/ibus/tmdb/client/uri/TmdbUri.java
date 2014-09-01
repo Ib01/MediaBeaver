@@ -6,7 +6,6 @@ import java.net.URISyntaxException;
 import com.ibus.tmdb.client.exception.ServiceSearchException;
 
 
-
 public abstract class TmdbUri extends ServiceUri 
 {
 	public static String _scheme;

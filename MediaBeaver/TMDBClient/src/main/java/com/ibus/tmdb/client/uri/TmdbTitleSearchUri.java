@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 
 import com.ibus.tmdb.client.exception.ServiceSearchException;
 
+
 public class TmdbTitleSearchUri extends TmdbUri
 {
 	private String _title;
