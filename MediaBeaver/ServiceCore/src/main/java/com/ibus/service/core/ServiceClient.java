@@ -1,11 +1,11 @@
-package com.ibus.tmdb.client;
+package com.ibus.service.core;
 
 import java.net.URI;
 
 import org.apache.log4j.Logger;
 
-import com.ibus.tmdb.client.exception.ServiceSearchException;
-import com.ibus.tmdb.client.uri.ServiceUri;
+import com.ibus.service.core.exception.ServiceSearchException;
+import com.ibus.service.core.uri.ServiceUri;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 

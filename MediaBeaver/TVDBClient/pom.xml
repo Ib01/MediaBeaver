@@ -17,5 +17,12 @@
 		    <artifactId>jersey-client</artifactId>
 		    <version>1.8</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>com.ibus</groupId>
+		    <artifactId>serviceCore</artifactId>
+		    <version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
 	</dependencies>
 </project>
