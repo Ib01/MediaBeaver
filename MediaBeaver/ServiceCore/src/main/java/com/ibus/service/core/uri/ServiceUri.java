@@ -20,7 +20,7 @@ public abstract class ServiceUri
 
 	//RESDTRUCTURE THIS CRAP
 	
-	/*protected URI getURI(String path, String scheme, String host) throws ServiceSearchException
+	protected URI getURI(String path, String scheme, String host) throws ServiceSearchException
 	{
 		return getURI(path, scheme, host, 0);
 	}
@@ -49,7 +49,7 @@ public abstract class ServiceUri
 			throw new ServiceSearchException("The Uri used to communicate with the service is not well formed", e);
 		}
 	}
-	*/
+	
 	
 }
 

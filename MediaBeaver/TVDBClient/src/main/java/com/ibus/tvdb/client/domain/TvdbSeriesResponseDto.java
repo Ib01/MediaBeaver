@@ -17,27 +17,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Data")
-public class TvdbSeriesForImdbIdDto 
+public class TvdbSeriesResponseDto 
 {
 	@XmlElement(name="Series")
 	protected TvdbSeriesDto series = new TvdbSeriesDto();
-
-	/*//XmlElementWrapper(name="Episodes")
-    @XmlElement(name="Episode")
-	protected List<TvdbEpisodeDto> episodes= new ArrayList<TvdbEpisodeDto>();
-	
-
-	public List<TvdbEpisodeDto> getEpisodes()
-	{
-        return this.episodes;
-	}
-
-	public void setEpisodes(List<TvdbEpisodeDto> episodes)
-	{
-		this.episodes = episodes;
-	}
-*/
-    
-  
 
 }

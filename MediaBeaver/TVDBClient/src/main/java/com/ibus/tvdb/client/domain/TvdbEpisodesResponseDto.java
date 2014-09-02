@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Data")
-public class TvdbSeriesForIdDto 
+public class TvdbEpisodesResponseDto 
 {
 	@XmlElement(name="Series")
 	protected TvdbSeriesDto series = new TvdbSeriesDto();

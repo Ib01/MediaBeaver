@@ -1,10 +1,11 @@
-package com.ibus.tvdb.client;
+package com.ibus.tmdb.client;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import com.ibus.service.core.ServiceClient;
 import com.ibus.service.core.exception.ServiceSearchException;
+import com.ibus.tmdb.client.domain.OpenSearchDescription;
 import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
 import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
 import com.ibus.tvdb.client.uri.TvdbSeriesAndEpisodesUri;
@@ -12,31 +13,31 @@ import com.ibus.tvdb.client.uri.TvdbSeriesUri;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 
-public class TvdbClient
+public class TmdbClient
 {
 	protected static Client client = Client.create(); 
 	private String scheme;
 	private String host;
 	private String language;
 	
-	public TvdbClient(String scheme, String host, String language)
+	public TmdbClient(String scheme, String host, String language)
 	{
 		this.scheme= scheme;  
 		this.host = host; 
 		this.language = language;
 	}
 	
-	public TvdbEpisodesResponseDto getEpisodes(String seriesId)
+	public OpenSearchDescription getEpisodes(String seriesId)
 	{		
 		URI uri = getURI("/api/694FAD89942D3827/series/" + seriesId + "/all/" + language + ".xml", null);
-		return doGet(TvdbEpisodesResponseDto.class, uri);
+		return doGet(OpenSearchDescription.class, uri);
 	}
 	
-	public TvdbSeriesResponseDto getSeries(String imdbid)
+/*	public TvdbSeriesResponseDto getSeries(String imdbid)
 	{
 		URI uri = getURI("/api/GetSeriesByRemoteID.php", "imdbid=" + imdbid + "&language=" + language);
 		return doGet(TvdbSeriesResponseDto.class, uri);
-	}
+	}*/
 	
 	
 	
@@ -75,22 +76,5 @@ public class TvdbClient
 	}
 	
 	
-	
-	
-	
-	
-	/*public TvdbSeriesForIdDto getSeriesAndEpisodes()
-	{
-		TvdbSeriesAndEpisodesUri uri = new TvdbSeriesAndEpisodesUri();
-		TvdbSeriesForIdDto dto = ServiceClient.get(TvdbSeriesForIdDto.class, uri);
-		return dto;
-	}
-	
-	public TvdbSeriesForIdDto getSeries()
-	{
-		TvdbSeriesUri uri = new TvdbSeriesUri();
-		TvdbSeriesForIdDto dto = ServiceClient.get(TvdbSeriesForIdDto.class, uri);
-		return dto;
-	}*/
 	
 }

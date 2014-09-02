@@ -11,9 +11,9 @@ public class TvdbClientTests
 	@Test
 	public void getEpisodesTest()
 	{
-		TvdbClient c = new TvdbClient();
+		TvdbClient c = new TvdbClient("http", "www.thetvdb.com", "en");
 		
-		c.getSeriesAndEpisodes();
+		c.getEpisodes("121361");
 		
 		assertTrue(true);
 	}
@@ -22,9 +22,9 @@ public class TvdbClientTests
 	@Test
 	public void getSeriesTest()
 	{
-		TvdbClient c = new TvdbClient();
+		/*TvdbClient c = new TvdbClient();
 		
-		c.getSeries();
+		c.getSeries();*/
 		
 		assertTrue(true);
 	}

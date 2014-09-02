@@ -88,9 +88,6 @@ public abstract class ServiceClient
 		try 
 		{
 
-			WebResource webResource = client.resource(uri.getURI());
-			R result = webResource.get(returnType);
-			
 			R ret;
 			ret = doGet(returnType, uri.getURI());
 			
