@@ -19,3 +19,16 @@ may extract the season as "1".  We may want to further pad the data with 0's on 
 
 * look into http://acoustid.org/ and http://musicbrainz.org/ for music identification?
 
+
+TMDB Notes:
+
+api key: e482b9df13cbf32a25570c09174a1d84
+
+30 requests every 10 seconds per IP
+Maximum 20 simultaneous connections per IP
+
+example call:
+
+https://api.themoviedb.org/3/movie/550?api_key=e482b9df13cbf32a25570c09174a1d84
+
+
