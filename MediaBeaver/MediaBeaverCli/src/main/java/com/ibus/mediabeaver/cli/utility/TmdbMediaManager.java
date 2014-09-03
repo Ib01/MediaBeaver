@@ -27,27 +27,27 @@ import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashGenerator;
 
 public class TmdbMediaManager extends MediaManager
 {
-	protected static TmdbApi tmdbtmdb = new TmdbApi("e482b9df13cbf32a25570c09174a1d84");
+	private static String userName = "";
+	private static String password = "";
+	private static String useragent = "OS Test User Agent";
+	private static String host = "http://api.opensubtitles.org/xml-rpc";
+	private static String sublanguageid = "eng";
+	private static String tmdbApi = "e482b9df13cbf32a25570c09174a1d84";
+	
+	protected static TmdbApi tmdbtmdb = new TmdbApi(tmdbApi);
 	OpenSubtitlesClient client;
 	
 	ServiceFieldParser fieldParser;
 	RegExHelper regExHelper;
 	
-	public TmdbMediaManager(OpenSubtitlesClient client){
+	public TmdbMediaManager(OpenSubtitlesClient client)
+	{
 		this.client = client;
 		fieldParser = new ServiceFieldParser();
 		regExHelper = new RegExHelper();
 	}
 
-	public boolean Login() throws MalformedURLException, XmlRpcException
-	{
-		return client.login();
-	}
 	
-	public boolean Logout() throws MalformedURLException, IOException, XmlRpcException
-	{
-		return client.logOut();
-	}
 	
 	@Override
 	protected void processFile(File file, MediaConfig config) throws IOException, XmlRpcException
