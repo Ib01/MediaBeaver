@@ -17,6 +17,7 @@
 		<module>./TVDBClient</module>
 		<module>./TVDBClient</module>
 		<module>./ServiceCore</module>
+		<module>./MovitoTMDBApi</module>
 	</modules>
 
 	<dependencies>
