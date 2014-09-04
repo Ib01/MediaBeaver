@@ -37,6 +37,18 @@ public class TvdbEpisodesResponseDto
 		this.episodes = episodes;
 	}
 
+	public TvdbEpisodeDto getEpisode(String seasonNumber, String episodeNumber)
+	{
+		for(TvdbEpisodeDto episode : episodes)
+		{
+			if(episode.getSeasonNumber().equals(seasonNumber) && episode.getEpisodeNumber().equals(episodeNumber))
+			{
+				return episode;
+			}
+		}
+		
+		return null;
+	}
     
   
 

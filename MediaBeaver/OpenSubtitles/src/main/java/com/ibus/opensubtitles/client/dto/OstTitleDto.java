@@ -3,7 +3,7 @@ package com.ibus.opensubtitles.client.dto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import org.apache.commons.lang3.StringUtils;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesField;
 
 public class OstTitleDto
@@ -48,6 +48,25 @@ public class OstTitleDto
 		return null;
 	}
 	
+	public static String parseImdbId(String imdbId)
+	{
+		if(imdbId == null || imdbId.length() == 0)
+			return null;
+		return "tt" + StringUtils.leftPad(imdbId, 7, "0");	
+	}
+	
+	
 	
 	
 }
+
+
+
+
+
+
+
+
+
+
+

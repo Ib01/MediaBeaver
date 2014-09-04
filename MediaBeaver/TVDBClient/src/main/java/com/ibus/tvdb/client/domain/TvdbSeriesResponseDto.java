@@ -20,6 +20,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class TvdbSeriesResponseDto 
 {
 	@XmlElement(name="Series")
-	protected TvdbSeriesDto series = new TvdbSeriesDto();
+	private TvdbSeriesDto series = new TvdbSeriesDto();
+
+	public TvdbSeriesDto getSeries()
+	{
+		return series;
+	}
+
+	public void setSeries(TvdbSeriesDto series)
+	{
+		this.series = series;
+	}
 
 }

@@ -3,12 +3,8 @@ package com.ibus.tvdb.client;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import com.ibus.service.core.ServiceClient;
-import com.ibus.service.core.exception.ServiceSearchException;
 import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
 import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
-import com.ibus.tvdb.client.uri.TvdbSeriesAndEpisodesUri;
-import com.ibus.tvdb.client.uri.TvdbSeriesUri;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 
@@ -26,13 +22,13 @@ public class TvdbClient
 		this.language = language;
 	}
 	
-	public TvdbEpisodesResponseDto getEpisodes(String seriesId)
+	public TvdbEpisodesResponseDto getEpisodes(String seriesId) throws URISyntaxException
 	{		
 		URI uri = getURI("/api/694FAD89942D3827/series/" + seriesId + "/all/" + language + ".xml", null);
 		return doGet(TvdbEpisodesResponseDto.class, uri);
 	}
 	
-	public TvdbSeriesResponseDto getSeries(String imdbid)
+	public TvdbSeriesResponseDto getSeries(String imdbid) throws URISyntaxException
 	{
 		URI uri = getURI("/api/GetSeriesByRemoteID.php", "imdbid=" + imdbid + "&language=" + language);
 		return doGet(TvdbSeriesResponseDto.class, uri);
@@ -42,55 +38,18 @@ public class TvdbClient
 	
 	private static <R, T> R doGet(Class<R> returnType, URI uri)
 	{
-		//TODO: WRAP IN EXCEPTION BLOCK?
-		try 
-		{
-			WebResource webResource = client.resource(uri);
-			R result = webResource.get(returnType);
-			
-			return result;
-		}
-		catch (Exception ex)
-		{
-			//do we want client to terminate because it couldnt get resource? 
-		}
+		WebResource webResource = client.resource(uri);
+		R result = webResource.get(returnType);
 		
-		return null;
+		return result;
 	}
 	
-	
-	
-	
-	private URI getURI(String path, String query) 
+	private URI getURI(String path, String query) throws URISyntaxException 
 	{
-		try 
-		{
-			URI uri = new URI(scheme, null, host, -1, path, query, null);
-			return uri;
-			
-		} catch (URISyntaxException e) 
-		{
-			throw new ServiceSearchException("The Uri used to communicate with the service is not well formed", e);
-		}
+		URI uri = new URI(scheme, null, host, -1, path, query, null);
+		return uri;
+	
 	}
 	
-	
-	
-	
-	
-	
-	/*public TvdbSeriesForIdDto getSeriesAndEpisodes()
-	{
-		TvdbSeriesAndEpisodesUri uri = new TvdbSeriesAndEpisodesUri();
-		TvdbSeriesForIdDto dto = ServiceClient.get(TvdbSeriesForIdDto.class, uri);
-		return dto;
-	}
-	
-	public TvdbSeriesForIdDto getSeries()
-	{
-		TvdbSeriesUri uri = new TvdbSeriesUri();
-		TvdbSeriesForIdDto dto = ServiceClient.get(TvdbSeriesForIdDto.class, uri);
-		return dto;
-	}*/
-	
+
 }

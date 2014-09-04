@@ -3,9 +3,11 @@ package com.ibus.mediabeaver.core.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-@Entity(name = "ServiceFieldMap")
-public class ServiceFieldMap
+@Entity(name = "Service_Field_Map")
+public class ServiceFieldMap extends PersistentObject
 {
+	private static final long serialVersionUID = 1L;
+
 	@Column
 	private String appField;
 	@Column

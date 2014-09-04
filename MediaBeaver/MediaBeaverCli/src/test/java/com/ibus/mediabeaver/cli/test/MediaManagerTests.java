@@ -58,18 +58,7 @@ public class MediaManagerTests
 		assertTrue(true);
 	}
 	
-	
-	@Test
-	public void wtfTest() throws XmlRpcException, IOException
-	{
-		String tmdbApiKey = "e482b9df13cbf32a25570c09174a1d84";
-		TmdbApi tmdbApi = new TmdbApi(tmdbApiKey);
-		
-		FindResults result = tmdbApi.getFind().find("tt0944947", TmdbFind.ExternalSource.imdb_id, null);
-		
-		assertTrue(true);
-	}
-	
+
 	
 	
 	/*@Test

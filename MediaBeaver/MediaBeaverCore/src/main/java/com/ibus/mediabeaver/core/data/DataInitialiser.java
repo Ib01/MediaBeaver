@@ -2,14 +2,18 @@ package com.ibus.mediabeaver.core.data;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.OpenSubtitlesField;
 import com.ibus.mediabeaver.core.entity.RegExSelector;
 import com.ibus.mediabeaver.core.entity.RegExPathTokenSetter;
+import com.ibus.mediabeaver.core.entity.ServiceFieldMap;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 
 public class DataInitialiser 
@@ -21,7 +25,157 @@ public class DataInitialiser
 		addOpenSubtitlesFields();
 		addMoveMoviesConfig();
 		addMoveTVEpisodesConfig();
+		addServiceFieldMaps();
 	}
+	
+	public static void addServiceFieldMaps()
+	{
+		saveServiceFieldMap("MovieName", "mn", "title", null);
+		saveServiceFieldMap("ReleaseDate", "rd", "releaseDate", null);
+		
+		saveServiceFieldMap("SeriesName", "srn", null, "seriesName");
+		saveServiceFieldMap("SeasonNumber", "sn", null, "seasonNumber");
+		saveServiceFieldMap("EpisodeNumber", "en", null, "episodeNumber");
+		saveServiceFieldMap("EpisodeName", "enm", null, "episodeName");
+		
+		
+	}
+	
+	
+	private static void saveServiceFieldMap(String appName, String abreviation, String tmbdField, String tvdbField)
+	{
+		ServiceFieldMap map;
+		map = new ServiceFieldMap();
+		map.setAppField(appName);
+		map.setAppFieldAbbreviation(abreviation);
+		map.setTmdbField(tmbdField);
+		map.setTvdbField(tvdbField);
+		Repository.saveEntity(map);
+	}
+	
+	/*
+	tvdb
+	@XmlElement(name = "Combined_episodenumber")
+	private String combinedEpisodeNumber;
+	
+	@XmlElement(name = "Combined_season")
+	private String combinedSeason;
+	
+	@XmlElement(name = "DVD_chapter")
+	private String dvdChapter;
+	
+	@XmlElement(name = "DVD_discid")
+	private String dvdDiscId;
+	
+	@XmlElement(name = "DVD_episodenumber")
+	private String dvdEpisodenumber;
+	
+	@XmlElement(name = "DVD_season")
+	private String DVDSeason;
+	
+	@XmlElement(name = "Director")
+	private String director;
+	
+	@XmlElement(name = "EpImgFlag")
+	private String epImgFlag;
+	
+	@XmlElement(name = "EpisodeName")
+	private String episodeName;
+	
+	@XmlElement(name = "EpisodeNumber")
+	private String episodeNumber;
+	
+	@XmlElement(name = "FirstAired")
+	private String firstAired;
+	
+	@XmlElement(name = "GuestStars")
+	private String guestStars;
+	
+	@XmlElement(name = "IMDB_ID")
+	private String imdbId;
+	
+	@XmlElement(name = "Language")
+	private String language;
+	
+	@XmlElement(name = "Overview")
+	private String overview;
+	
+	@XmlElement(name = "ProductionCode")
+	private String productionCode;
+	
+	@XmlElement(name = "Rating")
+	private String rating;
+	
+	@XmlElement(name = "RatingCount")
+	private String ratingCount;
+	
+	@XmlElement(name = "SeasonNumber")
+	private String seasonNumber;
+	
+	@XmlElement(name = "Writer")
+	private String writer;
+	
+	@XmlElement(name = "absolute_number")
+	private String absoluteNumber;
+	
+	@XmlElement(name = "filename")
+	private String fileName;
+	
+	@XmlElement(name = "lastupdated")
+	private String lastUpdated;
+	
+	@XmlElement(name = "seasonid")
+	private String seasonId;
+	
+	@XmlElement(name = "seriesid")
+	private String seriesId;
+	
+	@XmlElement(name = "thumb_added")
+	private String thumbAdded;
+	
+	@XmlElement(name = "thumb_height")
+	private String thumbHeight;
+	
+	@XmlElement(name = "thumb_width")
+	private String thumbWidth;
+	
+	tmdb
+    private String title;
+    private String originalTitle;
+	private float popularity;
+	private String backdropPath;
+    private String posterPath;
+	private String releaseDate;
+    private boolean adult;
+    private Collection belongsToCollection;
+    private long budget;
+    private List<Genre> genres;
+    private String homepage;
+	private String overview;
+	private String imdbID;
+	private List<ProductionCompany> productionCompanies;
+    private List<ProductionCountry> productionCountries;
+	private long revenue;
+    private int runtime;
+	private List<Language> spokenLanguages;
+	private String tagline;
+	private float userRating;
+    private float voteAverage;
+    private int voteCount;
+    private String status;
+    private MoviesAlternativeTitles alternativeTitles;
+    private Credits credits;
+    private MovieImages images;
+    private MovieKeywords keywords;
+    private TmdbMovies.ReleaseInfoResults releases;
+    private MovieTrailers trailers;
+    private MovieTranslations translations;
+    private ResultsPage<MovieDb> similarMovies;
+    private ResultsPage<Reviews> reviews;
+    private ResultsPage<MovieList> lists;*/
+	
+	
+	
 	
 	
 	/*Add OpenSubtitlesField lookups --------------------------------------------------------------*/	

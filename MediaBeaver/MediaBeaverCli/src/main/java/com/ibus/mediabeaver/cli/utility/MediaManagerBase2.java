@@ -31,8 +31,17 @@ public abstract class MediaManagerBase2
 	{	
 		openSubtitlesClient = new OpenSubtitlesClient(ostHost,ostUseragent,ostUserName, ostPassword,ostSublanguageid);
 		
-		openSubtitlesClient.login();
+		log.debug("Logging into the Open Subtitles web serivce.");
+		if(!openSubtitlesClient.login())
+		{
+			log.debug("Aborting movement of files. Could not login to the Open Subtitles web serivce.");
+			return;
+		}
+		
+		log.debug("Commencing Movement of files");
 		iterateGet(new File(config.getSourceDirectory()));
+		log.debug("Successfully completed file movement");
+		
 		openSubtitlesClient.logOut();
 	}
 
