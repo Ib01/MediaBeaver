@@ -1,13 +1,26 @@
 package com.ibus.mediabeaver.cli.test;
 
+import static org.junit.Assert.*;
+import info.movito.themoviedbapi.TmdbApi;
+import info.movito.themoviedbapi.TmdbFind;
+import info.movito.themoviedbapi.model.FindResults;
+
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.xmlrpc.XmlRpcException;
 import org.junit.Before;
+import org.junit.Test;
+
+import com.ibus.mediabeaver.cli.utility.MediaManager;
+import com.ibus.mediabeaver.core.entity.MediaConfig2;
+import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 
 public class MediaManagerTests
 {
+	
+	
 	@Before
 	public void beforeTest()
 	{
@@ -30,6 +43,34 @@ public class MediaManagerTests
 			e.printStackTrace();
 		}
 	}
+	
+	
+	@Test
+	public void processConfigsTest() throws XmlRpcException, IOException
+	{
+		MediaConfig2 c = new MediaConfig2();
+		c.setSourceDirectory("D:\\MediabeaverTests\\Source");
+	
+		MediaManager mm = new MediaManager(null, c);
+		mm.moveFiles();
+		
+		
+		assertTrue(true);
+	}
+	
+	
+	@Test
+	public void wtfTest() throws XmlRpcException, IOException
+	{
+		String tmdbApiKey = "e482b9df13cbf32a25570c09174a1d84";
+		TmdbApi tmdbApi = new TmdbApi(tmdbApiKey);
+		
+		FindResults result = tmdbApi.getFind().find("tt0944947", TmdbFind.ExternalSource.imdb_id, null);
+		
+		assertTrue(true);
+	}
+	
+	
 	
 	/*@Test
 	public void processConfigsTest()

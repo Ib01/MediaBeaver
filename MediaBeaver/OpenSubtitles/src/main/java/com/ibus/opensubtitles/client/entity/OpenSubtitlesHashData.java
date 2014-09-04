@@ -1,4 +1,4 @@
-package com.ibus.opensubtitles.client.utilities;
+package com.ibus.opensubtitles.client.entity;
 
 public class OpenSubtitlesHashData
 {

@@ -21,10 +21,10 @@ import com.ibus.mediabeaver.core.util.RegExHelper;
 import com.ibus.mediabeaver.core.util.ServiceFieldParser;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 import com.ibus.opensubtitles.client.dto.OstTitleDto;
-import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashData;
+import com.ibus.opensubtitles.client.entity.OpenSubtitlesHashData;
 import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashGenerator;
 
-public class OpenSubtitlesMediaManager extends MediaManager
+public class OpenSubtitlesMediaManager extends MediaManagerBase
 {
 	OpenSubtitlesClient client;
 	ServiceFieldParser fieldParser;

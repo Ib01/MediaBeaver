@@ -31,4 +31,10 @@ example call:
 
 https://api.themoviedb.org/3/movie/550?api_key=e482b9df13cbf32a25570c09174a1d84
 
+IMDB
+
+get title by imdbid:  http://www.imdb.com/title/tt1480055/
+
+
+
 

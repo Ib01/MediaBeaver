@@ -11,6 +11,8 @@ import java.nio.LongBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 
+import com.ibus.opensubtitles.client.entity.OpenSubtitlesHashData;
+
 /*
  * 
  * this code acquired at:  http://trac.opensubtitles.org/projects/opensubtitles/wiki/HashSourceCodes#Java

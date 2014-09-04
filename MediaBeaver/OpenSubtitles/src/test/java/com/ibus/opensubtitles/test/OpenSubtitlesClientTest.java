@@ -17,7 +17,7 @@ import org.junit.Test;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 import com.ibus.opensubtitles.client.OpenSubtitlesToken;
 import com.ibus.opensubtitles.client.dto.OstTitleDto;
-import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashData;
+import com.ibus.opensubtitles.client.entity.OpenSubtitlesHashData;
 import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashGenerator;
 
 public class OpenSubtitlesClientTest
@@ -72,7 +72,7 @@ public class OpenSubtitlesClientTest
 	
 	
 	@Test
-	public void openSubtitlesT1Test() throws XmlRpcException, IOException
+	public void directCodeTest() throws XmlRpcException, IOException
 	{
 		 	XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
 	        config.setServerURL(new URL("http://api.opensubtitles.org/xml-rpc"));
