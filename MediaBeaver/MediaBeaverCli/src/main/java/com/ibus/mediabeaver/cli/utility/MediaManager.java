@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,6 +29,7 @@ import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
 
 import info.movito.themoviedbapi.TmdbFind;
 
+import com.ibus.mediabeaver.core.util.RegExHelper;
 
 public class MediaManager extends MediaManagerBase2
 {	
@@ -66,10 +69,46 @@ public class MediaManager extends MediaManagerBase2
 			
 			if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("episode"))
 			{
-				TvdbEpisodeDto episode = getTvdbEpisode(ostTitle, file);
-				if(episode == null)
+				String imdbId = OstTitleDto.parseImdbId(ostTitle.get(OpenSubtitlesField.SeriesIMDBParent.toString()));
+				if(imdbId == null)
+				{
+					log.debug(String.format("Failed to get a valid series imdbId from open subtitles service. Aborting movement of %s.", file.getAbsolutePath()));
 					return;
+				}
 				
+				String seasonNumber = ostTitle.get(OpenSubtitlesField.SeriesSeason.toString());
+				String episodeNumber = ostTitle.get(OpenSubtitlesField.SeriesSeason.toString());
+				if(seasonNumber == null || seasonNumber.length() == 0 || episodeNumber == null || episodeNumber.length() == 0)
+				{
+					log.debug(
+							String.format("Failed to get a valid season and episode number from the open subtitles service. aborting movement of %s.", 
+							file.getAbsolutePath()));
+					return;
+				}
+				
+				TvdbSeriesResponseDto seriesDto = tvdbClient.getSeries(imdbId);
+				if(seriesDto == null)
+				{
+					log.debug(
+							String.format("Failed to get a valid series data from the TMDB service. aborting movement of %s.", 
+							file.getAbsolutePath()));
+					return;
+				}
+				
+				long tvdbSeriesId = seriesDto.getSeries().getId();
+				TvdbEpisodesResponseDto tvdbEpisodes = tvdbClient.getEpisodes(Long.toString(tvdbSeriesId));
+				if(tvdbEpisodes == null)
+				{
+					log.debug(
+							String.format("Failed to get a valid episode data from the TMDB service. aborting movement of %s.", 
+							file.getAbsolutePath()));
+					return;
+				}
+				
+				TvdbEpisodeDto tvdbEpisode = tvdbEpisodes.getEpisode(seasonNumber, episodeNumber);
+				log.debug(String.format("Successfully acquired episode data for %s.", file.getAbsolutePath()));
+				
+				//return tvdbEpisode;
 				
 			}
 			else if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("movie"))
@@ -86,6 +125,10 @@ public class MediaManager extends MediaManagerBase2
 		} catch (URISyntaxException e)
 		{
 			log.error(String.format("An unexpected error occured while attempting to search fo the file using a web service.  aborting movement of %s."), e);
+			
+			
+			
+			config.getMoviePath();
 		}
 		
 
@@ -94,57 +137,42 @@ public class MediaManager extends MediaManagerBase2
 	
 	
 	
-	
-	
-	private TvdbEpisodeDto getTvdbEpisode(Map<String,String> ostTitle, File file) throws URISyntaxException 
+	public void parseEpisodePath(TvdbEpisodesResponseDto tvdbEpisodes)
 	{
-		String imdbId = OstTitleDto.parseImdbId(ostTitle.get(OpenSubtitlesField.SeriesIMDBParent.toString()));
-		if(imdbId == null)
+		/*
+		 * get each token from path 
+		 * split token into variable and its methods
+		 * 
+		 * itterate over each variable and get its value from the dto(s)
+		 * parse value using methods
+		 * replace each token in path with parsed value 
+		 * */
+		
+		Pattern pattern = Pattern.compile("\\{([a-zA-Z])\\.(.+?)\\}");
+		Matcher matcher = pattern.matcher(config.getEpisodePath());
+		
+		while (matcher.find()) 
 		{
-			log.debug(String.format("Failed to get a valid series imdbId from open subtitles service. Aborting movement of %s.", file.getAbsolutePath()));
-			return null;
-		}
-		
-		String seasonNumber = ostTitle.get(OpenSubtitlesField.SeriesSeason.toString());
-		String episodeNumber = ostTitle.get(OpenSubtitlesField.SeriesSeason.toString());
-		if(seasonNumber == null || seasonNumber.length() == 0 || episodeNumber == null || episodeNumber.length() == 0)
-		{
-			log.debug(
-					String.format("Failed to get a valid season and episode number from the open subtitles service. aborting movement of %s.", 
-					file.getAbsolutePath()));
-			return null;
-		}
-		
-		TvdbSeriesResponseDto seriesDto = tvdbClient.getSeries(imdbId);
-		if(seriesDto == null)
-		{
-			log.debug(
-					String.format("Failed to get a valid series data from the TMDB service. aborting movement of %s.", 
-					file.getAbsolutePath()));
-			return null;
-		}
-		
-		long tvdbSeriesId = seriesDto.getSeries().getId();
-		TvdbEpisodesResponseDto tvdbEpisodes = tvdbClient.getEpisodes(Long.toString(tvdbSeriesId));
-		if(tvdbEpisodes == null)
-		{
-			log.debug(
-					String.format("Failed to get a valid episode data from the TMDB service. aborting movement of %s.", 
-					file.getAbsolutePath()));
-			return null;
-		}
-		
-		TvdbEpisodeDto tvdbEpisode = tvdbEpisodes.getEpisode(seasonNumber, episodeNumber);
-		log.debug(String.format("Successfully acquired episode data for %s.", file.getAbsolutePath()));
-		
-		return tvdbEpisode;
-		
-		
-		//TODO: we should cache here?
-		
-		//DOES NOT RETURN ANYTHING UNDER SEASONS
-		//result = tmdbApi.getFind().find(imdbId, TmdbFind.ExternalSource.imdb_id, null);	
+			for(int i = 0; i <= matcher.groupCount(); i++)
+			{
+				if(matcher.group(i)!= null )
+				{
+					String group = matcher.group(i).trim();
+					if(group.length() > 0)
+						captures.add(group);
+				}
+			}
+		}			
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

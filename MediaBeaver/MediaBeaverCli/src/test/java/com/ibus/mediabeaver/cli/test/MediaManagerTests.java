@@ -7,6 +7,8 @@ import info.movito.themoviedbapi.model.FindResults;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.xmlrpc.XmlRpcException;
@@ -16,6 +18,7 @@ import org.junit.Test;
 import com.ibus.mediabeaver.cli.utility.MediaManager;
 import com.ibus.mediabeaver.core.entity.MediaConfig2;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
+import com.ibus.tvdb.client.domain.TvdbEpisodeDto;
 
 public class MediaManagerTests
 {
@@ -58,6 +61,20 @@ public class MediaManagerTests
 		assertTrue(true);
 	}
 	
+	
+	@Test
+	public void reflectionTest() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException
+	{
+		TvdbEpisodeDto dto = new TvdbEpisodeDto();
+		dto.setEpisodeNumber("12");
+		
+		Class noparams[] = {};
+		Class cls = Class.forName("com.ibus.tvdb.client.domain.TvdbEpisodeDto");		
+		Method method = cls.getDeclaredMethod("getEpisodeNumber", noparams);
+		
+		String g = (String) method.invoke(dto, null);
+		
+	}
 
 	
 	

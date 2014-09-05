@@ -23,7 +23,7 @@ public class MediaConfig2 extends PersistentObject
 	private String tvRootDirectory;
 	
 	@Column
-	private String tvPath;
+	private String episodePath;
 	
 	@Column
 	private String movieRootDirectory;
@@ -53,14 +53,14 @@ public class MediaConfig2 extends PersistentObject
 		this.tvRootDirectory = tvRootDirectory;
 	}
 
-	public String getTvPath()
+	public String getEpisodePath()
 	{
-		return tvPath;
+		return episodePath;
 	}
 
-	public void setTvPath(String tvPath)
+	public void setEpisodePath(String tvPath)
 	{
-		this.tvPath = tvPath;
+		this.episodePath = tvPath;
 	}
 
 	public String getMovieRootDirectory()
