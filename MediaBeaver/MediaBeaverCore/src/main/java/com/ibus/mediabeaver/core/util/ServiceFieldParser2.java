@@ -36,20 +36,19 @@ public class ServiceFieldParser2
 		return null;
 	}
 	
-	/**
-	 * transform the value of a field from the a media service to the 
-	 * format specified in transformFormat.  
-	 * 
-	 * @param fieldValue
-	 * the value of a field from the open subtitles service 
-	 * @param transformFormat
-	 * the format string used for transforming the value of a service field. "{MovieYear}.replaceAll(regex, replacement)" is an example.
-	 * the first value in brackets specifies the field. tokens after this are the methods used to transform the field value.
-	 * @return
-	 */
 	public String parseField(String fieldValue, String transformFormat)
 	{
-		//\{[a-zA-Z]+\}\.[a-zA-Z]+\(.*?(?:[^\\]\)|\))
+		/*
+			itterate over all varaible with methods  
+			\{([a-zA-Z]+)\}(\.(?:[a-zA-Z]+)\((?:\s*"(?:[^"]|(?<=\\)")*"\s*,(?!\s*\)))*(?:\s*"(?:[^"]|(?<=\\)")*"\s*)?\))+
+			
+			itterate over each above to get methods for each varaible  
+			\.([a-zA-Z]+)\(((?:\s*"(?:[^"]|(?<=\\)")*"\s*,(?!\s*\)))*(?:\s*"(?:[^"]|(?<=\\)")*"\s*)?)\)
+			
+			//itterate over each methods parameters
+			"((?:[^"]|(?<=\\)")*)"
+		*/
+		
 		
 		Pattern methodPattern = Pattern.compile("\\.([a-zA-Z]+)\\((.*?[^\\\\])\\)");
 		Matcher methodMatcher = methodPattern.matcher(transformFormat.trim());
