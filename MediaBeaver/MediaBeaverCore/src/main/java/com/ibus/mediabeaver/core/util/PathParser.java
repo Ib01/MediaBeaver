@@ -8,33 +8,94 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
-public class ServiceFieldParser2
+public class PathParser
 {	
-	/**
-	 * Gets the service field identifier from a servicer field transform string 
-	 * 
-	 * @param transformFormat
-	 * The format string used for transforming the value of a service field. in the format string 
-	 * "{MovieYear}.replaceAll(regex, replacement)" {MovieYear} is the service field identifier
-	 * 
-	 * @return
-	 * the service field identifier
-	 */
-	public String getFieldIdentifier(String transformFormat)
-	{		
-		Pattern pattern = Pattern.compile("^\\{([a-zA-Z]+)\\}");
-		Matcher matcher = pattern.matcher(transformFormat.trim());
+	public class Method{
+		public String Name;
+		public List<String> Parameters = new ArrayList<String>();
+	}
+	public class PathToken{
+		public String WholeToken;
+		public String Variable;
+		public List<Method> Methods = new ArrayList<Method>();
+		public String tokenValue;
+	}
+	
+	
+	public List<PathToken> parsePath(String Path)
+	{
+		List<PathToken> tokens = new ArrayList<PathToken>();
 		
-		if (matcher.find()) 
+		//pulls every variable block from a string. i.e pulls {variable1}.method("foo","bar") and {variable2}.method("foo","bar") from: "some crap {variable1}.method("foo","bar") some crap. {variable2}.method("foo","bar")"
+		String varaibleAndMethodsRegEx ="\\{([a-zA-Z]+)\\}(\\.(?:[a-zA-Z]+)\\((?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*,(?!\\s*\\)))*(?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*)?\\))+";
+		
+		Pattern varaibleAndMethodsPattern = Pattern.compile(varaibleAndMethodsRegEx);
+		Matcher varaibleAndMethodsMatcher = varaibleAndMethodsPattern.matcher(Path.trim());
+		
+		while(varaibleAndMethodsMatcher.find())
 		{
-			if(matcher.groupCount() ==1 && matcher.group(1)!= null )
+			PathToken token = new PathToken();
+			token.WholeToken= varaibleAndMethodsMatcher.group(0).trim();
+			token.Variable = varaibleAndMethodsMatcher.group(1).trim();
+			//String varaibleAndMethods = varaibleAndMethodsMatcher.group(0);
+			//String variable = varaibleAndMethodsMatcher.group(1);
+
+			//pulls every method from variable block. i.e pulls .method1("foo","bar") and .method2("foo","bar") from: {variable}.method1("foo","bar").method2("foo","bar")
+			String methodsAndParametersRegEx = "\\.([a-zA-Z]+)\\(((?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*,(?!\\s*\\)))*(?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*)?)\\)";
+			
+			Pattern methodsAndParametersPattern = Pattern.compile(methodsAndParametersRegEx);
+			Matcher methodsAndParametersMatcher = methodsAndParametersPattern.matcher(token.WholeToken);
+			
+			while(methodsAndParametersMatcher.find())
 			{
-				return matcher.group(1);
+				Method method = new Method();
+				method.Name= methodsAndParametersMatcher.group(1);
+				//String methodAndParameters = methodsAndParametersMatcher.group(0);
+				//String method = methodsAndParametersMatcher.group(1);
+				String parameters = methodsAndParametersMatcher.group(2);
+		
+				//pulls parameters from a methods parameter list.  ie it extracts "foo" and "bar" from {adsf}.method("foo","bar")
+				String parametersRegEx = "\"((?:[^\"]|(?<=\\\\)\")*)\"";
+				
+				Pattern parametersPattern = Pattern.compile(parametersRegEx);
+				Matcher parametersMatcher = parametersPattern.matcher(parameters.trim());
+				
+				while(parametersMatcher.find())
+				{
+					method.Parameters.add(parametersMatcher.group(1));
+					//String parameter = parametersMatcher.group(1);
+				}
+				
+				token.Methods.add(method);
 			}
+		
+			tokens.add(token);
 		}
 		
-		return null;
+		return tokens;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
+	itterate over all varaible with methods  
+	\{([a-zA-Z]+)\}(\.(?:[a-zA-Z]+)\((?:\s*"(?:[^"]|(?<=\\)")*"\s*,(?!\s*\)))*(?:\s*"(?:[^"]|(?<=\\)")*"\s*)?\))+
+	
+	itterate over each above to get methods for each varaible  
+	\.([a-zA-Z]+)\(((?:\s*"(?:[^"]|(?<=\\)")*"\s*,(?!\s*\)))*(?:\s*"(?:[^"]|(?<=\\)")*"\s*)?)\)
+	
+	//itterate over each methods parameters
+	"((?:[^"]|(?<=\\)")*)"
+	 */
+
+	
+	
 	
 	public String parseField(String fieldValue, String transformFormat)
 	{
@@ -74,6 +135,23 @@ public class ServiceFieldParser2
 		return fieldValue;
 	}
 	
+	
+	
+	public String getFieldIdentifier(String transformFormat)
+	{		
+		Pattern pattern = Pattern.compile("^\\{([a-zA-Z]+)\\}");
+		Matcher matcher = pattern.matcher(transformFormat.trim());
+		
+		if (matcher.find()) 
+		{
+			if(matcher.groupCount() ==1 && matcher.group(1)!= null )
+			{
+				return matcher.group(1);
+			}
+		}
+		
+		return null;
+	}
 	
 	private String executeMethod(String fieldValue, String methodName, List<String> parameters)
 	{

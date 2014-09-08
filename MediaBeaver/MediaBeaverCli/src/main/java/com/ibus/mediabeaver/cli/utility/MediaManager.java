@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.ibus.mediabeaver.core.util.PathParser;
 import com.ibus.mediabeaver.core.util.RegExHelper;
 import com.ibus.mediabeaver.core.util.ServiceFieldParser;
 
@@ -30,6 +31,7 @@ import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
 import info.movito.themoviedbapi.TmdbFind;
 
 import com.ibus.mediabeaver.core.util.RegExHelper;
+import com.ibus.mediabeaver.core.util.PathParser.PathToken;
 
 public class MediaManager extends MediaManagerBase2
 {	
@@ -37,7 +39,6 @@ public class MediaManager extends MediaManagerBase2
 	private static String tvdbScheme =  "http";
 	private static String tvdbHost =  "www.thetvdb.com";
 	private static String tvdbLanguage =  "en";
-	
 	
 	TvdbClient tvdbClient;
 	TmdbApi tmdbApi;
@@ -139,30 +140,17 @@ public class MediaManager extends MediaManagerBase2
 	
 	public void parseEpisodePath(TvdbEpisodesResponseDto tvdbEpisodes)
 	{
-		/*
-		 * get each token from path 
-		 * split token into variable and its methods
-		 * 
-		 * itterate over each variable and get its value from the dto(s)
-		 * parse value using methods
-		 * replace each token in path with parsed value 
-		 * */
+		PathParser parser = new PathParser();
+		List<PathToken> tokens = parser.parsePath(config.getEpisodePath());
 		
-		Pattern pattern = Pattern.compile("\\{([a-zA-Z])\\.(.+?)\\}");
-		Matcher matcher = pattern.matcher(config.getEpisodePath());
-		
-		while (matcher.find()) 
+		for(PathToken token : tokens)
 		{
-			for(int i = 0; i <= matcher.groupCount(); i++)
+			if(token.Variable.equals(""))
 			{
-				if(matcher.group(i)!= null )
-				{
-					String group = matcher.group(i).trim();
-					if(group.length() > 0)
-						captures.add(group);
-				}
+				
 			}
-		}			
+		}
+		
 	}
 	
 	
