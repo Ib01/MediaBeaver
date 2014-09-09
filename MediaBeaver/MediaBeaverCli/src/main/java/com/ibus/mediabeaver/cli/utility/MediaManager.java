@@ -69,7 +69,7 @@ public class MediaManager extends MediaManagerBase2
 			if(ostTitle == null)
 				return;
 			
-			if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("episode"))
+			if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("episode") || ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("tv series"))
 			{
 				String imdbId = OstTitleDto.parseImdbId(ostTitle.get(OpenSubtitlesField.SeriesIMDBParent.toString()));
 				if(imdbId == null)
@@ -89,7 +89,7 @@ public class MediaManager extends MediaManagerBase2
 				}
 				
 				TvdbSeriesResponseDto seriesDto = tvdbClient.getSeries(imdbId);
-				if(seriesDto == null)
+				if(seriesDto == null || seriesDto.getSeries() == null || seriesDto.getSeries().getId() == null)
 				{
 					log.debug(
 							String.format("Failed to get a valid series data from the TMDB service. aborting movement of %s.", 
@@ -285,8 +285,6 @@ public class MediaManager extends MediaManagerBase2
 		}
 		
 	}
-	
-	
 	
 	
 	

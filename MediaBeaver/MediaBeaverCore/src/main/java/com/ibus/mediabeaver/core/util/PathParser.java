@@ -43,6 +43,51 @@ public class PathParser
 	}
 	
 	
+	/**
+	 * Parse a path variable into a value using its methods
+	 * @return
+	 * @throws PathParseException 
+	 */
+	public static PathToken parseToken(PathToken token, String value) throws PathParseException
+	{
+		for(PathMethod method : token.getMethods())
+		{
+			value = executeMethod(value, method.getName(), method.getParameters());
+		}
+		
+		token.setValue(value);
+		return token;
+	}
+	
+	/**
+	 * Parse a path using a PathToken
+	 * @param token
+	 * @param value
+	 * @return
+	 */
+	public static String parsePath(PathToken token, String path)
+	{
+		return path.replace(token.getPathString(), token.getValue());
+	}
+	
+	
+	/**
+	 * determines whether a path contains tokens such as 
+	 * {{MovieName}} ({{MovieYear}})\{{MovieName}} ({{MovieYear}}).  
+	 * @param text
+	 * @return
+	 */
+	public static boolean containsTokens(String path)
+	{
+		Pattern pattern = Pattern.compile(TokensExistRegEx);
+		Matcher matcher = pattern.matcher(path);
+		
+		return matcher.find();
+	}
+	
+	
+	
+	
 	private static List<PathToken> getTokensWithoutParameters(List<PathToken> tokens,String path)
 	{
 		//Process tokens without methods.
@@ -97,53 +142,6 @@ public class PathParser
 		
 		return tokens;
 	}
-	
-	
-	/**
-	 * Parse a path variable into a value using its methods
-	 * @return
-	 * @throws PathParseException 
-	 */
-	public static PathToken parseToken(PathToken token, String value) throws PathParseException
-	{
-		for(PathMethod method : token.getMethods())
-		{
-			value = executeMethod(value, method.getName(), method.getParameters());
-		}
-		
-		token.setValue(value);
-		return token;
-	}
-	
-	
-	/**
-	 * Parse 
-	 * @param token
-	 * @param value
-	 * @return
-	 */
-	public static String parsePath(PathToken token, String path)
-	{
-		return path.replace(token.getPathString(), token.getValue());
-	}
-	
-	
-	/**
-	 * determines whether a path contains token place holders such as 
-	 * {{MovieName}} ({{MovieYear}})\{{MovieName}} ({{MovieYear}}).  
-	 * @param text
-	 * @return
-	 */
-	public static boolean containsTokens(String path)
-	{
-		Pattern pattern = Pattern.compile(TokensExistRegEx);
-		Matcher matcher = pattern.matcher(path);
-		
-		return matcher.find();
-	}
-	
-	
-	
 	
 	private static String executeMethod(String fieldValue, String methodName, List<String> parameters) throws PathParseException
 	{

@@ -37,9 +37,10 @@ public class OstTitleDto
 	{
 		for(Map<String, String> title : getPossibleTitles())
 		{
-			if((title.get(OpenSubtitlesField.MovieKind.toString()).equals("episode") || title.get(OpenSubtitlesField.MovieKind.toString()).equals("movie"))
-					&& title.get(OpenSubtitlesField.IDMovieImdb.toString()) != null 
-					&& title.get(OpenSubtitlesField.IDMovieImdb.toString()).length() > 0)
+			if((	title.get(OpenSubtitlesField.MovieKind.toString()).equals("episode") 
+					|| title.get(OpenSubtitlesField.MovieKind.toString()).equals("tv series") 
+					||title.get(OpenSubtitlesField.MovieKind.toString()).equals("movie"))
+					&& (title.get(OpenSubtitlesField.IDMovieImdb.toString()) != null && title.get(OpenSubtitlesField.IDMovieImdb.toString()).length() > 0))
 			{
 				return title;
 			}
