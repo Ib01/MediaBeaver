@@ -143,26 +143,6 @@ public class FileSystem
 		return true;
 	}
 	
-	public boolean moveFile2(String source, String dest) throws IOException, FileNotExistException, FileExistsException
-	{
-		source = "C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Source\\S01E01.avi";
-		dest = "C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Destination\\TV\\S01E01.avi";
-		
-		Path original = Paths.get(source); 
-		Path destination = Paths.get(dest); 
-		
-		try 
-		{ 
-			Files.move(original, destination, StandardCopyOption.REPLACE_EXISTING);
-			
-		} 
-		catch (IOException x) 
-		{ //catch all for IO problems }
-		}
-		
-		return true;
-	}
-	
 	
 	
 	public boolean deleteQuietly(String file)

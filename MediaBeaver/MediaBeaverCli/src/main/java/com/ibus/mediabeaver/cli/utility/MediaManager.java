@@ -16,6 +16,7 @@ import com.ibus.mediabeaver.core.util.ServiceFieldParser;
 
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.model.FindResults;
+import info.movito.themoviedbapi.model.MovieDb;
 
 import com.ibus.mediabeaver.core.entity.MediaConfig2;
 import com.ibus.mediabeaver.core.entity.PathToken;
@@ -45,14 +46,14 @@ public class MediaManager extends MediaManagerBase2
 	
 	TvdbClient tvdbClient;
 	TmdbApi tmdbApi;
-	ServiceFieldParser fieldParser; //TODO: keep?
-	RegExHelper regExHelper;//TODO: keep?
 	List<PathToken> episodePathTokens;
+	List<PathToken> moviePathTokens;
 	
 	public MediaManager(MediaConfig2 config)
 	{
 		this.config = config;
 		episodePathTokens = PathParser.getTokens(config.getEpisodePath());
+		moviePathTokens = PathParser.getTokens(config.getMoviePath());
 		tvdbClient = new TvdbClient(tvdbScheme, tvdbHost, tvdbLanguage);
 		tmdbApi = new TmdbApi(tmdbApiKey);
 	}
@@ -60,7 +61,7 @@ public class MediaManager extends MediaManagerBase2
 	
 	
 	@Override
-	protected void processFile(File file) 
+	protected void moveFile(File file) 
 	{
 		try
 		{
@@ -109,12 +110,12 @@ public class MediaManager extends MediaManagerBase2
 				TvdbEpisodeDto tvdbEpisode = tvdbEpisodes.getEpisode(seasonNumber, episodeNumber);
 				log.debug(String.format("Successfully acquired episode data for %s.", file.getAbsolutePath()));
 				
-				String episodePath = parseEpisodePath(seriesDto, tvdbEpisode);
+				String destinationPathEnd = parseEpisodePath(seriesDto, tvdbEpisode);
 				
-				fileSys.moveFile(file.getAbsolutePath(), config.getTvRootDirectory(), episodePath, FilenameUtils.getExtension(file.getAbsolutePath()));
-				
-				return;
-				
+				log.debug(String.format("Destination path end generated %s.%s.", 
+						destinationPathEnd, FilenameUtils.getExtension(file.getAbsolutePath())));
+		
+				fileSys.moveFile(file.getAbsolutePath(), config.getTvRootDirectory(), destinationPathEnd, FilenameUtils.getExtension(file.getAbsolutePath()));
 			}
 			else if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("movie"))
 			{
@@ -122,32 +123,86 @@ public class MediaManager extends MediaManagerBase2
 				String imdbId = OstTitleDto.parseImdbId(ostTitle.get(OpenSubtitlesField.IDMovieImdb.toString()));
 				FindResults result = tmdbApi.getFind().find(imdbId, TmdbFind.ExternalSource.imdb_id, null);
 				
+				String destinationPathEnd = parseMoviePath(result.getMovieResults().get(0));
+				
+				log.debug(String.format("Destination path end generated %s.%s.", 
+						destinationPathEnd, FilenameUtils.getExtension(file.getAbsolutePath())));
+		
+				fileSys.moveFile(file.getAbsolutePath(), config.getMovieRootDirectory(), destinationPathEnd, FilenameUtils.getExtension(file.getAbsolutePath()));
 			}
 			
-	
+			
 		} catch (URISyntaxException e)
 		{
-			log.error(String.format("An unexpected error occured while attempting to move of %s."), e);
+			log.error(String.format("An unexpected error occured while attempting to move of"), e);
 		} catch (PathParseException e)
 		{
-			log.error(String.format("An unexpected error occured while attempting to move of %s."), e);
+			log.error(String.format("An unexpected error occured while attempting to move of"), e);
 		} catch (IOException e)
 		{
-			log.error(String.format("An unexpected error occured while attempting to move of %s."), e);
+			log.error(String.format("An unexpected error occured while attempting to move of"), e);
 		} catch (FileNotExistException e)
 		{
-			log.error(String.format("An unexpected error occured while attempting to move of %s."), e);
+			log.error(String.format("An unexpected error occured while attempting to move of"), e);
 		} catch (FileExistsException e)
 		{
-			log.error(String.format("An unexpected error occured while attempting to move of %s."), e);
+			log.error(String.format("An unexpected error occured while attempting to move of"), e);
 		}
 
 	}
+	
+	
+	/**
+	 * parse tokenised or templated movie path for a Movie. for eg will  
+	 * parse: 
+	 *  {MovieName}({ReleaseDate})\\{MovieName}({ReleaseDate})
+	 *  to: 
+	 *  Iron Man (2010)\Iron Man (2010)
+	 * @param seriesDto
+	 * @param tvdbEpisode
+	 * @return
+	 * @throws PathParseException
+	 */
+	private String parseMoviePath(MovieDb movie) throws PathParseException
+	{
+		String rawMoviePath =  config.getMoviePath(); //path with tokens in it
+		
+		for(PathToken token : moviePathTokens)
+		{
+			PathToken parsedToken = null;
+			if(token.getName().equals("MovieName"))
+			{
+				parsedToken = PathParser.parseToken(token, movie.getTitle());
+			}
+			else if(token.getName().equals("ReleaseDate"))
+			{
+				parsedToken = PathParser.parseToken(token, movie.getReleaseDate());
+			}
+			
+			rawMoviePath = PathParser.parsePath(parsedToken, rawMoviePath);
+		}
+		
+		
+		if(PathParser.containsTokens(rawMoviePath))
+			throw new PathParseException(String.format("Episode path is malformed. Path contains tokens after being parsed: %s", rawMoviePath));
+		
+		return rawMoviePath;
+	}
+	
 
 	
-	
-	
-	public String parseEpisodePath(TvdbSeriesResponseDto seriesDto, TvdbEpisodeDto tvdbEpisode) throws PathParseException
+	/**
+	 * parse tokenised or templated episode path for an episode. for eg will  
+	 * parse: 
+	 *  \{SeriesName}\Season {SeasonNumber}\{SeriesName} S{SeasonNumber}.leftPad("2","0")E{EpisodeNumber}.leftPad("2","0")"
+	 *  to: 
+	 *  Game of Thrones\Season 1\Game of Thrones S01E01.avi
+	 * @param seriesDto
+	 * @param tvdbEpisode
+	 * @return
+	 * @throws PathParseException
+	 */
+	private String parseEpisodePath(TvdbSeriesResponseDto seriesDto, TvdbEpisodeDto tvdbEpisode) throws PathParseException
 	{
 		String rawEpisodePath =  config.getEpisodePath(); //path with tokens in it
 		
@@ -182,14 +237,11 @@ public class MediaManager extends MediaManagerBase2
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * get title from open subtitles using a thumbprint from the file
+	 * @param file
+	 * @return
+	 */
 	private Map<String,String> getOpenSubtitlesTitle(File file) 
 	{
 		//get media information from Open Subtitles Service using file thumbprint 

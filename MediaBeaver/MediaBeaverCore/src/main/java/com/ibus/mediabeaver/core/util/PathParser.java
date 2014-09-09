@@ -14,6 +14,8 @@ import com.ibus.mediabeaver.core.exception.PathParseException;
 
 public class PathParser
 {
+	private static String TokensExistRegEx ="\\{([a-zA-Z]+)\\}";
+	private static String VaraibleRegEx ="\\{([a-zA-Z]+)\\}(?!\\.)";
 	//pulls every variable block from a string. i.e pulls {variable1}.method("foo","bar") and {variable2}.method("foo","bar") from: "some crap {variable1}.method("foo","bar") some crap. {variable2}.method("foo","bar")"
 	private static String VaraibleAndMethodsRegEx ="\\{([a-zA-Z]+)\\}(\\.(?:[a-zA-Z]+)\\((?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*,(?!\\s*\\)))*(?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*)?\\))+";
 	//pulls every method from variable block. i.e pulls .method1("foo","bar") and .method2("foo","bar") from: {variable}.method1("foo","bar").method2("foo","bar")
@@ -27,15 +29,44 @@ public class PathParser
 	 *  PathToken{
 	 *  Variable: "variable1", Methods: {Name: "method", Parameters {"foo", "bar"}
 	 *  }
-	 * @param Path
+	 * @param path
 	 * @return
 	 */
-	public static List<PathToken> getTokens(String Path)
+	public static List<PathToken> getTokens(String path)
 	{
-		List<PathToken> tokens = new ArrayList<PathToken>();
-
+		path = path.trim();
+		
+		List<PathToken> tokens = getTokensWithParameters(new ArrayList<PathToken>(),path);
+		tokens = getTokensWithoutParameters(tokens,path);
+		
+		return tokens;
+	}
+	
+	
+	private static List<PathToken> getTokensWithoutParameters(List<PathToken> tokens,String path)
+	{
+		//Process tokens without methods.
+		Pattern varaiblePattern = Pattern.compile(VaraibleRegEx);
+		Matcher varaibleMatcher = varaiblePattern.matcher(path.trim());
+		
+		while(varaibleMatcher.find())
+		{
+			PathToken token = new PathToken();
+			token.setPathString(varaibleMatcher.group(0).trim());
+			token.setName(varaibleMatcher.group(1).trim());
+			
+			tokens.add(token);
+		}
+		
+		return tokens;
+	}
+	
+	
+	private static List<PathToken> getTokensWithParameters(List<PathToken> tokens,String path)
+	{
+		//Process tokens with methods.
 		Pattern varaibleAndMethodsPattern = Pattern.compile(VaraibleAndMethodsRegEx);
-		Matcher varaibleAndMethodsMatcher = varaibleAndMethodsPattern.matcher(Path.trim());
+		Matcher varaibleAndMethodsMatcher = varaibleAndMethodsPattern.matcher(path);
 		
 		while(varaibleAndMethodsMatcher.find())
 		{
@@ -105,14 +136,11 @@ public class PathParser
 	 */
 	public static boolean containsTokens(String path)
 	{
-		Pattern pattern = Pattern.compile(VaraibleAndMethodsRegEx);
+		Pattern pattern = Pattern.compile(TokensExistRegEx);
 		Matcher matcher = pattern.matcher(path);
 		
 		return matcher.find();
 	}
-	
-	
-	
 	
 	
 	
@@ -126,20 +154,20 @@ public class PathParser
 		if(methodName.equals("leftPad"))
 		{
 			if(parameters == null || parameters.size() != 2)
-				throw new RuntimeException("Service Field Method leftPad has incorrect number of parameters");
+				throw new PathParseException("Service Field Method leftPad has incorrect number of parameters");
 			
 			if(!StringUtils.isNumeric(parameters.get(0)))
-				throw new RuntimeException("Service Field Method leftPad has an incorrect parameter: parameter 1 must be numeric");
+				throw new PathParseException("Service Field Method leftPad has an incorrect parameter: parameter 1 must be numeric");
 			
 			return StringUtils.leftPad(fieldValue, Integer.parseInt(parameters.get(0)), parameters.get(1));
 		}
 		if(methodName.equals("rightPad"))
 		{
 			if(parameters == null || parameters.size() != 2)
-				throw new RuntimeException("Service Field Method rightPad has incorrect number of parameters");
+				throw new PathParseException("Service Field Method rightPad has incorrect number of parameters");
 			
 			if(!StringUtils.isNumeric(parameters.get(0)))
-				throw new RuntimeException("Service Field Method rightPad has an incorrect parameter: parameter 1 must be numeric");
+				throw new PathParseException("Service Field Method rightPad has an incorrect parameter: parameter 1 must be numeric");
 			
 			return StringUtils.rightPad(fieldValue, Integer.parseInt(parameters.get(0)), parameters.get(1));
 		}
@@ -153,14 +181,14 @@ public class PathParser
 		if(methodName.equals("replaceFirst"))
 		{
 			if(parameters == null || parameters.size() != 2)
-				throw new RuntimeException("Service Field Method leftPad has incorrect number of parameters");
+				throw new PathParseException("Service Field Method leftPad has incorrect number of parameters");
 			
 			return fieldValue.replaceFirst(parameters.get(0), parameters.get(1));
 		}
 		if(methodName.equals("replaceAll"))
 		{
 			if(parameters == null || parameters.size() != 2)
-				throw new RuntimeException("Service Field Method replaceAll has incorrect number of parameters");
+				throw new PathParseException("Service Field Method replaceAll has incorrect number of parameters");
 			
 			return fieldValue.replaceAll(parameters.get(0), parameters.get(1));
 		}
@@ -176,6 +204,19 @@ public class PathParser
 		{
 			return fieldValue.trim();
 		}
+		if(methodName.equals("substring"))
+		{
+			if(parameters == null || parameters.size() != 2)
+				throw new PathParseException("Service Field Method substring has incorrect number of parameters");
+			if(!StringUtils.isNumeric(parameters.get(0)))
+				throw new PathParseException("Service Field Method substring has an incorrect parameter: parameter 1 must be numeric");
+			if(!StringUtils.isNumeric(parameters.get(1)))
+				throw new PathParseException("Service Field Method substring has an incorrect parameter: parameter 2 must be numeric");
+			
+			return fieldValue.substring(Integer.parseInt(parameters.get(0)), Integer.parseInt(parameters.get(1)));
+		}
+		
+		
 		
 		throw new PathParseException(String.format("Method token %s not recognised", methodName));
 	}

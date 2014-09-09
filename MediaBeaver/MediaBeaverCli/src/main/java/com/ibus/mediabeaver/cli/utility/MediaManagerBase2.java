@@ -62,7 +62,7 @@ public abstract class MediaManagerBase2
 			{
 				/*try
 				{*/
-					processFile(fso);
+					moveFile(fso);
 				/*} catch (IOException e)
 				{
 					log.error("An exception occured while moving movies", e);
@@ -71,7 +71,8 @@ public abstract class MediaManagerBase2
 		}
 	}
 	
-	protected abstract void processFile(File file);
+	
+	protected abstract void moveFile(File file);
 	
 	
 }

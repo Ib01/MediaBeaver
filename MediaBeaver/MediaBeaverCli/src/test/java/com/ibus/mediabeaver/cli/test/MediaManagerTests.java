@@ -22,13 +22,40 @@ import com.ibus.tvdb.client.domain.TvdbEpisodeDto;
 
 public class MediaManagerTests
 {
-	
-	
 	@Before
 	public void beforeTest()
 	{
-		refreshTestDirs();
+		//refreshTestDirs();
 	}
+	
+	@Test
+	public void processConfigsTest() throws XmlRpcException, IOException
+	{
+		MediaConfig2 c = new MediaConfig2();
+		c.setSourceDirectory("D:\\MediabeaverTests\\Source\\");
+		c.setTvRootDirectory("D:\\MediabeaverTests\\Destination\\TV\\");
+		c.setMovieRootDirectory("D:\\MediabeaverTests\\Destination\\Movies\\");
+		
+		c.setEpisodePath("{SeriesName}\\Season {SeasonNumber}\\{SeriesName} S{SeasonNumber}.leftPad(\"2\",\"0\")E{EpisodeNumber}.leftPad(\"2\",\"0\")");
+		c.setMoviePath("{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))\\{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))");
+		
+		
+		MediaManager mm = new MediaManager(c);
+		mm.moveFiles();
+		
+		
+		assertTrue(true);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	private void refreshTestDirs()
 	{
@@ -45,35 +72,6 @@ public class MediaManagerTests
 		{
 			e.printStackTrace();
 		}
-	}
-	
-	
-	@Test
-	public void processConfigsTest() throws XmlRpcException, IOException
-	{
-		MediaConfig2 c = new MediaConfig2();
-		c.setSourceDirectory("D:\\MediabeaverTests\\Source");
-	
-		MediaManager mm = new MediaManager(c);
-		mm.moveFiles();
-		
-		
-		assertTrue(true);
-	}
-	
-	
-	@Test
-	public void reflectionTest() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException
-	{
-		TvdbEpisodeDto dto = new TvdbEpisodeDto();
-		dto.setEpisodeNumber("12");
-		
-		Class noparams[] = {};
-		Class cls = Class.forName("com.ibus.tvdb.client.domain.TvdbEpisodeDto");		
-		Method method = cls.getDeclaredMethod("getEpisodeNumber", noparams);
-		
-		String g = (String) method.invoke(dto, null);
-		
 	}
 
 	
