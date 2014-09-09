@@ -8,67 +8,59 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
+import com.ibus.mediabeaver.core.entity.PathMethod;
+import com.ibus.mediabeaver.core.entity.PathToken;
+import com.ibus.mediabeaver.core.exception.PathParseException;
+
 public class PathParser
-{	
-	public class Method{
-		public String Name;
-		public List<String> Parameters = new ArrayList<String>();
-	}
-	public class PathToken{
-		public String WholeToken;
-		public String Variable;
-		public List<Method> Methods = new ArrayList<Method>();
-		public String tokenValue;
-	}
+{
+	//pulls every variable block from a string. i.e pulls {variable1}.method("foo","bar") and {variable2}.method("foo","bar") from: "some crap {variable1}.method("foo","bar") some crap. {variable2}.method("foo","bar")"
+	private static String VaraibleAndMethodsRegEx ="\\{([a-zA-Z]+)\\}(\\.(?:[a-zA-Z]+)\\((?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*,(?!\\s*\\)))*(?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*)?\\))+";
+	//pulls every method from variable block. i.e pulls .method1("foo","bar") and .method2("foo","bar") from: {variable}.method1("foo","bar").method2("foo","bar")
+	private static String MethodsAndParametersRegEx = "\\.([a-zA-Z]+)\\(((?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*,(?!\\s*\\)))*(?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*)?)\\)";
+	//pulls parameters from a methods parameter list.  ie it extracts "foo" and "bar" from {adsf}.method("foo","bar")
+	private static String ParametersRegEx = "\"((?:[^\"]|(?<=\\\\)\")*)\"";
 	
-	
-	public List<PathToken> parsePath(String Path)
+	/**
+	 * Get all Varaiables, their methods and each methods parameters from a path.  i.e turn 
+	 * some rubbish {variable1}.method("foo","bar") some rubbish. into 
+	 *  PathToken{
+	 *  Variable: "variable1", Methods: {Name: "method", Parameters {"foo", "bar"}
+	 *  }
+	 * @param Path
+	 * @return
+	 */
+	public static List<PathToken> getTokens(String Path)
 	{
 		List<PathToken> tokens = new ArrayList<PathToken>();
-		
-		//pulls every variable block from a string. i.e pulls {variable1}.method("foo","bar") and {variable2}.method("foo","bar") from: "some crap {variable1}.method("foo","bar") some crap. {variable2}.method("foo","bar")"
-		String varaibleAndMethodsRegEx ="\\{([a-zA-Z]+)\\}(\\.(?:[a-zA-Z]+)\\((?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*,(?!\\s*\\)))*(?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*)?\\))+";
-		
-		Pattern varaibleAndMethodsPattern = Pattern.compile(varaibleAndMethodsRegEx);
+
+		Pattern varaibleAndMethodsPattern = Pattern.compile(VaraibleAndMethodsRegEx);
 		Matcher varaibleAndMethodsMatcher = varaibleAndMethodsPattern.matcher(Path.trim());
 		
 		while(varaibleAndMethodsMatcher.find())
 		{
 			PathToken token = new PathToken();
-			token.WholeToken= varaibleAndMethodsMatcher.group(0).trim();
-			token.Variable = varaibleAndMethodsMatcher.group(1).trim();
-			//String varaibleAndMethods = varaibleAndMethodsMatcher.group(0);
-			//String variable = varaibleAndMethodsMatcher.group(1);
+			token.setPathString(varaibleAndMethodsMatcher.group(0).trim());
+			token.setName(varaibleAndMethodsMatcher.group(1).trim());
 
-			//pulls every method from variable block. i.e pulls .method1("foo","bar") and .method2("foo","bar") from: {variable}.method1("foo","bar").method2("foo","bar")
-			String methodsAndParametersRegEx = "\\.([a-zA-Z]+)\\(((?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*,(?!\\s*\\)))*(?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*)?)\\)";
-			
-			Pattern methodsAndParametersPattern = Pattern.compile(methodsAndParametersRegEx);
-			Matcher methodsAndParametersMatcher = methodsAndParametersPattern.matcher(token.WholeToken);
+			Pattern methodsAndParametersPattern = Pattern.compile(MethodsAndParametersRegEx);
+			Matcher methodsAndParametersMatcher = methodsAndParametersPattern.matcher(token.getPathString());
 			
 			while(methodsAndParametersMatcher.find())
 			{
-				Method method = new Method();
-				method.Name= methodsAndParametersMatcher.group(1);
-				//String methodAndParameters = methodsAndParametersMatcher.group(0);
-				//String method = methodsAndParametersMatcher.group(1);
+				PathMethod method = new PathMethod();
+				method.setName(methodsAndParametersMatcher.group(1));
 				String parameters = methodsAndParametersMatcher.group(2);
-		
-				//pulls parameters from a methods parameter list.  ie it extracts "foo" and "bar" from {adsf}.method("foo","bar")
-				String parametersRegEx = "\"((?:[^\"]|(?<=\\\\)\")*)\"";
-				
-				Pattern parametersPattern = Pattern.compile(parametersRegEx);
+
+				Pattern parametersPattern = Pattern.compile(ParametersRegEx);
 				Matcher parametersMatcher = parametersPattern.matcher(parameters.trim());
 				
 				while(parametersMatcher.find())
 				{
-					method.Parameters.add(parametersMatcher.group(1));
-					//String parameter = parametersMatcher.group(1);
+					method.getParameters().add(parametersMatcher.group(1));
 				}
-				
-				token.Methods.add(method);
+				token.getMethods().add(method);
 			}
-		
 			tokens.add(token);
 		}
 		
@@ -76,84 +68,56 @@ public class PathParser
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	/*
-	itterate over all varaible with methods  
-	\{([a-zA-Z]+)\}(\.(?:[a-zA-Z]+)\((?:\s*"(?:[^"]|(?<=\\)")*"\s*,(?!\s*\)))*(?:\s*"(?:[^"]|(?<=\\)")*"\s*)?\))+
-	
-	itterate over each above to get methods for each varaible  
-	\.([a-zA-Z]+)\(((?:\s*"(?:[^"]|(?<=\\)")*"\s*,(?!\s*\)))*(?:\s*"(?:[^"]|(?<=\\)")*"\s*)?)\)
-	
-	//itterate over each methods parameters
-	"((?:[^"]|(?<=\\)")*)"
+	/**
+	 * Parse a path variable into a value using its methods
+	 * @return
+	 * @throws PathParseException 
 	 */
-
-	
-	
-	
-	public String parseField(String fieldValue, String transformFormat)
+	public static PathToken parseToken(PathToken token, String value) throws PathParseException
 	{
-		/*
-			itterate over all varaible with methods  
-			\{([a-zA-Z]+)\}(\.(?:[a-zA-Z]+)\((?:\s*"(?:[^"]|(?<=\\)")*"\s*,(?!\s*\)))*(?:\s*"(?:[^"]|(?<=\\)")*"\s*)?\))+
-			
-			itterate over each above to get methods for each varaible  
-			\.([a-zA-Z]+)\(((?:\s*"(?:[^"]|(?<=\\)")*"\s*,(?!\s*\)))*(?:\s*"(?:[^"]|(?<=\\)")*"\s*)?)\)
-			
-			//itterate over each methods parameters
-			"((?:[^"]|(?<=\\)")*)"
-		*/
-		
-		
-		Pattern methodPattern = Pattern.compile("\\.([a-zA-Z]+)\\((.*?[^\\\\])\\)");
-		Matcher methodMatcher = methodPattern.matcher(transformFormat.trim());
-		
-		//itterate over each method
-		while(methodMatcher.find())
+		for(PathMethod method : token.getMethods())
 		{
-			String methodName = methodMatcher.group(1);
-			String methodParameters = methodMatcher.group(2);
-			
-			Pattern parameterPattern = Pattern.compile("\"(.*?[^\\\\])\"");
-			Matcher parameterMatcher = parameterPattern.matcher(methodParameters);
-		
-			List<String> parameters = new ArrayList<String>();
-			while(parameterMatcher.find())
-			{
-				parameters.add(parameterMatcher.group(1));
-			}
-			
-			fieldValue = executeMethod(fieldValue, methodName, parameters);
+			value = executeMethod(value, method.getName(), method.getParameters());
 		}
 		
-		return fieldValue;
+		token.setValue(value);
+		return token;
+	}
+	
+	
+	/**
+	 * Parse 
+	 * @param token
+	 * @param value
+	 * @return
+	 */
+	public static String parsePath(PathToken token, String path)
+	{
+		return path.replace(token.getPathString(), token.getValue());
+	}
+	
+	
+	/**
+	 * determines whether a path contains token place holders such as 
+	 * {{MovieName}} ({{MovieYear}})\{{MovieName}} ({{MovieYear}}).  
+	 * @param text
+	 * @return
+	 */
+	public static boolean containsTokens(String path)
+	{
+		Pattern pattern = Pattern.compile(VaraibleAndMethodsRegEx);
+		Matcher matcher = pattern.matcher(path);
+		
+		return matcher.find();
 	}
 	
 	
 	
-	public String getFieldIdentifier(String transformFormat)
-	{		
-		Pattern pattern = Pattern.compile("^\\{([a-zA-Z]+)\\}");
-		Matcher matcher = pattern.matcher(transformFormat.trim());
-		
-		if (matcher.find()) 
-		{
-			if(matcher.groupCount() ==1 && matcher.group(1)!= null )
-			{
-				return matcher.group(1);
-			}
-		}
-		
-		return null;
-	}
 	
-	private String executeMethod(String fieldValue, String methodName, List<String> parameters)
+	
+	
+	
+	private static String executeMethod(String fieldValue, String methodName, List<String> parameters) throws PathParseException
 	{
 		if(methodName.equals("normalizeSpace"))
 		{
@@ -213,8 +177,46 @@ public class PathParser
 			return fieldValue.trim();
 		}
 		
-		throw new RuntimeException("Service Field Method not recognised");
+		throw new PathParseException(String.format("Method token %s not recognised", methodName));
 	}
+	
+	
+	
+	
+	
+	
+	
+	/*
+	itterate over all varaible with methods  
+	\{([a-zA-Z]+)\}(\.(?:[a-zA-Z]+)\((?:\s*"(?:[^"]|(?<=\\)")*"\s*,(?!\s*\)))*(?:\s*"(?:[^"]|(?<=\\)")*"\s*)?\))+
+	
+	itterate over each above to get methods for each varaible  
+	\.([a-zA-Z]+)\(((?:\s*"(?:[^"]|(?<=\\)")*"\s*,(?!\s*\)))*(?:\s*"(?:[^"]|(?<=\\)")*"\s*)?)\)
+	
+	//itterate over each methods parameters
+	"((?:[^"]|(?<=\\)")*)"
+	 */
+
+	
+	
+
+	/*
+	public String getFieldIdentifier(String transformFormat)
+	{		
+		Pattern pattern = Pattern.compile("^\\{([a-zA-Z]+)\\}");
+		Matcher matcher = pattern.matcher(transformFormat.trim());
+		
+		if (matcher.find()) 
+		{
+			if(matcher.groupCount() ==1 && matcher.group(1)!= null )
+			{
+				return matcher.group(1);
+			}
+		}
+		
+		return null;
+	}*/
+	
 	
 	
 }

@@ -72,12 +72,15 @@ public class Main
 					}
 				});
 	
-		moveMediaWithOpenSubtitlesMediaManager(configs);
+		
 		
 	}
 	
 	
-	private static void moveMediaWithOpenSubtitlesMediaManager(List<MediaConfig> configs) throws XmlRpcException, IOException
+	
+	
+	
+	/*private static void moveMediaWithOpenSubtitlesMediaManager(List<MediaConfig> configs) throws XmlRpcException, IOException
 	{
 		log.debug("Starting media movement using Open Subtitles Services");
 		
@@ -102,7 +105,7 @@ public class Main
 		log.debug("Starting media movement using regex selectors");
 		RegExMediaManager h = new RegExMediaManager();
 		h.processConfigs(configs);
-	}
+	}*/
 	
 	public static void initialiseApp()
 	{

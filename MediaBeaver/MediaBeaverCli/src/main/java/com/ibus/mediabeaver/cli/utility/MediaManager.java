@@ -18,7 +18,11 @@ import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.model.FindResults;
 
 import com.ibus.mediabeaver.core.entity.MediaConfig2;
+import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.entity.ServiceFieldMap;
+import com.ibus.mediabeaver.core.exception.FileExistsException;
+import com.ibus.mediabeaver.core.exception.FileNotExistException;
+import com.ibus.mediabeaver.core.exception.PathParseException;
 import com.ibus.opensubtitles.client.dto.OstTitleDto;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesField;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesHashData;
@@ -30,8 +34,7 @@ import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
 
 import info.movito.themoviedbapi.TmdbFind;
 
-import com.ibus.mediabeaver.core.util.RegExHelper;
-import com.ibus.mediabeaver.core.util.PathParser.PathToken;
+import org.apache.commons.io.FilenameUtils;
 
 public class MediaManager extends MediaManagerBase2
 {	
@@ -42,19 +45,16 @@ public class MediaManager extends MediaManagerBase2
 	
 	TvdbClient tvdbClient;
 	TmdbApi tmdbApi;
-	List<ServiceFieldMap> serviceFieldMaps;
 	ServiceFieldParser fieldParser; //TODO: keep?
 	RegExHelper regExHelper;//TODO: keep?
+	List<PathToken> episodePathTokens;
 	
-	
-	public MediaManager(List<ServiceFieldMap> serviceFieldMaps, MediaConfig2 config)
+	public MediaManager(MediaConfig2 config)
 	{
 		this.config = config;
-		this.serviceFieldMaps = serviceFieldMaps;
+		episodePathTokens = PathParser.getTokens(config.getEpisodePath());
 		tvdbClient = new TvdbClient(tvdbScheme, tvdbHost, tvdbLanguage);
 		tmdbApi = new TmdbApi(tmdbApiKey);
-		/*fieldParser = new ServiceFieldParser();
-		regExHelper = new RegExHelper();*/
 	}
 
 	
@@ -109,7 +109,11 @@ public class MediaManager extends MediaManagerBase2
 				TvdbEpisodeDto tvdbEpisode = tvdbEpisodes.getEpisode(seasonNumber, episodeNumber);
 				log.debug(String.format("Successfully acquired episode data for %s.", file.getAbsolutePath()));
 				
-				//return tvdbEpisode;
+				String episodePath = parseEpisodePath(seriesDto, tvdbEpisode);
+				
+				fileSys.moveFile(file.getAbsolutePath(), config.getTvRootDirectory(), episodePath, FilenameUtils.getExtension(file.getAbsolutePath()));
+				
+				return;
 				
 			}
 			else if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("movie"))
@@ -121,40 +125,61 @@ public class MediaManager extends MediaManagerBase2
 			}
 			
 	
-			
-		
 		} catch (URISyntaxException e)
 		{
-			log.error(String.format("An unexpected error occured while attempting to search fo the file using a web service.  aborting movement of %s."), e);
-			
-			
-			
-			config.getMoviePath();
-		}
-		
-
-	}
-
-	
-	
-	
-	public void parseEpisodePath(TvdbEpisodesResponseDto tvdbEpisodes)
-	{
-		PathParser parser = new PathParser();
-		List<PathToken> tokens = parser.parsePath(config.getEpisodePath());
-		
-		for(PathToken token : tokens)
+			log.error(String.format("An unexpected error occured while attempting to move of %s."), e);
+		} catch (PathParseException e)
 		{
-			if(token.Variable.equals(""))
+			log.error(String.format("An unexpected error occured while attempting to move of %s."), e);
+		} catch (IOException e)
+		{
+			log.error(String.format("An unexpected error occured while attempting to move of %s."), e);
+		} catch (FileNotExistException e)
+		{
+			log.error(String.format("An unexpected error occured while attempting to move of %s."), e);
+		} catch (FileExistsException e)
+		{
+			log.error(String.format("An unexpected error occured while attempting to move of %s."), e);
+		}
+
+	}
+
+	
+	
+	
+	public String parseEpisodePath(TvdbSeriesResponseDto seriesDto, TvdbEpisodeDto tvdbEpisode) throws PathParseException
+	{
+		String rawEpisodePath =  config.getEpisodePath(); //path with tokens in it
+		
+		for(PathToken token : episodePathTokens)
+		{
+			PathToken parsedToken = null;
+			if(token.getName().equals("SeriesName"))
 			{
-				
+				parsedToken = PathParser.parseToken(token, seriesDto.getSeries().getSeriesName());
 			}
+			else if(token.getName().equals("SeasonNumber"))
+			{
+				parsedToken = PathParser.parseToken(token, tvdbEpisode.getSeasonNumber());
+			}
+			else if(token.getName().equals("EpisodeNumber"))
+			{
+				parsedToken = PathParser.parseToken(token, tvdbEpisode.getEpisodeNumber());
+			}
+			else if(token.getName().equals("EpisodeName"))
+			{
+				parsedToken = PathParser.parseToken(token, tvdbEpisode.getEpisodeName());
+			}
+			
+			rawEpisodePath = PathParser.parsePath(parsedToken, rawEpisodePath);
 		}
 		
+		
+		if(PathParser.containsTokens(rawEpisodePath))
+			throw new PathParseException(String.format("Episode path is malformed. Path contains tokens after being parsed: %s", rawEpisodePath));
+		
+		return rawEpisodePath;
 	}
-	
-	
-	
 	
 	
 	
@@ -216,77 +241,11 @@ public class MediaManager extends MediaManagerBase2
 	
 	
 	
-	
-	/*private void MoveFile(File file, MediaConfig config, String path)
-	{
-		try
-		{
-			fileSys.moveFile(file.getAbsolutePath(), config.getDestinationRoot(), path, FilenameUtils.getExtension(file.getAbsolutePath()));
-			return;
-		} 
-		catch (IOException e)
-		{
-			log.error((String.format("file %s was NOT moved to %s/%s. An error occured while attempting to move the file.", 
-					file.getAbsolutePath(), config.getDestinationRoot(), path)), e);	
-		} 
-		catch (FileNotExistException e){
-			log.error((String.format("file %s was NOT moved to %s/%s. An error occured while attempting to move the file.", 
-					file.getAbsolutePath(), config.getDestinationRoot(), path)), e);	
-		} 
-		catch (FileExistsException e)
-		{
-			log.error((String.format("file %s was NOT moved to %s/%s. An error occured while attempting to move the file.", 
-					file.getAbsolutePath(), config.getDestinationRoot(), path)), e);	
-		}
-		
-	}*/
-	
 	//tt0090605
-			//tt1480055
-			//tt1480055
-			//tt1480055
-			//tt0944947
-			
-			/*//fill path tokens from the first title that has data for all our fields
-			HashMap<String, String> tokens = new HashMap<String, String>(); 
-			for(Map<String, String> title : dto.getPossibleTitles())
-			{
-				tokens = new HashMap<String, String>();
-				
-				//using our selectors get the values that can be used for file token paths    
-				for(OpenSubtitlesSelector selector : config.getOpenSubtitlesSelectors())
-				{
-					//get token identifier from getOpenSubititleField. i.e get MovieYear in {MovieYear}.replaceAll(regex, replacement).
-					//then get the value for that field from our service object
-					String field = fieldParser.getFieldIdentifier(selector.getOpenSubititleField());
-					String fieldVal = title.get(field);
-					
-					if(fieldVal != null && fieldVal.length() > 0)
-					{
-						log.debug(String.format("A raw value of %s was found for token %s ", fieldVal, selector.getPathTokenName()));
-						
-						//Parse the value of our service field using our parser and the methods specified in the 
-						//getOpenSubititleField
-						fieldVal = fieldParser.parseField(fieldVal, selector.getOpenSubititleField());	
-						tokens.put(selector.getPathTokenName(), fieldVal);
-						
-						log.debug(String.format("The value for token %s was parsed and set to %s", selector.getPathTokenName(), fieldVal));
-					}
-				}
-				
-				//we have a value for all of our tokens.  time to format our path using the tokens and then move the file 
-				if(tokens.size() == config.getOpenSubtitlesSelectors().size())
-				{
-					String finalPath = regExHelper.assembleFileName(tokens, config.getRelativeDestinationPath());
-					MoveFile(file, config, finalPath);
-					break;
-				}
-			}*/
-		   
-	
-	
-	
-	
+	//tt1480055
+	//tt1480055
+	//tt1480055
+	//tt0944947
 	
 
 }

@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
 import com.ibus.mediabeaver.cli.Main;
 import com.ibus.mediabeaver.core.exception.FileExistsException;
 import com.ibus.mediabeaver.core.exception.MediaBeaverConfigurationException;
-import com.ibus.mediabeaver.core.exception.MediaBeaverFileSystemException;
 import com.ibus.mediabeaver.core.exception.FileNotExistException;
 
 public class FileSystem

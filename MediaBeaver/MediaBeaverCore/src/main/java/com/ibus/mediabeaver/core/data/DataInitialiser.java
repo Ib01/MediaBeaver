@@ -25,10 +25,10 @@ public class DataInitialiser
 		addOpenSubtitlesFields();
 		addMoveMoviesConfig();
 		addMoveTVEpisodesConfig();
-		addServiceFieldMaps();
+		//addServiceFieldMaps();
 	}
 	
-	public static void addServiceFieldMaps()
+	/*public static void addServiceFieldMaps()
 	{
 		saveServiceFieldMap("MovieName", "mn", "title", null);
 		saveServiceFieldMap("ReleaseDate", "rd", "releaseDate", null);
@@ -39,7 +39,7 @@ public class DataInitialiser
 		saveServiceFieldMap("EpisodeName", "enm", null, "episodeName");
 		
 		
-	}
+	}*/
 	
 	
 	private static void saveServiceFieldMap(String appName, String abreviation, String tmbdField, String tvdbField)

@@ -54,7 +54,7 @@ public class MediaManagerTests
 		MediaConfig2 c = new MediaConfig2();
 		c.setSourceDirectory("D:\\MediabeaverTests\\Source");
 	
-		MediaManager mm = new MediaManager(null, c);
+		MediaManager mm = new MediaManager(c);
 		mm.moveFiles();
 		
 		
