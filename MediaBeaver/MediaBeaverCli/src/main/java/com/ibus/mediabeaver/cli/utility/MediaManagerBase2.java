@@ -11,7 +11,7 @@ import org.apache.xmlrpc.XmlRpcException;
 
 import com.ibus.mediabeaver.cli.Main;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
-import com.ibus.mediabeaver.core.entity.MediaConfig2;
+import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 
 public abstract class MediaManagerBase2
@@ -24,7 +24,7 @@ public abstract class MediaManagerBase2
 	
 	protected Logger log = Logger.getLogger(Main.class.getName());
 	protected FileSystem fileSys = new FileSystem();
-	protected MediaConfig2 config;
+	protected Configuration config;
 	OpenSubtitlesClient openSubtitlesClient;
 	
 	public void moveFiles() throws IOException, XmlRpcException 

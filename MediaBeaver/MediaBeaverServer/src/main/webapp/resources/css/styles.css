@@ -1,6 +1,5 @@
 body 
 {
-	
 	padding: 0px; 
 	margin: 0px;
 	color: #484848;
@@ -189,7 +188,31 @@ input[type="text"], textarea
 	}
 
 
+.roundedPanel{
+	border-radius: 8px;
+	background-color: #F1F1F1;
+	padding: 10px;
+	padding-bottom: 15px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.formLayout .roundedPanel label{
+	width: 150px;
+}
 
+.roundedPanelLevel1Box{
+	background-color: white; 
+	padding:7px;
+	border-radius: 8px;
+	margin-bottom: 6px;
+}
+
+.roundedPanel H3{
+	color:#1F1F1F;
+	margin-top: 2px;
+	font-size: 14px;
+	font-weight: normal;
+}
 
 
 

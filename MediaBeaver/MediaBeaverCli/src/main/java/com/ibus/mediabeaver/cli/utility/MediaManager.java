@@ -18,7 +18,7 @@ import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.model.FindResults;
 import info.movito.themoviedbapi.model.MovieDb;
 
-import com.ibus.mediabeaver.core.entity.MediaConfig2;
+import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.entity.ServiceFieldMap;
 import com.ibus.mediabeaver.core.exception.FileExistsException;
@@ -49,7 +49,7 @@ public class MediaManager extends MediaManagerBase2
 	List<PathToken> episodePathTokens;
 	List<PathToken> moviePathTokens;
 	
-	public MediaManager(MediaConfig2 config)
+	public MediaManager(Configuration config)
 	{
 		this.config = config;
 		episodePathTokens = PathParser.getTokens(config.getEpisodePath());

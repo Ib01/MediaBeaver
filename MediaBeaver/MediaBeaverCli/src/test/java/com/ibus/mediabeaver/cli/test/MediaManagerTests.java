@@ -16,7 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.ibus.mediabeaver.cli.utility.MediaManager;
-import com.ibus.mediabeaver.core.entity.MediaConfig2;
+import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 import com.ibus.tvdb.client.domain.TvdbEpisodeDto;
 
@@ -31,7 +31,7 @@ public class MediaManagerTests
 	@Test
 	public void processConfigsTest() throws XmlRpcException, IOException
 	{
-		MediaConfig2 c = new MediaConfig2();
+		Configuration c = new Configuration();
 		c.setSourceDirectory("D:\\MediabeaverTests\\Source\\");
 		c.setTvRootDirectory("D:\\MediabeaverTests\\Destination\\TV\\");
 		c.setMovieRootDirectory("D:\\MediabeaverTests\\Destination\\Movies\\");

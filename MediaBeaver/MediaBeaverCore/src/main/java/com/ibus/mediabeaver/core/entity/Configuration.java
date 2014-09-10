@@ -11,8 +11,8 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-@Entity(name = "MediaConfig2")
-public class MediaConfig2 extends PersistentObject
+@Entity(name = "Configuration")
+public class Configuration extends PersistentObject
 {
 	private static final long serialVersionUID = 1L;
 
@@ -31,6 +31,8 @@ public class MediaConfig2 extends PersistentObject
 	@Column
 	private String moviePath;
 	
+	@Column
+	private String videoExtensionFilter;
 	
 	
 	public String getSourceDirectory()
@@ -83,7 +85,16 @@ public class MediaConfig2 extends PersistentObject
 		this.moviePath = moviePath;
 	}
 
-	
+	public String getVideoExtensionFilter()
+	{
+		return videoExtensionFilter;
+	}
+
+	public void setVideoExtensionFilter(String videoExtensionFilter)
+	{
+		this.videoExtensionFilter = videoExtensionFilter;
+	}
+
 	
 }
 

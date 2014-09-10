@@ -30,12 +30,8 @@
         <!-- <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property> -->
         
         
-        <!-- 
-		<mapping class="com.ibus.mediabeaver.core.entity.MediaTransformConfig"/>
-		<mapping class="com.ibus.mediabeaver.core.entity.MovieRegEx"/>
-		<mapping class="com.ibus.mediabeaver.core.entity.RegExItemParser"/> -->
 		
-		
+		<mapping class="com.ibus.mediabeaver.core.entity.Configuration"/>
 		<mapping class="com.ibus.mediabeaver.core.entity.MediaConfig"/>
 		<mapping class="com.ibus.mediabeaver.core.entity.OpenSubtitlesSelector"/>
 		<mapping class="com.ibus.mediabeaver.core.entity.OpenSubtitlesField"/>

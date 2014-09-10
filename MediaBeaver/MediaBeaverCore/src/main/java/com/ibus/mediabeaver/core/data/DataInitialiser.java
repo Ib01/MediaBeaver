@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.OpenSubtitlesField;
 import com.ibus.mediabeaver.core.entity.RegExSelector;
@@ -22,13 +23,39 @@ public class DataInitialiser
 	
 	public static void addDefaultConfigs()
 	{
-		addOpenSubtitlesFields();
+		addConfiguration();
+		
+		/*addOpenSubtitlesFields();
 		addMoveMoviesConfig();
-		addMoveTVEpisodesConfig();
+		addMoveTVEpisodesConfig();*/
 		//addServiceFieldMaps();
 	}
 	
-	/*public static void addServiceFieldMaps()
+	
+	public static void addConfiguration()
+	{
+		Configuration c = new Configuration();
+		c.setSourceDirectory("D:\\MediabeaverTests\\Source\\");
+		c.setTvRootDirectory("D:\\MediabeaverTests\\Destination\\TV\\");
+		c.setMovieRootDirectory("D:\\MediabeaverTests\\Destination\\Movies\\");
+		
+		c.setEpisodePath("{SeriesName}\\Season {SeasonNumber}\\{SeriesName} S{SeasonNumber}.leftPad(\"2\",\"0\")E{EpisodeNumber}.leftPad(\"2\",\"0\")");
+		c.setMoviePath("{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))\\{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))");
+		
+		Repository.saveEntity(c);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public static void addServiceFieldMaps()
 	{
 		saveServiceFieldMap("MovieName", "mn", "title", null);
 		saveServiceFieldMap("ReleaseDate", "rd", "releaseDate", null);
@@ -39,7 +66,7 @@ public class DataInitialiser
 		saveServiceFieldMap("EpisodeName", "enm", null, "episodeName");
 		
 		
-	}*/
+	}
 	
 	
 	private static void saveServiceFieldMap(String appName, String abreviation, String tmbdField, String tvdbField)

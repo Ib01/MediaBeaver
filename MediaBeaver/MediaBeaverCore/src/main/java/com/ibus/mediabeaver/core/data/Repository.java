@@ -85,6 +85,30 @@ public abstract class Repository
 		return c;
 	}
 	
+	public static <T extends Persistable> T getFirstEntity(Class<T> cls) 
+	{
+		List<T> results = getAllEntities(cls);
+		
+		if(results == null || results.size() ==0)
+			return null;
+		
+		return results.get(0);
+	}
+	
+	
+	public static <T extends Persistable> List<T> getAllEntities(Class<T> cls) 
+	{
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		
+		Criteria criteria = s.createCriteria(cls);
+			
+		@SuppressWarnings("unchecked")
+		List<T> results = criteria.list();
+		
+		return results;
+	}
+	
+	
 	public static <T> T getInTransaction(QueryTransactable<T> transactable)
 	{
 		T result;
