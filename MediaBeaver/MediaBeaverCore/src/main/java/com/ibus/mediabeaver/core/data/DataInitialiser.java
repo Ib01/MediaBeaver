@@ -10,10 +10,6 @@ import org.hibernate.Transaction;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ibus.mediabeaver.core.entity.Configuration;
-import com.ibus.mediabeaver.core.entity.MediaConfig;
-import com.ibus.mediabeaver.core.entity.OpenSubtitlesField;
-import com.ibus.mediabeaver.core.entity.RegExSelector;
-import com.ibus.mediabeaver.core.entity.RegExPathTokenSetter;
 import com.ibus.mediabeaver.core.entity.ServiceFieldMap;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 
@@ -206,7 +202,7 @@ public class DataInitialiser
 	
 	
 	/*Add OpenSubtitlesField lookups --------------------------------------------------------------*/	
-	public static void addOpenSubtitlesFields()
+	/*public static void addOpenSubtitlesFields()
 	{
 		addOpenSubtitlesField("UserNickName");
 		addOpenSubtitlesField("SubFormat");
@@ -263,7 +259,7 @@ public class DataInitialiser
 	
 	
 	
-	/*Move Movie files ----------------------------------------------------------------------------*/
+	Move Movie files ----------------------------------------------------------------------------
 	public static void addMoveMoviesConfig()
 	{
 		log.debug(String.format("Adding Move Movie Config"));
@@ -311,7 +307,7 @@ public class DataInitialiser
 		return selector;
 	}
 	
-	/*Move Tv Episodes files ----------------------------------------------------------------------------*/
+	Move Tv Episodes files ----------------------------------------------------------------------------
 	
 	
 	public static void addMoveTVEpisodesConfig()
@@ -366,7 +362,7 @@ public class DataInitialiser
 		
 		return selector;
 	}
-	
+	*/
 	
 	
 	

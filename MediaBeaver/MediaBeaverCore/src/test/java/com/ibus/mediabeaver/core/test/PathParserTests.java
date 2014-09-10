@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.ibus.mediabeaver.core.entity.OpenSubtitlesField;
 import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.exception.PathParseException;
 import com.ibus.mediabeaver.core.util.PathParser;

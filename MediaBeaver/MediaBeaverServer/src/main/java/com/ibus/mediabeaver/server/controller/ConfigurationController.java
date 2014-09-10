@@ -20,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Configuration;
-import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.TransformAction;
 import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
@@ -40,12 +39,12 @@ public class ConfigurationController
 	}
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ModelAndView save(@Validated ConfigurationViewModel configViewModel)
+	public String save(@Validated ConfigurationViewModel configViewModel)
 	{
 		Configuration config = Mapper.getMapper().map(configViewModel, Configuration.class);
 		Repository.saveOrUpdate(config);
 		
-		return new ModelAndView("Configuration","configuration", configViewModel);
+		return "redirect:/configuration/";
 	}
 	
 	

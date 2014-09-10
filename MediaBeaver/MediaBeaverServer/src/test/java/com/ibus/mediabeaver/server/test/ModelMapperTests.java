@@ -11,9 +11,6 @@ import org.junit.Test;
 import org.modelmapper.ModelMapper;
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
-import com.ibus.mediabeaver.core.entity.MediaConfig;
-import com.ibus.mediabeaver.core.entity.RegExSelector;
-import com.ibus.mediabeaver.core.entity.RegExPathTokenSetter;
 import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
@@ -211,7 +208,7 @@ public class ModelMapperTests
 		assertTrue(vm.getValue().equals(obj.getValue()));
 	}
 	*/
-	private void AssertRegExSelectorObjsEqual(RegExSelector obj, RegExSelectorViewModel vm)
+	/*private void AssertRegExSelectorObjsEqual(RegExSelector obj, RegExSelectorViewModel vm)
 	{
 		assertTrue(vm.getId().equals(obj.getId()));
 		assertTrue(vm.getDescription().equals(obj.getDescription()));
@@ -230,7 +227,7 @@ public class ModelMapperTests
 		assertTrue(vm.getReplaceExpression().equals(obj.getReplaceExpression()));
 		assertTrue(vm.getPathTokenName().equals(obj.getPathTokenName()));
 		
-	}
+	}*/
 	
 	
 	

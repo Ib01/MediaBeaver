@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.ibus.mediabeaver.core.data.HibernateUtil;
-import com.ibus.mediabeaver.core.entity.MediaConfig;
 
 public class ModelTests
 {

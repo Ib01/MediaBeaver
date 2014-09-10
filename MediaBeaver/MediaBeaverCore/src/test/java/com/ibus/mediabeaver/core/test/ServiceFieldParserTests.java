@@ -2,7 +2,7 @@ package com.ibus.mediabeaver.core.test;
 
 import org.junit.Test;
 
-import com.ibus.mediabeaver.core.entity.OpenSubtitlesField;
+
 import com.ibus.mediabeaver.core.util.ServiceFieldParser;
 import static org.junit.Assert.assertTrue;
 

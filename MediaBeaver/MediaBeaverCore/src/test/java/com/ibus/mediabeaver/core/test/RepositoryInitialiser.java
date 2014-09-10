@@ -9,7 +9,6 @@ import org.junit.Test;
 import com.ibus.mediabeaver.core.data.DataInitialiser;
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
-import com.ibus.mediabeaver.core.entity.MediaConfig;
 
 public class RepositoryInitialiser
 {

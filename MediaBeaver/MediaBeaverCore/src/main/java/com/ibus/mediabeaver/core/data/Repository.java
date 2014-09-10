@@ -7,13 +7,11 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.CriteriaSpecification;
 
-import com.ibus.mediabeaver.core.entity.MediaConfig;
 import com.ibus.mediabeaver.core.entity.Persistable;
-import com.ibus.mediabeaver.core.entity.RegExSelector;
 
 public abstract class Repository 
 {
-	public static List<MediaConfig>  getAllMediaConfig() 
+	/*public static List<MediaConfig>  getAllMediaConfig() 
 	{
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		
@@ -39,7 +37,7 @@ public abstract class Repository
 		
 		return results;
 	}
-
+*/
 	
 	public static <T extends Persistable> void deleteEntity(T obj)
 	{

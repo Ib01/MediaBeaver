@@ -37,7 +37,7 @@ import info.movito.themoviedbapi.TmdbFind;
 
 import org.apache.commons.io.FilenameUtils;
 
-public class MediaManager extends MediaManagerBase2
+public class MediaManager extends MediaManagerBase
 {	
 	private static String tmdbApiKey = "e482b9df13cbf32a25570c09174a1d84";
 	private static String tvdbScheme =  "http";

@@ -16,14 +16,13 @@ import org.apache.xmlrpc.XmlRpcException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.ibus.mediabeaver.cli.utility.OpenSubtitlesMediaManager;
-import com.ibus.mediabeaver.cli.utility.RegExMediaManager;
+import com.ibus.mediabeaver.cli.utility.MediaManager;
 import com.ibus.mediabeaver.core.data.DataInitialiser;
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.QueryTransactable;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.data.UpdateTransactable;
-import com.ibus.mediabeaver.core.entity.MediaConfig;
+import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 
 public class Main
@@ -63,17 +62,17 @@ public class Main
 	{
 		log.debug("Retreiving Media Configuration Items");
 	
-		List<MediaConfig> configs = Repository.getInTransaction(
-				new QueryTransactable<List<MediaConfig>>() 
+		Configuration config = Repository.getInTransaction(
+				new QueryTransactable<Configuration>() 
 				{
-					public List<MediaConfig> run()
+					public Configuration run()
 					{
-						return Repository.getAllMediaConfig();
+						return Repository.getFirstEntity(Configuration.class);
 					}
 				});
 	
-		
-		
+		MediaManager mm = new MediaManager(config);
+		mm.moveFiles();
 	}
 	
 	
