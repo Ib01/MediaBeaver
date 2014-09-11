@@ -57,11 +57,21 @@ public class MediaManager extends MediaManagerBase
 		tvdbClient = new TvdbClient(tvdbScheme, tvdbHost, tvdbLanguage);
 		tmdbApi = new TmdbApi(tmdbApiKey);
 	}
-
-	
 	
 	@Override
 	protected void moveFile(File file) 
+	{
+		String extension = FilenameUtils.getExtension(file.getAbsolutePath());
+		
+		if(config.isVideoExtension(extension))
+		{
+			moveVideo(file);
+		}
+	}
+	
+	
+	
+	protected void moveVideo(File file) 
 	{
 		try
 		{

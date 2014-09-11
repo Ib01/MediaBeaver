@@ -94,6 +94,24 @@ public class Configuration extends PersistentObject
 	{
 		this.videoExtensionFilter = videoExtensionFilter;
 	}
+	
+	
+	
+	public boolean isVideoExtension(String extension)
+	{
+		String[] extensions = videoExtensionFilter.split("\\s*,\\s*");
+		
+		for(String allowedExtension : extensions)
+		{
+			extension = extension.trim().replace(".", "");
+			allowedExtension = allowedExtension.trim().replace(".", "");
+			
+			if(extension.equals(allowedExtension))
+				return true;
+		}
+		
+		return false;
+	}
 
 	
 }
