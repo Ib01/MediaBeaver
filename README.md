@@ -44,13 +44,7 @@ A file will only be moved if the regular expression selector gets data into all 
 
 # Features to be added before our first beta:
 
-* Add Media Service Selectors.  These will Use TVDB, TMDB and Open subtitles services to select files for movement and to populate variables used in the destination path.
-
-* Need to provide more flexibility in how variables / file tokens are modified before being added to the path for eg in the file "game of thrones s1e2.mkv" we may extract the season as "1".  We may want to further pad the data with 0's on the left. something like fileBots method of chaining methods to variables like: {{name}}.Trim().Pad(0) etc could work?
-
 * would be nice to find a way to title case titles (i.e not just capitalise the first letter of each word but to not capitalise words like 'a' or 'it' etc)
-
-* Need to capture file extension regadless of the file selection method(regex open subtitles etc...)
 
 * add move history to the db
 
@@ -58,15 +52,11 @@ A file will only be moved if the regular expression selector gets data into all 
 
 * get subtitles    
 
-* add valid extensions field to configs
-
 * Ensure error is thrown if destination root and source paths specified in configs is not found during processing 
 
 * validate paths based on environment. i.e linux vs windows etc. 
 
 * upgrade logger to log4j2
-
-* allow for global paths i.e should  only have to enter path to movie directory once 
 
 * look into http://acoustid.org/ and http://musicbrainz.org/ for music identification?
 
@@ -74,10 +64,25 @@ A file will only be moved if the regular expression selector gets data into all 
 
 * Configuration Wizard Screen 1 add a copy option as well as the move option in the Action dropdown. Useful for testing.
 
-* Bell & Whistle - add a option to select common regular expressions in the Advanced config page
-
 * Test this on Freenas with a Custom Jail Plugin
 
 * Add log file viewer to web app component
+
+********************************************************
+Completed
+********************************************************
+* Add Media Service Selectors.  These will Use TVDB, TMDB and Open subtitles services to select files for movement and to populate variables used in the destination path.
+
+* Need to provide more flexibility in how variables / file tokens are modified before being added to the path for eg in the file "game of thrones s1e2.mkv" we may extract the season as "1".  We may want to further pad the data with 0's on the left. something like fileBots method of chaining methods to variables like: {{name}}.Trim().Pad(0) etc could work?
+
+* Need to capture file extension regadless of the file selection method(regex open subtitles etc...)
+
+* add valid extensions field to configs
+
+* allow for global paths i.e should only have to enter path to movie directory once 
+
+
+* Bell & Whistle - add a option to select common regular expressions in the Advanced config page
+
 
 * in the case where we cannot fine a match in open subtitles service using hash value we can search using movie name/ season info?
