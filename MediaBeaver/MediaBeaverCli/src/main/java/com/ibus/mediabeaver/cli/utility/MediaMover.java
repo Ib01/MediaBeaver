@@ -68,7 +68,7 @@ public class MediaMover extends MediaMoverBase
 			moveVideo(file);
 		}
 	}
-	
+	  
 	
 	
 	protected void moveVideo(File file) 
