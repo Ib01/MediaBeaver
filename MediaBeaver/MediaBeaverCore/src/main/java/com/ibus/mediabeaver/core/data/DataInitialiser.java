@@ -35,8 +35,9 @@ public class DataInitialiser
 		c.setTvRootDirectory("D:\\MediabeaverTests\\Destination\\TV\\");
 		c.setMovieRootDirectory("D:\\MediabeaverTests\\Destination\\Movies\\");
 		
-		c.setEpisodePath("{SeriesName}\\Season {SeasonNumber}\\{SeriesName} S{SeasonNumber}.leftPad(\"2\",\"0\")E{EpisodeNumber}.leftPad(\"2\",\"0\")");
-		c.setMoviePath("{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))\\{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))");
+		c.setEpisodePath("{SeriesName}.replaceAll(\"[/\\?<>\\\\:\\*\\|\\\"\\^]\", \" \").normalizeSpace()\\Season {SeasonNumber}\\{SeriesName}.replaceAll(\"[/\\?<>\\\\:\\*\\|\\\"\\^]\", \" \").normalizeSpace() S{SeasonNumber}.leftPad(\"2\",\"0\")E{EpisodeNumber}.leftPad(\"2\",\"0\")");
+		c.setMoviePath("{MovieName}.replaceAll(\"[/\\?<>\\\\:\\*\\|\\\"\\^]\", \" \").normalizeSpace()({ReleaseDate}.substring(\"0\",\"4\"))\\{MovieName}.replaceAll(\"[/\\?<>\\\\:\\*\\|\\\"\\^]\", \" \").normalizeSpace()({ReleaseDate}.substring(\"0\",\"4\"))");
+		
 		c.setVideoExtensionFilter(".3g2, .3gp, .asf, .avi, .drc, .flv, .flv, .m4v, .mkv, .mng, .mov, .qt, .mp4, .m4p, .m4v, .mpg, .mp2, .mpeg, .mpg, .mpe, .mpv, .mpg, .mpeg, .m2, .mxf, .nsv, .ogv, .ogg, .rm, .rmvb, .roq, .svi, .webm, .wmv");
 		
 		Repository.saveEntity(c);
