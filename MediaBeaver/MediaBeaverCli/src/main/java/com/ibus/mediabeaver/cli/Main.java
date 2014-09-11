@@ -16,7 +16,7 @@ import org.apache.xmlrpc.XmlRpcException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.ibus.mediabeaver.cli.utility.MediaManager;
+import com.ibus.mediabeaver.cli.utility.MediaMover;
 import com.ibus.mediabeaver.core.data.DataInitialiser;
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.QueryTransactable;
@@ -71,7 +71,7 @@ public class Main
 					}
 				});
 	
-		MediaManager mm = new MediaManager(config);
+		MediaMover mm = new MediaMover(config);
 		mm.moveFiles();
 	}
 	

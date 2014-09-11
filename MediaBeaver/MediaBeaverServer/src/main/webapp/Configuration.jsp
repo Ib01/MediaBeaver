@@ -28,7 +28,7 @@
 
 		function setAutoComplete()
 		{
-			var openSubtitlesFields = [
+			/* var openServiceFieldsToImplement = [
 			'{UserNickName}', 
 			'{SubFormat}',
 			'{SeriesIMDBParent}',
@@ -81,12 +81,30 @@
 			'.toUpperCase()',
 			'.toLowerCase()',
 			'.substring("fromIndex","toIndex")',
-			'.trim()'];
+			'.trim()']; */
 			
+			var serviceFields = 
+				   ['{MovieName}',
+					'{ReleaseDate}',
+					'{SeriesName}',
+					'{SeasonNumber}',
+					'{EpisodeNumber}',
+					'{EpisodeName}',		                 
+	       			'.normalizeSpace()',
+	       			'.leftPad("size", "padStr")',
+	       			'.rightPad("size", "padStr")',
+	       			'.capitalizeFully()',
+	       			'.replaceFirst("regex", "replacement")',
+	       			'.replaceAll("regex", "replacement")',
+	       			'.toUpperCase()',
+	       			'.toLowerCase()',
+	       			'.substring("fromIndex","toIndex")',
+	       			'.trim()'];
+				
              $('.autoComplete').autocomplete({
-            	 lookup: openSubtitlesFields,
+            	 lookup: serviceFields,
                  minChars: 1,
-                 delimiter: /\s*/
+                 delimiter: /[\}\)]/
              });
 			
 		}
@@ -123,7 +141,7 @@
 		</div>
 	 
 		 <div class="roundedPanel">
-		 	<form:label path="videoExtensionFilter">Video Extension Filter</form:label>
+		 	<form:label path="videoExtensionFilter">Video Extensions</form:label>
 		 	<form:textarea path="videoExtensionFilter" style="width: 550px; height: 100px" class="validate[required]"/>
 		 	<br>
 		 </div>

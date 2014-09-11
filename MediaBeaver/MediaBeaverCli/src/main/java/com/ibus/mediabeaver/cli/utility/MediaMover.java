@@ -37,7 +37,7 @@ import info.movito.themoviedbapi.TmdbFind;
 
 import org.apache.commons.io.FilenameUtils;
 
-public class MediaManager extends MediaManagerBase
+public class MediaMover extends MediaMoverBase
 {	
 	private static String tmdbApiKey = "e482b9df13cbf32a25570c09174a1d84";
 	private static String tvdbScheme =  "http";
@@ -49,7 +49,7 @@ public class MediaManager extends MediaManagerBase
 	List<PathToken> episodePathTokens;
 	List<PathToken> moviePathTokens;
 	
-	public MediaManager(Configuration config)
+	public MediaMover(Configuration config)
 	{
 		this.config = config;
 		episodePathTokens = PathParser.getTokens(config.getEpisodePath());

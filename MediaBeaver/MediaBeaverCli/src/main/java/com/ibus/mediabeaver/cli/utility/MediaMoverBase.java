@@ -13,7 +13,7 @@ import com.ibus.mediabeaver.cli.Main;
 import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 
-public abstract class MediaManagerBase
+public abstract class MediaMoverBase
 {
 	private static String ostUserName = "";
 	private static String ostPassword = "";

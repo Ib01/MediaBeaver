@@ -15,7 +15,7 @@ import org.apache.xmlrpc.XmlRpcException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.ibus.mediabeaver.cli.utility.MediaManager;
+import com.ibus.mediabeaver.cli.utility.MediaMover;
 import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 import com.ibus.tvdb.client.domain.TvdbEpisodeDto;
@@ -40,7 +40,7 @@ public class MediaManagerTests
 		c.setMoviePath("{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))\\{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))");
 		
 		
-		MediaManager mm = new MediaManager(c);
+		MediaMover mm = new MediaMover(c);
 		mm.moveFiles();
 		
 		
