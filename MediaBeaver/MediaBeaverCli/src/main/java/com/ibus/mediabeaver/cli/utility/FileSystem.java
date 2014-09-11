@@ -139,7 +139,7 @@ public class FileSystem
 		FileUtils.copyFile(srcFile, destFile);
 		srcFile.delete();
 		
-		log.debug(String.format("%s was succesfully moved to %s", source, destination));
+		log.debug(String.format("Succesfully moved file from %s to %s", source, destination));
 		return true;
 	}
 	

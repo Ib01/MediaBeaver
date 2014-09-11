@@ -112,7 +112,7 @@ public class Main
 		log.debug("Creating Database Schema");
 		HibernateUtil.createSchema();
 		
-		log.debug("Creating default configuration items");
+		log.debug("Commencing creation of default configuration items");
 		Repository.doInTransaction(
 				new UpdateTransactable() 
 				{
@@ -121,6 +121,7 @@ public class Main
 						DataInitialiser.addDefaultConfigs();
 					}
 				});
+		log.debug("Default configuration items created");
 		
 	}
 	

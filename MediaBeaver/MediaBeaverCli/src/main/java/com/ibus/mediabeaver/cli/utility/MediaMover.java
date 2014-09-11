@@ -68,8 +68,6 @@ public class MediaMover extends MediaMoverBase
 			moveVideo(file);
 		}
 	}
-	  
-	
 	
 	protected void moveVideo(File file) 
 	{
@@ -81,15 +79,15 @@ public class MediaMover extends MediaMoverBase
 			
 			if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("episode") || ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("tv series"))
 			{
-				String imdbId = OstTitleDto.parseImdbId(ostTitle.get(OpenSubtitlesField.SeriesIMDBParent.toString()));
-				if(imdbId == null)
+				String seriesImdbid = OstTitleDto.parseImdbId(ostTitle.get(OpenSubtitlesField.SeriesIMDBParent.toString()));
+				if(seriesImdbid == null)
 				{
 					log.debug(String.format("Failed to get a valid series imdbId from open subtitles service. Aborting movement of %s.", file.getAbsolutePath()));
 					return;
 				}
 				
 				String seasonNumber = ostTitle.get(OpenSubtitlesField.SeriesSeason.toString());
-				String episodeNumber = ostTitle.get(OpenSubtitlesField.SeriesSeason.toString());
+				String episodeNumber = ostTitle.get(OpenSubtitlesField.SeriesEpisode.toString());
 				if(seasonNumber == null || seasonNumber.length() == 0 || episodeNumber == null || episodeNumber.length() == 0)
 				{
 					log.debug(
@@ -98,7 +96,7 @@ public class MediaMover extends MediaMoverBase
 					return;
 				}
 				
-				TvdbSeriesResponseDto seriesDto = tvdbClient.getSeries(imdbId);
+				TvdbSeriesResponseDto seriesDto = tvdbClient.getSeries(seriesImdbid);
 				if(seriesDto == null || seriesDto.getSeries() == null || seriesDto.getSeries().getId() == null)
 				{
 					log.debug(
