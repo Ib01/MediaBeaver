@@ -83,10 +83,8 @@
 			'.substring("fromIndex","toIndex")',
 			'.trim()']; */
 			
-			var serviceFields = 
-				   ['{MovieName}',
-					'{ReleaseDate}',
-					'{SeriesName}',
+			var episodeFields = 
+				   ['{SeriesName}',
 					'{SeasonNumber}',
 					'{EpisodeNumber}',
 					'{EpisodeName}',		                 
@@ -101,12 +99,32 @@
 	       			'.substring("fromIndex","toIndex")',
 	       			'.trim()'];
 				
-             $('.autoComplete').autocomplete({
-            	 lookup: serviceFields,
+             $('#episodePath').autocomplete({
+            	 lookup: episodeFields,
                  minChars: 1,
                  delimiter: /[\}\)]/
              });
 			
+             
+             var movieFields = 
+				   ['{MovieName}',
+					'{ReleaseDate}',
+	       			'.normalizeSpace()',
+	       			'.leftPad("size", "padStr")',
+	       			'.rightPad("size", "padStr")',
+	       			'.capitalizeFully()',
+	       			'.replaceFirst("regex", "replacement")',
+	       			'.replaceAll("regex", "replacement")',
+	       			'.toUpperCase()',
+	       			'.toLowerCase()',
+	       			'.substring("fromIndex","toIndex")',
+	       			'.trim()'];
+				
+           $('#moviePath').autocomplete({
+          	 lookup: movieFields,
+               minChars: 1,
+               delimiter: /[\}\)]/
+           });
 		}
 	</script>
 	
