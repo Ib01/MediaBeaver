@@ -1,4 +1,4 @@
-# Installation
+# Getting Started
 
 1) Get the latest version of the source
 
