@@ -2,7 +2,7 @@
 
 1) Get the latest version of the source
 
-2) Use Maven to run a **clean package** on the mediaBeaver project (the parent project)
+2) Use Maven to run a **clean install** on the mediaBeaver project (the parent project)
 
 3) place **\mediabeaver\MediaBeaver\MediaBeaverServer\target\mediaBeaverServer-0.0.1-SNAPSHOT.war** and **\mediabeaver\MediaBeaver\MediaBeaverServer\target\mediaBeaverCli-0.0.1-SNAPSHOT.jar** 
 on the target system. 
@@ -17,9 +17,9 @@ on the target system.
 
 8) execute **java -jar mediaBeaverServer-0.0.1-SNAPSHOT.war** (this will start the web app)
 
-9) navigate to the web app: using **http;//{ip address of your host}:8081/configList**.  modify your configuration to suit (see below for assistance with this).
+9) navigate to the web app: using **http;//{ip address of your host}:8081/configuration**.  modify your configuration to suit (see below for assistance with this).
 
-10) to move media on your server navigate to the directory containing **mediaBeaverServer-0.0.1-SNAPSHOT.war** and execute **java -jar mediaBeaverServer-0.0.1-SNAPSHOT.war -move**. Please note the lifecycle is start, move, finish. So a way to implement this would be to either run this via a scheduled task/cron or run this after the new files have been created.
+10) to move media on your server navigate to the directory containing **mediaBeaverCli-0.0.1-SNAPSHOT.jar** and execute **java -jar mediaBeaverCli-0.0.1-SNAPSHOT.jar -move**. Please note the lifecycle is start, move, finish. So a way to implement this would be to either run this via a scheduled task/cron or run this after the new files have been created.
 
 
 # Getting started
