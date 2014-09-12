@@ -196,7 +196,6 @@ public class MediaMover extends MediaMoverBase
 		
 		return rawMoviePath;
 	}
-	
 
 	
 	/**

@@ -43,16 +43,7 @@ public class DataInitialiser
 		Repository.saveEntity(c);
 	}
 	
-	
-	
-	
-	
-	
 
-	
-	
-	
-	
 	public static void addServiceFieldMaps()
 	{
 		saveServiceFieldMap("MovieName", "mn", "title", null);
