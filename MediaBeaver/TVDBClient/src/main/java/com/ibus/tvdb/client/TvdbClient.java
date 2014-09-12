@@ -11,20 +11,19 @@ import com.sun.jersey.api.client.WebResource;
 public class TvdbClient
 {
 	protected static Client client = Client.create(); 
-	private String scheme;
-	private String host;
-	private String language;
+	private String scheme=  "http";
+	private String host = "www.thetvdb.com";
+	private String language=  "en";
+	private static String apiKey = "694FAD89942D3827";
 	
-	public TvdbClient(String scheme, String host, String language)
+	
+	public TvdbClient()
 	{
-		this.scheme= scheme;  
-		this.host = host; 
-		this.language = language;
 	}
 	
 	public TvdbEpisodesResponseDto getEpisodes(String seriesId) throws URISyntaxException
 	{		
-		URI uri = getURI("/api/694FAD89942D3827/series/" + seriesId + "/all/" + language + ".xml", null);
+		URI uri = getURI("/api/" + apiKey + "/series/" + seriesId + "/all/" + language + ".xml", null);
 		return doGet(TvdbEpisodesResponseDto.class, uri);
 	}
 	
@@ -33,8 +32,6 @@ public class TvdbClient
 		URI uri = getURI("/api/GetSeriesByRemoteID.php", "imdbid=" + imdbid + "&language=" + language);
 		return doGet(TvdbSeriesResponseDto.class, uri);
 	}
-	
-	
 	
 	private static <R, T> R doGet(Class<R> returnType, URI uri)
 	{

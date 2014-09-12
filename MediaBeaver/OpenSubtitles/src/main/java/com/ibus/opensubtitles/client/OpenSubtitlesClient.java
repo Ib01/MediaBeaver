@@ -46,7 +46,12 @@ public class OpenSubtitlesClient
 		this.sublanguageid = sublanguageid;
 	}
 
-	// this method should be called before any other.
+	/**
+	 * Login to Open Subtitles service.  This method must be called before any other method is called
+	 * @return
+	 * @throws MalformedURLException
+	 * @throws XmlRpcException
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean login() throws MalformedURLException, XmlRpcException 
 	{
@@ -61,6 +66,13 @@ public class OpenSubtitlesClient
         return responseOk(result);
 	}
 
+	/**
+	 * Logout of the Open Subtitles Service
+	 * @return
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 * @throws XmlRpcException
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean logOut() throws MalformedURLException, IOException, XmlRpcException
 	{
@@ -75,6 +87,14 @@ public class OpenSubtitlesClient
 
 	
 	
+	/**
+	 * Get a Title (Movie or Episode) for the supplied hash data 
+	 * @param data
+	 * @return
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 * @throws XmlRpcException
+	 */
 	@SuppressWarnings("unchecked")
 	public OstTitleDto getTitleForHash(OpenSubtitlesHashData data) throws MalformedURLException, IOException, XmlRpcException
 	{

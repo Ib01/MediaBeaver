@@ -40,9 +40,6 @@ import org.apache.commons.io.FilenameUtils;
 public class MediaMover extends MediaMoverBase
 {	
 	private static String tmdbApiKey = "e482b9df13cbf32a25570c09174a1d84";
-	private static String tvdbScheme =  "http";
-	private static String tvdbHost =  "www.thetvdb.com";
-	private static String tvdbLanguage =  "en";
 	
 	TvdbClient tvdbClient;
 	TmdbApi tmdbApi;
@@ -54,7 +51,7 @@ public class MediaMover extends MediaMoverBase
 		this.config = config;
 		episodePathTokens = PathParser.getTokens(config.getEpisodePath());
 		moviePathTokens = PathParser.getTokens(config.getMoviePath());
-		tvdbClient = new TvdbClient(tvdbScheme, tvdbHost, tvdbLanguage);
+		tvdbClient = new TvdbClient();
 		tmdbApi = new TmdbApi(tmdbApiKey);
 	}
 	
@@ -73,12 +70,15 @@ public class MediaMover extends MediaMoverBase
 	{
 		try
 		{
+			//get title for file hash from the open subtitles service
 			Map<String,String> ostTitle = getOpenSubtitlesTitle(file);
 			if(ostTitle == null)
 				return;
 			
+			//let the OST Service identify what kind of file we have 
 			if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("episode") || ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("tv series"))
 			{
+				//Get Series imdb from the OST title. we will use this id to get data from other services 
 				String seriesImdbid = OstTitleDto.parseImdbId(ostTitle.get(OpenSubtitlesField.SeriesIMDBParent.toString()));
 				if(seriesImdbid == null)
 				{
@@ -86,6 +86,9 @@ public class MediaMover extends MediaMoverBase
 					return;
 				}
 				
+				//we need the season and episode number from the OST Service to identify the episode we are after once we have gotten series info from TVDB below.
+				//Note: we could stop here and just use data from the OST Service. However the data does not appear to be as accurate or as detailed as other 
+				//services offer
 				String seasonNumber = ostTitle.get(OpenSubtitlesField.SeriesSeason.toString());
 				String episodeNumber = ostTitle.get(OpenSubtitlesField.SeriesEpisode.toString());
 				if(seasonNumber == null || seasonNumber.length() == 0 || episodeNumber == null || episodeNumber.length() == 0)
@@ -96,6 +99,7 @@ public class MediaMover extends MediaMoverBase
 					return;
 				}
 				
+				//TvdbSeriesResponseDto only contains very basic info about the series itself.
 				TvdbSeriesResponseDto seriesDto = tvdbClient.getSeries(seriesImdbid);
 				if(seriesDto == null || seriesDto.getSeries() == null || seriesDto.getSeries().getId() == null)
 				{
@@ -106,6 +110,8 @@ public class MediaMover extends MediaMoverBase
 				}
 				
 				long tvdbSeriesId = seriesDto.getSeries().getId();
+				//TvdbEpisodesResponseDto contains detailed info about not only the series but all its seasons and episodes. pity there isn't a way to 
+				//get sinngle episode info for an episode imdb.
 				TvdbEpisodesResponseDto tvdbEpisodes = tvdbClient.getEpisodes(Long.toString(tvdbSeriesId));
 				if(tvdbEpisodes == null)
 				{
@@ -115,6 +121,8 @@ public class MediaMover extends MediaMoverBase
 					return;
 				}
 				
+				//we now have the series.  i.e series infor, seasons info and info on every episode. but vwe dont know which episode to get infor on 
+				//so we need to use season and episode numbers from OST Service 
 				TvdbEpisodeDto tvdbEpisode = tvdbEpisodes.getEpisode(seasonNumber, episodeNumber);
 				log.debug(String.format("Successfully acquired episode data for %s.", file.getAbsolutePath()));
 				
