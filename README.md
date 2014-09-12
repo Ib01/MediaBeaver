@@ -28,6 +28,8 @@ on the target system.
 
 ![MediaBeaverConfiguration.png](https://bitbucket.org/repo/5MgKjp/images/1103420040-MediaBeaverConfiguration.png)
 
+2) Modify your data to suit.
+
 If you followed step 6 above the app should already be populated with default data.  All you need to change to get started on a windows system are the TV Root and Movie Root paths (point these paths to wherever you keep your movies and TV shows). If you are using linux or Mac you will also need to change the path separators in the **Movie Path** and **Episode Path** fields. See below for details about these fields.
 
 By default the application uses the following structure for TV shows: **{Series Name}\Season {Season Number}\{Series Name} S{Season Number}E{Episode Number}**; and the following for Movies: **{Movie Name}({Movie Year})\{Movie Name}({Movie Year})**. Notice that the file extension is not included in the path.  Examples of files structured like this include: Game Of Thrones\Season 1\Game Of Thrones S01E03.mkv, Iron Man (2013)\Iron Man (2013).mkv
