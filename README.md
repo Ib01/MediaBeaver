@@ -36,6 +36,7 @@ By default the application uses the following structure for TV shows: **{Series 
 
 you can change this structure to whatever you desire.  At present the following variables can be used in movie paths: MovieName, ReleaseDate; and the following can be used in episode paths: SeriesName, SeasonNumber, EpisodeNumber, EpisodeName. These variables will be populated with data acquired using TVDB, TMDB and Open Subtitles.  You can parse these values before they are added to the path using various methods. These methods will need to be appended to the variable and can be chained.  for example {SeasonNumber}.Trim().LeftPad("2","0") will get the Season Number for your file from TVDB and will then trim and left pad the acquired value with 0s before adding the value to your path.  The Path Text boxes have Auto Complete on them so you will be prompted with appropriate variables and methods to use as you type.
 
+3) Hit Save
 
 # Features to be added before our first beta:
 
