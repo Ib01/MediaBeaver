@@ -36,25 +36,27 @@ you can change this structure to whatever you desire.  At present the following 
 
 # Features to be added before our first beta:
 
-* would be nice to find a way to title case titles (i.e not just capitalise the first letter of each word but to not capitalise words like 'a' or 'it' etc)
+* ensure root path and end path appending is done properly.
+
+* Cache data from web services for more efficient qureying.
+
+* validate paths based on environment. i.e linux vs windows etc. 
 
 * add move history to the db
 
 * and undo move capability
 
+* destination path rename? "naming format" or "naming and placement"?
+
+* would be nice to find a way to title case titles (i.e not just capitalise the first letter of each word but to not capitalise words like 'a' or 'it' etc)
+
 * get subtitles    
-
-* Ensure error is thrown if destination root and source paths specified in configs is not found during processing 
-
-* validate paths based on environment. i.e linux vs windows etc. 
 
 * upgrade logger to log4j2
 
 * look into http://acoustid.org/ and http://musicbrainz.org/ for music identification?
 
-* destination path rename? "naming format" or "naming and placement"?
-
-* Configuration Wizard Screen 1 add a copy option as well as the move option in the Action dropdown. Useful for testing.
+* Enable users to copy instead of move content
 
 * Test this on Freenas with a Custom Jail Plugin
 
@@ -73,8 +75,8 @@ Completed
 
 * allow for global paths i.e should only have to enter path to movie directory once 
 
-
 * Bell & Whistle - add a option to select common regular expressions in the Advanced config page
 
-
 * in the case where we cannot fine a match in open subtitles service using hash value we can search using movie name/ season info?
+
+* Ensure error is thrown if destination root and source paths specified in configs is not found during processing 
