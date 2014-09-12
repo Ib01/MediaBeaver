@@ -17,18 +17,11 @@ on the target system.
 
 8) execute **java -jar mediaBeaverServer-0.0.1-SNAPSHOT.war** (this will start the web app)
 
-9) navigate to the web app: using **http;//{ip address of your host}:8081/configuration**.  modify your configuration to suit (see below for assistance with this).
-
-10) to move media on your server navigate to the directory containing **mediaBeaverCli-0.0.1-SNAPSHOT.jar** and execute **java -jar mediaBeaverCli-0.0.1-SNAPSHOT.jar -move**. Please note the lifecycle is start, move, finish. So a way to implement this would be to either run this via a scheduled task/cron or run this after the new files have been created.
-
-
-# Getting started
-
-1) Goto **http;//{ip address of your host}:8081/configuration**.  you should see the screen below.  
+9) Goto **http;//{ip address of your host}:8081/configuration**.  you should see the screen below.  
 
 ![MediaBeaverConfiguration.png](https://bitbucket.org/repo/5MgKjp/images/1103420040-MediaBeaverConfiguration.png)
 
-2) Modify your data to suit.
+10) Modify your data to suit.
 
 If you followed step 6 above the app should already be populated with default data.  All you need to change to get started on a windows system are the TV Root and Movie Root paths (point these paths to wherever you keep your movies and TV shows). If you are using linux or Mac you will also need to change the path separators in the **Movie Path** and **Episode Path** fields. See below for details about these fields.
 
@@ -36,7 +29,10 @@ By default the application uses the following structure for TV shows: **{Series 
 
 you can change this structure to whatever you desire.  At present the following variables can be used in movie paths: MovieName, ReleaseDate; and the following can be used in episode paths: SeriesName, SeasonNumber, EpisodeNumber, EpisodeName. These variables will be populated with data acquired using TVDB, TMDB and Open Subtitles.  You can parse these values before they are added to the path using various methods. These methods will need to be appended to the variable and can be chained.  for example {SeasonNumber}.Trim().LeftPad("2","0") will get the Season Number for your file from TVDB and will then trim and left pad the acquired value with 0s before adding the value to your path.  The Path Text boxes have Auto Complete on them so you will be prompted with appropriate variables and methods to use as you type.
 
-3) Hit Save
+11) Hit Save
+
+12) to move media on your server navigate to the directory containing **mediaBeaverCli-0.0.1-SNAPSHOT.jar** and execute **java -jar mediaBeaverCli-0.0.1-SNAPSHOT.jar -move**. Please note the lifecycle is start, move, finish. So a way to implement this would be to either run this via a scheduled task/cron or run this after the new files have been created.
+
 
 # Features to be added before our first beta:
 
