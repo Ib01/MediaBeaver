@@ -14,8 +14,8 @@ public class TvdbClient
 	private String scheme=  "http";
 	private String host = "www.thetvdb.com";
 	private String language=  "en";
-	private static String apiKey = "694FAD89942D3827";
-	
+	//private static String apiKey = "694FAD89942D3827"; file bots key?
+	private static String apiKey = "FA86CE5B6769E616";
 	
 	public TvdbClient()
 	{

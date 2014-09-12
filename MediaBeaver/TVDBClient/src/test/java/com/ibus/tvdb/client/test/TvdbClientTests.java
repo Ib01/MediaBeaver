@@ -15,19 +15,20 @@ public class TvdbClientTests
 	@Test
 	public void getEpisodesTest() throws URISyntaxException
 	{
-		//e482b9df13cbf32a25570c09174a1d84
-		TvdbClient c = new TvdbClient("http", "www.thetvdb.com", "en");
+		TvdbClient c = new TvdbClient();
 		
 		TvdbEpisodesResponseDto dto = c.getEpisodes("121361");
 		
-		assertTrue(true);
+		assertTrue(dto != null);
+		assertTrue(dto.getEpisodes().get(0) != null);
+		assertTrue(dto.getEpisodes().get(0).getSeriesId().length() > 0);
 	}
 	
 	
 	@Test
 	public void getSeriesTest() throws URISyntaxException
 	{
-		TvdbClient c = new TvdbClient("http", "www.thetvdb.com", "en");
+		TvdbClient c = new TvdbClient();
 		TvdbSeriesResponseDto dto = c.getSeries("tt0944947");
 		
 		assertTrue(true);

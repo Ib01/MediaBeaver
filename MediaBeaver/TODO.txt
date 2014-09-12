@@ -24,6 +24,8 @@ TMDB Notes:
 
 api key: e482b9df13cbf32a25570c09174a1d84
 
+
+
 30 requests every 10 seconds per IP
 Maximum 20 simultaneous connections per IP
 
