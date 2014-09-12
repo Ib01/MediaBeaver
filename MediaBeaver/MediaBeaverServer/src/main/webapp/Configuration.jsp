@@ -111,7 +111,7 @@
 	</script>
 	
 	<h2>Configuration</h2>
-
+  
 	<form:form method="POST" commandName="configuration" id="configForm" class="formLayout">
 		<form:hidden path="id"/>
 
