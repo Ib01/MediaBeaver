@@ -24,23 +24,27 @@ on the target system.
 
 # Getting started
 
-1) from **http;//{ip address of your host}:8081/configList** select a configuration item to edit.  you should see the screen below.  
+1) Goto **http;//{ip address of your host}:8081/configuration**.  you should see the screen below.  
 
-The only complex thing about this screen is the **Destination Path** field.  this field is critical as it defines the directory structure and name that will be used for the file when moving it. This field uses variables which you define. These variables must be wrapped in double braces like this: {{SomeVaraible}}. you will assign values to these variables in subsequent steps. See image below for example
+![MediaBeaverConfiguration.png](https://bitbucket.org/repo/5MgKjp/images/1103420040-MediaBeaverConfiguration.png)
 
-![generalInfo.png](https://bitbucket.org/repo/5MgKjp/images/1991323788-generalInfo.png)
+If you followed step 6 above the app should already be populated with default data.  All you need to change to get started are the TV Root and Movie Root paths (point these paths to wherever you keep your movies and TV shows).
 
-2) click on next and then select a regular expression selector to edit. you will see a screen like below.
+by default the application uses the following structure for TV shows: **{Series Name}\Season {Season Number}\{Series Name} S{Season Number}E{Episode Number}**,  and the following for Movies: **{Movie Name}({Movie Year})\{Movie Name}({Movie Year})**. Notice that the file extension is not included in the path.  Examples of files structured like this include: Game Of Thrones\Season 1\Game Of Thrones S01E03.mkv, Iron Man (2013)\Iron Man (2013).mkv
 
-The expression field contains the regular expression that will be used to both select a file for movement and to populate the variables used in its path. the expression must define groups (google regular expresion groups if you dont know what these are).
+you can change this structure to whatever you desire.  At present the following variables can be used in movie paths: MovieName, ReleaseDate; and the following can be used in episode path: SeriesName, SeasonNumber, EpisodeNumber, EpisodeName. These variables will be populated with data acquired using TVDB, TMDB and Open Subtitles.  If required you can parse these values using various methods these methods will need to be appended to the variable and can be chained.  for example {SeasonNumber}.Trim().LeftPad("2","0")
 
-In the variable setters section you will assign groups captured by the regular expression to variables. group assembly will contain at least one group number surrounded by brackets.  You can optionaly define a replace regex and replace string to clean the variable before it is added to the path. Use the test expression section to test the expression works and that data is captured in to your variables as expected.
 
-A file will only be moved if the regular expression selector gets data into all of the variables required by the path. Selectors will be processed in the order they are sorted in on the  **Add or Update Regular Expression Selectors** wizard step.
 
-![regExSelector.png](https://bitbucket.org/repo/5MgKjp/images/1079213183-regExSelector.png)
 
-3) after you have created / modified and sorted your regular expression selectors click Next to end the wizard and save your config item data
+
+
+
+
+
+
+
+
 
 # Features to be added before our first beta:
 
