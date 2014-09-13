@@ -2,7 +2,9 @@ package com.ibus.mediabeaver.cli.utility;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -19,11 +21,15 @@ import info.movito.themoviedbapi.model.FindResults;
 import info.movito.themoviedbapi.model.MovieDb;
 
 import com.ibus.mediabeaver.core.entity.Configuration;
+import com.ibus.mediabeaver.core.entity.Event;
+import com.ibus.mediabeaver.core.entity.EventType;
 import com.ibus.mediabeaver.core.entity.PathToken;
+import com.ibus.mediabeaver.core.entity.ResultType;
 import com.ibus.mediabeaver.core.entity.ServiceFieldMap;
 import com.ibus.mediabeaver.core.exception.FileExistsException;
 import com.ibus.mediabeaver.core.exception.FileNotExistException;
 import com.ibus.mediabeaver.core.exception.PathParseException;
+import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 import com.ibus.opensubtitles.client.dto.OstTitleDto;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesField;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesHashData;
@@ -36,32 +42,72 @@ import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
 import info.movito.themoviedbapi.TmdbFind;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.pattern.LogEvent;
+import org.apache.xmlrpc.XmlRpcException;
 
-public class MediaMover extends MediaMoverBase
+public class MediaMover extends FileProcessorBase
 {	
-	private static String tmdbApiKey = "e482b9df13cbf32a25570c09174a1d84";
-	
 	TvdbClient tvdbClient;
 	TmdbApi tmdbApi;
 	List<PathToken> episodePathTokens;
 	List<PathToken> moviePathTokens;
+	OpenSubtitlesClient openSubtitlesClient;
+	private static String ostUserName = "";
+	private static String ostPassword = "";
+	private static String ostUseragent = "OS Test User Agent";
+	private static String ostHost = "http://api.opensubtitles.org/xml-rpc";
+	private static String ostSublanguageid = "eng";
+	private static String tmdbApiKey = "e482b9df13cbf32a25570c09174a1d84";
+	private int mediaFound = 0;
+	private int mediaMoved = 0;
 	
-	public MediaMover(Configuration config)
+	public MediaMover()
 	{
-		this.config = config;
-		episodePathTokens = PathParser.getTokens(config.getEpisodePath());
-		moviePathTokens = PathParser.getTokens(config.getMoviePath());
+		openSubtitlesClient = new OpenSubtitlesClient(ostHost,ostUseragent,ostUserName, ostPassword,ostSublanguageid);
 		tvdbClient = new TvdbClient();
 		tmdbApi = new TmdbApi(tmdbApiKey);
 	}
 	
 	@Override
-	protected void moveFile(File file) 
+	protected void beforeProcess() throws MalformedURLException, XmlRpcException
+	{
+		mediaFound = 0;
+		mediaMoved = 0;
+		
+		log.debug("******************************************************");
+		log.debug("Commencing Movement of files");
+		
+		log.debug("Logging into the Open Subtitles web serivce.");
+		if(!openSubtitlesClient.login())
+		{
+			log.debug("Aborting movement of files. Could not login to the Open Subtitles web serivce.");
+			return;
+		}
+		
+		episodePathTokens = PathParser.getTokens(config.getEpisodePath());
+		moviePathTokens = PathParser.getTokens(config.getMoviePath());
+	}
+
+	@Override
+	protected void afterProcess() throws MalformedURLException, IOException, XmlRpcException
+	{
+		log.debug("");
+		log.debug("File movement is complete");
+		log.debug(String.format("Media found= %d", mediaFound));
+		log.debug(String.format("Media moved= %d", mediaMoved));
+		log.debug("******************************************************");
+		openSubtitlesClient.logOut();
+	}
+	
+	
+	@Override
+	protected void processFile(File file) 
 	{
 		String extension = FilenameUtils.getExtension(file.getAbsolutePath());
 		
 		if(config.isVideoExtension(extension))
 		{
+			++mediaFound;
 			moveVideo(file);
 		}
 	}
@@ -75,6 +121,8 @@ public class MediaMover extends MediaMoverBase
 			if(ostTitle == null)
 				return;
 			
+			String destination = null;
+			
 			//let the OST Service identify what kind of file we have 
 			if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("episode") || ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("tv series"))
 			{
@@ -82,7 +130,8 @@ public class MediaMover extends MediaMoverBase
 				String seriesImdbid = OstTitleDto.parseImdbId(ostTitle.get(OpenSubtitlesField.SeriesIMDBParent.toString()));
 				if(seriesImdbid == null)
 				{
-					log.debug(String.format("Failed to get a valid series imdbId from open subtitles service. Aborting movement of %s.", file.getAbsolutePath()));
+					logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get valid title from service");
+					log.debug(String.format("Aborting movement of %s. Failed to get a valid series imdbId from open subtitles service.", file.getAbsolutePath()));
 					return;
 				}
 				
@@ -93,8 +142,9 @@ public class MediaMover extends MediaMoverBase
 				String episodeNumber = ostTitle.get(OpenSubtitlesField.SeriesEpisode.toString());
 				if(seasonNumber == null || seasonNumber.length() == 0 || episodeNumber == null || episodeNumber.length() == 0)
 				{
+					logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get valid title from service");
 					log.debug(
-							String.format("Failed to get a valid season and episode number from the open subtitles service. aborting movement of %s.", 
+							String.format("Aborting movement of %s. Failed to get a valid season and episode number from the open subtitles service.", 
 							file.getAbsolutePath()));
 					return;
 				}
@@ -103,8 +153,9 @@ public class MediaMover extends MediaMoverBase
 				TvdbSeriesResponseDto seriesDto = tvdbClient.getSeries(seriesImdbid);
 				if(seriesDto == null || seriesDto.getSeries() == null || seriesDto.getSeries().getId() == null)
 				{
+					logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get valid title from service");
 					log.debug(
-							String.format("Failed to get a valid series data from the TMDB service. aborting movement of %s.", 
+							String.format("Aborting movement of %s. Failed to get a valid series data from the TMDB service.", 
 							file.getAbsolutePath()));
 					return;
 				}
@@ -115,8 +166,9 @@ public class MediaMover extends MediaMoverBase
 				TvdbEpisodesResponseDto tvdbEpisodes = tvdbClient.getEpisodes(Long.toString(tvdbSeriesId));
 				if(tvdbEpisodes == null)
 				{
+					logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get valid title from service");
 					log.debug(
-							String.format("Failed to get a valid episode data from the TMDB service. aborting movement of %s.", 
+							String.format("Aborting movement of %s. Failed to get a valid episode data from the TMDB service.", 
 							file.getAbsolutePath()));
 					return;
 				}
@@ -130,8 +182,8 @@ public class MediaMover extends MediaMoverBase
 				
 				log.debug(String.format("Destination path end generated %s.%s.", 
 						destinationPathEnd, FilenameUtils.getExtension(file.getAbsolutePath())));
-		
-				fileSys.moveFile(file.getAbsolutePath(), config.getTvRootDirectory(), destinationPathEnd, FilenameUtils.getExtension(file.getAbsolutePath()));
+				
+				destination = FilenameUtils.concat(config.getTvRootDirectory(), destinationPathEnd + "." + FilenameUtils.getExtension(file.getAbsolutePath()));
 			}
 			else if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("movie"))
 			{
@@ -144,28 +196,51 @@ public class MediaMover extends MediaMoverBase
 				log.debug(String.format("Destination path end generated %s.%s.", 
 						destinationPathEnd, FilenameUtils.getExtension(file.getAbsolutePath())));
 		
-				fileSys.moveFile(file.getAbsolutePath(), config.getMovieRootDirectory(), destinationPathEnd, FilenameUtils.getExtension(file.getAbsolutePath()));
+				destination = FilenameUtils.concat(config.getMovieRootDirectory(), destinationPathEnd + "." + FilenameUtils.getExtension(file.getAbsolutePath()));
 			}
 			
+			fileSys.moveFile(file.getAbsolutePath(), destination);
+			++mediaMoved;
+			logEvent(file.getAbsolutePath(), destination, ResultType.Succeeded, null);
+			
+			return;
 			
 		} catch (URISyntaxException e)
 		{
-			log.error(String.format("An unexpected error occured while attempting to move of"), e);
+			log.error(String.format("An unexpected error occured while attempting to move a file"), e);
 		} catch (PathParseException e)
 		{
-			log.error(String.format("An unexpected error occured while attempting to move of"), e);
+			log.error(String.format("An unexpected error occured while attempting to move a file"), e);
 		} catch (IOException e)
 		{
-			log.error(String.format("An unexpected error occured while attempting to move of"), e);
+			log.error(String.format("An unexpected error occured while attempting to move a file"), e);
 		} catch (FileNotExistException e)
 		{
-			log.error(String.format("An unexpected error occured while attempting to move of"), e);
+			log.error(String.format("An unexpected error occured while attempting to move a file"), e);
 		} catch (FileExistsException e)
 		{
-			log.error(String.format("An unexpected error occured while attempting to move of"), e);
+			log.error(String.format("An unexpected error occured while attempting to move a file"), e);
 		}
 
+		logEvent(file.getAbsolutePath(), null, ResultType.Failed, "An unexpected error occured while attempting to move file");
 	}
+	
+	
+	private void logEvent(String source, String destination, ResultType result, String errorDescription)
+	{
+		Event event = new Event();
+		
+		event.setEventTime(new Date());
+		event.setEventType(EventType.Move);
+		event.setDestinationPath(destination);
+		event.setResult(result);
+		event.setSourcePath(source);
+		event.setErrorDescription(errorDescription);
+		
+		logEvent(event);
+	}
+	
+	
 	
 	
 	/**
@@ -267,13 +342,15 @@ public class MediaMover extends MediaMoverBase
 			
 			if(!fileThumbprint.isValid())
 			{
+				logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Could not generate thumbprint for file");
 				log.debug(String.format("File %s could not be moved. thumbprint for file is invalid", file.getAbsolutePath()));
 				return null;
 			}
 		} 
 		catch (IOException e)
 		{
-			log.debug(String.format("File %s could not be moved. could not acquire a thumbprint for the file", file.getAbsolutePath()));
+			logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Could not generate thumbprint for file");
+			log.error(String.format("File %s could not be moved. could not acquire a thumbprint for the file", file.getAbsolutePath()), e);
 			return null;
 		}
 		
@@ -285,6 +362,7 @@ public class MediaMover extends MediaMoverBase
 			
 			if(dto == null || dto.getPossibleTitles().size() == 0)
 			{
+				logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Could not find title for thumbprint");
 				log.debug(String.format("Open Subtitles thumbprint search on file %s failed. No results were returned by the service", 
 						file.getAbsolutePath()));
 				return null;
@@ -294,12 +372,15 @@ public class MediaMover extends MediaMoverBase
 		} 
 		catch (Exception e)
 		{
+			logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Could not find title for thumbprint");
 			log.debug(String.format("Open Subtitles thumbprint search on file %s failed. No results were returned by the service", 
 					file.getAbsolutePath()));
 			return null;
 		}
 		
 	}
+
+	
 	
 	
 }

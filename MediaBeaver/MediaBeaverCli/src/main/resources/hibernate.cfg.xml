@@ -35,13 +35,7 @@
         
         
 		<mapping class="com.ibus.mediabeaver.core.entity.Configuration"/>
-		<!-- <mapping class="com.ibus.mediabeaver.core.entity.MediaConfig"/>
-		<mapping class="com.ibus.mediabeaver.core.entity.OpenSubtitlesSelector"/>
-		<mapping class="com.ibus.mediabeaver.core.entity.OpenSubtitlesField"/>
-		<mapping class="com.ibus.mediabeaver.core.entity.RegExSelector"/>
-		<mapping class="com.ibus.mediabeaver.core.entity.RegExPathTokenSetter"/>
-		<mapping class="com.ibus.mediabeaver.core.entity.ServiceFieldMap"/> -->
-		
+		<mapping class="com.ibus.mediabeaver.core.entity.Event"/>
 		
     </session-factory>
 
