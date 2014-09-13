@@ -1,15 +1,7 @@
 package com.ibus.mediabeaver.core.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 @Entity(name = "Configuration")
 public class Configuration extends PersistentObject

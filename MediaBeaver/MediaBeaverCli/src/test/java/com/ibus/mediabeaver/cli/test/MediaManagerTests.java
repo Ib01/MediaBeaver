@@ -40,8 +40,8 @@ public class MediaManagerTests
 		c.setMoviePath("{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))\\{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))");
 		
 		
-		MediaMover mm = new MediaMover(c);
-		mm.moveFiles();
+		MediaMover mm = new MediaMover();
+		mm.processFiles(c);
 		
 		
 		assertTrue(true);

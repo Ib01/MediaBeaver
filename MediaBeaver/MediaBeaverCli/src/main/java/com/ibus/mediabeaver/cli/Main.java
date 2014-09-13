@@ -71,8 +71,8 @@ public class Main
 					}
 				});
 	
-		MediaMover mm = new MediaMover(config);
-		mm.moveFiles();
+		MediaMover mm = new MediaMover();
+		mm.processFiles(config);
 	}
 	
 	
