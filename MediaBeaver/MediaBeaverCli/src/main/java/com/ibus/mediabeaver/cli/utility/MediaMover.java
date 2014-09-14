@@ -162,7 +162,7 @@ public class MediaMover extends FileProcessorBase
 				
 				long tvdbSeriesId = seriesDto.getSeries().getId();
 				//TvdbEpisodesResponseDto contains detailed info about not only the series but all its seasons and episodes. pity there isn't a way to 
-				//get sinngle episode info for an episode imdb.
+				//get single episode info for an episode imdb.
 				TvdbEpisodesResponseDto tvdbEpisodes = tvdbClient.getEpisodes(Long.toString(tvdbSeriesId));
 				if(tvdbEpisodes == null)
 				{
@@ -173,7 +173,7 @@ public class MediaMover extends FileProcessorBase
 					return;
 				}
 				
-				//we now have the series.  i.e series infor, seasons info and info on every episode. but vwe dont know which episode to get infor on 
+				//we now have the series.  i.e series info, seasons info and info on every episode. but we don't know which episode to get info on 
 				//so we need to use season and episode numbers from OST Service 
 				TvdbEpisodeDto tvdbEpisode = tvdbEpisodes.getEpisode(seasonNumber, episodeNumber);
 				log.debug(String.format("Successfully acquired episode data for %s.", file.getAbsolutePath()));

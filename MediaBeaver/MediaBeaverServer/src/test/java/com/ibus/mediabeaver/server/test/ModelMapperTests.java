@@ -1,20 +1,9 @@
 package com.ibus.mediabeaver.server.test;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.hibernate.Session;
 import org.junit.Before;
-import org.junit.Test;
-import org.modelmapper.ModelMapper;
+
 import com.ibus.mediabeaver.core.data.HibernateUtil;
-import com.ibus.mediabeaver.core.data.Repository;
-import com.ibus.mediabeaver.server.util.Mapper;
-import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
-import com.ibus.mediabeaver.server.viewmodel.RegExSelectorViewModel;
-import com.ibus.mediabeaver.server.viewmodel.RegExPathTokenSetterViewModel;
 
 public class ModelMapperTests
 {

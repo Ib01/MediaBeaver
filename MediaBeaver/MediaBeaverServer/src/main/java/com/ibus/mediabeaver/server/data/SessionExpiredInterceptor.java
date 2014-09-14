@@ -2,15 +2,9 @@ package com.ibus.mediabeaver.server.data;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.ibus.mediabeaver.core.data.HibernateUtil;
-import com.ibus.mediabeaver.server.viewmodel.MediaConfigViewModel;
 
 public class SessionExpiredInterceptor implements HandlerInterceptor
 {

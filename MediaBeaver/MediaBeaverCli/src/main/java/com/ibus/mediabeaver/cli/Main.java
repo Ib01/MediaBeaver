@@ -27,20 +27,12 @@ import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 
 public class Main
 {
-	private static String ostUserName = "";
-	private static String ostPassword = "";
-	private static String ostUseragent = "OS Test User Agent";
-	private static String ostHost = "http://api.opensubtitles.org/xml-rpc";
-	private static String ostSublanguageid = "eng";
-	
 	static Logger log = Logger.getLogger(Main.class.getName());
 	public static final String initialiseArg = "-initialise";
 	public static final String moveArg = "-move";
 	
 	public static void main(String[] args) throws XmlRpcException, IOException
 	{
-		//new BufferedReader(new InputStreamReader(getResourceAsStream("/resources/" + filename)))
-		
 		
 		if(args[0].equals(initialiseArg))
 		{
@@ -75,36 +67,6 @@ public class Main
 		mm.processFiles(config);
 	}
 	
-	
-	
-	
-	
-	/*private static void moveMediaWithOpenSubtitlesMediaManager(List<MediaConfig> configs) throws XmlRpcException, IOException
-	{
-		log.debug("Starting media movement using Open Subtitles Services");
-		
-		OpenSubtitlesClient client = new OpenSubtitlesClient(ostHost,ostUseragent,ostUserName, ostPassword,ostSublanguageid);
-		OpenSubtitlesMediaManager mediaManager = new OpenSubtitlesMediaManager(client);
-		
-		if(!mediaManager.Login()){
-			log.debug("Could not move media with Open Subtitles Service. Could not login to the service");
-			return;
-		}
-		
-		mediaManager.processConfigs(configs);
-		
-		if(!mediaManager.Logout()){
-			log.debug("An error occured while logging out of the Open Subtitles Service.  you may not be properly logged out of the service");
-			return;
-		}
-	}
-	
-	private static void moveMediaWithRegExMediaManager(List<MediaConfig> configs) throws XmlRpcException
-	{
-		log.debug("Starting media movement using regex selectors");
-		RegExMediaManager h = new RegExMediaManager();
-		h.processConfigs(configs);
-	}*/
 	
 	public static void initialiseApp()
 	{

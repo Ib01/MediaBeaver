@@ -214,6 +214,17 @@ input[type="text"], textarea
 	font-weight: normal;
 }
 
+Table{	
+}
+
+td
+{
+	font-family: "Open Sans",sans-serif;
+	font-size: 14px;
+	vertical-align: top;
+}
+
+
 
 
 

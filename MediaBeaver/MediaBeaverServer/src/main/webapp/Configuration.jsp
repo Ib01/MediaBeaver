@@ -143,7 +143,7 @@
 			<form:label path="tvRootDirectory">Tv Root</form:label>
 			<form:input path="tvRootDirectory" style="width: 550px" class="validate[required]"/>
 			<br>
-			<form:label path="episodePath">Episode Path</form:label>
+			<form:label path="episodePath">Episode Path Format</form:label>
 			<form:textarea path="episodePath" style="width: 550px; height: 50px" class="autoComplete validate[required]"/>
 			<br>
 		</div>
@@ -153,7 +153,7 @@
 			<form:label path="movieRootDirectory">Movie Root</form:label>
 			<form:input path="movieRootDirectory" style="width: 550px" class="validate[required]"/>
 			<br>
-			<form:label path="moviePath">Movie Path</form:label>
+			<form:label path="moviePath">Movie Path Format</form:label>
 			<form:textarea path="moviePath" style="width: 550px; height: 50px" class="autoComplete validate[required]"/>
 			<br>
 		</div>
