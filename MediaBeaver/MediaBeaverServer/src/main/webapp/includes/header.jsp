@@ -20,49 +20,49 @@
 	<script type="text/javascript" src="/resources/script/jquery.validationEngine.js" charset="utf-8"></script>
     
     <script type="text/javascript" src="/resources/script/jquery.autocomplete.js"></script>
+    
 </head>
 <body >
+	
+	<style>
+		#menuDiv div a:link {color:#FFFFFF;text-decoration:none;font-size:20px;}
+		#menuDiv div a:visited {color:#FFFFFF;text-decoration:none;font-size:20px;}  
+		#menuDiv div a:hover {color:#FF8A00;text-decoration:none;font-size:20px;}  
+		#menuDiv div a:active {color:#FFFFFF;text-decoration:none;font-size:20px;} 
+	</style>
 	
 		
 	<div id="headerDiv">
 		Media Beaver
-		<div id="Menu" style="">
+		<!-- <div id="Menu" style="">
 			<a href="/configuration">Configuration</a> | <a href="/events">Events</a> 
-		</div>
+		</div> -->
 	</div>
 	
 	
 	
-<!-- 	#contentDiv 
-{
-	width: 800px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	margin-left: auto;
-	margin-right: auto;
-	text-align: left;
-	padding-top:1px;
-	padding-right:15px;
-	padding-bottom:1px;
-	padding-left:15px; 
-	background-color: #FFFFFF; 
-	box-shadow: 0px 0px 20px 3px #d3d3d3;
-	border-radius: 4px;
-}
-	 -->
+	
+	
+
+
+	
 	<div id="outerDiv" style="width: 1000px; margin-left: auto; margin-right: auto; padding-top: 10px;">
 	
 		<div id="menuDiv" 
 		style="float:left; width: 160px; height: 200px; 
-		background-color: #FFFFFF; box-shadow: 0px 0px 20px 3px #d3d3d3;border-radius: 4px; ">
+		background-color: #FFFFFF; box-shadow: 0px 0px 20px 3px #d3d3d3; border-radius: 4px; ">
 		
-			<div style="font-size:16; width: 147px; height: 187px; background-color: #3E403F; padding-left: 3px;padding-top: 3px;
-			border-radius: 4px; margin-top: 5px;margin-left: 5px;margin-bottom: 10px;margin-right: 10px;">
-				<a href="/configuration">Configuration</a>
+			<div style="width: 150px; height: 191px; background-color: #3E403F;
+			border-radius: 4px; margin-top: 3px; margin-left: 3px; padding-left: 5px; padding-top: 3px;">
+			
+				<a href="/configuration">Configuration</a><br>
+				<a href="/events">Activity</a><br>
+				<a href="/tvDirectory">TV Directory</a><br>
+				<a href="/movieDirectory">Movie Directory</a><br>
 			</div>
 		</div>
 		
-		<div id="contentDiv">
+		<div id="contentDiv" style="margin-bottom: 1000px">
 		
 		
 		

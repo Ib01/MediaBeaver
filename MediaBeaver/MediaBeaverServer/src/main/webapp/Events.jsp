@@ -30,7 +30,7 @@
 		
 	</script>
 	
-	<h2>System Events</h2>
+	<h2>System Activity</h2>
   
 	<form:form method="POST" commandName="events" class="formLayout">
 
@@ -46,47 +46,15 @@
 			</div>
 		</c:forEach>
 		
-		<%-- <c:forEach items="${events}" var="event" varStatus="i">
-		<div>Description: <c:out value="${event.errorDescription}" /></div>
-		</c:forEach> --%>
 		
 		
-		<%-- <div class="roundedPanel">
-			
-			<table style="width: 700px">
-				<tr>
-					<th>Time</th>
-					<th>Event</th>
-					<th>Source</th>
-					<th>Destination</th>
-					<th>Result</th>
-					<th>Description</th> 
-				</tr>
-				
-				
-				<c:forEach items="${events}" var="event" varStatus="i">
-					<tr>
-					<td ><fmt:formatDate type="both" pattern="dd/MM/yyyy hh:mm a"  value="${event.eventTime}" /></td>
-					<td><c:out value="${event.eventType}" /></td>
-					<td style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap; max-width: 230px;"><c:out value="${event.sourcePath}" /></td>
-					<td style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap; max-width: 230px"><c:out value="${event.destinationPath}" /></td>
-					<td><c:out value="${event.result}" /></td>
-					<td><c:out value="${event.errorDescription}" /></td> 
-					</tr>		
-				</c:forEach>
-			
-			</table>
-			
-			
-		</div> --%>
-		
-	 
+	 <!-- 
 		<br>
 		<br>
 		<a class="mainButton" href="#" id="Save">Save</a>
 		<a class="mainButton" href="#" id="Cancel">Cancel</a>
 		<br>
-		<br>
+		<br> -->
 		
 	</form:form>
 	
