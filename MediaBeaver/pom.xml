@@ -10,11 +10,11 @@
 
 	<modules>
 		<module>./MediaBeaverCore</module>
-		<module>./MediaBeaverServer</module>
-		<module>./MediaBeaverCli</module>
 		<module>./OpenSubtitles</module>
 		<module>./MovitoTMDBApi</module>
 		<module>./TVDBClient</module>
+		<module>./MediaBeaverServer</module>
+		<module>./MediaBeaverCli</module>
 	</modules>
 
 	<dependencies>

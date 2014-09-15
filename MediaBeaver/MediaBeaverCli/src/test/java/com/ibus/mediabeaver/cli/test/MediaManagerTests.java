@@ -41,18 +41,11 @@ public class MediaManagerTests
 		
 		
 		MediaMover mm = new MediaMover(c);
-		mm.moveFiles();
+		//mm.moveFiles();
 		
 		
 		assertTrue(true);
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
