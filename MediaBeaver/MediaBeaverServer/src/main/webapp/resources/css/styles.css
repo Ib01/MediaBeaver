@@ -42,10 +42,6 @@ a.mainButton
 #contentDiv 
 {
 	width: 800px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	margin-left: auto;
-	margin-right: auto;
 	text-align: left;
 	padding-top:1px;
 	padding-right:15px;
@@ -54,6 +50,7 @@ a.mainButton
 	background-color: #FFFFFF; 
 	box-shadow: 0px 0px 20px 3px #d3d3d3;
 	border-radius: 4px;
+	float: right;
 }
 
 #headerDiv

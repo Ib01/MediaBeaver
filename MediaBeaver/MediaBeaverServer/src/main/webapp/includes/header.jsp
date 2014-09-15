@@ -31,12 +31,38 @@
 		</div>
 	</div>
 	
-	<!-- <div style="background-color: blue; width: 100%;height:50px"></div> -->
 	
+	
+<!-- 	#contentDiv 
+{
+	width: 800px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+	padding-top:1px;
+	padding-right:15px;
+	padding-bottom:1px;
+	padding-left:15px; 
+	background-color: #FFFFFF; 
+	box-shadow: 0px 0px 20px 3px #d3d3d3;
+	border-radius: 4px;
+}
+	 -->
+	<div id="outerDiv" style="width: 1000px; margin-left: auto; margin-right: auto; padding-top: 10px;">
+	
+		<div id="menuDiv" 
+		style="float:left; width: 160px; height: 200px; 
+		background-color: #FFFFFF; box-shadow: 0px 0px 20px 3px #d3d3d3;border-radius: 4px; ">
 		
-	<!-- <div id="bodyDiv" >  -->
+			<div style="font-size:16; width: 147px; height: 187px; background-color: #3E403F; padding-left: 3px;padding-top: 3px;
+			border-radius: 4px; margin-top: 5px;margin-left: 5px;margin-bottom: 10px;margin-right: 10px;">
+				<a href="/configuration">Configuration</a>
+			</div>
+		</div>
 		
-	<div id="contentDiv">
+		<div id="contentDiv">
 		
 		
 		
