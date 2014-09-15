@@ -27,6 +27,7 @@ public class RepositoryInitialiser
 	@Test
 	public void initialiseDatabase()
 	{
+		
 		Transaction tx = null; 
 		try
 		{

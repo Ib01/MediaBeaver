@@ -27,7 +27,7 @@
 	<div id="headerDiv">
 		Media Beaver
 		<div id="Menu" style="">
-			<a href="/configList">Configuration</a>
+			<a href="/configuration">Configuration</a> | <a href="/events">Events</a> 
 		</div>
 	</div>
 	

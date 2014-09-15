@@ -100,7 +100,6 @@ public class FileSystem
 	
 	
 	
-	
 	public boolean moveFile(String source, String destinationRootPath, String destinationRelativePath, String extension) throws IOException, FileNotExistException, FileExistsException
 	{
 		if(!fileExists(destinationRootPath))
@@ -136,10 +135,13 @@ public class FileSystem
 		if(fileExists(destination))
 			throw new FileExistsException(String.format("Destination file %s already exists", destination));
 	
+		log.debug(String.format("... Moving file from %s to %s", source, destination));
+		
 		FileUtils.copyFile(srcFile, destFile);
 		srcFile.delete();
 		
-		log.debug(String.format("Succesfully moved file from %s to %s", source, destination));
+		log.debug(String.format(">>> Succesfully moved file from %s to %s", source, destination));
+		
 		return true;
 	}
 	

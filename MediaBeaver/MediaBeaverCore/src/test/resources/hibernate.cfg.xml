@@ -18,7 +18,7 @@
         <property name="show_sql">true</property>
 
         <!-- Drop and re-create the database schema on startup. create update-->
-        <property name="hbm2ddl.auto">update</property>
+        <property name="hbm2ddl.auto">create</property>
         
         <!-- Enable Hibernate's automatic session context management -->
         <property name="current_session_context_class">thread</property>
@@ -32,15 +32,7 @@
         
         
         <mapping class="com.ibus.mediabeaver.core.entity.Configuration"/>
-		<!-- <mapping class="com.ibus.mediabeaver.core.entity.MediaConfig"/>
-		<mapping class="com.ibus.mediabeaver.core.entity.OpenSubtitlesSelector"/>
-		<mapping class="com.ibus.mediabeaver.core.entity.OpenSubtitlesField"/>
-		<mapping class="com.ibus.mediabeaver.core.entity.RegExSelector"/>
-		<mapping class="com.ibus.mediabeaver.core.entity.RegExPathTokenSetter"/>
-		<mapping class="com.ibus.mediabeaver.core.entity.ServiceFieldMap"/> -->
-		
-		
-		
+		<mapping class="com.ibus.mediabeaver.core.entity.Event"/>
 		
     </session-factory>
 
