@@ -14,7 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.ibus.mediabeaver.core.util.PathParser;
 import com.ibus.mediabeaver.core.util.RegExHelper;
-import com.ibus.mediabeaver.core.util.ServiceFieldParser;
 
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.model.FindResults;

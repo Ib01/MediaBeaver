@@ -176,43 +176,17 @@
 
 
 
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-shade-plugin</artifactId> 
-				<version>1.4</version> <executions> <execution> <phase>package</phase> <goals> 
-				<goal>shade</goal> </goals> <configuration> <artifactSet> signed jars <excludes> 
-				<exclude>bouncycastle:bcprov-jdk15</exclude> </excludes> </artifactSet> <transformers> 
-				<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> 
-				Main class <mainClass>com.ibus.mediaBeaverBackend.Main</mainClass> </transformer> 
-				Use resource transformers to prevent file overwrites <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer"> 
-				<resource>properties.properties</resource> </transformer> <transformer implementation="org.apache.maven.plugins.shade.resource.XmlAppendingTransformer"> 
-				<resource>applicationContext.xml</resource> </transformer> <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer"> 
-				<resource>META-INF/cxf/cxf.extension</resource> </transformer> <transformer 
-				implementation="org.apache.maven.plugins.shade.resource.XmlAppendingTransformer"> 
-				<resource>META-INF/cxf/bus-extensions.xml</resource> </transformer> </transformers> 
-				</configuration> </execution> </executions> </plugin> -->
-
-
-
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-jar-plugin</artifactId> 
-				<configuration> <archive> <manifest> <addDefaultImplementationEntries>false</addDefaultImplementationEntries> 
-				<addClasspath>true</addClasspath> <mainClass>ConsoleMain</mainClass> </manifest> 
-				<manifestEntries> <Class-Path>../conf/</Class-Path> </manifestEntries> </archive> 
-				</configuration> <executions> <execution> <id>make-a-jar</id> <phase>compile</phase> 
-				<goals> <goal>jar</goal> </goals> </execution> </executions> </plugin> -->
-
-
-
-
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-shade-plugin</artifactId> 
-				<version>2.2</version> <executions> <execution> <phase>package</phase> <goals> 
-				<goal>shade</goal> </goals> <configuration> <transformers> <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> 
-				<manifestEntries> <Main-Class>daba.MainClass</Main-Class> <Build-Number>123</Build-Number> 
-				</manifestEntries> </transformer> </transformers> </configuration> </execution> 
-				</executions> </plugin> -->
+			
+				    
+				   
+			
 
 
 		</plugins>
 	</build>
 
+	<!-- 
+	starts jetty after a succesfull build. However there is no way to stop the app so dissabling this for now.
 	<profiles>
 		<profile>
 			<id>runJetty</id>
@@ -245,6 +219,6 @@
 				</plugins>
 			</build>
 		</profile>
-	</profiles>
+	</profiles> -->
 
 </project>

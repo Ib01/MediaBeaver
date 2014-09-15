@@ -1,4 +1,4 @@
-package com.ibus.mediabeaver.core.test;
+package com.ibus.mediabeaver.core.integrationtest;
 
 import java.util.List;
 
@@ -7,14 +7,13 @@ import org.junit.Test;
 import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.exception.PathParseException;
 import com.ibus.mediabeaver.core.util.PathParser;
-import com.ibus.mediabeaver.core.util.ServiceFieldParser;
 
 
 
 
 import static org.junit.Assert.assertTrue;
 
-public class PathParserTests
+public class PathParserIT
 {
 	@Test
 	public void parsePathTest() throws PathParseException

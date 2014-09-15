@@ -1,27 +1,21 @@
-package com.ibus.mediabeaver.core.test;
-
-import java.util.Map;
+package com.ibus.mediabeaver.core.integrationtest;
 
 import javax.validation.constraints.AssertTrue;
-
-import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import com.ibus.mediabeaver.core.data.DataInitialiser;
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
 
-public class EnvironmentVariables
+public class RepositoryInitialiserIT
 {
-	static Logger log = Logger.getLogger(EnvironmentVariables.class.getName());
-	
 	@BeforeClass
 	public static void initialiseClass()
 	{
+		HibernateUtil.createSchema();
 	}
 
 	@Before
@@ -33,11 +27,22 @@ public class EnvironmentVariables
 	@Test
 	public void initialiseDatabase()
 	{
-		 Map<String, String> env = System.getenv();
-	        for (String envName : env.keySet()) 
-	        {
-	        	log.debug(String.format("%s=%s%n",envName,env.get(envName)));
-	        }
+		
+		Transaction tx = null; 
+		try
+		{
+			Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+			tx = s.beginTransaction();
+
+			DataInitialiser.addDefaultConfigs();
+			
+			tx.commit();
+		}
+		catch(RuntimeException e)
+		{
+			tx.rollback();
+			assert(false);
+		}
 
 		assert(true);
 	}

@@ -1,4 +1,4 @@
-package com.ibus.mediabeaver.cli.test;
+package com.ibus.mediabeaver.cli.integrationtest;
 
 import static org.junit.Assert.*;
 import info.movito.themoviedbapi.TmdbApi;
@@ -20,7 +20,7 @@ import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 import com.ibus.tvdb.client.domain.TvdbEpisodeDto;
 
-public class MediaManagerTests
+public class MediaManagerIT
 {
 	@Before
 	public void beforeTest()

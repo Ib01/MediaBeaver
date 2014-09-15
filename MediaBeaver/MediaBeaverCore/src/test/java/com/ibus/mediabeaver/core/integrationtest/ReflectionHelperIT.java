@@ -1,4 +1,4 @@
-package com.ibus.mediabeaver.core.test;
+package com.ibus.mediabeaver.core.integrationtest;
 
 import static org.junit.Assert.*;
 
@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.ibus.mediabeaver.core.entity.ServiceFieldMap;
 import com.ibus.mediabeaver.core.util.ReflectionHelper;
 
-public class ReflectionHelperTests
+public class ReflectionHelperIT
 {
 
 	@Test

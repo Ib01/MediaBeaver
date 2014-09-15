@@ -1,11 +1,11 @@
-package com.ibus.mediabeaver.server.test;
+package com.ibus.mediabeaver.server.integrationtest;
 
 import org.hibernate.Session;
 import org.junit.Before;
 
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 
-public class ModelMapperTests
+public class ModelMapperIT
 {
 	@Before
 	public void beforeTest()

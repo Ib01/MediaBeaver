@@ -1,4 +1,4 @@
-package com.ibus.mediabeaver.core.test;
+package com.ibus.mediabeaver.core.integrationtest;
 
 import static org.junit.Assert.*;
 
@@ -9,7 +9,7 @@ import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Configuration;
 
-public class ConfigurationTests
+public class ConfigurationIT
 {
 	public void StartTransaction()
 	{

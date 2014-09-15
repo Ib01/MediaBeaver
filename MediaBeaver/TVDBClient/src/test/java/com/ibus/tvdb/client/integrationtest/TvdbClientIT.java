@@ -1,4 +1,4 @@
-package com.ibus.tvdb.client.test;
+package com.ibus.tvdb.client.integrationtest;
 
 import static org.junit.Assert.*;
 
@@ -10,7 +10,7 @@ import com.ibus.tvdb.client.TvdbClient;
 import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
 import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
 
-public class TvdbClientTests
+public class TvdbClientIT
 {
 	@Test
 	public void getEpisodesTest() throws URISyntaxException

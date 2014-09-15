@@ -1,4 +1,4 @@
-package com.ibus.opensubtitles.test;
+package com.ibus.opensubtitles.integrationtest;
 
 import static org.junit.Assert.*;
 
@@ -20,7 +20,7 @@ import com.ibus.opensubtitles.client.dto.OstTitleDto;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesHashData;
 import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashGenerator;
 
-public class OpenSubtitlesClientTest
+public class OpenSubtitlesClientIT
 {
 	private static String userName = "";
 	private static String password = "";

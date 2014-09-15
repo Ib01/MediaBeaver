@@ -1,4 +1,4 @@
-package com.ibus.mediabeaver.cli.test;
+package com.ibus.mediabeaver.cli.integrationtest;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,18 +6,26 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.xmlrpc.XmlRpcException;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.ibus.mediabeaver.cli.utility.FileSystem;
 
-public class FileSystemTests
+public class FileSystemIT
 {
 	@Before
 	public void beforeTest()
 	{
 		refreshTestDirs();
 	}
+	
+	@Test
+	public void foobarTest() 
+	{
+		assertTrue(true);
+	}
+	
 	
 	private void refreshTestDirs()
 	{

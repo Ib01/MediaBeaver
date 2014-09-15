@@ -1,4 +1,4 @@
-package com.ibus.mediabeaver.core.test;
+package com.ibus.mediabeaver.core.integrationtest;
 
 import org.hibernate.Session;
 import org.junit.Before;
@@ -8,7 +8,7 @@ import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
 
 
-public class RepositoryTests
+public class RepositoryIT
 {
 	@BeforeClass
 	public static void initialiseClass()

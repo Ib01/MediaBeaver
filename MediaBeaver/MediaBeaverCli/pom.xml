@@ -90,42 +90,6 @@
 			</plugin>
 
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.11</version>
-				
-				<dependencies>
-					 <dependency>
-					  <groupId>org.apache.maven.surefire</groupId>
-					  <artifactId>surefire-junit47</artifactId>
-					  <version>2.12</version>
-					 </dependency>
-				</dependencies>
-				
-				<configuration>
-					 <includes>
-					  <include>**/*.class</include>
-					 </includes>
-					 <excludedGroups>com.ibus.mediabeaver.cli.test.IntegrationTest</excludedGroups>
-				</configuration>
-			</plugin>
-
-
-
-
-			<!-- <plugin> Build an executable JAR <groupId>org.apache.maven.plugins</groupId> 
-				<artifactId>maven-jar-plugin</artifactId> <configuration> <archive> <manifest> 
-				<addClasspath>true</addClasspath> <mainClass>com.ibus.mediaBeaverBackend.Main</mainClass> 
-				</manifest> </archive> </configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
-				<artifactId>maven-dependency-plugin</artifactId> <version>2.3</version> <executions> 
-				<execution> <id>jetty-classpath</id> <phase>prepare-package</phase> <goals> 
-				<goal>unpack-dependencies</goal> </goals> <configuration> <includeGroupIds>org.eclipse.jetty,javax.servlet</includeGroupIds> 
-				<excludeArtifactIds>jsp-api,jstl</excludeArtifactIds> <includeGroupIds>com.ibus</includeGroupIds> 
-				<includeArtifactIds>mediaBeaverCore</includeArtifactIds> <includeGroupIds>org.eclipse.jetty.aggregate,org.eclipse.jetty,org.mortbay.jetty,org.eclipse.jdt.core.compiler,com.h2database,org.hibernate,org.springframework,junit</includeGroupIds> 
-				<excludes>META-INF/ECLIPSEF.*</excludes> <outputDirectory> ${project.build.directory}/${project.artifactId}-${project.version} 
-				</outputDirectory> </configuration> </execution> </executions> </plugin> -->
-
 		</plugins>
 	</build>
 
