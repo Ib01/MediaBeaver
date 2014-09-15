@@ -17,7 +17,7 @@ on the target system.
 
 8) execute **java -jar mediaBeaverServer-0.0.1-SNAPSHOT.war** (this will start the web app)
 
-9) Goto **http;//{ip address of your host}:8081/configuration**.  you should see the screen below.  
+9) Goto **http://{ip address of your host}:8081/configuration**.  you should see the screen below.  
 
 ![MediaBeaverConfiguration.png](https://bitbucket.org/repo/5MgKjp/images/1103420040-MediaBeaverConfiguration.png)
 
@@ -79,4 +79,4 @@ Completed
 
 * in the case where we cannot fine a match in open subtitles service using hash value we can search using movie name/ season info?
 
-* Ensure error is thrown if destination root and source paths specified in configs is not found during processing 
+* Ensure error is thrown if destination root and source paths specified in configs is not found during processing
