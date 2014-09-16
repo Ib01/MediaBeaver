@@ -26,7 +26,7 @@ import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 
 public class Main
-{
+{    
 	static Logger log = Logger.getLogger(Main.class.getName());
 	public static final String initialiseArg = "-initialise";
 	public static final String moveArg = "-move";
