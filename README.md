@@ -1,3 +1,12 @@
+#Introduction
+
+Media Beaver is or will be a comprehensive tool for managing media: Movies, Tv Episodes and Music. It is written in Java and is platform independent. It also runs in a browser so it can be accessed either locally or remotely. 
+
+#Licensing & Copyright
+
+The code found under this repository falls under GPL v3 licensing. Please see LICENSE.TXT for more information.
+
+
 # Getting Started
 
 1) Get the latest version of the source
