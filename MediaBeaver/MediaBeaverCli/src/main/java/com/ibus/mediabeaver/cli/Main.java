@@ -37,7 +37,7 @@ public class Main
 		if(args[0].equals(initialiseArg))
 		{
 			initialiseApp();
-			return;
+			return;  
 		}
 		
 		if(args[0].equals(moveArg))
