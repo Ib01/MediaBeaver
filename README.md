@@ -36,6 +36,10 @@ you can change this structure to whatever you desire.  At present the following 
 
 # Features to be added before our first beta:
 
+* Create first time app has started wizard which will get download source directory, movie and TV directories 
+
+* Enable users to copy instead of move content
+
 * ensure root path and end path appending is done properly.
 
 * Cache data from web services for more efficient qureying.
@@ -46,21 +50,15 @@ you can change this structure to whatever you desire.  At present the following 
 
 * and undo move capability
 
-* destination path rename? "naming format" or "naming and placement"?
+* get subtitles    
+
+* Add log file viewer to web app component
 
 * would be nice to find a way to title case titles (i.e not just capitalise the first letter of each word but to not capitalise words like 'a' or 'it' etc)
-
-* get subtitles    
 
 * upgrade logger to log4j2
 
 * look into http://acoustid.org/ and http://musicbrainz.org/ for music identification?
-
-* Enable users to copy instead of move content
-
-* Test this on Freenas with a Custom Jail Plugin
-
-* Add log file viewer to web app component
 
 ********************************************************
 Completed
@@ -80,3 +78,7 @@ Completed
 * in the case where we cannot fine a match in open subtitles service using hash value we can search using movie name/ season info?
 
 * Ensure error is thrown if destination root and source paths specified in configs is not found during processing
+
+* destination path rename? "naming format" or "naming and placement"?
+
+* Test this on Freenas with a Custom Jail Plugin
