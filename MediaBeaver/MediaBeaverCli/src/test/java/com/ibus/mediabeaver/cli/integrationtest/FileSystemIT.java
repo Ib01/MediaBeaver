@@ -4,6 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.xmlrpc.XmlRpcException;
@@ -11,18 +13,41 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.ibus.mediabeaver.cli.utility.FileSystem;
+import com.ibus.mediabeaver.core.exception.FileExistsException;
+import com.ibus.mediabeaver.core.exception.FileNotExistException;
 
 public class FileSystemIT
 {
 	@Before
 	public void beforeTest()
 	{
-		refreshTestDirs();
+		//refreshTestDirs();
 	}
 	
 	@Test
-	public void foobarTest() 
+	public void foobarTest() throws IOException, FileNotExistException, FileExistsException 
 	{
+		FileSystem fs = new FileSystem();
+		
+		File source = new File("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Source\\");
+		List<File> fileSysObjects = Arrays.asList(source.listFiles());
+
+		for (File fso : fileSysObjects)
+		{
+			fs.renameFileTo(fso.getAbsolutePath(), "C:\\Users\\Ib\\Desktop\\MediabeaverTests\\File1.avi");
+		}
+		
+		
+		
+		
+		
+		/*fs.renameFileTo(
+				"C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Source\\Star Trek Enterprise [1x09] Civilization.avi", 
+				"C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Star Trek Enterprise [1x09] Civilization2.avi");*/
+		
+		
+		
+		
 		assertTrue(true);
 	}
 	

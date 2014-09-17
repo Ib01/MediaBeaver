@@ -16,6 +16,7 @@ import com.ibus.mediabeaver.cli.Main;
 import com.ibus.mediabeaver.core.exception.FileExistsException;
 import com.ibus.mediabeaver.core.exception.MediaBeaverConfigurationException;
 import com.ibus.mediabeaver.core.exception.FileNotExistException;
+import static java.nio.file.StandardCopyOption.*;
 
 public class FileSystem
 {
@@ -141,6 +142,44 @@ public class FileSystem
 		srcFile.delete();
 		
 		log.debug(String.format(">>> Succesfully moved file from %s to %s", source, destination));
+		
+		return true;
+	}
+	
+	/**
+	 * moves a file from source to destination. all directories in the destination path will be 
+	 * created if they do not already exist. If the file already exists the move will be 
+	 * aborted and the method will return false.
+	 * 
+	 * @param source
+	 * @param destination
+	 * @return
+	 * @throws MediaBeaverConfigurationException 
+	 * @throws IOException 
+	 * @throws FileNotExistException 
+	 */
+	public boolean renameFileTo(String source, String destination) throws IOException, FileNotExistException, FileExistsException
+	{
+		//destination = "C:\\Users\\Ib\\Desktop\\MediabeaverTests\\";
+		
+		Path sourcePath = Paths.get(source);
+		Path targetPath = Paths.get(destination);
+		Files.move(sourcePath, targetPath);
+		
+		/*if(!fileExists(source))  
+			throw new FileNotExistException(String.format("Source file does not exist %s", source));
+		
+		File srcFile = new File(source);
+		File destFile = new File(destination);
+		
+		if(fileExists(destination))
+			throw new FileExistsException(String.format("Destination file %s already exists", destination));
+	
+		log.debug(String.format("... Renaming file from %s to %s", source, destination));
+		
+		srcFile.renameTo(destFile);
+		
+		log.debug(String.format(">>> Succesfully moved file from %s to %s", source, destination));*/
 		
 		return true;
 	}

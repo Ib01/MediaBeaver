@@ -32,9 +32,9 @@ public class MediaManagerIT
 	public void processConfigsTest() throws XmlRpcException, IOException
 	{
 		Configuration c = new Configuration();
-		c.setSourceDirectory("D:\\MediabeaverTests\\Source\\");
-		c.setTvRootDirectory("D:\\MediabeaverTests\\Destination\\TV\\");
-		c.setMovieRootDirectory("D:\\MediabeaverTests\\Destination\\Movies\\");
+		c.setSourceDirectory("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Source\\");
+		c.setTvRootDirectory("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Destination\\TV\\");
+		c.setMovieRootDirectory("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Destination\\Movies\\");
 		
 		c.setEpisodePath("{SeriesName}\\Season {SeasonNumber}\\{SeriesName} S{SeasonNumber}.leftPad(\"2\",\"0\")E{EpisodeNumber}.leftPad(\"2\",\"0\")");
 		c.setMoviePath("{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))\\{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))");

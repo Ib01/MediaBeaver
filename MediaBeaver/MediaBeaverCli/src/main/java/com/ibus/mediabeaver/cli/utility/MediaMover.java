@@ -1,5 +1,10 @@
 package com.ibus.mediabeaver.cli.utility;
 
+import info.movito.themoviedbapi.TmdbApi;
+import info.movito.themoviedbapi.TmdbFind;
+import info.movito.themoviedbapi.model.FindResults;
+import info.movito.themoviedbapi.model.MovieDb;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -7,27 +12,18 @@ import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.xmlrpc.XmlRpcException;
 
-import com.ibus.mediabeaver.core.util.PathParser;
-import com.ibus.mediabeaver.core.util.RegExHelper;
-
-import info.movito.themoviedbapi.TmdbApi;
-import info.movito.themoviedbapi.model.FindResults;
-import info.movito.themoviedbapi.model.MovieDb;
-
-import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.entity.Event;
 import com.ibus.mediabeaver.core.entity.EventType;
 import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.entity.ResultType;
-import com.ibus.mediabeaver.core.entity.ServiceFieldMap;
 import com.ibus.mediabeaver.core.exception.FileExistsException;
 import com.ibus.mediabeaver.core.exception.FileNotExistException;
 import com.ibus.mediabeaver.core.exception.PathParseException;
+import com.ibus.mediabeaver.core.util.PathParser;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 import com.ibus.opensubtitles.client.dto.OstTitleDto;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesField;
@@ -37,12 +33,6 @@ import com.ibus.tvdb.client.TvdbClient;
 import com.ibus.tvdb.client.domain.TvdbEpisodeDto;
 import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
 import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
-
-import info.movito.themoviedbapi.TmdbFind;
-
-import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.pattern.LogEvent;
-import org.apache.xmlrpc.XmlRpcException;
 
 public class MediaMover extends FileProcessorBase
 {	
@@ -183,6 +173,7 @@ public class MediaMover extends FileProcessorBase
 						destinationPathEnd, FilenameUtils.getExtension(file.getAbsolutePath())));
 				
 				destination = FilenameUtils.concat(config.getTvRootDirectory(), destinationPathEnd + "." + FilenameUtils.getExtension(file.getAbsolutePath()));
+				//destination = FilenameUtils.concat("C:\\Users\\Ib\\Desktop\\MediabeaverTests", "File" + mediaMoved + "." + FilenameUtils.getExtension(file.getAbsolutePath()));
 			}
 			else if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("movie"))
 			{
@@ -196,9 +187,11 @@ public class MediaMover extends FileProcessorBase
 						destinationPathEnd, FilenameUtils.getExtension(file.getAbsolutePath())));
 		
 				destination = FilenameUtils.concat(config.getMovieRootDirectory(), destinationPathEnd + "." + FilenameUtils.getExtension(file.getAbsolutePath()));
+				//destination = FilenameUtils.concat("C:\\Users\\Ib\\Desktop\\MediabeaverTests", "File" + mediaMoved + "." + FilenameUtils.getExtension(file.getAbsolutePath()));
 			}
 			
-			fileSys.moveFile(file.getAbsolutePath(), destination);
+			fileSys.renameFileTo(file.getAbsolutePath(), destination);
+			//fileSys.moveFile(file.getAbsolutePath(), destination);
 			++mediaMoved;
 			logEvent(file.getAbsolutePath(), destination, ResultType.Succeeded, null);
 			
@@ -238,8 +231,6 @@ public class MediaMover extends FileProcessorBase
 		
 		logEvent(event);
 	}
-	
-	
 	
 	
 	/**
