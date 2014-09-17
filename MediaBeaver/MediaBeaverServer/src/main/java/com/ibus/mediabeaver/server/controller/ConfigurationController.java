@@ -1,6 +1,7 @@
 package com.ibus.mediabeaver.server.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +21,7 @@ public class ConfigurationController
 	@RequestMapping
 	public ModelAndView updateConfig(HttpServletRequest request)
 	{
+		//requestx.sendRedirect(arg0); HttpServletResponse requestx
 		Configuration configs = Repository.getFirstEntity(Configuration.class);
 		ConfigurationViewModel vm = Mapper.getMapper().map(configs, ConfigurationViewModel.class);
 		

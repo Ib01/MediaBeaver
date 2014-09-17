@@ -50,8 +50,8 @@
  
 	<!-- adds interceptors which can intercept requests as they land at the server allowing you to do work before and after a request --> 
     <mvc:interceptors>
-    	<bean class="com.ibus.mediabeaver.server.data.HibernateRequestInterceptor" />
-    	<bean class="com.ibus.mediabeaver.server.data.SessionExpiredInterceptor" />
+    	<bean class="com.ibus.mediabeaver.server.inteceptor.RequestInterceptor" />
+    	<!-- <bean class="com.ibus.mediabeaver.server.data.SessionExpiredInterceptor" /> -->
 	</mvc:interceptors>
 	
 	<!-- maps views to resources using view names specified in the controlers and the prifix and suffix --> 

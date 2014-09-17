@@ -1,4 +1,4 @@
-package com.ibus.mediabeaver.server.data;
+package com.ibus.mediabeaver.server.inteceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,9 +9,13 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.HibernateUtil;
+import com.ibus.mediabeaver.core.data.Repository;
+import com.ibus.mediabeaver.core.entity.Configuration;
 
-public class HibernateRequestInterceptor implements HandlerInterceptor
+public class RequestInterceptor implements HandlerInterceptor
 {
+	private static boolean appInitialised = false;
+	
 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
 	{
@@ -21,6 +25,16 @@ public class HibernateRequestInterceptor implements HandlerInterceptor
 			Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 			s.beginTransaction();
 		}
+		
+		if(!appInitialised){
+			appInitialised = true;
+			
+			Configuration config = Repository.getFirstEntity(Configuration.class);
+			if(config == null)
+				response.sendRedirect("/initialise");
+		}
+			
+		
 		
 		return true;
 	}

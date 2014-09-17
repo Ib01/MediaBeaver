@@ -1,4 +1,4 @@
-package com.ibus.mediabeaver.server.data;
+package com.ibus.mediabeaver.server.inteceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
