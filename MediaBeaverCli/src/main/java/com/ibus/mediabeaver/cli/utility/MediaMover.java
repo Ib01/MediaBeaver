@@ -190,7 +190,7 @@ public class MediaMover extends FileProcessorBase
 				//destination = FilenameUtils.concat("C:\\Users\\Ib\\Desktop\\MediabeaverTests", "File" + mediaMoved + "." + FilenameUtils.getExtension(file.getAbsolutePath()));
 			}
 			
-			fileSys.renameFileTo(file.getAbsolutePath(), destination);
+			fileSys.moveFile(file.getAbsolutePath(), destination, false);
 			//fileSys.moveFile(file.getAbsolutePath(), destination);
 			++mediaMoved;
 			logEvent(file.getAbsolutePath(), destination, ResultType.Succeeded, null);
@@ -204,12 +204,6 @@ public class MediaMover extends FileProcessorBase
 		{
 			log.error(String.format("An unexpected error occured while attempting to move a file"), e);
 		} catch (IOException e)
-		{
-			log.error(String.format("An unexpected error occured while attempting to move a file"), e);
-		} catch (FileNotExistException e)
-		{
-			log.error(String.format("An unexpected error occured while attempting to move a file"), e);
-		} catch (FileExistsException e)
 		{
 			log.error(String.format("An unexpected error occured while attempting to move a file"), e);
 		}

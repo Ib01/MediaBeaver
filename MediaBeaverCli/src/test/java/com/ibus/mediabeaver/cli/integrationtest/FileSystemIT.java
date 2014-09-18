@@ -34,7 +34,7 @@ public class FileSystemIT
 
 		for (File fso : fileSysObjects)
 		{
-			fs.renameFileTo(fso.getAbsolutePath(), "C:\\Users\\Ib\\Desktop\\MediabeaverTests\\File1.avi");
+			fs.moveFile(fso.getAbsolutePath(), "C:\\Users\\Ib\\Desktop\\MediabeaverTests\\File1.avi", false);
 		}
 		
 		

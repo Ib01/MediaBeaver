@@ -81,42 +81,11 @@ public class FileSystem
 	*/
 	
 	
-	
-	
-	/**
-	 * Checks the existance of a file
-	 * @param path
-	 * @return
-	 */
-	public boolean fileExists(String path)
-	{
-		File file = new File(path);
-		boolean exists = file.exists(); 
-		
-		if(exists)
-			log.debug(String.format("It was determined that the following file system object exists: %s ", path));
-		
-		return exists; 
-	}
-	
-	
-	
-	public boolean moveFile(String source, String destinationRootPath, String destinationRelativePath, String extension) throws IOException, FileNotExistException, FileExistsException
-	{
-		if(!fileExists(destinationRootPath))
-			throw new FileNotExistException(String.format("Root path does not exist %s", destinationRootPath));		
 
-		String path = FilenameUtils.concat(destinationRootPath, destinationRelativePath + "." + extension);
-		
-		return moveFile(source, path);
-	}
-	
-	
 	
 	/**
-	 * moves a file from source to destination. all directories in the destination path will be 
-	 * created if they do not already exist. If the file already exists the move will be 
-	 * aborted and the method will return false.
+	 * Move or rename a file from source to destination. all directories in the destination path will be 
+	 * created if they do not already exist. If the file already exists an exception will be thrown
 	 * 
 	 * @param source
 	 * @param destination
@@ -125,75 +94,53 @@ public class FileSystem
 	 * @throws IOException 
 	 * @throws FileNotExistException 
 	 */
-	public boolean moveFile(String source, String destination) throws IOException, FileNotExistException, FileExistsException
+	public boolean moveFile(String source, String destination, boolean overWrite) throws IOException 
 	{
-		if(!fileExists(source))  
-			throw new FileNotExistException(String.format("Source file does not exist %s", source));
-		
-		File srcFile = new File(source);
-		File destFile = new File(destination);
-		
-		if(fileExists(destination))
-			throw new FileExistsException(String.format("Destination file %s already exists", destination));
-	
-		log.debug(String.format("... Moving file from %s to %s", source, destination));
-		
-		FileUtils.copyFile(srcFile, destFile);
-		srcFile.delete();
-		
-		log.debug(String.format(">>> Succesfully moved file from %s to %s", source, destination));
-		
-		return true;
-	}
-	
-	/**
-	 * moves a file from source to destination. all directories in the destination path will be 
-	 * created if they do not already exist. If the file already exists the move will be 
-	 * aborted and the method will return false.
-	 * 
-	 * @param source
-	 * @param destination
-	 * @return
-	 * @throws MediaBeaverConfigurationException 
-	 * @throws IOException 
-	 * @throws FileNotExistException 
-	 */
-	public boolean renameFileTo(String source, String destination) throws IOException, FileNotExistException, FileExistsException
-	{
-		//destination = "C:\\Users\\Ib\\Desktop\\MediabeaverTests\\";
-		
 		Path sourcePath = Paths.get(source);
 		Path targetPath = Paths.get(destination);
-		Files.move(sourcePath, targetPath);
 		
+		if(overWrite)
+			Files.move(sourcePath, targetPath,REPLACE_EXISTING);
+		else
+			Files.move(sourcePath, targetPath);
 		
-		
-		
-		
-		/*if(!fileExists(source))  
-			throw new FileNotExistException(String.format("Source file does not exist %s", source));
-		
-		File srcFile = new File(source);
-		File destFile = new File(destination);
-		
-		if(fileExists(destination))
-			throw new FileExistsException(String.format("Destination file %s already exists", destination));
-	
-		log.debug(String.format("... Renaming file from %s to %s", source, destination));
-		
-		srcFile.renameTo(destFile);
-		
-		log.debug(String.format(">>> Succesfully moved file from %s to %s", source, destination));*/
-		
+		log.debug(String.format(">>> Succesfully renamed or moved file from %s to %s", source, destination));
+				
 		return true;
 	}
 	
 	
 	
-	public boolean deleteQuietly(String file)
+	
+
+	/**
+	 * Copy a file from source to destination. all directories in the destination path will be 
+	 * created if they do not already exist. If the file already exists the move will be 
+	 * aborted and the method will return false.
+	 * 
+	 * @param source
+	 * @param destination
+	 * @return
+	 * @throws MediaBeaverConfigurationException 
+	 * @throws IOException 
+	 * @throws FileNotExistException 
+	 */
+	public boolean copyFile(String source, String destination, boolean overWrite) throws IOException 
 	{
-		return FileUtils.deleteQuietly(new File(file));
+		Path sourcePath = Paths.get(source);
+		Path targetPath = Paths.get(destination);
+		
+		if(overWrite)
+			Files.copy(sourcePath, targetPath, REPLACE_EXISTING);
+		else
+			Files.copy(sourcePath, targetPath);
+		
+		log.debug(String.format(">>> Succesfully copied file from %s to %s", source, destination));
+		
+		return true;
 	}
+	
+	
 	
 }
 
