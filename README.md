@@ -12,4 +12,4 @@ The code found under this repository falls under GPL v3 licensing. Please see LI
 
 ### Getting Started ###
 
-Please see the wiki: https://github.com/Ib01/MediaBeaver/wiki for details on how to get started with this product
+Please see the wiki: https://github.com/Ib01/MediaBeaver/wiki for details on how to get started with this product  
