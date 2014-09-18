@@ -1,12 +1,12 @@
 package info.movito.themoviedbapi;
 
-import info.movito.themoviedbapi.model.config.TokenAuthorisation;
-import info.movito.themoviedbapi.model.config.TokenSession;
-import org.junit.Ignore;
-import org.junit.Test;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import info.movito.themoviedbapi.model.config.TokenAuthorisation;
+import info.movito.themoviedbapi.model.config.TokenSession;
+
+import org.junit.Ignore;
+import org.junit.Test;
 
 
 public class AuthApiTest extends AbstractTmdbApiTest {

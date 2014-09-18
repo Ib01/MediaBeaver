@@ -1,12 +1,12 @@
 package info.movito.themoviedbapi;
 
+import static org.junit.Assert.assertNotNull;
 import info.movito.themoviedbapi.model.tv.TvEpisode;
 import info.movito.themoviedbapi.model.tv.TvSeason;
 import info.movito.themoviedbapi.model.tv.TvSeries;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.junit.Assert.assertNotNull;
 
 
 public class SeriesApiTest extends AbstractTmdbApiTest {

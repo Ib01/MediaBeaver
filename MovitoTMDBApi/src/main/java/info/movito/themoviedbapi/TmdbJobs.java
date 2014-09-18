@@ -1,11 +1,12 @@
 package info.movito.themoviedbapi;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import info.movito.themoviedbapi.model.JobDepartment;
 import info.movito.themoviedbapi.model.core.AbstractJsonMapping;
 import info.movito.themoviedbapi.tools.ApiUrl;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class TmdbJobs extends AbstractApiElement {

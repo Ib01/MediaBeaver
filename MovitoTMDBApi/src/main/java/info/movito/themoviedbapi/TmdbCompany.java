@@ -4,9 +4,10 @@ import info.movito.themoviedbapi.model.Collection;
 import info.movito.themoviedbapi.model.Company;
 import info.movito.themoviedbapi.model.core.ResultsPage;
 import info.movito.themoviedbapi.tools.ApiUrl;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 
 
 public class TmdbCompany extends AbstractApiElement {

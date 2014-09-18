@@ -1,5 +1,7 @@
 package com.ibus.mediabeaver.core.integrationtest;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 
 import org.junit.Test;
@@ -7,11 +9,6 @@ import org.junit.Test;
 import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.exception.PathParseException;
 import com.ibus.mediabeaver.core.util.PathParser;
-
-
-
-
-import static org.junit.Assert.assertTrue;
 
 public class PathParserIT
 {

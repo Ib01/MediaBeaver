@@ -1,7 +1,8 @@
 package info.movito.themoviedbapi.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import info.movito.themoviedbapi.model.core.NamedIdElement;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Company extends NamedIdElement {

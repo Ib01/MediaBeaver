@@ -1,16 +1,18 @@
 package info.movito.themoviedbapi;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import info.movito.themoviedbapi.model.core.StatusCode;
 import info.movito.themoviedbapi.tools.ApiUrl;
 import info.movito.themoviedbapi.tools.MovieDbException;
 import info.movito.themoviedbapi.tools.MovieDbExceptionType;
 import info.movito.themoviedbapi.tools.RequestMethod;
+
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 public abstract class AbstractApiElement {

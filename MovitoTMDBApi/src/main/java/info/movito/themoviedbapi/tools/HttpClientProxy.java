@@ -1,11 +1,11 @@
 package info.movito.themoviedbapi.tools;
 
-import org.apache.http.client.methods.HttpGet;
-import org.yamj.api.common.http.CommonHttpClient;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+
+import org.apache.http.client.methods.HttpGet;
+import org.yamj.api.common.http.CommonHttpClient;
 
 
 public class HttpClientProxy implements UrlReader {

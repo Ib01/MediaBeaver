@@ -1,9 +1,11 @@
 package info.movito.themoviedbapi.model;
 
+import info.movito.themoviedbapi.model.core.IdElement;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
-import info.movito.themoviedbapi.model.core.IdElement;
-import org.apache.commons.lang3.StringUtils;
 
 
 @JsonRootName("collection")

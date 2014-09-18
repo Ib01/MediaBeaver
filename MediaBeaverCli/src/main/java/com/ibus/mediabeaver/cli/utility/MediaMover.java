@@ -20,8 +20,6 @@ import com.ibus.mediabeaver.core.entity.Event;
 import com.ibus.mediabeaver.core.entity.EventType;
 import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.entity.ResultType;
-import com.ibus.mediabeaver.core.exception.FileExistsException;
-import com.ibus.mediabeaver.core.exception.FileNotExistException;
 import com.ibus.mediabeaver.core.exception.PathParseException;
 import com.ibus.mediabeaver.core.util.PathParser;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;

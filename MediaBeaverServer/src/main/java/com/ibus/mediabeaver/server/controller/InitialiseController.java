@@ -6,10 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Configuration;
-import com.ibus.mediabeaver.server.util.Mapper;
-import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
 
 @Controller
 @RequestMapping(value = "/initialise")

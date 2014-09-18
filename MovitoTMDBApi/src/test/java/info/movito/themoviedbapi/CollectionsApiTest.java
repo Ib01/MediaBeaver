@@ -1,12 +1,12 @@
 package info.movito.themoviedbapi;
 
+import static org.junit.Assert.assertFalse;
 import info.movito.themoviedbapi.model.Artwork;
 import info.movito.themoviedbapi.model.CollectionInfo;
-import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
+import org.junit.Test;
 
 
 public class CollectionsApiTest extends AbstractTmdbApiTest {

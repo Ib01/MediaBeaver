@@ -10,12 +10,10 @@ import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
 
 import com.ibus.mediabeaver.cli.Main;
-import com.ibus.mediabeaver.core.data.QueryTransactable;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.data.UpdateTransactable;
 import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.entity.Event;
-import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 
 public abstract class FileProcessorBase
 {

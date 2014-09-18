@@ -2,6 +2,7 @@ package info.movito.themoviedbapi;
 
 import info.movito.themoviedbapi.model.FindResults;
 import info.movito.themoviedbapi.tools.ApiUrl;
+
 import org.apache.commons.lang3.StringUtils;
 
 

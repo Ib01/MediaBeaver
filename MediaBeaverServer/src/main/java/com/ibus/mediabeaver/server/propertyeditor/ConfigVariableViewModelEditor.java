@@ -1,7 +1,6 @@
 package com.ibus.mediabeaver.server.propertyeditor;
 
 import java.beans.PropertyEditorSupport;
-import java.util.List;
 
 public class ConfigVariableViewModelEditor extends PropertyEditorSupport
 {

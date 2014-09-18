@@ -1,8 +1,8 @@
 package info.movito.themoviedbapi.model.tv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class TvSeason extends AbstractTvElement {

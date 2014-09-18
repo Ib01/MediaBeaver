@@ -1,10 +1,11 @@
 package info.movito.themoviedbapi.model.people;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class PersonPeople extends Person {

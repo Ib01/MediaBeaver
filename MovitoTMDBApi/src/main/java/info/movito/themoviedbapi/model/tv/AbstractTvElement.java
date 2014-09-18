@@ -1,10 +1,11 @@
 package info.movito.themoviedbapi.model.tv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import info.movito.themoviedbapi.model.Credits;
 import info.movito.themoviedbapi.model.ExternalIds;
 import info.movito.themoviedbapi.model.MovieImages;
 import info.movito.themoviedbapi.model.core.NamedIdElement;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class AbstractTvElement extends NamedIdElement {

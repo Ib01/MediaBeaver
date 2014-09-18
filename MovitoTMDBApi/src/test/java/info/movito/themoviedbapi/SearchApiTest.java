@@ -1,5 +1,8 @@
 package info.movito.themoviedbapi;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import info.movito.themoviedbapi.model.Collection;
 import info.movito.themoviedbapi.model.Company;
 import info.movito.themoviedbapi.model.MovieDb;
@@ -8,12 +11,11 @@ import info.movito.themoviedbapi.model.core.MovieResults;
 import info.movito.themoviedbapi.model.keywords.Keyword;
 import info.movito.themoviedbapi.model.people.Person;
 import info.movito.themoviedbapi.model.tv.TvSeries;
-import org.junit.Assert;
-import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import org.junit.Assert;
+import org.junit.Test;
 
 
 public class SearchApiTest extends AbstractTmdbApiTest {

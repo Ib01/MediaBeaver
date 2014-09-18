@@ -1,13 +1,13 @@
 package info.movito.themoviedbapi.tools;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 
 
 /**

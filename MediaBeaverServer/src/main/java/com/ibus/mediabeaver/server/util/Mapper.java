@@ -1,7 +1,6 @@
 package com.ibus.mediabeaver.server.util;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 
 public abstract class Mapper
 {

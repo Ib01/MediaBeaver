@@ -1,10 +1,11 @@
 
 package info.movito.themoviedbapi.model.people;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import info.movito.themoviedbapi.model.core.AbstractJsonMapping;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class PersonCredits extends AbstractJsonMapping {

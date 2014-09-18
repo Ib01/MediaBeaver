@@ -1,6 +1,5 @@
 package info.movito.themoviedbapi.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import info.movito.themoviedbapi.Utils;
 import info.movito.themoviedbapi.model.core.IdElement;
 import info.movito.themoviedbapi.model.people.Person;
@@ -9,6 +8,8 @@ import info.movito.themoviedbapi.model.people.PersonCrew;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Credits extends IdElement {

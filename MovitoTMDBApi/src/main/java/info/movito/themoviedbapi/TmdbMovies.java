@@ -1,7 +1,12 @@
 package info.movito.themoviedbapi;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import info.movito.themoviedbapi.model.*;
+import info.movito.themoviedbapi.model.AlternativeTitle;
+import info.movito.themoviedbapi.model.Credits;
+import info.movito.themoviedbapi.model.MovieDb;
+import info.movito.themoviedbapi.model.MovieImages;
+import info.movito.themoviedbapi.model.ReleaseInfo;
+import info.movito.themoviedbapi.model.Trailer;
+import info.movito.themoviedbapi.model.Translation;
 import info.movito.themoviedbapi.model.changes.ChangesItems;
 import info.movito.themoviedbapi.model.core.IdElement;
 import info.movito.themoviedbapi.model.core.MovieResults;
@@ -10,9 +15,12 @@ import info.movito.themoviedbapi.model.movie.MovieTrailers;
 import info.movito.themoviedbapi.model.movie.MovieTranslations;
 import info.movito.themoviedbapi.model.movie.MoviesAlternativeTitles;
 import info.movito.themoviedbapi.tools.ApiUrl;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class TmdbMovies extends AbstractApiElement {

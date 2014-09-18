@@ -1,11 +1,12 @@
 
 package info.movito.themoviedbapi.model.config;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import info.movito.themoviedbapi.model.core.AbstractJsonMapping;
 
 import java.io.Serializable;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class ConfigResults extends AbstractJsonMapping implements Serializable {

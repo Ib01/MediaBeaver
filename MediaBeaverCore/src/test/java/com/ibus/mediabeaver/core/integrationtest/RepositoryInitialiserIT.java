@@ -1,14 +1,13 @@
 package com.ibus.mediabeaver.core.integrationtest;
 
-import javax.validation.constraints.AssertTrue;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import com.ibus.mediabeaver.core.data.DataInitialiser;
 import com.ibus.mediabeaver.core.data.HibernateUtil;
-import com.ibus.mediabeaver.core.data.Repository;
 
 public class RepositoryInitialiserIT
 {

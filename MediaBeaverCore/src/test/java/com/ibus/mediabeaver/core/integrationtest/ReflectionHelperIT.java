@@ -1,6 +1,6 @@
 package com.ibus.mediabeaver.core.integrationtest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.InvocationTargetException;
 
