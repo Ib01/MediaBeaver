@@ -23,62 +23,134 @@ public class FileSystem
 	private Logger log = Logger.getLogger(Main.class.getName());
 	
 	
-	/**
-	 * make all dirs in a path which is composed of a root path and a relative path.  if the root path does not exist 
-	 * on the file system this operation will fail with an exception.  
-	 * @param rootPath
-	 * @param relativePath
-	 * @return
-	 */
-	/*public boolean makeDirsInPath(String rootPath, String relativePath)
+	
+	
+	public void directoriesInPathExist(String root, String path)  
 	{
-		if(!fileExists(rootPath))
-		{
-			log.error(String.format("Root path does not exist %s", rootPath));
-			throw new MediaBeaverConfigurationException(String.format("Root path does not exist %s", rootPath));
-		}
 		
-		//if relative path has a parent dir
-		if(FilenameUtils.getPath(relativePath).length() ==  0)
+		/*
+		
+		if dir exists in same casing 
+			move to that dir
+		
+		(dir)
 		{
-			log.debug(String.format("Creating all dirs in path: %s, is not required. no parent directory was found ", relativePath));
+			if(Files.exist(dir))
+			{
+				//if linux it will be in right casing. not necessarily true under windows
+				d = getDir()
+				if(d has different casing)
+					return false;
+			}
 			return true;
 		}
 		
-		String path = FilenameUtils.concat(rootPath, relativePath);
-		return makeDirsInPath(path);
-	}
-	*/
-	/**
-	 * Attempts to make all dirs in path. returns true if successful
-	 * @param path
-	 * @return
-	 */
-	/*public boolean makeDirsInPath(String path)
-	{
-		try
+		cases
+		
+		windows 
+				- exists with wrong case = false
+				- exists with right case = true
+		linux
+				- exists with wrong case = false
+				- exists with right case = true
+		
+		-------------------------------------------------
+		
+		if dir exists in different casing
+			throw
+			
+		(dir)
 		{
-			if file has no path (ie no parent dir) then we will simply return true to indicate that all dirs in path exist which is what we really want to know
-			if(FilenameUtils.getPath(path).length() >  0)
+			//case insensitive file systems 
+			if(Files.exist(dir))
 			{
-				File parentDir = new File(path).getParentFile();
-				parentDir.mkdirs();
-				log.debug(String.format("All directories in the following path were successfully created: %s ", path));	
-			}
-			else
-			{
-				log.debug(String.format("Creating all dirs in path: %s, is not required. no parent directory was found ", path));		
+				//if linux it will be in right casing. not necessarily true under windows
+				d = getDir()
+				if(d has different casing)
+					return true;
+					
+				return false;
 			}
 			
-			return true;
+			//case sensitive file systems
+			parentDir = getParentDir(dir)
+			
+			foreach dir in parentDir
+			{
+				if dir.equalsIgnoreCase(dir)
+					return true;
+			}
+			
+			return false;
 		}
-		catch(SecurityException ex)
-		{
-			log.error(String.format("A security violation was thrown when attempting to make all directories in path: %s.", path), ex);
-			throw ex;
-		}
+			
+		windows 
+				- exists with wrong case = true
+				- exists with right case = false
+		linux
+				- exists with wrong case = true
+				- exists with right case = true
+		
+		
+		-------------------------------------------------
+		
+		if dir not exist 
+			create it and all dirs in path
+		
+		
+		 
+		
+		 
+		 
+				 
+		 Ab/cD/e.txt
+		 
+		 ab/cD/e.txt
+		 Ab/cd/e.txt
+		 Ab/cD/E.txt
+		 
+		 */
+		
 	}
-	*/
+	
+	
+	public boolean directoryExistWithAlternateCasing(String directory)  
+	{
+		Path sourcePath = Paths.get(directory);	
+		
+		//if true: we have case sensitive fs and we have a dir with exact casing 
+		//OR we have case insensitive fs and dir that may have alternate casing   
+		if(Files.exists(sourcePath))
+		{
+			File file = sourcePath.toFile();
+			
+			if(!file.getAbsolutePath().equals(directory))
+				return true;
+				
+			return false;
+		}
+			
+		/*Path parentPath = sourcePath.getParent();
+		
+		Files.w
+		
+		
+		
+			//case sensitive file systems
+			parentDir = getParentDir(dir)
+			
+			foreach dir in parentDir
+			{
+				if dir.equalsIgnoreCase(dir)
+					return true;
+			}
+			*/
+			return false;
+		
+	}
+	
+	
+	
 	
 	
 
@@ -98,6 +170,8 @@ public class FileSystem
 	{
 		Path sourcePath = Paths.get(source);
 		Path targetPath = Paths.get(destination);
+		
+
 		
 		if(overWrite)
 			Files.move(sourcePath, targetPath,REPLACE_EXISTING);

@@ -43,7 +43,7 @@ public abstract class FileProcessorBase
 			
 			if (fso.isDirectory())
 			{
-				processFiles(fso);
+				processFiles(fso); 
 			} 
 			else
 			{
