@@ -2,6 +2,7 @@ package com.ibus.mediabeaver.cli.utility;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
