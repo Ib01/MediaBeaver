@@ -1,16 +1,18 @@
 package info.movito.themoviedbapi;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import info.movito.themoviedbapi.model.Artwork;
 import info.movito.themoviedbapi.model.people.Person;
 import info.movito.themoviedbapi.model.people.PersonCredits;
 import info.movito.themoviedbapi.model.people.PersonPeople;
-import org.apache.commons.lang3.StringUtils;
-import org.junit.Ignore;
-import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.Ignore;
+import org.junit.Test;
 
 
 public class PeopleApiTest extends AbstractTmdbApiTest {

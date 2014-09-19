@@ -1,6 +1,6 @@
 package com.ibus.tvdb.client.integrationtest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.net.URISyntaxException;
 

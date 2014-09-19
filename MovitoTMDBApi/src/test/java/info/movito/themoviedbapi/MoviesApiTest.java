@@ -1,16 +1,24 @@
 package info.movito.themoviedbapi;
 
-import info.movito.themoviedbapi.model.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import info.movito.themoviedbapi.model.AlternativeTitle;
+import info.movito.themoviedbapi.model.Credits;
+import info.movito.themoviedbapi.model.MovieDb;
+import info.movito.themoviedbapi.model.MovieImages;
+import info.movito.themoviedbapi.model.ReleaseInfo;
+import info.movito.themoviedbapi.model.Trailer;
+import info.movito.themoviedbapi.model.Translation;
 import info.movito.themoviedbapi.model.changes.ChangesItems;
 import info.movito.themoviedbapi.model.keywords.Keyword;
 import info.movito.themoviedbapi.model.people.Person;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
 
 
 public class MoviesApiTest extends AbstractTmdbApiTest {

@@ -1,7 +1,8 @@
 package info.movito.themoviedbapi.model.people;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import info.movito.themoviedbapi.model.core.IdElement;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class PersonCredit extends IdElement {

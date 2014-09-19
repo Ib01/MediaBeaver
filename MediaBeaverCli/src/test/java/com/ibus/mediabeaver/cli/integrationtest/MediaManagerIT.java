@@ -1,14 +1,9 @@
 package com.ibus.mediabeaver.cli.integrationtest;
 
-import static org.junit.Assert.*;
-import info.movito.themoviedbapi.TmdbApi;
-import info.movito.themoviedbapi.TmdbFind;
-import info.movito.themoviedbapi.model.FindResults;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.xmlrpc.XmlRpcException;
@@ -17,8 +12,6 @@ import org.junit.Test;
 
 import com.ibus.mediabeaver.cli.utility.MediaMover;
 import com.ibus.mediabeaver.core.entity.Configuration;
-import com.ibus.opensubtitles.client.OpenSubtitlesClient;
-import com.ibus.tvdb.client.domain.TvdbEpisodeDto;
 
 public class MediaManagerIT
 {

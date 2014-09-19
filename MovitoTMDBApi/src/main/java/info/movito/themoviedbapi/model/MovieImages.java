@@ -1,12 +1,13 @@
 
 package info.movito.themoviedbapi.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import info.movito.themoviedbapi.model.core.IdElement;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class MovieImages extends IdElement {

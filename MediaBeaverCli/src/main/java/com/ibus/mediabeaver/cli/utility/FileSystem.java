@@ -1,22 +1,17 @@
 package com.ibus.mediabeaver.cli.utility;
 
-import java.nio.*;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.io.File;
-import java.io.IOException;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
 import com.ibus.mediabeaver.cli.Main;
-import com.ibus.mediabeaver.core.exception.FileExistsException;
-import com.ibus.mediabeaver.core.exception.MediaBeaverConfigurationException;
 import com.ibus.mediabeaver.core.exception.FileNotExistException;
-import static java.nio.file.StandardCopyOption.*;
+import com.ibus.mediabeaver.core.exception.MediaBeaverConfigurationException;
 
 public class FileSystem
 {

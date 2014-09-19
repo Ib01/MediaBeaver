@@ -1,7 +1,8 @@
 package info.movito.themoviedbapi.model.changes;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import info.movito.themoviedbapi.model.core.IdElement;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class ChangedMovie extends IdElement {

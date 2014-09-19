@@ -3,10 +3,16 @@ package info.movito.themoviedbapi;
 import info.movito.themoviedbapi.model.JobDepartment;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.config.TmdbConfiguration;
-import info.movito.themoviedbapi.tools.*;
-import org.apache.commons.lang3.StringUtils;
+import info.movito.themoviedbapi.tools.ApiUrl;
+import info.movito.themoviedbapi.tools.MovieDbException;
+import info.movito.themoviedbapi.tools.MovieDbExceptionType;
+import info.movito.themoviedbapi.tools.RequestMethod;
+import info.movito.themoviedbapi.tools.UrlReader;
+import info.movito.themoviedbapi.tools.WebBrowser;
 
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 
 
 /**

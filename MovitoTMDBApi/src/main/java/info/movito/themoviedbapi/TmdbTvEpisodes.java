@@ -3,6 +3,7 @@ package info.movito.themoviedbapi;
 import info.movito.themoviedbapi.model.Credits;
 import info.movito.themoviedbapi.model.tv.TvEpisode;
 import info.movito.themoviedbapi.tools.ApiUrl;
+
 import org.apache.commons.lang3.StringUtils;
 
 

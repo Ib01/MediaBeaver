@@ -7,14 +7,9 @@ package com.ibus.mediabeaver.cli;
  * 1) ensure that the logger writes to a file and that the location can be configured to something sensible in production.
  * */
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.ibus.mediabeaver.cli.utility.MediaMover;
 import com.ibus.mediabeaver.core.data.DataInitialiser;
@@ -23,7 +18,6 @@ import com.ibus.mediabeaver.core.data.QueryTransactable;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.data.UpdateTransactable;
 import com.ibus.mediabeaver.core.entity.Configuration;
-import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 
 public class Main
 {    

@@ -2,18 +2,10 @@ package com.ibus.mediabeaver.core.integrationtest;
 
 import java.util.Map;
 
-import javax.validation.constraints.AssertTrue;
-
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.ibus.mediabeaver.core.data.DataInitialiser;
-import com.ibus.mediabeaver.core.data.HibernateUtil;
-import com.ibus.mediabeaver.core.data.Repository;
 
 public class EnvironmentVariablesIT
 {

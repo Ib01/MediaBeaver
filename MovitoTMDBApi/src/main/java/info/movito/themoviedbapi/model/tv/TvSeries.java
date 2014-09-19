@@ -1,10 +1,11 @@
 package info.movito.themoviedbapi.model.tv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import info.movito.themoviedbapi.model.Genre;
 import info.movito.themoviedbapi.model.people.Person;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 /**

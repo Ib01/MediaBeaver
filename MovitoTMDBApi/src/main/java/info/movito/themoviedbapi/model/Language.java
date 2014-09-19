@@ -1,8 +1,9 @@
 package info.movito.themoviedbapi.model;
 
+import info.movito.themoviedbapi.model.core.AbstractJsonMapping;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
-import info.movito.themoviedbapi.model.core.AbstractJsonMapping;
 
 
 @JsonRootName("spoken_language")

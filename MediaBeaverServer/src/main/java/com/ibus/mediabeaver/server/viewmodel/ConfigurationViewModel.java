@@ -1,15 +1,5 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 public class ConfigurationViewModel extends ViewModel 
 {

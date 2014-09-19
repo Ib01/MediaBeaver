@@ -3,9 +3,10 @@ package info.movito.themoviedbapi;
 import info.movito.themoviedbapi.model.core.ResultsPage;
 import info.movito.themoviedbapi.model.keywords.Keyword;
 import info.movito.themoviedbapi.tools.ApiUrl;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 
 
 public class TmdbKeywords extends AbstractApiElement {

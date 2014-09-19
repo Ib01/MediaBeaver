@@ -6,10 +6,11 @@ import info.movito.themoviedbapi.model.MovieListCreationStatus;
 import info.movito.themoviedbapi.model.core.StatusCode;
 import info.movito.themoviedbapi.tools.ApiUrl;
 import info.movito.themoviedbapi.tools.RequestMethod;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;
 import java.util.HashMap;
+
+import org.apache.commons.lang3.StringUtils;
 
 
 public class TmdbLists extends AbstractApiElement {

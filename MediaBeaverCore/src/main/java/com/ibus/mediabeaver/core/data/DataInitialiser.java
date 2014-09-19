@@ -1,17 +1,9 @@
 package com.ibus.mediabeaver.core.data;
 
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlElement;
-
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.entity.ServiceFieldMap;
-import com.ibus.mediabeaver.core.entity.TransformAction;
 
 public class DataInitialiser 
 {

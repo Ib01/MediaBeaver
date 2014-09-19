@@ -1,8 +1,10 @@
 package info.movito.themoviedbapi.model.people;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import info.movito.themoviedbapi.model.core.NamedIdElement;
+
 import org.apache.commons.lang3.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Person extends NamedIdElement {

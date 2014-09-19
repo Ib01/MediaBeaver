@@ -2,7 +2,6 @@ package com.ibus.mediabeaver.core.integrationtest;
 
 import org.hibernate.Session;
 import org.junit.Before;
-import org.junit.Test;
 
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 

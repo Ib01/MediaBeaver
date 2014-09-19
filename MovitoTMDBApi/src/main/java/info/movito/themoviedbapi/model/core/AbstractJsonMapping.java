@@ -1,12 +1,13 @@
 package info.movito.themoviedbapi.model.core;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
+import java.io.Serializable;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 
 /**

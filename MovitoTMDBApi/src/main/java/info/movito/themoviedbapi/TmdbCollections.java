@@ -5,9 +5,10 @@ import info.movito.themoviedbapi.model.ArtworkType;
 import info.movito.themoviedbapi.model.CollectionInfo;
 import info.movito.themoviedbapi.model.MovieImages;
 import info.movito.themoviedbapi.tools.ApiUrl;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 
 
 public class TmdbCollections extends AbstractApiElement {

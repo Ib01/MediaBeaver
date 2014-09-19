@@ -9,9 +9,10 @@ import info.movito.themoviedbapi.model.keywords.Keyword;
 import info.movito.themoviedbapi.model.people.Person;
 import info.movito.themoviedbapi.model.tv.TvSeries;
 import info.movito.themoviedbapi.tools.ApiUrl;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 
 
 public class TmdbSearch extends AbstractApiElement {

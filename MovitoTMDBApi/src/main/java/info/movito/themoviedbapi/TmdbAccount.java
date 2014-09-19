@@ -8,11 +8,12 @@ import info.movito.themoviedbapi.model.core.StatusCode;
 import info.movito.themoviedbapi.tools.ApiUrl;
 import info.movito.themoviedbapi.tools.MovieDbException;
 import info.movito.themoviedbapi.tools.MovieDbExceptionType;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 
 
 public class TmdbAccount extends AbstractApiElement {
