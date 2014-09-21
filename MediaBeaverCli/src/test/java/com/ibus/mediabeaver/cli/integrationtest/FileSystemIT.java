@@ -12,8 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.ibus.mediabeaver.cli.utility.FileSystem;
-import com.ibus.mediabeaver.core.exception.FileExistsException;
-import com.ibus.mediabeaver.core.exception.FileNotExistException;
+
 
 public class FileSystemIT
 {
@@ -23,8 +22,41 @@ public class FileSystemIT
 		//refreshTestDirs();
 	}
 	
+	
+	
+	
+	
 	@Test
-	public void foobarTest() throws IOException, FileNotExistException, FileExistsException 
+	public void createDirectoriesInPathExistTest() throws IOException 
+	{
+		FileSystem fs = new FileSystem();
+		//fs.createDirectoriesInPathExist("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\", "\\Destination\\TV\\test.avi");
+	}
+	
+	
+	@Test
+	public void directoryExistWithExactCasingTest() throws IOException 
+	{
+		FileSystem fs = new FileSystem();
+		assertTrue(!fs.fileExistWithExactCasing("C:\\Users\\Ib\\Desktop\\MediaBEAverTests\\Source\\"));
+		assertTrue(fs.fileExistWithExactCasing("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Source\\"));
+	}
+
+	
+	
+	@Test
+	public void directoryExistWithAlternateCasingTest() throws IOException 
+	{
+		FileSystem fs = new FileSystem();
+		/*assertTrue(fs.directoryExistWithAlternateCasing("C:\\Users\\Ib\\Desktop\\MediaBEAverTests\\Source\\"));
+		assertTrue(!fs.directoryExistWithAlternateCasing("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Source\\"));*/
+	}
+	
+	
+	
+	
+	@Test
+	public void foobarTest() throws IOException
 	{
 		FileSystem fs = new FileSystem();
 		
