@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,7 @@ import com.ibus.mediabeaver.core.entity.Event;
 import com.ibus.mediabeaver.core.entity.EventType;
 import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.entity.ResultType;
+import com.ibus.mediabeaver.core.exception.DuplicateFileException;
 import com.ibus.mediabeaver.core.exception.PathParseException;
 import com.ibus.mediabeaver.core.util.PathParser;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
@@ -108,8 +111,6 @@ public class MediaMover extends FileProcessorBase
 			if(ostTitle == null)
 				return;
 			
-			String destination = null;
-			
 			//let the OST Service identify what kind of file we have 
 			if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("episode") || ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("tv series"))
 			{
@@ -117,7 +118,7 @@ public class MediaMover extends FileProcessorBase
 				String seriesImdbid = OstTitleDto.parseImdbId(ostTitle.get(OpenSubtitlesField.SeriesIMDBParent.toString()));
 				if(seriesImdbid == null)
 				{
-					logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get valid title from service");
+					logEvent(file.getAbsolutePath(), null, null, ResultType.Failed, "Failed to get valid title from service");
 					log.debug(String.format("Aborting movement of %s. Failed to get a valid series imdbId from open subtitles service.", file.getAbsolutePath()));
 					return;
 				}
@@ -129,7 +130,7 @@ public class MediaMover extends FileProcessorBase
 				String episodeNumber = ostTitle.get(OpenSubtitlesField.SeriesEpisode.toString());
 				if(seasonNumber == null || seasonNumber.length() == 0 || episodeNumber == null || episodeNumber.length() == 0)
 				{
-					logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get valid title from service");
+					logEvent(file.getAbsolutePath(), null,null,  ResultType.Failed, "Failed to get valid title from service");
 					log.debug(
 							String.format("Aborting movement of %s. Failed to get a valid season and episode number from the open subtitles service.", 
 							file.getAbsolutePath()));
@@ -140,7 +141,7 @@ public class MediaMover extends FileProcessorBase
 				TvdbSeriesResponseDto seriesDto = tvdbClient.getSeries(seriesImdbid);
 				if(seriesDto == null || seriesDto.getSeries() == null || seriesDto.getSeries().getId() == null)
 				{
-					logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get valid title from service");
+					logEvent(file.getAbsolutePath(), null, null, ResultType.Failed, "Failed to get valid title from service");
 					log.debug(
 							String.format("Aborting movement of %s. Failed to get a valid series data from the TMDB service.", 
 							file.getAbsolutePath()));
@@ -153,7 +154,7 @@ public class MediaMover extends FileProcessorBase
 				TvdbEpisodesResponseDto tvdbEpisodes = tvdbClient.getEpisodes(Long.toString(tvdbSeriesId));
 				if(tvdbEpisodes == null)
 				{
-					logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get valid title from service");
+					logEvent(file.getAbsolutePath(), null, null, ResultType.Failed, "Failed to get valid title from service");
 					log.debug(
 							String.format("Aborting movement of %s. Failed to get a valid episode data from the TMDB service.", 
 							file.getAbsolutePath()));
@@ -170,8 +171,14 @@ public class MediaMover extends FileProcessorBase
 				log.debug(String.format("Destination path end generated %s.%s.", 
 						destinationPathEnd, FilenameUtils.getExtension(file.getAbsolutePath())));
 				
-				destination = FilenameUtils.concat(config.getTvRootDirectory(), destinationPathEnd + "." + FilenameUtils.getExtension(file.getAbsolutePath()));
-				//destination = FilenameUtils.concat("C:\\Users\\Ib\\Desktop\\MediabeaverTests", "File" + mediaMoved + "." + FilenameUtils.getExtension(file.getAbsolutePath()));
+				
+				fileSys.moveFile(file.getAbsolutePath(), config.getTvRootDirectory(), 
+						destinationPathEnd + "." + FilenameUtils.getExtension(file.getAbsolutePath()));
+				
+				++mediaMoved;
+				logEvent(file.getAbsolutePath(), config.getTvRootDirectory(), 
+						destinationPathEnd + "." + FilenameUtils.getExtension(file.getAbsolutePath()), ResultType.Succeeded, null);
+				
 			}
 			else if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("movie"))
 			{
@@ -184,34 +191,40 @@ public class MediaMover extends FileProcessorBase
 				log.debug(String.format("Destination path end generated %s.%s.", 
 						destinationPathEnd, FilenameUtils.getExtension(file.getAbsolutePath())));
 		
-				destination = FilenameUtils.concat(config.getMovieRootDirectory(), destinationPathEnd + "." + FilenameUtils.getExtension(file.getAbsolutePath()));
-				//destination = FilenameUtils.concat("C:\\Users\\Ib\\Desktop\\MediabeaverTests", "File" + mediaMoved + "." + FilenameUtils.getExtension(file.getAbsolutePath()));
+				fileSys.moveFile(file.getAbsolutePath(), config.getMovieRootDirectory(), 
+						destinationPathEnd + "." + FilenameUtils.getExtension(file.getAbsolutePath()));
+				
+				++mediaMoved;
+				logEvent(file.getAbsolutePath(), config.getMovieRootDirectory(), 
+						destinationPathEnd + "." + FilenameUtils.getExtension(file.getAbsolutePath()), ResultType.Succeeded, null);
 			}
 			
-			fileSys.moveFile(file.getAbsolutePath(), destination, false);
-			//fileSys.moveFile(file.getAbsolutePath(), destination);
-			++mediaMoved;
-			logEvent(file.getAbsolutePath(), destination, ResultType.Succeeded, null);
-			
 			return;
-			
-		} catch (URISyntaxException e)
+		}	
+		catch (IOException e)
 		{
 			log.error(String.format("An unexpected error occured while attempting to move a file"), e);
-		} catch (PathParseException e)
-		{
-			log.error(String.format("An unexpected error occured while attempting to move a file"), e);
-		} catch (IOException e)
-		{
-			log.error(String.format("An unexpected error occured while attempting to move a file"), e);
+		} catch (DuplicateFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PathParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-		logEvent(file.getAbsolutePath(), null, ResultType.Failed, "An unexpected error occured while attempting to move file");
+		logEvent(file.getAbsolutePath(), null, null, ResultType.Failed, "An unexpected error occured while attempting to move file");
 	}
 	
 	
-	private void logEvent(String source, String destination, ResultType result, String errorDescription)
+	private void logEvent(String source, String destinationRoot, String destinationEnd, ResultType result, String errorDescription)
 	{
+		String destination = null;
+		if(destinationRoot != null && destinationEnd != null)
+			destination = Paths.get(destinationRoot, destinationEnd).toString();
+		
 		Event event = new Event();
 		
 		event.setEventTime(new Date());
@@ -324,14 +337,14 @@ public class MediaMover extends FileProcessorBase
 			
 			if(!fileThumbprint.isValid())
 			{
-				logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Could not generate thumbprint for file");
+				logEvent(file.getAbsolutePath(), null, null, ResultType.Failed, "Could not generate thumbprint for file");
 				log.debug(String.format("File %s could not be moved. thumbprint for file is invalid", file.getAbsolutePath()));
 				return null;
 			}
 		} 
 		catch (IOException e)
 		{
-			logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Could not generate thumbprint for file");
+			logEvent(file.getAbsolutePath(), null, null, ResultType.Failed, "Could not generate thumbprint for file");
 			log.error(String.format("File %s could not be moved. could not acquire a thumbprint for the file", file.getAbsolutePath()), e);
 			return null;
 		}
@@ -344,7 +357,7 @@ public class MediaMover extends FileProcessorBase
 			
 			if(dto == null || dto.getPossibleTitles().size() == 0)
 			{
-				logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Could not find title for thumbprint");
+				logEvent(file.getAbsolutePath(), null, null, ResultType.Failed, "Could not find title for thumbprint");
 				log.debug(String.format("Open Subtitles thumbprint search on file %s failed. No results were returned by the service", 
 						file.getAbsolutePath()));
 				return null;
@@ -354,7 +367,7 @@ public class MediaMover extends FileProcessorBase
 		} 
 		catch (Exception e)
 		{
-			logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Could not find title for thumbprint");
+			logEvent(file.getAbsolutePath(), null, null, ResultType.Failed, "Could not find title for thumbprint");
 			log.debug(String.format("Open Subtitles thumbprint search on file %s failed. No results were returned by the service", 
 					file.getAbsolutePath()));
 			return null;

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
 import com.ibus.mediabeaver.cli.Main;
@@ -29,25 +30,24 @@ public class FileSystem
 	 * created if they do not already exist. If the file already exists an exception will be thrown
 	 * 
 	 * @param source
-	 * @param destination
+	 * @param destinationEnd
 	 * @return
 	 * @throws MediaBeaverConfigurationException 
 	 * @throws IOException 
 	 * @throws DuplicateFileException 
 	 */
-	public boolean moveFile(String source, String destinationRoot, String destination, String extension, boolean overWrite) throws IOException, DuplicateFileException 
+	public boolean moveFile(String source, String destinationRoot, String destinationEnd) throws IOException, DuplicateFileException 
 	{
-		validateDestinationPath(destinationRoot, destination);
+		validateDestinationPath(destinationRoot, destinationEnd);
 		
 		Path sourcePath = Paths.get(source);
-		Path targetPath = Paths.get(destination);
+		Path destinationPath = Paths.get(destinationRoot, destinationEnd);
 		
-		if(overWrite)
-			Files.move(sourcePath, targetPath,REPLACE_EXISTING);
-		else
-			Files.move(sourcePath, targetPath);
+		createAllDirectoriesInPath(destinationPath);
 		
-		log.debug(String.format(">>> Succesfully renamed or moved file from %s to %s", source, destination));
+		Files.move(sourcePath, destinationPath);
+		
+		log.debug(String.format(">>> Succesfully renamed or moved file from %s to %s", source, destinationEnd));
 				
 		return true;
 	}
@@ -60,36 +60,31 @@ public class FileSystem
 	 * aborted and the method will return false.
 	 * 
 	 * @param source
-	 * @param destination
+	 * @param destinationEnd
 	 * @return
 	 * @throws MediaBeaverConfigurationException 
 	 * @throws IOException 
 	 * @throws DuplicateFileException 
 	 */
-	public boolean copyFile(String source, String destinationRoot, String destination, String extension, boolean overWrite) throws IOException, DuplicateFileException 
+	public boolean copyFile(String source, String destinationRoot, String destinationEnd) throws IOException, DuplicateFileException 
 	{
-		validateDestinationPath(destinationRoot, destination);
-		
-		createAllDirectoriesInPath()
+		validateDestinationPath(destinationRoot, destinationEnd);
 		
 		Path sourcePath = Paths.get(source);
-		Path targetPath = Paths.get(destination);
+		Path destinationPath = Paths.get(destinationRoot, destinationEnd);
 		
-		if(overWrite)
-			Files.copy(sourcePath, targetPath, REPLACE_EXISTING);
-		else
-			Files.copy(sourcePath, targetPath);
+		createAllDirectoriesInPath(destinationPath);
 		
-		log.debug(String.format(">>> Succesfully copied file from %s to %s", source, destination));
+		Files.copy(sourcePath, destinationPath);
+		
+		log.debug(String.format(">>> Succesfully copied file from %s to %s", source, destinationEnd));
 		
 		return true;
 	}
 	
 	
-	private void createAllDirectoriesInPath(String pathString) throws IOException
+	private void createAllDirectoriesInPath(Path path) throws IOException
 	{
-		Path path = Paths.get(pathString);
-		
 		if(path.toFile().isFile())
 			path = path.getParent();
 		
