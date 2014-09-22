@@ -22,65 +22,18 @@ public class FileSystemIT
 		//refreshTestDirs();
 	}
 	
-	
-	
-	
-	
-	@Test
-	public void createDirectoriesInPathExistTest() throws IOException 
-	{
-		FileSystem fs = new FileSystem();
-		//fs.createDirectoriesInPathExist("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\", "\\Destination\\TV\\test.avi");
-	}
-	
-	
-	@Test
-	public void directoryExistWithExactCasingTest() throws IOException 
-	{
-		FileSystem fs = new FileSystem();
-		assertTrue(!fs.fileExistWithExactCasing("C:\\Users\\Ib\\Desktop\\MediaBEAverTests\\Source\\"));
-		assertTrue(fs.fileExistWithExactCasing("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Source\\"));
-	}
 
 	
 	
-	@Test
-	public void directoryExistWithAlternateCasingTest() throws IOException 
-	{
-		FileSystem fs = new FileSystem();
-		/*assertTrue(fs.directoryExistWithAlternateCasing("C:\\Users\\Ib\\Desktop\\MediaBEAverTests\\Source\\"));
-		assertTrue(!fs.directoryExistWithAlternateCasing("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Source\\"));*/
-	}
 	
 	
 	
 	
-	@Test
-	public void foobarTest() throws IOException
-	{
-		FileSystem fs = new FileSystem();
-		
-		File source = new File("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Source\\");
-		List<File> fileSysObjects = Arrays.asList(source.listFiles());
-
-		for (File fso : fileSysObjects)
-		{
-			fs.moveFile(fso.getAbsolutePath(), "C:\\Users\\Ib\\Desktop\\MediabeaverTests\\File1.avi", false);
-		}
-		
-		
-		
-		
-		
-		/*fs.renameFileTo(
-				"C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Source\\Star Trek Enterprise [1x09] Civilization.avi", 
-				"C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Star Trek Enterprise [1x09] Civilization2.avi");*/
-		
-		
-		
-		
-		assertTrue(true);
-	}
+	
+	
+	
+	
+	
 	
 	
 	private void refreshTestDirs()
@@ -99,32 +52,6 @@ public class FileSystemIT
 		}
 	}
 	
-	//@Test
-	/*public void makeDirsInPathTest()
-	{
-		FileSystem fileSys = new FileSystem();
-		String destRoot ="D:\\MediabeaverTests\\Destination\\Movies";
-		String destRelative = "Iron Man (2000)\\Iron Man (2000).mkv";
-		
-		boolean success = fileSys.makeDirsInPath(destRoot, destRelative);
-		
-		assertTrue(success);
-	}*/
-	
-	/*
-	@Test
-	public void movieFile()
-	{
-		FileSystem fileSys = new FileSystem();
-		String source = "D:\\MediabeaverTests\\Source\\Iron-Man (1992) bla some carap.mkv";
-		String destRoot ="D:\\MediabeaverTests\\Destination\\Movies";
-		String destRelative = "Iron Man (2000)\\Iron Man (2000).mkv";
-		
-		boolean success = fileSys.makeDirsInPath(destRoot, destRelative);
-		fileSys.moveFile(source, destRoot, destRelative);
-		
-		assertTrue(success);
-	}*/
 	
 	
 	

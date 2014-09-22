@@ -15,209 +15,13 @@ import org.apache.log4j.Logger;
 
 import com.ibus.mediabeaver.cli.Main;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
+import com.ibus.mediabeaver.core.exception.FileSystemException;
 import com.ibus.mediabeaver.core.exception.MediaBeaverConfigurationException;
 
 public class FileSystem
 {
 	private Logger log = Logger.getLogger(Main.class.getName());
-	HashMap<String, List<String>> cachedDirectories = new HashMap<String, List<String>>();
-	
-	
-	
-	/*
-	 * c:\\ab\cd\ef.avi
-	 * 
-	 * c:\\ab\cd\ef.avi: Exact file with same casing exists: throw. 
-	 * c:\\AB\cd\ef.avi: Same file with different parent folder casing: throw. 
-	 * c:\\AB\cd\Ef.avi: Same file with different parent folder casing and different file casing: throw
-	 * 
-	 * c:\\AB: part of the path in different casing.  throw.
-	 * c:\\ab\Cd: part of the path in different casing.  throw.
-	 * c:\\ab: part of the path in same casing.  continue.
-	 * 
-	 * 
-	 * otherwise create parent dir: c:\\ab\cd
-	 * 
-	*/
-	public boolean fileExist(String file) throws DuplicateFileException    
-	{
-		Path filePath = Paths.get(file);
-		
-		//under windows this is case insensitive. if we search for a.txt and a file exists 
-		//on the file system named A.txt, this method will return true. under linux it will not 
-		if(Files.exists(filePath))
-			throw new DuplicateFileException(file.toString());
-		
-		//if this is linux we also need to check if there is a file with alternate casing
-		
-		
-		
-		
-		return false;
-	}
-	
-	
-	
-	
-	public boolean siblingExistsWithAlternateCasing(String root, String file) throws IOException   
-	{
-		String fileString = file.replaceFirst("[\\\\/]$", "");
-		Path filePath = Paths.get(fileString);	
-		Path parentPath = filePath.getParent();
-		
-		//cache sibling files and directories if we have not already done so
-		if(!cachedDirectories.containsKey(parentPath.toString()))
-		{
-			File parentFile = parentPath.toFile(); 
-			
-			List<String> dirs = new ArrayList<String>();
-			for (File sibling : parentFile.listFiles())
-			{
-				if (sibling.isDirectory())
-				{
-					String parsedFso = sibling.getAbsolutePath().replaceFirst("[\\\\/]$", "");
-					dirs.add(parsedFso);
-				}
-			}
-			cachedDirectories.put(parentPath.toString(), dirs);
-		}
-		
-		//check if there is a case insensitive version of sourceString
-		List<String> cachedPaths = cachedDirectories.get(parentPath.toString());
-		for(String path : cachedPaths)
-		{
-			if(!path.equals(fileString) && path.equalsIgnoreCase(fileString))
-				return true;
-		}
-		
-		return false;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	/*public void validatePath(String destinationRoot, String source) throws IOException, FileWithAlternateCasingException  
-	{
-		
-		
-		
-		//if this is windows we can do the check quickly without having to go through each path component
-		Path finalPath = Paths.get(destinationRoot, source);
-		Path finalParentPath = finalPath.getParent();
-		
-		if(windowsDirectoryExistWithAlternateCasing(finalParentPath.toString()))
-			throw new FileWithAlternateCasingException(finalParentPath.toString());
-		
-		
-		
-		Path sourcePath = Paths.get(source);
-		
-		//iteratively append source directories to root and check that there is not alternative casing for each folder  
-		for(int i=1; i < sourcePath.getNameCount(); i++)
-		{
-			Path subPath = sourcePath.subpath(0, i);
-			Path appendedPath = Paths.get(destinationRoot, subPath.toString());
-			
-			if(!Files.exists(appendedPath))
-				break;
-				
-			if(linuxDirectorySiblingExistWithAlternateCasing(appendedPath.toString()))
-				throw new FileWithAlternateCasingException(appendedPath.toString());
-			
-			
-			
-			Path q = sourcePath.subpath(0, i); 
-		}
-		
-		
-		
-		
-		
-		Path rootPath = Paths.get(destinationRoot);
-		File rootFile = rootPath.toFile();
-		
-		for (File file : rootFile.listFiles())
-		{
-			
-		}
-		
-		
-	}
-	
-	
-	*/
-
-	
-	
-	
-	public boolean windowsDirectoryExistWithAlternateCasing(String directory) throws IOException   
-	{
-		String directoryString = directory.replaceFirst("[\\\\/]$", "");
-		Path directoryPath = Paths.get(directoryString);	
-		
-		//if true: we have case sensitive fs (ie linux) and we have a dir with exact casing 
-		//OR we have case insensitive fs and dir that may have alternate casing (windows)  
-		if(Files.exists(directoryPath))
-		{
-			Path realPath = directoryPath.toRealPath(); //get path exactly as cased on the file system
-			
-			//remove traling path seperators 
-			String realString = realPath.toString().replaceFirst("[\\\\/]$", "");
-
-			if(!realString.equals(directoryString))
-				return true;  //directory exists on fs and is cased differently. can only happen on windows 
-		}
-		
-		return false;
-	}
-	
-	
-	
-	
-	
-
-	/*public void createDirectoriesInPath(String file) throws IOException, FileWithAlternateCasingException  
-	{
-		Path filePath = Paths.get(file);
-		Path parentDir = filePath.getParent();
-		
-		//if parent dir already exists with exact casing simply return
-		if(!directoryExistWithExactCasing(parentDir.toString()))
-		{
-			log.debug("A directory was found on the destination file system with the exact casing as: " + parentDir);
-			return;
-		}
-		
-		if(directoryExistWithAlternateCasing(parentDir.toString()))
-			throw new FileWithAlternateCasingException(parentDir.toString());
-		
-		Files.createDirectories(parentDir);
-		log.debug("A directory was found on the destination file system with the exact casing as: " + parentDir);
-	}
-	*/
-	
-	public boolean fileExistWithExactCasing(String directory) throws IOException  
-	{
-		String directoryString = directory.replaceFirst("[\\\\/]$", "");
-		Path directoryPath = Paths.get(directoryString);
-		
-		if(Files.exists(directoryPath))
-		{
-			Path realPath = directoryPath.toRealPath(); 
-			String realString = realPath.toString().replaceFirst("[\\\\/]$", "");
-			
-			//if linux it will be in right casing. not necessarily true under windows
-			if(realString.equals(directoryString))
-				return true;
-		}
-		
-		return false;
-	}
-	
+	HashMap<String, List<String>> cachedPaths = new HashMap<String, List<String>>();
 
 	
 	/**
@@ -229,10 +33,12 @@ public class FileSystem
 	 * @return
 	 * @throws MediaBeaverConfigurationException 
 	 * @throws IOException 
-	 * @throws FileNotExistException 
+	 * @throws DuplicateFileException 
 	 */
-	public boolean moveFile(String source, String destination, boolean overWrite) throws IOException 
+	public boolean moveFile(String source, String destinationRoot, String destination, String extension, boolean overWrite) throws IOException, DuplicateFileException 
 	{
+		validateDestinationPath(destinationRoot, destination);
+		
 		Path sourcePath = Paths.get(source);
 		Path targetPath = Paths.get(destination);
 		
@@ -258,10 +64,14 @@ public class FileSystem
 	 * @return
 	 * @throws MediaBeaverConfigurationException 
 	 * @throws IOException 
-	 * @throws FileNotExistException 
+	 * @throws DuplicateFileException 
 	 */
-	public boolean copyFile(String source, String destination, boolean overWrite) throws IOException 
+	public boolean copyFile(String source, String destinationRoot, String destination, String extension, boolean overWrite) throws IOException, DuplicateFileException 
 	{
+		validateDestinationPath(destinationRoot, destination);
+		
+		createAllDirectoriesInPath()
+		
 		Path sourcePath = Paths.get(source);
 		Path targetPath = Paths.get(destination);
 		
@@ -276,7 +86,133 @@ public class FileSystem
 	}
 	
 	
+	private void createAllDirectoriesInPath(String pathString) throws IOException
+	{
+		Path path = Paths.get(pathString);
+		
+		if(path.toFile().isFile())
+			path = path.getParent();
+		
+		Files.createDirectories(path);
+	}
 	
+	
+	
+	/**
+	 * with this file c:\\ab\cd\ef.avi, we need to ensure that none of the 
+	 * following exist on the file system: 
+	 * 
+	 * c:\\ab\cd\ef.avi: (Exact path with same casing),
+	 * c:\\AB\cd\ef.avi: (path with different casing),
+	 * c:\\ab\cd\EF.avi: (path with different casing),
+	 * c:\\AB\cd\EF.avi: (path with different casing),
+	 * c:\\AB: (part of the path in different casing),
+	 * c:\\ab\Cd: (part of the path in different casing). 
+	 * 
+	 * the following is allowed: 
+	 *  
+	 * c:\\ab: (part of the path in same casing),
+	 * c:\\ab\cd\: (part of the path in same casing).
+	 * 
+	 * @param root
+	 * @param file
+	 * @throws DuplicateFileException
+	 * @throws IOException
+	 */
+	private boolean validateDestinationPath(String root, String file) throws DuplicateFileException, IOException    
+	{
+		Path rootPath = Paths.get(root);
+		if(!Files.exists(rootPath))
+			throw new FileSystemException(String.format("Root path %s does not exist on the file system", root));
+		
+		Path filePath = Paths.get(file);
+		
+		 /* 
+			 if file = c:\\ab\cd\ef.avi and below path exists on the file system, then Files.exists 
+			 will return true on windows and linux:
+			 
+			 c:\\ab\cd\ef.avi: (Exact path with same casing):   
+			 
+			 for these paths only windows will return true (since it is not case sensitive):
+			 
+			 c:\\AB\cd\ef.avi: (path with different casing)	
+			 c:\\ab\cd\EF.avi: (path with different casing)
+			 c:\\AB\cd\EF.avi: (path with different casing)
+		 */
+		if(Files.exists(filePath))
+			throw new DuplicateFileException(file.toString());
+		
+		/*
+			Now check path in bits from the root up.  if file = c:\\ab\cd\ef.avi. 
+			then the following partially matching paths will be invalid
+			
+			c:\\AB: (part of the path in different casing) 
+			c:\\ab\Cd: (part of the path in different casing)
+			
+			full paths with different casing will be invalid also (relevant under linux)
+			c:\\ab\cd\EF.avi
+			
+			partially matching identically cased paths will be valid:
+			
+			c:\\ab: (part of the path in same casing)
+			c:\\ab\cd\: (part of the path in same casing)
+		*/
+		
+		if(!pathExistsWithAlternateCasing(root, file));
+			throw new DuplicateFileException(file.toString());
+	}
+	
+	
+	private boolean pathExistsWithAlternateCasing(String root, String file) throws IOException 
+	{
+		Path filePath = Paths.get(file);
+		
+		//iteratively append source directories to root and check that there is not alternative casing for each path  
+		for(int i=1; i <= filePath.getNameCount(); i++)
+		{
+			Path subPath = filePath.subpath(0, i);
+			Path appendedPath = Paths.get(root, subPath.toString());
+			
+			if(siblingExistsWithAlternateCasing(appendedPath))
+			{
+				return true;
+			}
+		}
+	
+		return false;
+	}
+	
+	
+	private boolean siblingExistsWithAlternateCasing(Path filePath) throws IOException   
+	{
+		Path parentPath = filePath.getParent();
+		
+		//cache sibling files and directories if we have not already done so
+		if(!cachedPaths.containsKey(parentPath.toString()))
+		{
+			File parentFile = parentPath.toFile(); 
+			
+			List<String> dirs = new ArrayList<String>();
+			for (File sibling : parentFile.listFiles())
+			{
+				dirs.add(sibling.getAbsolutePath());
+			}
+			cachedPaths.put(parentPath.toString(), dirs);
+		}
+		
+		//check if there is a case insensitive version of sourceString
+		List<String> paths = cachedPaths.get(parentPath.toString());
+		for(String path : paths)
+		{
+			String parsedPath = filePath.toString().replaceFirst("[\\\\/]$", ""); 
+			String parsedFileString = filePath.toString().replaceFirst("[\\\\/]$", "");
+			
+			if(!parsedPath.equals(parsedFileString) && parsedPath.equalsIgnoreCase(parsedFileString))
+				return true;
+		}
+		
+		return false;
+	}
 }
 
 
