@@ -85,9 +85,7 @@ public class FileSystem
 	
 	private void createAllDirectoriesInPath(Path path) throws IOException
 	{
-		if(path.toFile().isFile())
-			path = path.getParent();
-		
+		path = path.getParent();
 		Files.createDirectories(path);
 	}
 	
@@ -115,13 +113,13 @@ public class FileSystem
 	 * @throws DuplicateFileException
 	 * @throws IOException
 	 */
-	private boolean validateDestinationPath(String root, String file) throws DuplicateFileException, IOException    
+	private void validateDestinationPath(String root, String file) throws DuplicateFileException, IOException    
 	{
 		Path rootPath = Paths.get(root);
 		if(!Files.exists(rootPath))
 			throw new FileSystemException(String.format("Root path %s does not exist on the file system", root));
 		
-		Path filePath = Paths.get(file);
+		Path fullPath = Paths.get(root, file);
 		
 		 /* 
 			 if file = c:\\ab\cd\ef.avi and below path exists on the file system, then Files.exists 
@@ -135,8 +133,8 @@ public class FileSystem
 			 c:\\ab\cd\EF.avi: (path with different casing)
 			 c:\\AB\cd\EF.avi: (path with different casing)
 		 */
-		if(Files.exists(filePath))
-			throw new DuplicateFileException(file.toString());
+		if(Files.exists(fullPath))
+			throw new DuplicateFileException(fullPath.toString());
 		
 		/*
 			Now check path in bits from the root up.  if file = c:\\ab\cd\ef.avi. 
@@ -154,8 +152,8 @@ public class FileSystem
 			c:\\ab\cd\: (part of the path in same casing)
 		*/
 		
-		if(!pathExistsWithAlternateCasing(root, file));
-			throw new DuplicateFileException(file.toString());
+		if(pathExistsWithAlternateCasing(root, file))
+			throw new DuplicateFileException(fullPath.toString());
 	}
 	
 	
@@ -182,6 +180,10 @@ public class FileSystem
 	private boolean siblingExistsWithAlternateCasing(Path filePath) throws IOException   
 	{
 		Path parentPath = filePath.getParent();
+		
+		if(!Files.exists(parentPath))
+			return false; 
+			
 		
 		//cache sibling files and directories if we have not already done so
 		if(!cachedPaths.containsKey(parentPath.toString()))
