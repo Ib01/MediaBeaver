@@ -109,7 +109,8 @@ public class FileSystem
 	 * c:\\AB: (part of the path in different casing),
 	 * c:\\ab\Cd: (part of the path in different casing). 
 	 * 
-	 * the following is allowed: 
+	 * the following is allowed (so long as the full identically cased path does not exist).
+	 * we will simply create the missing dirs and complete the move or copy: 
 	 *  
 	 * c:\\ab: (part of the path in same casing),
 	 * c:\\ab\cd\: (part of the path in same casing).
