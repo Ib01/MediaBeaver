@@ -52,7 +52,6 @@ public class FileSystem
 		return true;
 	}
 	
-	
 
 	/**
 	 * Copy a file from source to destination. all directories in the destination path will be 
@@ -108,18 +107,18 @@ public class FileSystem
 	 * c:\\ab: (part of the path in same casing),
 	 * c:\\ab\cd\: (part of the path in same casing).
 	 * 
-	 * @param root
-	 * @param file
+	 * @param pathRoot
+	 * @param pathEnd
 	 * @throws DuplicateFileException
 	 * @throws IOException
 	 */
-	private void validateDestinationPath(String root, String file) throws DuplicateFileException, IOException    
+	public void validateDestinationPath(String pathRoot, String pathEnd) throws DuplicateFileException, IOException    
 	{
-		Path rootPath = Paths.get(root);
+		Path rootPath = Paths.get(pathRoot);
 		if(!Files.exists(rootPath))
-			throw new FileSystemException(String.format("Root path %s does not exist on the file system", root));
+			throw new FileSystemException(String.format("Root path %s does not exist on the file system", pathRoot));
 		
-		Path fullPath = Paths.get(root, file);
+		Path fullPath = Paths.get(pathRoot, pathEnd);
 		
 		 /* 
 			 if file = c:\\ab\cd\ef.avi and below path exists on the file system, then Files.exists 
@@ -152,7 +151,7 @@ public class FileSystem
 			c:\\ab\cd\: (part of the path in same casing)
 		*/
 		
-		if(pathExistsWithAlternateCasing(root, file))
+		if(pathExistsWithAlternateCasing(pathRoot, pathEnd))
 			throw new DuplicateFileException(fullPath.toString());
 	}
 	
@@ -200,12 +199,12 @@ public class FileSystem
 		
 		//check if there is a case insensitive version of sourceString
 		List<String> paths = cachedPaths.get(parentPath.toString());
-		for(String path : paths)
+		for(String cachedPath : paths)
 		{
-			String parsedPath = filePath.toString().replaceFirst("[\\\\/]$", ""); 
-			String parsedFileString = filePath.toString().replaceFirst("[\\\\/]$", "");
+			String cached = cachedPath.toString().replaceFirst("[\\\\/]$", ""); 
+			String path = filePath.toString().replaceFirst("[\\\\/]$", "");
 			
-			if(!parsedPath.equals(parsedFileString) && parsedPath.equalsIgnoreCase(parsedFileString))
+			if(!path.equals(cached) && path.equalsIgnoreCase(cached))
 				return true;
 		}
 		
