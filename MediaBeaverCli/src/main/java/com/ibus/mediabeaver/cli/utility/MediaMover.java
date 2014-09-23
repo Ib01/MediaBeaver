@@ -138,7 +138,7 @@ public class MediaMover extends FileProcessorBase
 			
 			log.debug(String.format("Destination path generated %s.", fullDestinationPath));
 						
-			fileSys.moveFile(file.getAbsolutePath(), config.getMovieRootDirectory(), destinationPathEnd);
+			moveFile(file.getAbsolutePath(), config.getMovieRootDirectory(), destinationPathEnd);
 			
 			++mediaMoved;
 			logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
@@ -231,7 +231,7 @@ public class MediaMover extends FileProcessorBase
 			
 			log.debug(String.format("Destination path generated %s", fullDestinationPath));
 			
-			fileSys.moveFile(file.getAbsolutePath(), config.getTvRootDirectory(), destinationPathEnd);
+			moveFile(file.getAbsolutePath(), config.getTvRootDirectory(), destinationPathEnd);
 			
 			++mediaMoved;
 			logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
@@ -262,6 +262,14 @@ public class MediaMover extends FileProcessorBase
 		}
 	}
 	
+	
+	private void moveFile(String source, String destinationRoot, String destinationEnd) throws IOException, DuplicateFileException
+	{
+		if(config.isCopyAsDefault())
+			fileSys.copyFile(source, destinationRoot, destinationEnd);
+		else
+			fileSys.moveFile(source, destinationRoot, destinationEnd);
+	}
 	
 	
 	

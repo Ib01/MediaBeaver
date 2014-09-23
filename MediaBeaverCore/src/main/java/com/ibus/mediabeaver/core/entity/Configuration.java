@@ -26,6 +26,10 @@ public class Configuration extends PersistentObject
 	@Column
 	private String videoExtensionFilter;
 	
+	//whether we copy a file or move it as part of the default file movement behavior
+	@Column
+	private boolean copyAsDefault;
+	
 	
 	public String getSourceDirectory()
 	{
@@ -104,6 +108,18 @@ public class Configuration extends PersistentObject
 		
 		return false;
 	}
+
+	public boolean isCopyAsDefault()
+	{
+		return copyAsDefault;
+	}
+
+	public void setCopyAsDefault(boolean copyAsDefault)
+	{
+		this.copyAsDefault = copyAsDefault;
+	}
+
+	
 
 	
 }

@@ -11,7 +11,7 @@ public class ConfigurationViewModel extends ViewModel
 	private String movieRootDirectory;
 	private String moviePath;
 	private String videoExtensionFilter;
-	
+	private boolean copyAsDefault;
 	
 	public String getSourceDirectory()
 	{
@@ -72,6 +72,18 @@ public class ConfigurationViewModel extends ViewModel
 	{
 		this.videoExtensionFilter = videoExtensionFilter;
 	}
+
+	public boolean isCopyAsDefault()
+	{
+		return copyAsDefault;
+	}
+
+	public void setCopyAsDefault(boolean copyAsDefault)
+	{
+		this.copyAsDefault = copyAsDefault;
+	}
+
+	
 	
 }
 
