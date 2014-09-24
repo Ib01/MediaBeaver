@@ -30,10 +30,12 @@ public class Main
 	{
         private ServerSocket socket;
  
-        public MonitorThread() {
+        public MonitorThread() 
+        {
             setDaemon(true);
             setName("StopMonitor");
-            try {
+            try 
+            {
                 socket = new ServerSocket(8079, 1, InetAddress.getByName("127.0.0.1"));
             } catch(Exception e) {
                 throw new RuntimeException(e);
@@ -41,11 +43,13 @@ public class Main
         }
  
         @Override
-        public void run() {
+        public void run() 
+        {
             System.out.println(">>> running jetty 'stop' thread");
             Socket accept;
             
-            try {
+            try 
+            {
                 accept = socket.accept();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(accept.getInputStream()));
                 reader.readLine();
@@ -55,7 +59,8 @@ public class Main
                 jettyServer.stop();
                 accept.close();
                 socket.close();
-            } catch(Exception e) {
+            } catch(Exception e) 
+            {
                 throw new RuntimeException(e);
             }
         }
@@ -63,14 +68,26 @@ public class Main
 	
 	
 	
-	public static void main(String[] args) 
+	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException 
 	{	
 		if(args[0].equalsIgnoreCase(StartServer))
+		{
 			startJetty();
+			Thread monitor = new MonitorThread();
+	        monitor.start();
+
+		    log.debug("Joining Jetty Server");
+		    jettyServer.join();
+		    
+		    return;
+		}
+		else if(args[0].equalsIgnoreCase(StopServer)){
+			stopJetty();
+			return;
+		}
 		
 		
-		startJetty();
-		
+		showUsage();
 	}
 
 	
@@ -115,9 +132,6 @@ public class Main
 		    
 		    jettyServer.setHandler(webapp);
 		    jettyServer.start();
-			
-		    log.debug("Joinging Jetty Server");
-		    jettyServer.join();
 		    		
 		} catch (Exception e) {
 			log.error("En error occured while starting the jetty web server", e);
