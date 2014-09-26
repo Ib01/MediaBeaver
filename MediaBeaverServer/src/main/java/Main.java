@@ -21,51 +21,12 @@ import org.eclipse.jetty.webapp.WebAppContext;
  * */
 public class Main 
 {
+	public static final int StopThreadPort = 8079;
+	public static final String StopThreadAddress = "127.0.0.1";
 	public static final String StartServer = "-start";
 	public static final String StopServer = "-stop";
 	private static Logger log = Logger.getLogger(Main.class.getName());
 	private static Server jettyServer;
-	
-	private static class MonitorThread extends Thread 
-	{
-        private ServerSocket socket;
- 
-        public MonitorThread() 
-        {
-            setDaemon(true);
-            setName("StopMonitor");
-            try 
-            {
-                socket = new ServerSocket(8079, 1, InetAddress.getByName("127.0.0.1"));
-            } catch(Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
- 
-        @Override
-        public void run() 
-        {
-            System.out.println(">>> running jetty 'stop' thread");
-            Socket accept;
-            
-            try 
-            {
-                accept = socket.accept();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(accept.getInputStream()));
-                reader.readLine();
-                
-                System.out.println(">>> stopping jetty embedded server");
-                
-                jettyServer.stop();
-                accept.close();
-                socket.close();
-            } catch(Exception e) 
-            {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-	
 	
 	
 	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException 
@@ -73,6 +34,7 @@ public class Main
 		if(args[0].equalsIgnoreCase(StartServer))
 		{
 			startJetty();
+			
 			Thread monitor = new MonitorThread();
 	        monitor.start();
 
@@ -81,11 +43,11 @@ public class Main
 		    
 		    return;
 		}
-		else if(args[0].equalsIgnoreCase(StopServer)){
+		else if(args[0].equalsIgnoreCase(StopServer))
+		{
 			stopJetty();
 			return;
 		}
-		
 		
 		showUsage();
 	}
@@ -93,14 +55,14 @@ public class Main
 	
 	public static void stopJetty() throws UnknownHostException, IOException
 	{
-		Socket s = new Socket(InetAddress.getByName("127.0.0.1"), 8079);
-        OutputStream out = s.getOutputStream();
+		Socket socket = new Socket(InetAddress.getByName(StopThreadAddress), StopThreadPort);
+        OutputStream outStream = socket.getOutputStream();
         
-        log.debug(">>> Sending jetty stop request");
+        log.debug("Sending jetty stop request");
         
-        out.write(("\r\n").getBytes());
-        out.flush();
-        s.close();
+        outStream.write(("\r\n").getBytes());
+        outStream.flush();
+        socket.close();
 	}
 	
 	public static void startJetty()
@@ -138,11 +100,6 @@ public class Main
 		}	
 	}
 	
-	
-	
-	
-	
-	
 	public static void showUsage()
 	{
 		System.out.println("");
@@ -153,32 +110,50 @@ public class Main
 	}
 	
 	
-
-	
-	
-	
-	
-	
-	
-	/*public static void WriteFile()
+	private static class MonitorThread extends Thread 
 	{
-		PrintWriter writer;
-		try 
-		{
-			writer = new PrintWriter("C:\\DeleteMe.txt", "UTF-8");
-			writer.println("The first line");
-			writer.println("The second line");
-			writer.close();
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}*/
+        private ServerSocket socket;
+ 
+        public MonitorThread() 
+        {
+            setDaemon(true);
+            setName("MediaBeaverStopMonitor");
+            try 
+            {
+                socket = new ServerSocket(StopThreadPort, 1, InetAddress.getByName(StopThreadAddress));
+            } catch(Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+ 
+        @Override
+        public void run() 
+        {
+        	log.debug("Running jetty stop thread");
+            Socket accept;
+            
+            try 
+            {
+                accept = socket.accept();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(accept.getInputStream()));
+                reader.readLine();
+                
+                log.debug("Stopping embeded jetty web server");
+                jettyServer.stop();
+                
+                accept.close();
+                socket.close();
+                
+                log.debug("The embeded jetty web server has stopped");
+            } catch(Exception e) 
+            {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+	
+	
+	
 	
 
 }

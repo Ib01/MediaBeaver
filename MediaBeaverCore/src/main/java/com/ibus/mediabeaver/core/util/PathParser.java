@@ -20,7 +20,7 @@ public class PathParser
 	private static String VaraibleAndMethodsRegEx ="\\{([a-zA-Z]+)\\}(\\.(?:[a-zA-Z]+)\\((?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*,(?!\\s*\\)))*(?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*)?\\))+";
 	//pulls every method from variable block. i.e pulls .method1("foo","bar") and .method2("foo","bar") from: {variable}.method1("foo","bar").method2("foo","bar")
 	private static String MethodsAndParametersRegEx = "\\.([a-zA-Z]+)\\(((?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*,(?!\\s*\\)))*(?:\\s*\"(?:[^\"]|(?<=\\\\)\")*\"\\s*)?)\\)";
-	//pulls parameters from a methods parameter list.  ie it extracts "foo" and "bar" from {adsf}.method("foo","bar")
+	//pulls parameters from a methods parameter list.  ie it extracts "foo" and "bar" from {variable1}.method("foo","bar")
 	private static String ParametersRegEx = "\"((?:[^\"]|(?<=\\\\)\")*)\"";
 	
 	/**
