@@ -1,5 +1,7 @@
 package com.ibus.mediabeaver.server.controller;
 
+import java.io.File;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -18,9 +20,8 @@ import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
 public class ConfigurationController
 {
 	@RequestMapping
-	public ModelAndView updateConfig(HttpServletRequest request)
+	public ModelAndView viewConfig(HttpServletRequest request)
 	{
-		//requestx.sendRedirect(arg0); HttpServletResponse requestx
 		Configuration configs = Repository.getFirstEntity(Configuration.class);
 		ConfigurationViewModel vm = Mapper.getMapper().map(configs, ConfigurationViewModel.class);
 		
@@ -35,6 +36,16 @@ public class ConfigurationController
 		
 		return "redirect:/configuration/";
 	}
+	
+	@RequestMapping(value = "/initialise")
+	public ModelAndView initialise()
+	{
+		
+		return new ModelAndView("Welcome","configuration", new ConfigurationViewModel());
+		
+	}
+	
+	
 	
 	
 

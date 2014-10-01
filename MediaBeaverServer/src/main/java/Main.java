@@ -15,10 +15,6 @@ import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 
-/*TODO
- * 
- * run jetty in a thread allow starting and stopping 
- * */
 public class Main 
 {
 	public static final int StopThreadPort = 8079;
@@ -31,27 +27,43 @@ public class Main
 	
 	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException 
 	{	
-		if(args[0].equalsIgnoreCase(StartServer))
+		if(args.length > 0)
 		{
-			startJetty();
-			
-			Thread monitor = new MonitorThread();
-	        monitor.start();
-
-		    log.debug("Joining Jetty Server");
-		    jettyServer.join();
-		    
-		    return;
-		}
-		else if(args[0].equalsIgnoreCase(StopServer))
-		{
-			stopJetty();
-			return;
+			if(args[0].equalsIgnoreCase(StartServer))
+			{
+				startJetty();
+				
+				Thread monitor = new MonitorThread();
+		        monitor.start();
+	
+			    log.debug("Joining Jetty Server");
+			    jettyServer.join();
+			    
+			    return;
+			}
+			else if(args[0].equalsIgnoreCase(StopServer))
+			{
+				stopJetty();
+				return;
+			}
 		}
 		
 		showUsage();
 	}
 
+	
+	
+	
+	
+	public static void showUsage()
+	{
+		System.out.println("");
+		System.out.println("Usage: ");
+		System.out.println("MediaBeaver "+StartServer);
+		System.out.println("MediaBeaver "+StopServer);
+		
+	}
+	
 	
 	public static void stopJetty() throws UnknownHostException, IOException
 	{
@@ -100,16 +112,6 @@ public class Main
 		}	
 	}
 	
-	public static void showUsage()
-	{
-		System.out.println("");
-		System.out.println("Usage: ");
-		System.out.println("MediaBeaver "+StartServer);
-		System.out.println("MediaBeaver "+StopServer);
-		
-	}
-	
-	
 	private static class MonitorThread extends Thread 
 	{
         private ServerSocket socket;
@@ -151,8 +153,6 @@ public class Main
             }
         }
     }
-	
-	
 	
 	
 

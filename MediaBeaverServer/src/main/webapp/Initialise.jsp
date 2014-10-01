@@ -26,6 +26,18 @@
 	<h2>Initialise</h2>
   
 	<form:form method="POST" commandName="configuration" id="configForm" class="formLayout">
+		
+		<p></p>
+		
+		<div class="roundedPanel">
+			<form:label path="tvRootDirectory">Tv Root</form:label>
+			<form:input path="tvRootDirectory" style="width: 550px" class="validate[required]"/>
+			<br>
+			<form:label path="movieRootDirectory">Movie Root</form:label>
+			<form:input path="movieRootDirectory" style="width: 550px" class="validate[required]"/>
+			<br>
+		</div>
+		
 		<%-- <form:hidden path="id"/>
 
 		<div class="roundedPanel">

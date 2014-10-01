@@ -24,31 +24,18 @@
 </head>
 <body >
 	
-	<style>
-		#menuDiv div a:link {color:#FFFFFF;text-decoration:none;font-size:20px;}
-		#menuDiv div a:visited {color:#FFFFFF;text-decoration:none;font-size:20px;}  
-		#menuDiv div a:hover {color:#FF8A00;text-decoration:none;font-size:20px;}  
-		#menuDiv div a:active {color:#FFFFFF;text-decoration:none;font-size:20px;} 
-	</style>
-	
 		
 	<div id="headerDiv">
 		Media Beaver
-		<!-- <div id="Menu" style="">
+		<div id="menu" style="">
 			<a href="/configuration">Configuration</a> | <a href="/events">Events</a> 
-		</div> -->
+		</div>
 	</div>
 	
-	
-	
-	
-	
 
-
-	
 	<div id="outerDiv" style="width: 1000px; margin-left: auto; margin-right: auto; padding-top: 10px;">
 	
-		<div id="menuDiv" 
+		<!-- <div id="menuDiv" 
 		style="float:left; width: 160px; height: 200px; 
 		background-color: #FFFFFF; box-shadow: 0px 0px 20px 3px #d3d3d3; border-radius: 4px; ">
 		
@@ -60,7 +47,7 @@
 				<a href="/tvDirectory">TV Directory</a><br>
 				<a href="/movieDirectory">Movie Directory</a><br>
 			</div>
-		</div>
+		</div> -->
 		
 		<div id="contentDiv" style="margin-bottom: 1000px">
 		

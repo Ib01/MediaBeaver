@@ -14,6 +14,11 @@ a:visited {color:#FF8A00;text-decoration:none;}
 a:hover {color:#FF8A00;text-decoration:none;}  
 a:active {color:#FF8A00;text-decoration:none;} 
 
+#menu a:link {color:#FFFFFF;text-decoration:none;font-size:20px;}
+#menu a:visited {color:#FFFFFF;text-decoration:none;font-size:20px;}  
+#menu a:hover {color:#FF8A00;text-decoration:none;font-size:20px;}  
+#menu a:active {color:#FFFFFF;text-decoration:none;font-size:20px;} 
+
 a.button, a.mainButton
 {
 	margin-left: 5px;
