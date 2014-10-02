@@ -37,14 +37,24 @@ public class ConfigurationController
 		return "redirect:/configuration/";
 	}
 	
-	@RequestMapping(value = "/initialise")
-	public ModelAndView initialise()
+	@RequestMapping(value = "/welcome")
+	public ModelAndView welcome()
 	{
-		
 		return new ModelAndView("Welcome","configuration", new ConfigurationViewModel());
 		
 	}
 	
+	@RequestMapping(value = "/initialise", method = RequestMethod.POST)
+	public String initialise(@Validated ConfigurationViewModel configViewModel)
+	{
+		java.nio.file.FileSystems.getDefault().getSeparator();
+		
+		
+		/*Configuration config = Mapper.getMapper().map(configViewModel, Configuration.class);
+		Repository.saveEntity(config);*/
+		
+		return "redirect:/configuration/";
+	}
 	
 	
 	

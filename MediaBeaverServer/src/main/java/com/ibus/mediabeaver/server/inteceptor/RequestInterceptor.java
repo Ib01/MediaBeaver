@@ -26,15 +26,14 @@ public class RequestInterceptor implements HandlerInterceptor
 			s.beginTransaction();
 		}
 		
-		if(!appInitialised){
+		if(!appInitialised)
+		{
 			appInitialised = true;
 			
 			Configuration config = Repository.getFirstEntity(Configuration.class);
 			if(config == null)
-				response.sendRedirect("/initialise");
+				response.sendRedirect("/configuration/welcome");
 		}
-			
-		
 		
 		return true;
 	}

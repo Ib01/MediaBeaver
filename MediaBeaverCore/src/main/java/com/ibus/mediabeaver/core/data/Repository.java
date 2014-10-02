@@ -10,33 +10,7 @@ import com.ibus.mediabeaver.core.entity.Persistable;
 
 public abstract class Repository 
 {
-	/*public static List<MediaConfig>  getAllMediaConfig() 
-	{
-		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-		
-		Criteria criteria = s.createCriteria(MediaConfig.class)
-				.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-			
-		@SuppressWarnings("unchecked")
-		List<MediaConfig> results = criteria.list();
-		
-		return results;
-	}
 
-	
-	public static List<RegExSelector>  getAllMovieRegEx() 
-	{
-		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-		
-		Criteria criteria = s.createCriteria(RegExSelector.class)
-				.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-			
-		@SuppressWarnings("unchecked")
-		List<RegExSelector> results = criteria.list();
-		
-		return results;
-	}
-*/
 	
 	public static <T extends Persistable> void deleteEntity(T obj)
 	{

@@ -15,6 +15,25 @@
 	    <script type="text/javascript" src="/resources/script/jquery.validationEngine-en.js" charset="utf-8"></script>
 		<script type="text/javascript" src="/resources/script/jquery.validationEngine.js" charset="utf-8"></script>
 	    <script type="text/javascript" src="/resources/script/jquery.autocomplete.js"></script>
+	    
+	    <script type="text/javascript" >
+	
+		$(function ()
+		{	
+			$("#Enter").click(function() 
+			{
+				if($("form:first").validationEngine('validate'))
+				{
+					$("form:first").attr("action", "/configuration/initialise");
+					$("form:first").submit();
+				}
+			});
+			
+		}); 
+
+		
+	</script>
+	    
 	</head>
 
 	<body style="background-color: #323232">
@@ -34,8 +53,8 @@
 				box-shadow: 0px 0px 20px 3px #d3d3d3;
 				border-radius: 4px;">
 				
-				<p style="font-size: 36px">Welcome to Media Beaver <br/><span style="font-size: 24px; margin-left: 50px;">The platform independent solution for managing your media</span></p>
-				<p style="font-size: 18px">To get started please enter the details below</p>
+				<p style="font-size: 36px">Welcome to Media Beaver <br/><span style="font-size: 24px; margin-left: 50px;">The platform independent media management solution</span></p>
+				<p style="font-size: 18px">Enter your details below to get started</p>
 		
 				<form:form method="POST" commandName="configuration" id="configForm" class="formLayout">
 		
@@ -60,7 +79,7 @@
 					</div>
 		
 					<br>
-					<a class="mainButton" href="#" id="Save">Enter</a>
+					<a class="mainButton" href="#" id="Enter">Enter</a>
 				</form:form>
 				
 				
