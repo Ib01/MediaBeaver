@@ -22,14 +22,43 @@
 		{	
 			$("#Enter").click(function() 
 			{
-				if($("form:first").validationEngine('validate'))
-				{
-					$("form:first").attr("action", "/configuration/initialise");
-					$("form:first").submit();
-				}
+				$("form:first").attr("action", "/configuration/initialise");
+				$("form:first").submit();
 			});
 			
+			$("form:first").validationEngine({
+				ajaxFormValidation: true,
+				ajaxFormValidationURL: "/configuration/validateInitialise",
+				ajaxFormValidationMethod: "post",
+				onAjaxFormComplete: ajaxValidationCallback,
+				onBeforeAjaxFormValidation: beforeCall
+			});
+			
+			
 		}); 
+		
+		
+		function beforeCall(form, options){
+			alert("beforeCall");
+			return true;
+		}
+            
+		// Called once the server replies to the ajax form validation request
+		function ajaxValidationCallback(status, form, json, options){
+			alert("ajaxValidationCallback");
+                
+			if (status === true) {
+				alert("the form is valid!");
+				// uncomment these lines to submit the form to form.action
+				// form.validationEngine('detach');
+				// form.submit();
+				// or you may use AJAX again to submit the data
+			}
+		}
+            
+		
+			
+
 
 		
 	</script>

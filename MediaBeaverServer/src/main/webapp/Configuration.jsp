@@ -18,7 +18,7 @@
 			});
 			
 			/* $("#Cancel").click(function() 
-			{
+			{                                   
 				$("form:first").attr("action", "/configWizard/configCancel");
 				$("form:first").submit();
 			}); */

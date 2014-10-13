@@ -20,11 +20,11 @@ public class RequestInterceptor implements HandlerInterceptor
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
 	{
 		//we do not want to start a transaction when resources are called (scripts, css etc ... )
-		if(!request.toString().contains("resources/"))
-		{
-			Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-			s.beginTransaction();
-		}
+		if(request.toString().contains("resources/"))
+			return true;	
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
 		
 		if(!appInitialised)
 		{
@@ -32,7 +32,11 @@ public class RequestInterceptor implements HandlerInterceptor
 			
 			Configuration config = Repository.getFirstEntity(Configuration.class);
 			if(config == null)
+			{
+				transaction.commit();
 				response.sendRedirect("/configuration/welcome");
+				return false;
+			}
 		}
 		
 		return true;

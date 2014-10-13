@@ -3,11 +3,14 @@ package com.ibus.mediabeaver.server.controller;
 import java.io.File;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.Repository;
@@ -61,6 +64,14 @@ public class ConfigurationController
 		Repository.saveEntity(config);*/
 		
 		return "redirect:/configuration/";
+	}
+	
+	
+	@RequestMapping(value="/validateInitialise", method = RequestMethod.POST)
+	public @ResponseBody Object saveRegEx(@Valid @RequestBody ConfigurationViewModel configViewModel) 
+	{  
+		
+		return null;
 	}
 	
 	
