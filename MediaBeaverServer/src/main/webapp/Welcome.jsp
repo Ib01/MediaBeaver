@@ -26,35 +26,15 @@
 				$("form:first").submit();
 			});
 			
-			$("form:first").validationEngine({
-				ajaxFormValidation: true,
-				ajaxFormValidationURL: "/configuration/validateInitialise",
-				ajaxFormValidationMethod: "post",
-				onAjaxFormComplete: ajaxValidationCallback,
-				onBeforeAjaxFormValidation: beforeCall
-			});
 			
+			$('#sourceDirectory').validationEngine('showPrompt', 'This a custom msg', '', 'topRight', true);
+			//$('#formID1').validationEngine('hide');
+			//$('#formID1').validationEngine('hideAll');
 			
 		}); 
 		
 		
-		function beforeCall(form, options){
-			alert("beforeCall");
-			return true;
-		}
-            
-		// Called once the server replies to the ajax form validation request
-		function ajaxValidationCallback(status, form, json, options){
-			alert("ajaxValidationCallback");
-                
-			if (status === true) {
-				alert("the form is valid!");
-				// uncomment these lines to submit the form to form.action
-				// form.validationEngine('detach');
-				// form.submit();
-				// or you may use AJAX again to submit the data
-			}
-		}
+		
             
 		
 			
@@ -85,7 +65,29 @@
 				<p style="font-size: 36px">Welcome to Media Beaver <br/><span style="font-size: 24px; margin-left: 50px;">The platform independent media management solution</span></p>
 				<p style="font-size: 18px">Enter your details below to get started</p>
 		
+		
+			
+		
 				<form:form method="POST" commandName="configuration" id="configForm" class="formLayout">
+		
+			<spring:hasBindErrors name="configuration">
+				        <h2>Errors</h2>
+				        
+			            <ul>
+				            <c:forEach var="error" items="${errors.allErrors}">
+				                <li>11${error.defaultMessage}</li>
+				            </c:forEach>
+			            </ul>
+				        
+				    </spring:hasBindErrors>
+		
+		
+		
+					
+		
+					<form:errors path="tvRootDirectory"  />
+		
+		
 		
 					<div class="roundedPanel">
 						<form:label path="sourceDirectory">Source Directory</form:label>
@@ -96,6 +98,47 @@
 					</div>
 					<div class="roundedPanel">
 						<form:label path="tvRootDirectory">Tv Directory</form:label>
+
+				<!-- <div class="tvRootDirectoryformError parentFormconfigForm formError"
+					style="position: absolute; opacity: 0.87; top: 192px; left: 694px; margin-top: -32px;">
+					<div class="formErrorContent">
+						* This field is required<br>
+					</div>
+					<div class="formErrorArrow">
+						<div class="line10">
+							
+						</div>
+						<div class="line9">
+							
+						</div>
+						<div class="line8">
+							
+						</div>
+						<div class="line7">
+							
+						</div>
+						<div class="line6">
+							
+						</div>
+						<div class="line5">
+							
+						</div>
+						<div class="line4">
+							
+						</div>
+						<div class="line3">
+							
+						</div>
+						<div class="line2">
+							
+						</div>
+						<div class="line1">
+							
+						</div>
+					</div>
+				</div> -->
+
+
 						<form:input path="tvRootDirectory" style="width: 550px" class="validate[required]"/>
 						<br>
 						<p>This field should point to the directory you keep your TV Episodes in</p>
@@ -109,6 +152,9 @@
 		
 					<br>
 					<a class="mainButton" href="#" id="Enter">Enter</a>
+					
+					
+					
 				</form:form>
 				
 				

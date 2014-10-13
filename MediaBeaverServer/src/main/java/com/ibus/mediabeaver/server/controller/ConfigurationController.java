@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,31 +50,43 @@ public class ConfigurationController
 	}
 	
 	@RequestMapping(value = "/initialise", method = RequestMethod.POST)
-	public String initialise(@Validated ConfigurationViewModel configViewModel)
+	public ModelAndView initialise(@Validated ConfigurationViewModel configViewModel, BindingResult result)
 	{
-		String seperator = java.nio.file.FileSystems.getDefault().getSeparator();
+		/*ObjectError error = new ObjectError("tvRootDirectory","Test message");
+		result.addError(error);*/
 		
+		
+		result.rejectValue("tvRootDirectory", "error.configuration", "An account already exists for this email.");
+		
+		
+		return new ModelAndView("Welcome","configuration", new ConfigurationViewModel());
+		
+		
+		/*String seperator = java.nio.file.FileSystems.getDefault().getSeparator();
+		
+		Configuration config = Mapper.getMapper().map(addDefaultConfigValues(configViewModel, seperator), Configuration.class);
+		Repository.saveEntity(config);
+		
+		return "redirect:/configuration/";*/
+	}
+	
+	private ConfigurationViewModel addDefaultConfigValues(ConfigurationViewModel configViewModel, String seperator)
+	{
 		configViewModel.setEpisodePath("{SeriesName}.replaceAll(\"[/\\?<>\\\\:\\*\\|\\\"\\^]\", \" \").normalizeSpace()"+seperator+"Season {SeasonNumber}"+seperator+"{SeriesName}.replaceAll(\"[/\\?<>\\\\:\\*\\|\\\"\\^]\", \" \").normalizeSpace() S{SeasonNumber}.leftPad(\"2\",\"0\")E{EpisodeNumber}.leftPad(\"2\",\"0\")");
 		configViewModel.setMoviePath("{MovieName}.replaceAll(\"[/\\?<>\\\\:\\*\\|\\\"\\^]\", \" \").normalizeSpace()({ReleaseDate}.substring(\"0\",\"4\"))"+seperator+"{MovieName}.replaceAll(\"[/\\?<>\\\\:\\*\\|\\\"\\^]\", \" \").normalizeSpace()({ReleaseDate}.substring(\"0\",\"4\"))");
 		configViewModel.setVideoExtensionFilter(".3g2, .3gp, .asf, .avi, .drc, .flv, .flv, .m4v, .mkv, .mng, .mov, .qt, .mp4, .m4p, .m4v, .mpg, .mp2, .mpeg, .mpg, .mpe, .mpv, .mpg, .mpeg, .m2, .mxf, .nsv, .ogv, .ogg, .rm, .rmvb, .roq, .svi, .webm, .wmv");
 		configViewModel.setCopyAsDefault(false);
 		
-		Configuration config = Mapper.getMapper().map(configViewModel, Configuration.class);
-		Repository.saveEntity(config);
-		
-		/*Configuration config = Mapper.getMapper().map(configViewModel, Configuration.class);
-		Repository.saveEntity(config);*/
-		
-		return "redirect:/configuration/";
+		return configViewModel;
 	}
 	
 	
-	@RequestMapping(value="/validateInitialise", method = RequestMethod.POST)
+	/*@RequestMapping(value="/validateInitialise", method = RequestMethod.POST)
 	public @ResponseBody Object saveRegEx(@Valid @RequestBody ConfigurationViewModel configViewModel) 
 	{  
 		
 		return null;
-	}
+	}*/
 	
 	
 	
