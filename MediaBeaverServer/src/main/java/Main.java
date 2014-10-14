@@ -51,10 +51,6 @@ public class Main
 		showUsage();
 	}
 
-	
-	
-	
-	
 	public static void showUsage()
 	{
 		System.out.println("");
@@ -112,7 +108,7 @@ public class Main
 		}	
 	}
 	
-	private static class MonitorThread extends Thread 
+	public static class MonitorThread extends Thread 
 	{
         private ServerSocket socket;
  
