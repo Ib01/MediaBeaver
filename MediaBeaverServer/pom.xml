@@ -124,10 +124,10 @@
 						<phase>prepare-package</phase>
 						<configuration>
 							<tasks>
-								<move
-									todir="${project.build.directory}/${project.artifactId}-${project.version}/">
+								<move todir="${project.build.directory}/${project.artifactId}-${project.version}/">
 									<fileset dir="${project.build.directory}/classes/">
 										<include name="Main.class" />
+										<include name="Test.class" />
 									</fileset>
 								</move>
 							</tasks>

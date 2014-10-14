@@ -25,7 +25,30 @@ public class Main
 	private static Server jettyServer;
 	
 	
-	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException, ClassNotFoundException 
+	
+	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException, ClassNotFoundException, InstantiationException, IllegalAccessException 
+	{	
+		if(args.length > 0)
+		{
+			if(args[0].equalsIgnoreCase(StartServer))
+			{
+				Test t = new Test();
+				
+				startJetty();
+	
+			    log.debug("Joining Jetty Server");
+			    jettyServer.join();
+			    
+			    return;
+			}
+			
+		}
+		
+		showUsage();
+	}
+	
+	
+	/*public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException, ClassNotFoundException, InstantiationException, IllegalAccessException 
 	{	
 		if(args.length > 0)
 		{
@@ -33,9 +56,9 @@ public class Main
 			{
 				startJetty();
 				
-				Thread monitor = Class.forName("Main$MonitorThread");
+				Class<?> c = Class.forName("Main$MonitorThread");
+				Thread monitor = (Thread) c.newInstance();
 				
-				//Thread monitor = new MonitorThread();
 		        monitor.start();
 	
 			    log.debug("Joining Jetty Server");
@@ -51,7 +74,7 @@ public class Main
 		}
 		
 		showUsage();
-	}
+	}*/
 
 	public static void showUsage()
 	{
@@ -63,7 +86,7 @@ public class Main
 	}
 	
 	
-	public static void stopJetty() throws UnknownHostException, IOException
+	/*public static void stopJetty() throws UnknownHostException, IOException
 	{
 		Socket socket = new Socket(InetAddress.getByName(StopThreadAddress), StopThreadPort);
         OutputStream outStream = socket.getOutputStream();
@@ -73,7 +96,7 @@ public class Main
         outStream.write(("\r\n").getBytes());
         outStream.flush();
         socket.close();
-	}
+	}*/
 	
 	public static void startJetty()
 	{
@@ -110,7 +133,7 @@ public class Main
 		}	
 	}
 	
-	public static class MonitorThread extends Thread 
+	/*public static class MonitorThread extends Thread 
 	{
         private ServerSocket socket;
  
@@ -150,7 +173,7 @@ public class Main
                 throw new RuntimeException(e);
             }
         }
-    }
+    }*/
 	
 	
 
