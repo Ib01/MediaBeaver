@@ -1,5 +1,6 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html>
 	<head>
@@ -27,21 +28,19 @@
 			});
 			
 			
-			$('#sourceDirectory').validationEngine('showPrompt', 'This a custom msg', '', 'topRight', true);
+			//$('#sourceDirectory').validationEngine('showPrompt', 'This a custom msg', '', 'topRight', true);
 			//$('#formID1').validationEngine('hide');
 			//$('#formID1').validationEngine('hideAll');
 			
+			//$('#tvRootDirectory').validationEngine('showPrompt', 'This a custom msg', '', 'topRight', true);
+
 		}); 
 		
-		
-		
-            
-		
-			
 
-
-		
-	</script>
+		</script>
+	
+	
+		<%@include file="includes/errors.jsp"%>
 	    
 	</head>
 
@@ -66,26 +65,28 @@
 				<p style="font-size: 18px">Enter your details below to get started</p>
 		
 		
-			
+				
+				    
 		
 				<form:form method="POST" commandName="configuration" id="configForm" class="formLayout">
 		
-			<spring:hasBindErrors name="configuration">
-				        <h2>Errors</h2>
-				        
-			            <ul>
-				            <c:forEach var="error" items="${errors.allErrors}">
-				                <li>11${error.defaultMessage}</li>
-				            </c:forEach>
-			            </ul>
-				        
-				    </spring:hasBindErrors>
-		
+					
+		<%
+		if(true)
+		{
+			/* errors.
+			
+			org.springframework.validation.BindingResult.configuration;
+			 */
+			/* String h = "";
+			requestScope["org.springframework.validation.BindingResult.yourCommandName"].hasFieldErrors("username"); */
+		}
+		%>
 		
 		
 					
 		
-					<form:errors path="tvRootDirectory"  />
+					
 		
 		
 		
@@ -99,47 +100,11 @@
 					<div class="roundedPanel">
 						<form:label path="tvRootDirectory">Tv Directory</form:label>
 
-				<!-- <div class="tvRootDirectoryformError parentFormconfigForm formError"
-					style="position: absolute; opacity: 0.87; top: 192px; left: 694px; margin-top: -32px;">
-					<div class="formErrorContent">
-						* This field is required<br>
-					</div>
-					<div class="formErrorArrow">
-						<div class="line10">
-							
-						</div>
-						<div class="line9">
-							
-						</div>
-						<div class="line8">
-							
-						</div>
-						<div class="line7">
-							
-						</div>
-						<div class="line6">
-							
-						</div>
-						<div class="line5">
-							
-						</div>
-						<div class="line4">
-							
-						</div>
-						<div class="line3">
-							
-						</div>
-						<div class="line2">
-							
-						</div>
-						<div class="line1">
-							
-						</div>
-					</div>
-				</div> -->
-
 
 						<form:input path="tvRootDirectory" style="width: 550px" class="validate[required]"/>
+						<form:errors path="tvRootDirectory" />
+						
+						
 						<br>
 						<p>This field should point to the directory you keep your TV Episodes in</p>
 					</div>

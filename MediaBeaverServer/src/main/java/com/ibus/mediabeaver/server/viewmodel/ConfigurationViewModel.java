@@ -1,5 +1,7 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 
 public class ConfigurationViewModel extends ViewModel 
 {

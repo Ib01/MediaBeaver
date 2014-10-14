@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,16 +51,19 @@ public class ConfigurationController
 	}
 	
 	@RequestMapping(value = "/initialise", method = RequestMethod.POST)
-	public ModelAndView initialise(@Validated ConfigurationViewModel configViewModel, BindingResult result)
+	public ModelAndView initialise(@ModelAttribute("configuration") @Validated ConfigurationViewModel configViewModel, BindingResult result)
 	{
 		/*ObjectError error = new ObjectError("tvRootDirectory","Test message");
 		result.addError(error);*/
 		
 		
-		result.rejectValue("tvRootDirectory", "error.configuration", "An account already exists for this email.");
 		
+		//result.rejectValue("sourceDirectory", "error.configuration", "The seperators in this path are incorrect for the environment Media Beaver is running in");
+		result.rejectValue("sourceDirectory", "error.configuration", "The seperators in this path are incorrect for the environment");
 		
-		return new ModelAndView("Welcome","configuration", new ConfigurationViewModel());
+		boolean h = result.hasErrors();
+		
+		return new ModelAndView("Welcome","configuration", configViewModel);
 		
 		
 		/*String seperator = java.nio.file.FileSystems.getDefault().getSeparator();
