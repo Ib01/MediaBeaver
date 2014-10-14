@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Configuration;
+import com.ibus.mediabeaver.core.util.FileSystem;
 import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
 
@@ -53,26 +54,74 @@ public class ConfigurationController
 	@RequestMapping(value = "/initialise", method = RequestMethod.POST)
 	public ModelAndView initialise(@ModelAttribute("configuration") @Validated ConfigurationViewModel configViewModel, BindingResult result)
 	{
-		/*ObjectError error = new ObjectError("tvRootDirectory","Test message");
-		result.addError(error);*/
+		String seperator = java.nio.file.FileSystems.getDefault().getSeparator();
 		
+		if(pathSeperatorsValid(seperator, configViewModel, result) && pathsExist(configViewModel, result))
+		{
+			Configuration config = Mapper.getMapper().map(addDefaultConfigValues(configViewModel, seperator), Configuration.class);
+			Repository.saveEntity(config);
+			
+			return new ModelAndView("redirect:/configuration/");
+		}
 		
-		
-		//result.rejectValue("sourceDirectory", "error.configuration", "The seperators in this path are incorrect for the environment Media Beaver is running in");
-		result.rejectValue("sourceDirectory", "error.configuration", "The seperators in this path are incorrect for the environment");
-		
-		boolean h = result.hasErrors();
 		
 		return new ModelAndView("Welcome","configuration", configViewModel);
-		
-		
-		/*String seperator = java.nio.file.FileSystems.getDefault().getSeparator();
-		
-		Configuration config = Mapper.getMapper().map(addDefaultConfigValues(configViewModel, seperator), Configuration.class);
-		Repository.saveEntity(config);
-		
-		return "redirect:/configuration/";*/
 	}
+	
+	
+	private boolean pathSeperatorsValid(String seperator, ConfigurationViewModel configViewModel, BindingResult result)
+	{
+		boolean formValid = true;
+		
+		if((seperator.equals("\\") && configViewModel.getSourceDirectory().contains("/")) ||
+				(seperator.equals("/") && configViewModel.getSourceDirectory().contains("\\")))
+		{
+			result.rejectValue("sourceDirectory", "error.configuration", "The seperators in this path are incorrect for your environment");
+			formValid = false;
+		}
+		
+		if((seperator.equals("\\") && configViewModel.getTvRootDirectory().contains("/")) ||
+				(seperator.equals("/") && configViewModel.getTvRootDirectory().contains("\\")))
+		{
+			result.rejectValue("tvRootDirectory", "error.configuration", "The seperators in this path are incorrect for your environment");
+			formValid = false;
+		}
+		
+		if((seperator.equals("\\") && configViewModel.getMovieRootDirectory().contains("/")) ||
+				(seperator.equals("/") && configViewModel.getMovieRootDirectory().contains("\\")))
+		{
+			result.rejectValue("movieRootDirectory", "error.configuration", "The seperators in this path are incorrect for your environment");
+			formValid = false;
+		}
+	
+		return formValid;
+	}
+	
+	private boolean pathsExist(ConfigurationViewModel configViewModel, BindingResult result)
+	{
+		String msg = "This directory does not exist";
+		FileSystem fs = new FileSystem();
+		boolean formValid = true;
+		
+		if(!fs.pathExists(configViewModel.getSourceDirectory()))
+		{
+			result.rejectValue("sourceDirectory", "error.configuration", msg);
+			formValid =  false;
+		}
+		if(!fs.pathExists(configViewModel.getTvRootDirectory()))
+		{
+			result.rejectValue("tvRootDirectory", "error.configuration", msg);
+			formValid =  false;
+		}
+		if(!fs.pathExists(configViewModel.getMovieRootDirectory()))
+		{
+			result.rejectValue("movieRootDirectory", "error.configuration", msg);
+			formValid =  false;
+		}
+		
+		return formValid;
+	}
+	
 	
 	private ConfigurationViewModel addDefaultConfigValues(ConfigurationViewModel configViewModel, String seperator)
 	{
@@ -83,16 +132,6 @@ public class ConfigurationController
 		
 		return configViewModel;
 	}
-	
-	
-	/*@RequestMapping(value="/validateInitialise", method = RequestMethod.POST)
-	public @ResponseBody Object saveRegEx(@Valid @RequestBody ConfigurationViewModel configViewModel) 
-	{  
-		
-		return null;
-	}*/
-	
-	
 	
 
 }

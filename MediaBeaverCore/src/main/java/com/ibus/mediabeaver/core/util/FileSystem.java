@@ -1,29 +1,25 @@
-package com.ibus.mediabeaver.cli.utility;
-
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+package com.ibus.mediabeaver.core.util;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
-import com.ibus.mediabeaver.cli.Main;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
 import com.ibus.mediabeaver.core.exception.FileSystemException;
 import com.ibus.mediabeaver.core.exception.MediaBeaverConfigurationException;
 
 public class FileSystem
 {
-	private Logger log = Logger.getLogger(Main.class.getName());
+	private Logger log = Logger.getLogger(FileSystem.class.getName());
 	HashMap<String, List<String>> cachedPaths = new HashMap<String, List<String>>();
-
 	
 	/**
 	 * Move or rename a file from source to destination. all directories in the destination path will be 
@@ -79,6 +75,17 @@ public class FileSystem
 		log.debug(String.format(">>> Succesfully copied file from %s to %s", source, destinationEnd));
 		
 		return true;
+	}
+	
+	
+	/**
+	 * Determines whether a file or directory exists on the file system
+	 * @param path
+	 * @return
+	 */
+	public boolean pathExists(String path)  
+	{
+		return Files.exists(Paths.get(path));
 	}
 	
 	

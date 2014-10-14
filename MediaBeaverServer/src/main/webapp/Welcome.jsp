@@ -23,17 +23,16 @@
 		{	
 			$("#Enter").click(function() 
 			{
-				$("form:first").attr("action", "/configuration/initialise");
-				$("form:first").submit();
+				if($("form:first").validationEngine('validate'))
+				{
+					$("form:first").attr("action", "/configuration/initialise");
+					$("form:first").submit();
+				}
 			});
-			
-			
-			//$('#sourceDirectory').validationEngine('showPrompt', 'This a custom msg', '', 'topRight', true);
+						
+
 			//$('#formID1').validationEngine('hide');
 			//$('#formID1').validationEngine('hideAll');
-			
-			//$('#tvRootDirectory').validationEngine('showPrompt', 'This a custom msg', '', 'topRight', true);
-
 		}); 
 		
 
@@ -64,31 +63,7 @@
 				<p style="font-size: 36px">Welcome to Media Beaver <br/><span style="font-size: 24px; margin-left: 50px;">The platform independent media management solution</span></p>
 				<p style="font-size: 18px">Enter your details below to get started</p>
 		
-		
-				
-				    
-		
 				<form:form method="POST" commandName="configuration" id="configForm" class="formLayout">
-		
-					
-		<%
-		if(true)
-		{
-			/* errors.
-			
-			org.springframework.validation.BindingResult.configuration;
-			 */
-			/* String h = "";
-			requestScope["org.springframework.validation.BindingResult.yourCommandName"].hasFieldErrors("username"); */
-		}
-		%>
-		
-		
-					
-		
-					
-		
-		
 		
 					<div class="roundedPanel">
 						<form:label path="sourceDirectory">Source Directory</form:label>
@@ -99,12 +74,7 @@
 					</div>
 					<div class="roundedPanel">
 						<form:label path="tvRootDirectory">Tv Directory</form:label>
-
-
 						<form:input path="tvRootDirectory" style="width: 550px" class="validate[required]"/>
-						<form:errors path="tvRootDirectory" />
-						
-						
 						<br>
 						<p>This field should point to the directory you keep your TV Episodes in</p>
 					</div>

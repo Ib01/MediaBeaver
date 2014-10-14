@@ -11,8 +11,8 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.ibus.mediabeaver.cli.utility.FileSystem;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
+import com.ibus.mediabeaver.core.util.FileSystem;
 
 
 public class FileSystemIT

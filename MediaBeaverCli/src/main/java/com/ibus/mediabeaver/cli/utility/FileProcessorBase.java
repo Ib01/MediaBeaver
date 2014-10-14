@@ -14,6 +14,7 @@ import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.data.UpdateTransactable;
 import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.entity.Event;
+import com.ibus.mediabeaver.core.util.FileSystem;
 
 public abstract class FileProcessorBase
 {
