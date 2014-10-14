@@ -25,7 +25,7 @@ public class Main
 	private static Server jettyServer;
 	
 	
-	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException 
+	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException, ClassNotFoundException 
 	{	
 		if(args.length > 0)
 		{
@@ -33,7 +33,9 @@ public class Main
 			{
 				startJetty();
 				
-				Thread monitor = new MonitorThread();
+				Thread monitor = Class.forName("Main$MonitorThread");
+				
+				//Thread monitor = new MonitorThread();
 		        monitor.start();
 	
 			    log.debug("Joining Jetty Server");
