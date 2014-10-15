@@ -135,32 +135,32 @@
 
 		<div class="roundedPanel">
 			<form:label path="sourceDirectory">Source Directory</form:label>
-			<form:input path="sourceDirectory" style="width: 550px" class="autoComplete validate[required]"/>
+			<form:input path="sourceDirectory" style="width: 750px" class="autoComplete validate[required]"/>
 			<br>
 		</div>
 		
 		<div class="roundedPanel">
 			<form:label path="tvRootDirectory">Tv Root</form:label>
-			<form:input path="tvRootDirectory" style="width: 550px" class="validate[required]"/>
+			<form:input path="tvRootDirectory" style="width: 750px" class="validate[required]"/>
 			<br>
 			<form:label path="episodePath">Episode Path Format</form:label>
-			<form:textarea path="episodePath" style="width: 550px; height: 80px" class="autoComplete validate[required]"/>
+			<form:textarea path="episodePath" style="width: 750px; height: 80px" class="autoComplete validate[required]"/>
 			<br>
 		</div>
 		
 		<div class="roundedPanel">
 			
 			<form:label path="movieRootDirectory">Movie Root</form:label>
-			<form:input path="movieRootDirectory" style="width: 550px" class="validate[required]"/>
+			<form:input path="movieRootDirectory" style="width: 750px" class="validate[required]"/>
 			<br>
 			<form:label path="moviePath">Movie Path Format</form:label>
-			<form:textarea path="moviePath" style="width: 550px; height: 80px" class="autoComplete validate[required]"/>
+			<form:textarea path="moviePath" style="width: 750px; height: 80px" class="autoComplete validate[required]"/>
 			<br>
 		</div>
 	 
 		<div class="roundedPanel">
 		 	<form:label path="videoExtensionFilter">Video Extensions</form:label>
-		 	<form:textarea path="videoExtensionFilter" style="width: 550px; height: 100px" class="validate[required]"/>
+		 	<form:textarea path="videoExtensionFilter" style="width: 750px; height: 100px" class="validate[required]"/>
 		 	<br>
 		</div>
 	 
