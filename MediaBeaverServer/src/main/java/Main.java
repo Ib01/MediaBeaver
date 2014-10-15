@@ -13,18 +13,15 @@ import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
-
+ 
 
 public class Main 
 {
-	public static final int StopThreadPort = 8079;
-	public static final String StopThreadAddress = "127.0.0.1";
+	
 	public static final String StartServer = "-start";
 	public static final String StopServer = "-stop";
 	private static Logger log = Logger.getLogger(Main.class.getName());
 	private static Server jettyServer;
-	
-	
 	
 	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException, ClassNotFoundException, InstantiationException, IllegalAccessException 
 	{	
@@ -32,33 +29,9 @@ public class Main
 		{
 			if(args[0].equalsIgnoreCase(StartServer))
 			{
-				Test t = new Test();
-				
 				startJetty();
-	
-			    log.debug("Joining Jetty Server");
-			    jettyServer.join();
-			    
-			    return;
-			}
-			
-		}
-		
-		showUsage();
-	}
-	
-	
-	/*public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException, ClassNotFoundException, InstantiationException, IllegalAccessException 
-	{	
-		if(args.length > 0)
-		{
-			if(args[0].equalsIgnoreCase(StartServer))
-			{
-				startJetty();
-				
-				Class<?> c = Class.forName("Main$MonitorThread");
-				Thread monitor = (Thread) c.newInstance();
-				
+				 
+				Thread monitor = new StopThread(jettyServer);
 		        monitor.start();
 	
 			    log.debug("Joining Jetty Server");
@@ -74,7 +47,7 @@ public class Main
 		}
 		
 		showUsage();
-	}*/
+	}
 
 	public static void showUsage()
 	{
@@ -86,9 +59,9 @@ public class Main
 	}
 	
 	
-	/*public static void stopJetty() throws UnknownHostException, IOException
+	public static void stopJetty() throws UnknownHostException, IOException
 	{
-		Socket socket = new Socket(InetAddress.getByName(StopThreadAddress), StopThreadPort);
+		Socket socket = new Socket(InetAddress.getByName(StopThread.StopThreadAddress), StopThread.StopThreadPort);
         OutputStream outStream = socket.getOutputStream();
         
         log.debug("Sending jetty stop request");
@@ -96,7 +69,7 @@ public class Main
         outStream.write(("\r\n").getBytes());
         outStream.flush();
         socket.close();
-	}*/
+	}
 	
 	public static void startJetty()
 	{
@@ -133,11 +106,11 @@ public class Main
 		}	
 	}
 	
-	/*public static class MonitorThread extends Thread 
+	/*public static class StopThread extends Thread 
 	{
         private ServerSocket socket;
  
-        public MonitorThread() 
+        public StopThread() 
         {
             setDaemon(true);
             setName("MediaBeaverStopMonitor");
