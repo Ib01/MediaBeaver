@@ -12,8 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Configuration;
+import com.ibus.mediabeaver.server.util.Data;
 import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
+import com.ibus.mediabeaver.server.viewmodel.DirectoryExplorerViewModel;
 
 @Controller
 @RequestMapping(value = "/source")
@@ -23,13 +25,10 @@ public class SourceDirectoryController
 	@RequestMapping
 	public ModelAndView viewDirectory(HttpServletRequest request)
 	{
-		Configuration configs = Repository.getFirstEntity(Configuration.class);
-		ConfigurationViewModel vm = Mapper.getMapper().map(configs, ConfigurationViewModel.class);
+		ConfigurationViewModel config = Data.getConfiguration();
+		DirectoryExplorerViewModel dirExpModel = Data.getDirectoryExplorer(config.getSourceDirectory());
 		
-		File directory =  new File(vm.getSourceDirectory());
-		List<File> fileSysObjects = Arrays.asList(directory.listFiles());
-		
-		return new ModelAndView("SourceDirectory","files", fileSysObjects);
+		return new ModelAndView("SourceDirectory","directory", dirExpModel);
 	}
 	
 	

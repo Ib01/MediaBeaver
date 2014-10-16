@@ -8,6 +8,16 @@
 	
 		$(function ()
 		{	
+			
+			$(".selectableRow").click(function() 
+			{
+				/* if($("form:first").validationEngine('validate'))
+				{
+					$("form:first").attr("action", "/configuration/save");
+					$("form:first").submit();
+				} */
+			});
+			
 			/* $("#Save").click(function() 
 			{
 				if($("form:first").validationEngine('validate'))
@@ -17,21 +27,36 @@
 				}
 			}); */
 			
-			
 		}); 
 
-		
 	</script>
 	
-	<h2>Source Directory</h2>
-  
-	<form:form method="POST" commandName="configuration" id="configForm" class="formLayout">
+	<style>
+		.selectableRow{
+			cursor: hand;
+		}
+	</style>
+	
+	
+	<form:form method="POST" commandName="directory" class="formLayout">
+		<h2><c:out value="${directory.currentPath}" /></h2>
 		
-		<c:forEach items="${files}" var="file" varStatus="i">
-		
-			-- <c:out value="${file.path}" /> <br />
-		
-		</c:forEach>
+		<table style="width: 100%">
+			<c:forEach items="${directory.files}" var="file" varStatus="i">
+				<tr>
+					<td style="vertical-align: bottom; width :30px;">
+					<form:checkbox path="files[${i.index}].selected"/>
+					</td>
+					<td style="vertical-align: bottom; width :30px;">	
+						<c:if test="${file.file}"><img src="/resources/images/document_24.png"></c:if>
+						<c:if test="${!file.file}"><img src="/resources/images/folder_24.png"></c:if>
+					</td>
+					<td style="vertical-align: bottom" class="selectableRow">	
+						<c:out value="${file.name}" />
+					</td>
+				</tr>
+			</c:forEach>
+		</table>
 		
 	</form:form>
 

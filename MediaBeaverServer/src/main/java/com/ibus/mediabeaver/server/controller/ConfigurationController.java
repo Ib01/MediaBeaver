@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.util.FileSystem;
+import com.ibus.mediabeaver.server.util.Data;
 import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
 
@@ -29,18 +30,13 @@ public class ConfigurationController
 	@RequestMapping
 	public ModelAndView viewConfig(HttpServletRequest request)
 	{
-		Configuration configs = Repository.getFirstEntity(Configuration.class);
-		ConfigurationViewModel vm = Mapper.getMapper().map(configs, ConfigurationViewModel.class);
-		
-		return new ModelAndView("Configuration","configuration", vm);
+		return new ModelAndView("Configuration","configuration", Data.getConfiguration());
 	}
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String save(@Validated ConfigurationViewModel configViewModel)
 	{
-		Configuration config = Mapper.getMapper().map(configViewModel, Configuration.class);
-		Repository.saveOrUpdate(config);
-		
+		Data.saveOrUpdateConfig(configViewModel);
 		return "redirect:/configuration/";
 	}
 	
@@ -58,12 +54,9 @@ public class ConfigurationController
 		
 		if(pathSeperatorsValid(seperator, configViewModel, result) && pathsExist(configViewModel, result))
 		{
-			Configuration config = Mapper.getMapper().map(addDefaultConfigValues(configViewModel, seperator), Configuration.class);
-			Repository.saveEntity(config);
-			
+			Data.saveConfig(addDefaultConfigValues(configViewModel, seperator));
 			return new ModelAndView("redirect:/configuration/");
 		}
-		
 		
 		return new ModelAndView("Welcome","configuration", configViewModel);
 	}

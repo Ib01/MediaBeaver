@@ -26,7 +26,14 @@
 	
 		
 	<div id="headerDiv">
+		<!-- <table>
+		<tr>
+			<td style="vertical-align: top;"><img src="/resources/images/beaver_baby_icon.png"></td>
+			<td>Media Beaver</td>
+		</tr>
+		</table> -->
 		Media Beaver
+		
 		<div id="menu" style="">
 			<a href="/source">Source Directory</a> | <a href="/configuration">Configuration</a> | <a href="/events">Events</a> 
 		</div>
