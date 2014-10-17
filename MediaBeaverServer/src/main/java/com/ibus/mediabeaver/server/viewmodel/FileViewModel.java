@@ -1,10 +1,16 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FileViewModel
 {
 	private String name;
+	private String path;
 	private boolean isFile;
 	private boolean selected;
+	private boolean isOpen;
+	private List<FileViewModel> files = new ArrayList<FileViewModel>();
 	
 	public String getName()
 	{
@@ -32,5 +38,25 @@ public class FileViewModel
 	{
 		this.selected = selected;
 	}
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
+	public boolean isOpen() {
+		return isOpen;
+	}
+	public void setOpen(boolean isOpen) {
+		this.isOpen = isOpen;
+	}
+	public List<FileViewModel> getFiles() {
+		return files;
+	}
+	public void setFiles(List<FileViewModel> files) {
+		this.files = files;
+	}
+	
+	
 
 }

@@ -1,6 +1,7 @@
 package com.ibus.mediabeaver.server.util;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,23 +39,57 @@ public class Data
 		DirectoryExplorerViewModel dirExpModel = new DirectoryExplorerViewModel();
 		
 		File directory =  new File(path);
-		dirExpModel.setCurrentPath(directory.getAbsolutePath());
+		dirExpModel.setRootDirectory(directory);
 		
-		List<File> files = Arrays.asList(directory.listFiles());
-		for(File f : files)
-		{
-			FileViewModel filevm = new FileViewModel();
-			filevm.setFile(f.isFile());
-			filevm.setName(f.getName());
-			filevm.setSelected(false);
-			
-			dirExpModel.getFiles().add(filevm);
-		}
+		
+		//directory.listFiles()
+		
+		//List<File> files = Arrays.asList(directory.listFiles());
+		
 		
 		return dirExpModel;
 	}
 	
-	
+	private static List<FileViewModel> getFiles(File rootFile)
+	{
+		List<File> subFiles = Arrays.asList(rootFile.listFiles());
+		
+		List<FileViewModel> filevms = new ArrayList<FileViewModel>();
+		for(File file : subFiles)
+		{
+			FileViewModel filevm = new FileViewModel();
+			if(file.isDirectory())
+			{
+				filevm.setFiles(getFiles(file));
+			}
+			
+			filevm.setFile(file.isFile());
+			filevm.setName(file.getName());
+			filevm.setPath(file.getAbsolutePath());
+			filevm.setSelected(false);
+			
+			filevms.add(filevm);
+		}
+		
+		return filevms;
+	}
 	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
