@@ -20,6 +20,7 @@ import com.ibus.mediabeaver.server.util.Data;
 import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
 import com.ibus.mediabeaver.server.viewmodel.DirectoryExplorerViewModel;
+import com.ibus.mediabeaver.server.viewmodel.FileViewModel;
 
 @Controller
 @RequestMapping(value = "/source")
@@ -30,27 +31,27 @@ public class SourceDirectoryController
 	@RequestMapping
 	public ModelAndView viewDirectory(HttpServletRequest request)
 	{
-		request.getSession().setAttribute("openSourceFolders", new HashMap<String, String>());
+		//request.getSession().setAttribute("openSourceFolders", new HashMap<String, String>());
 		
 		
 		ConfigurationViewModel config = Data.getConfiguration();
-		DirectoryExplorerViewModel dirExpModel = Data.getDirectoryExplorer(config.getSourceDirectory());
+		FileViewModel filevm = Data.getFileViewModel(config.getSourceDirectory());
 		
-		return new ModelAndView("SourceDirectory","directory", dirExpModel);
+		return new ModelAndView("SourceDirectory","directory", filevm);
 	}
 	
 	//value = "/changeDirectory",
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView changeDirectory(DirectoryExplorerViewModel viewModel, HttpServletRequest request)
 	{
-		@SuppressWarnings("unchecked")
-		Map<String, String> map = (Map<String, String>) request.getSession().getAttribute("openSourceFolders");
-		map.put(viewModel.getClickedDirectory(), viewModel.getClickedDirectory());
+		//@SuppressWarnings("unchecked")
+		//Map<String, String> map = (Map<String, String>) request.getSession().getAttribute("openSourceFolders");
+		//map.put(viewModel.getClickedDirectory(), viewModel.getClickedDirectory());
 		
 		
 		ConfigurationViewModel config = Data.getConfiguration();
-		DirectoryExplorerViewModel dirExpModel = Data.getDirectoryExplorer(config.getSourceDirectory());
+		FileViewModel filevm = Data.getFileViewModel(config.getSourceDirectory());
 		
-		return new ModelAndView("SourceDirectory","directory", dirExpModel);
+		return new ModelAndView("SourceDirectory","directory", filevm);
 	}
 }

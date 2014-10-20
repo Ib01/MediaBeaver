@@ -34,39 +34,26 @@ public class Data
 		Repository.saveEntity(config);
 	}
 	
-	public static DirectoryExplorerViewModel getDirectoryExplorer(String path)
+	public static FileViewModel getFileViewModel(String path)
 	{
-		DirectoryExplorerViewModel dirExpModel = new DirectoryExplorerViewModel();
+		File file = new File(path);
 		
-		File directory =  new File(path);
-		dirExpModel.setRootDirectory(directory);
+		FileViewModel filevm  = getFileVM(file);
+		filevm.setFiles(getChildren(file));
 		
-		
-		//directory.listFiles()
-		
-		//List<File> files = Arrays.asList(directory.listFiles());
-		
-		
-		return dirExpModel;
+		return filevm;
 	}
 	
-	private static List<FileViewModel> getFiles(File rootFile)
+	private static List<FileViewModel> getChildren(File rootFile)
 	{
 		List<File> subFiles = Arrays.asList(rootFile.listFiles());
-		
 		List<FileViewModel> filevms = new ArrayList<FileViewModel>();
+		
 		for(File file : subFiles)
 		{
-			FileViewModel filevm = new FileViewModel();
+			FileViewModel filevm  = getFileVM(file);
 			if(file.isDirectory())
-			{
-				filevm.setFiles(getFiles(file));
-			}
-			
-			filevm.setFile(file.isFile());
-			filevm.setName(file.getName());
-			filevm.setPath(file.getAbsolutePath());
-			filevm.setSelected(false);
+				filevm.setFiles(getChildren(file));
 			
 			filevms.add(filevm);
 		}
@@ -74,6 +61,17 @@ public class Data
 		return filevms;
 	}
 	
+	private static FileViewModel getFileVM(File file)
+	{
+		FileViewModel filevm = new FileViewModel();
+		
+		filevm.setFile(file.isFile());
+		filevm.setName(file.getName());
+		filevm.setPath(file.getAbsolutePath());
+		filevm.setSelected(false);
+		
+		return filevm;
+	}
 	
 }
 

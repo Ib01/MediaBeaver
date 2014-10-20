@@ -54,12 +54,23 @@
 	</style>
 	
 	
-	<myTags:Folder folder="${directory.rootDirectory}"/>
+	
 	
 	<form:form method="POST" commandName="directory" class="formLayout">
-		<%-- <form:hidden path="currentPath"/>
+	
+	
+		<ul style="list-style: none; padding-left: 0px;">
+			<li>
+				<img src="/resources/images/folder_24.png" style="padding-left: 10px;"><c:out value="${directory.path}" />
+			</li>
+			<li>
+				<myTags:Folder folder="${directory}"/>
+			</ul>
+		</ul>
+	
+		<%-- <form:hidden path="currentPath"/> --%>
 		
-		<h2>Source Directory</h2>
+		<%-- <h2>Source Directory</h2>
 		
 		<table style="width: 980px">
 			<tr>
@@ -68,15 +79,16 @@
 				</td> -->
 				<td style="vertical-align: bottom; width :30px;">	
 					<c:if test="${!file.file}"><img src="/resources/images/folder_24.png"></c:if>
+					<img src="/resources/images/folder_24.png">
 				</td>
 				<td style="vertical-align: bottom" class="selectableRow" >	
-					<c:out value="${directory.currentPath}" />
+					<c:out value="${directory.path}" />
 				</td>
 			</tr>
-		</table>
+		</table> --%>
 		
 		
-		<table style="width: 950px; margin-left: 32px;">	
+		<%-- <table style="width: 950px; margin-left: 32px;">	
 			<c:forEach items="${directory.files}" var="file" varStatus="i">
 				<tr>
 					<td style="vertical-align: bottom; text-align: center; width :10px; font-size: 24px">
@@ -101,13 +113,10 @@
 					</td>
 				</tr>
 			</c:forEach>
-		</table>
+		</table> --%>
 		
-		 --%>
 		
 	</form:form>
-
-
 		
 <%@include file="includes/footer.jsp"%>
 
