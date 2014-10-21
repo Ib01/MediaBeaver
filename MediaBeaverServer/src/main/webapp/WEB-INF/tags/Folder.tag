@@ -9,19 +9,19 @@
 	
 	
 	
-	<ul style="list-style: none">
+	<ul style="list-style: none" class="highlightableList">
 	
 		<c:forEach items="${folder.files}" var="file" varStatus="i">
 	
 			<c:if test="${file.file}">
 				<li>
-					<input type="checkbox" id="selectAll"><img src="/resources/images/document_24.png"><c:out value="${file.path}" />
+					<input type="checkbox" id="selectAll"><img src="/resources/images/document_24.png"><c:out value="${file.name}" />
 				</li>
 			</c:if>
 			
 			<c:if test="${!file.file}">
 				<li>
-					<input type="checkbox" id="selectAll"><img src="/resources/images/folder_24.png"><c:out value="${folder.path}" />
+					<input type="checkbox" id="selectAll"><img src="/resources/images/folder_24.png"><c:out value="${file.name}" />
 				</li>
 				<li>
 					<myTags:Folder folder="${file}"/>
