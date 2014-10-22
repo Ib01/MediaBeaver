@@ -9,6 +9,7 @@
 	
 		$(function ()
 		{	
+
 			$("#moveFiles").click(function() 
 			{		
 				//alert("af");
@@ -22,22 +23,24 @@
 			
 			
 			/* $(".selectableRow").mouseover(function() 
+
+			$(".highlightableList li").mouseover(function() 
 			{
 				$(this).css("background-color", "#F1F1F1");
 			});
-			$(".selectableRow").mouseout(function() 
+			$(".highlightableList li").mouseout(function() 
 			{
 				$(this).css("background-color", "");
 			});
-			$(".selectableRow").click(function() 
+			/* $(".highlightRow").click(function() 
 			{
 				$(this).parent("tr").find(".selectedColumn").find(".selectedCheckbox").prop(
 						'checked', 
 						!$(this).parent("tr").find(".selectedColumn").find(".selectedCheckbox").is(':checked')
 				);
-			});
+			}); */
 			
-			
+			/*
 			$(".folderName").mouseover(function() 
 			{
 				$(this).css("text-decoration", "underline");
@@ -69,7 +72,7 @@
 	
 	
 	<form:form method="POST" commandName="directory" class="formLayout">
-	
+		<h2>Source Directory</h2>
 	
 		<ul style="list-style: none; padding-left: 0px;">
 			<li>
