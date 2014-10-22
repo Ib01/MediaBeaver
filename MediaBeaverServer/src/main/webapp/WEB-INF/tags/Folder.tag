@@ -1,5 +1,6 @@
 <%-- <%@ tag body-content="empty" %> --%>
 <%@ attribute name="folder" type="com.ibus.mediabeaver.server.viewmodel.FileViewModel" required="true"%>
+<%@ attribute name="parentObject" type="java.lang.String" required="true"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="myTags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -14,17 +15,23 @@
 		<c:forEach items="${folder.files}" var="file" varStatus="i">
 	
 			<c:if test="${file.file}">
-				<li>
+				<li> 
+					<input name="${parentObject}[${i.index}].path" type="hidden" value="${file.path}">
+				
+					
 					<input type="checkbox" id="selectAll"><img src="/resources/images/document_24.png"><c:out value="${file.path}" />
 				</li>
 			</c:if>
 			
 			<c:if test="${!file.file}">
 				<li>
-					<input type="checkbox" id="selectAll"><img src="/resources/images/folder_24.png"><c:out value="${folder.path}" />
+					<input name="${parentObject}[${i.index}].path" type="hidden" value="${file.path}">
+					
+					
+					<input type="checkbox" id="selectAll"><img src="/resources/images/folder_24.png"><c:out value="${file.path}" />
 				</li>
 				<li>
-					<myTags:Folder folder="${file}"/>
+					<myTags:Folder folder="${file}" parentObject="${parentObject}[${i.index}].files"/>
 				</li>
 			</c:if>
 		

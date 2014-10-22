@@ -9,6 +9,18 @@
 	
 		$(function ()
 		{	
+			$("#moveFiles").click(function() 
+			{		
+				//alert("af");
+				
+				//$("#currentPath").val($(this).parent("td").find(".filePath").val());
+				$("form:first").attr("action", "/source");
+				$("form:first").submit();
+				return false;
+
+			});
+			
+			
 			/* $(".selectableRow").mouseover(function() 
 			{
 				$(this).css("background-color", "#F1F1F1");
@@ -61,10 +73,13 @@
 	
 		<ul style="list-style: none; padding-left: 0px;">
 			<li>
+				<form:hidden path="path"/>
+				<form:hidden path="files[0].path"/>
+				
 				<img src="/resources/images/folder_24.png" style="padding-left: 10px;"><c:out value="${directory.path}" />
 			</li>
 			<li>
-				<myTags:Folder folder="${directory}"/>
+				<myTags:Folder folder="${directory}" parentObject="files"/>
 			</ul>
 		</ul>
 	
@@ -114,6 +129,11 @@
 				</tr>
 			</c:forEach>
 		</table> --%>
+		
+		
+		<br>
+		<br>
+		<a class="mainButton" href="#" id="moveFiles">Move Files</a>
 		
 		
 	</form:form>

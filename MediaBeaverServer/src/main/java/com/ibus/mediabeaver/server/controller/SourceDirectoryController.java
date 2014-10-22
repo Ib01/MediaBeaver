@@ -34,6 +34,7 @@ public class SourceDirectoryController
 		//request.getSession().setAttribute("openSourceFolders", new HashMap<String, String>());
 		
 		
+		
 		ConfigurationViewModel config = Data.getConfiguration();
 		FileViewModel filevm = Data.getFileViewModel(config.getSourceDirectory());
 		
@@ -42,7 +43,7 @@ public class SourceDirectoryController
 	
 	//value = "/changeDirectory",
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView changeDirectory(DirectoryExplorerViewModel viewModel, HttpServletRequest request)
+	public ModelAndView changeDirectory(FileViewModel viewModel, HttpServletRequest request)
 	{
 		//@SuppressWarnings("unchecked")
 		//Map<String, String> map = (Map<String, String>) request.getSession().getAttribute("openSourceFolders");
