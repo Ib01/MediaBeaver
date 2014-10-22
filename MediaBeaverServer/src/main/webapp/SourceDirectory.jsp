@@ -77,7 +77,9 @@
 		<ul style="list-style: none; padding-left: 0px;">
 			<li>
 				<form:hidden path="path"/>
-				<form:hidden path="files[0].path"/>
+				<form:hidden path="name"/>
+				<form:hidden path="file"/>
+				<form:hidden path="open"/>
 				
 				<img src="/resources/images/folder_24.png" style="padding-left: 10px;"><c:out value="${directory.path}" />
 			</li>

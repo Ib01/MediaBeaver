@@ -8,7 +8,7 @@ public class FileViewModel
 	private String name;
 	private String path;
 	private boolean isFile;
-	private boolean selected;
+	private boolean isSelected;
 	private boolean isOpen;
 	private List<FileViewModel> files = new ArrayList<FileViewModel>();
 	
@@ -30,13 +30,13 @@ public class FileViewModel
 		this.isFile = isFile;
 	}
 	
-	public boolean getSelected()
+	public boolean isSelected()
 	{
-		return selected;
+		return isSelected;
 	}
 	public void setSelected(boolean selected)
 	{
-		this.selected = selected;
+		this.isSelected = selected;
 	}
 	public String getPath() {
 		return path;
