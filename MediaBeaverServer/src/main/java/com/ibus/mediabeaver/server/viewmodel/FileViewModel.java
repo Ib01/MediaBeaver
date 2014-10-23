@@ -1,7 +1,9 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FileViewModel
 {
@@ -11,6 +13,9 @@ public class FileViewModel
 	private boolean isSelected;
 	private boolean isOpen;
 	private List<FileViewModel> files = new ArrayList<FileViewModel>();
+	
+	private Map<String, FileViewModel> cache = null;
+	private boolean openAll = false;
 	
 	public String getName()
 	{
@@ -56,7 +61,72 @@ public class FileViewModel
 	public void setFiles(List<FileViewModel> files) {
 		this.files = files;
 	}
+	public boolean isOpenAll()
+	{
+		return openAll;
+	}
+	public void setOpenAll(boolean openAll)
+	{
+		this.openAll = openAll;
+	}
 	
 	
-
+	public boolean isOpen(String path)
+	{
+		cacheFiles();
+		
+		FileViewModel vm = cache.get(path);
+		if(vm == null)
+			return false;
+		
+		return vm.isOpen();
+	}
+	
+	public boolean isSelected(String path)
+	{
+		cacheFiles();
+		
+		FileViewModel vm = cache.get(path);
+		if(vm == null)
+			return false;
+	
+		return vm.isSelected();		
+	}
+	
+	
+	private void cacheFiles()
+	{
+		if(cache == null)
+		{
+			cache = new HashMap<String, FileViewModel>();	
+			addFilesToCache(this);
+		}
+	}
+	private void addFilesToCache(FileViewModel file)
+	{
+		for(FileViewModel f : file.getFiles())
+		{
+			if(f.getFiles().size() > 0)
+				addFilesToCache(f);
+			
+			cache.put(f.getPath(), f);
+		}
+	}
+	
+	
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

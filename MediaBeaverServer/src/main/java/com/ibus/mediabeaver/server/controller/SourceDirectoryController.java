@@ -31,28 +31,24 @@ public class SourceDirectoryController
 	@RequestMapping
 	public ModelAndView viewDirectory(HttpServletRequest request)
 	{
-		//request.getSession().setAttribute("openSourceFolders", new HashMap<String, String>());
-		
-		
-		
 		ConfigurationViewModel config = Data.getConfiguration();
 		FileViewModel filevm = Data.getFileViewModel(config.getSourceDirectory());
 		
 		return new ModelAndView("SourceDirectory","directory", filevm);
 	}
 	
-	//value = "/changeDirectory",
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView changeDirectory(FileViewModel viewModel, HttpServletRequest request)
+	public ModelAndView openCloseDirectories(FileViewModel viewModel, HttpServletRequest request)
 	{
-		//@SuppressWarnings("unchecked")
-		//Map<String, String> map = (Map<String, String>) request.getSession().getAttribute("openSourceFolders");
-		//map.put(viewModel.getClickedDirectory(), viewModel.getClickedDirectory());
-		
-		
 		ConfigurationViewModel config = Data.getConfiguration();
-		FileViewModel filevm = Data.getFileViewModel(config.getSourceDirectory());
+		
+		FileViewModel filevm = Data.getFileViewModel(config.getSourceDirectory(), viewModel);
 		
 		return new ModelAndView("SourceDirectory","directory", filevm);
 	}
+	
+	
+
+	
+	
 }

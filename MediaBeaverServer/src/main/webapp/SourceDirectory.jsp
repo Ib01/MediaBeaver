@@ -7,40 +7,44 @@
 
 	<script type="text/javascript" >
 	
+		var dontCheck = false;
+	
 		$(function ()
 		{	
 
 			$("#moveFiles").click(function() 
-			{		
-				//alert("af");
-				
-				//$("#currentPath").val($(this).parent("td").find(".filePath").val());
+			{	
 				$("form:first").attr("action", "/source");
 				$("form:first").submit();
 				return false;
-
 			});
 			
-			
-			/* $(".selectableRow").mouseover(function() 
-
-			$(".highlightableList li").mouseover(function() 
+			$(".highlightableLi").mouseover(function() 
 			{
 				$(this).css("background-color", "#F1F1F1");
 			});
-			$(".highlightableList li").mouseout(function() 
+			$(".highlightableLi").mouseout(function() 
 			{
 				$(this).css("background-color", "");
 			});
-			/* $(".highlightRow").click(function() 
+			$(".highlightableLi").click(function() 
 			{
-				$(this).parent("tr").find(".selectedColumn").find(".selectedCheckbox").prop(
-						'checked', 
-						!$(this).parent("tr").find(".selectedColumn").find(".selectedCheckbox").is(':checked')
-				);
-			}); */
+				if(!dontCheck)
+				{
+					$(this).find("input:checkbox").prop(
+							'checked', 
+							!$(this).find("input:checkbox").is(':checked')
+					);
+				}
+				dontCheck = false;
+			});
 			
-			/*
+			$(".highlightableLi input:checkbox").click(function() 
+			{
+				dontCheck = true;
+			});
+			
+			
 			$(".folderName").mouseover(function() 
 			{
 				$(this).css("text-decoration", "underline");
@@ -51,19 +55,43 @@
 			});
 			$(".folderName").click(function() 
 			{				
-				$("#currentPath").val($(this).parent("td").find(".filePath").val());
+				if($(this).parent("li").find(".openHiddenInput").val() == "true")
+					$(this).parent("li").find(".openHiddenInput").val("false");
+				else
+					$(this).parent("li").find(".openHiddenInput").val("true");
+				
 				$("form:first").attr("action", "/source");
 				$("form:first").submit();
+				
 				return false;
-
-			}); */
+			});
+			
+			
+			$(".openAllButton").click(function() 
+			{			
+				
+				------------- here ---------------------------
+				
+				$("#openAllHidden").
+				
+				if($(this).parent("li").find(".openHiddenInput").val() == "true")
+					$(this).parent("li").find(".openHiddenInput").val("false");
+				else
+					$(this).parent("li").find(".openHiddenInput").val("true");
+				
+				$("form:first").attr("action", "/source");
+				$("form:first").submit();
+				
+				return false;
+			});
+			
 			
 		}); 
 
 	</script>
 	
 	<style>
-		.selectableRow{
+		.highlightableLi{
 			cursor: hand;			
 		}
 	</style>
@@ -73,6 +101,9 @@
 	
 	<form:form method="POST" commandName="directory" class="formLayout">
 		<h2>Source Directory</h2>
+		
+		<form:hidden path="openAllHidden"/>
+		
 	
 		<ul style="list-style: none; padding-left: 0px;">
 			<li>
@@ -81,7 +112,8 @@
 				<form:hidden path="file"/>
 				<form:hidden path="open"/>
 				
-				<img src="/resources/images/folder_24.png" style="padding-left: 10px;"><c:out value="${directory.path}" />
+				<img src="/resources/images/folder_24.png" style="padding-left: 10px;"><c:out value="${directory.path}" /> 
+				[<a href="#" id="openAllButton">Open All</a>]
 			</li>
 			<li>
 				<myTags:Folder folder="${directory}" parentObject="files"/>
