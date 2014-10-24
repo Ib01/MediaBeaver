@@ -16,6 +16,7 @@ public class FileViewModel
 	
 	private Map<String, FileViewModel> cache = null;
 	private boolean openAll = false;
+	private boolean closeAll = false;
 	
 	public String getName()
 	{
@@ -69,7 +70,14 @@ public class FileViewModel
 	{
 		this.openAll = openAll;
 	}
-	
+	public boolean isCloseAll()
+	{
+		return closeAll;
+	}
+	public void setCloseAll(boolean closeAll)
+	{
+		this.closeAll = closeAll;
+	}
 	
 	public boolean isOpen(String path)
 	{
@@ -112,6 +120,7 @@ public class FileViewModel
 			cache.put(f.getPath(), f);
 		}
 	}
+	
 	
 	
 	

@@ -10,8 +10,8 @@ import org.apache.xmlrpc.XmlRpcException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.ibus.mediabeaver.cli.utility.MediaMover;
 import com.ibus.mediabeaver.core.entity.Configuration;
+import com.ibus.mediabeaver.core.filesystem.MediaMover;
 
 public class MediaManagerIT
 {

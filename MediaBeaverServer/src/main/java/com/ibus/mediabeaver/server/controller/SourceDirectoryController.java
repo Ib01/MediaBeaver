@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.server.util.Data;
+import com.ibus.mediabeaver.server.util.FileSystemHelper;
 import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
 import com.ibus.mediabeaver.server.viewmodel.DirectoryExplorerViewModel;
@@ -32,7 +33,7 @@ public class SourceDirectoryController
 	public ModelAndView viewDirectory(HttpServletRequest request)
 	{
 		ConfigurationViewModel config = Data.getConfiguration();
-		FileViewModel filevm = Data.getFileViewModel(config.getSourceDirectory());
+		FileViewModel filevm = FileSystemHelper.getFileViewModel(config.getSourceDirectory());
 		
 		return new ModelAndView("SourceDirectory","directory", filevm);
 	}
@@ -42,13 +43,25 @@ public class SourceDirectoryController
 	{
 		ConfigurationViewModel config = Data.getConfiguration();
 		
-		FileViewModel filevm = Data.getFileViewModel(config.getSourceDirectory(), viewModel);
+		FileViewModel filevm = FileSystemHelper.getFileViewModel(config.getSourceDirectory(), viewModel);
 		
 		return new ModelAndView("SourceDirectory","directory", filevm);
 	}
 	
 	
-
+	@RequestMapping(value="move", method = RequestMethod.POST)
+	public ModelAndView moveFiles(FileViewModel viewModel, HttpServletRequest request)
+	{
+		ConfigurationViewModel config = Data.getConfiguration();
+		
+		
+		
+		
+		
+		FileViewModel filevm = FileSystemHelper.getFileViewModel(config.getSourceDirectory(), viewModel);
+		
+		return new ModelAndView("SourceDirectory","directory", filevm);
+	}
 	
 	
 }

@@ -35,59 +35,7 @@ public class Data
 	}
 	
 	
-	public static FileViewModel getFileViewModel(String path)
-	{
-		return getFileViewModel(path, null);
-	}
-	
-	public static FileViewModel getFileViewModel(String path, FileViewModel postedModel)
-	{
-		File file = new File(path);
-		
-		FileViewModel filevm  = getFileVM(file,null);
-		filevm.setFiles(getChildren(file,postedModel));
-		
-		return filevm;
-	}
-	
-	private static List<FileViewModel> getChildren(File rootFile, FileViewModel postedModel)
-	{
-		List<File> subFiles = Arrays.asList(rootFile.listFiles());
-		List<FileViewModel> filevms = new ArrayList<FileViewModel>();
-		
-		for(File file : subFiles)
-		{
-			FileViewModel filevm  = getFileVM(file,postedModel);
-			
-			if(!filevm.isFile() && filevm.isOpen())
-				filevm.setFiles(getChildren(file,postedModel));
-			
-			filevms.add(filevm);
-		}
-		
-		return filevms;
-	}
-	
-	
-	private static FileViewModel getFileVM(File file, FileViewModel postedModel)
-	{
-		FileViewModel filevm = new FileViewModel();
-		
-		filevm.setFile(file.isFile());
-		filevm.setName(file.getName());
-		filevm.setPath(file.getAbsolutePath());
-		filevm.setSelected(false);
-		filevm.setOpen(false);
-		
-		//Initialize the state of the file tree according to how the user last left it
-		if(postedModel != null)
-		{
-			filevm.setSelected(postedModel.isSelected(filevm.getPath()));
-			filevm.setOpen(postedModel.isOpen(filevm.getPath()));	
-		}
-		
-		return filevm;
-	}
+
 	
 }
 

@@ -1,4 +1,4 @@
-package com.ibus.mediabeaver.cli.utility;
+package com.ibus.mediabeaver.core.filesystem;
 
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbFind;

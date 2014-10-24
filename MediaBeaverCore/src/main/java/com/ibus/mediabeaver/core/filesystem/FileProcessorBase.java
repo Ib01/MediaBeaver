@@ -1,4 +1,4 @@
-package com.ibus.mediabeaver.cli.utility;
+package com.ibus.mediabeaver.core.filesystem;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,8 +8,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
-
-import com.ibus.mediabeaver.cli.Main;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.data.UpdateTransactable;
 import com.ibus.mediabeaver.core.entity.Configuration;
@@ -19,7 +17,7 @@ import com.ibus.mediabeaver.core.util.FileSystem;
 public abstract class FileProcessorBase
 {
 	protected Configuration config;		
-	protected Logger log = Logger.getLogger(Main.class.getName());
+	protected Logger log = Logger.getLogger(FileProcessorBase.class.getName());
 	protected FileSystem fileSys = new FileSystem();
 	
 	
@@ -31,12 +29,15 @@ public abstract class FileProcessorBase
 		afterProcess();
 	}
 
-	private void processFiles(File directory)
-			throws IOException 
+	private void processFiles(File directory) throws IOException 
 	{
 		List<File> fileSysObjects = Arrays.asList(directory.listFiles());
-
-		for (File fso : fileSysObjects)
+		processFiles(fileSysObjects);
+	}
+	
+	private void processFiles(List<File> files) throws IOException 
+	{
+		for (File fso : files)
 		{
 			log.debug(String.format("Inspecting file system object: %s", fso.getPath()));
 			
@@ -50,7 +51,6 @@ public abstract class FileProcessorBase
 			}
 		}
 	}
-	
 	
 	protected abstract void beforeProcess() throws MalformedURLException, XmlRpcException;
 	protected abstract void processFile(File file);
