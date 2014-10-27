@@ -35,7 +35,7 @@ public abstract class FileProcessorBase
 		processFiles(fileSysObjects);
 	}
 	
-	private void processFiles(List<File> files) throws IOException 
+	public void processFiles(List<File> files) throws IOException 
 	{
 		for (File fso : files)
 		{

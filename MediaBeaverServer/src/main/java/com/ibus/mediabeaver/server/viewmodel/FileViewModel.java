@@ -102,6 +102,12 @@ public class FileViewModel
 	}
 	
 	
+	public Map<String, FileViewModel>  getFilesAsMap()
+	{
+		cacheFiles();
+		return cache;
+	}
+	
 	private void cacheFiles()
 	{
 		if(cache == null)
@@ -120,6 +126,9 @@ public class FileViewModel
 			cache.put(f.getPath(), f);
 		}
 	}
+	
+	
+	
 	
 	
 	

@@ -1,8 +1,5 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
-
 public class ConfigurationViewModel extends ViewModel 
 {
 	private static final long serialVersionUID = 1L;
@@ -85,7 +82,6 @@ public class ConfigurationViewModel extends ViewModel
 		this.copyAsDefault = copyAsDefault;
 	}
 
-	
 	
 }
 
