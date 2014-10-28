@@ -79,7 +79,7 @@
 			
 			$("#moveFiles").click(function() 
 			{	
-				$("form:first").attr("action", "/source");
+				$("form:first").attr("action", "/source/move");
 				$("form:first").submit();
 				return false;
 			});

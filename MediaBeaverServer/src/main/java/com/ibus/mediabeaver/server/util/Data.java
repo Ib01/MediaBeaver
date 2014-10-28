@@ -17,7 +17,6 @@ public class Data
 	{
 		Configuration configs = Repository.getFirstEntity(Configuration.class);
 		ConfigurationViewModel vm = Mapper.getMapper().map(configs, ConfigurationViewModel.class);
-		
 		return vm;
 	}
 	
@@ -51,14 +50,14 @@ public class Data
 		return filevm;
 	}
 	
-	public static List<File> getSelectedFiles(FileViewModel postedModel)
+	public static List<File> getSelectedFiles(FileViewModel postedModel, boolean getFilesOnly)
 	{
 		List<File> files = new ArrayList<File>();
 		Map<String, FileViewModel> fileMap = postedModel.getFilesAsMap();
 		
 		for(String key : fileMap.keySet())
 		{
-			if(fileMap.get(key).isSelected())
+			if(fileMap.get(key).isSelected() && (!getFilesOnly || fileMap.get(key).isFile()))
 			{
 				File file = new File(fileMap.get(key).getPath());
 				files.add(file);
@@ -67,7 +66,6 @@ public class Data
 		
 		return files;
 	}
-	
 	
 	
 	private static List<FileViewModel> getChildren(File rootFile, FileViewModel postedModel)

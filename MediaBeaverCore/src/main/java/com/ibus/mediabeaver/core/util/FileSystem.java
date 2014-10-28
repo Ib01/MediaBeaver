@@ -2,24 +2,76 @@ package com.ibus.mediabeaver.core.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import org.apache.log4j.Logger;
-
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
 import com.ibus.mediabeaver.core.exception.FileSystemException;
 import com.ibus.mediabeaver.core.exception.MediaBeaverConfigurationException;
+import java.nio.file.attribute.BasicFileAttributes;
 
 public class FileSystem
 {
 	private Logger log = Logger.getLogger(FileSystem.class.getName());
 	HashMap<String, List<String>> cachedPaths = new HashMap<String, List<String>>();
+	
+	public void deleteFile(String pathString) throws IOException 
+	{
+		Path path = Paths.get(pathString);
+		
+		
+		//Files.isDirectory(path, options)
+		
+		Files.walkFileTree(path, new SimpleFileVisitor<Path>()
+	    {
+	        @Override
+	        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+	                throws IOException
+	        {
+	            Files.delete(file);
+	            return FileVisitResult.CONTINUE;
+	        }
+
+	        @Override
+	        public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException
+	        {
+	            // try to delete the file anyway, even if its attributes
+	            // could not be read, since delete-only access is
+	            // theoretically possible
+	            Files.delete(file);
+	            return FileVisitResult.CONTINUE;
+	        }
+
+	        @Override
+	        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException
+	        {
+	            if (exc == null)
+	            {
+	                Files.delete(dir);
+	                return FileVisitResult.CONTINUE;
+	            }
+	            else
+	            {
+	                // directory iteration failed; propagate exception
+	                throw exc;
+	            }
+	        }
+	    });
+
+		
+	}
+	
+	
+	
+	
+	
 	
 	/**
 	 * Move or rename a file from source to destination. all directories in the destination path will be 

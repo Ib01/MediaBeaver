@@ -101,12 +101,29 @@ public class FileViewModel
 		return vm.isSelected();		
 	}
 	
-	
 	public Map<String, FileViewModel>  getFilesAsMap()
 	{
 		cacheFiles();
 		return cache;
 	}
+	
+	public List<String> getSelectedPaths()
+	{
+		cacheFiles();
+		List<String> l = new ArrayList<String>();
+		
+		for(String key : cache.keySet())
+		{
+			if(cache.get(key).isSelected())
+			{
+				l.add(cache.get(key).getPath());
+			}
+		}
+		
+		return l;
+	}
+	
+	
 	
 	private void cacheFiles()
 	{
