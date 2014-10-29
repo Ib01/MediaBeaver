@@ -83,6 +83,14 @@
 				$("form:first").submit();
 				return false;
 			});
+			$("#deleteFiles").click(function() 
+			{	
+				$("form:first").attr("action", "/source/delete");
+				$("form:first").submit();
+				return false;
+			});
+			
+			
 		}); 
 
 	</script>
@@ -121,6 +129,7 @@
 		<br>
 		<br>
 		<a class="mainButton" href="#" id="moveFiles">Move Files</a>
+		<a class="mainButton" href="#" id="deleteFiles">Delete Files</a>
 		
 		
 	</form:form>

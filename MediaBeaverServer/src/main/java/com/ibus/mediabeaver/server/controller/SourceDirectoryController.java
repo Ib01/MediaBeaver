@@ -6,12 +6,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.xmlrpc.XmlRpcException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
@@ -41,12 +45,14 @@ public class SourceDirectoryController
 	
 	
 	@RequestMapping(value="/move", method = RequestMethod.POST)
-	public ModelAndView moveFiles(FileViewModel viewModel, HttpServletRequest request) throws IOException
+	public ModelAndView moveFiles(FileViewModel viewModel, HttpServletRequest request) throws IOException, XmlRpcException
 	{
+		Configuration config = Repository.getFirstEntity(Configuration.class);
+		
 		//move files
-		List<File> files = Data.getSelectedFiles(viewModel, true);
+		List<String> files = viewModel.getSelectedPaths(true);
 		MediaMover mover = new MediaMover();
-		mover.processFiles(files);
+		mover.processFiles(config, files);
 		
 		//show files
 		return getFileViewModel(viewModel);
@@ -57,12 +63,8 @@ public class SourceDirectoryController
 	public ModelAndView deleteFiles(FileViewModel viewModel, HttpServletRequest request) throws IOException
 	{
 		FileSystem fs = new FileSystem();
-		List<File> files = Data.getSelectedFiles(viewModel, true);
-		
-		for(File f : files)
-		{
-			
-		}
+		List<String> paths = viewModel.getSelectedPaths(false);
+		fs.deleteFiles(paths);
 		
 		return getFileViewModel(viewModel);
 	}

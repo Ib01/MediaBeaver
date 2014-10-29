@@ -107,14 +107,14 @@ public class FileViewModel
 		return cache;
 	}
 	
-	public List<String> getSelectedPaths()
+	public List<String> getSelectedPaths(boolean getFilesOnly)
 	{
 		cacheFiles();
 		List<String> l = new ArrayList<String>();
 		
 		for(String key : cache.keySet())
 		{
-			if(cache.get(key).isSelected())
+			if(cache.get(key).isSelected() && (!getFilesOnly || cache.get(key).isFile()))
 			{
 				l.add(cache.get(key).getPath());
 			}
@@ -122,7 +122,6 @@ public class FileViewModel
 		
 		return l;
 	}
-	
 	
 	
 	private void cacheFiles()
@@ -143,10 +142,6 @@ public class FileViewModel
 			cache.put(f.getPath(), f);
 		}
 	}
-	
-	
-	
-	
 	
 	
 	

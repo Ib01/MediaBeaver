@@ -22,12 +22,19 @@ public class FileSystem
 	private Logger log = Logger.getLogger(FileSystem.class.getName());
 	HashMap<String, List<String>> cachedPaths = new HashMap<String, List<String>>();
 	
+	
+	public void deleteFiles(List<String> pathStrings) throws IOException
+	{
+		for(String p : pathStrings)
+		{
+			deleteFile(p);
+		}
+	}
+	
+	
 	public void deleteFile(String pathString) throws IOException 
 	{
 		Path path = Paths.get(pathString);
-		
-		
-		//Files.isDirectory(path, options)
 		
 		Files.walkFileTree(path, new SimpleFileVisitor<Path>()
 	    {
@@ -35,7 +42,7 @@ public class FileSystem
 	        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
 	                throws IOException
 	        {
-	            Files.delete(file);
+	        	Files.deleteIfExists(file);
 	            return FileVisitResult.CONTINUE;
 	        }
 
@@ -45,7 +52,7 @@ public class FileSystem
 	            // try to delete the file anyway, even if its attributes
 	            // could not be read, since delete-only access is
 	            // theoretically possible
-	            Files.delete(file);
+	            Files.deleteIfExists(file);
 	            return FileVisitResult.CONTINUE;
 	        }
 
@@ -54,7 +61,7 @@ public class FileSystem
 	        {
 	            if (exc == null)
 	            {
-	                Files.delete(dir);
+	            	Files.deleteIfExists(dir);
 	                return FileVisitResult.CONTINUE;
 	            }
 	            else
@@ -67,9 +74,6 @@ public class FileSystem
 
 		
 	}
-	
-	
-	
 	
 	
 	
