@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
-import com.ibus.mediabeaver.core.util.FileSystem;
+import com.ibus.mediabeaver.core.filesystem.FileSystem;
 
 
 public class FileSystemIT

@@ -1,4 +1,4 @@
-package com.ibus.mediabeaver.core.util;
+package com.ibus.mediabeaver.core.filesystem;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +44,8 @@ public class FileSystem
 	        {
 	        	Files.deleteIfExists(file);
 	            return FileVisitResult.CONTINUE;
+	            
+	            //java.nio.file.FileSystemException
 	        }
 
 	        @Override

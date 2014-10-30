@@ -19,21 +19,21 @@
 	    
 	    <script type="text/javascript" >
 	
-		$(function ()
-		{	
-			$("#Enter").click(function() 
-			{
-				if($("form:first").validationEngine('validate'))
+			$(function ()
+			{	
+				$("#Enter").click(function() 
 				{
-					$("form:first").attr("action", "/configuration/initialise");
-					$("form:first").submit();
-				}
-			});
-						
-
-			//$('#formID1').validationEngine('hide');
-			//$('#formID1').validationEngine('hideAll');
-		}); 
+					if($("form:first").validationEngine('validate'))
+					{
+						$("form:first").attr("action", "/configuration/initialise");
+						$("form:first").submit();
+					}
+				});
+							
+	
+				//$('#formID1').validationEngine('hide');
+				//$('#formID1').validationEngine('hideAll');
+			}); 
 		
 
 		</script>

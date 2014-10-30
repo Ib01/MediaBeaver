@@ -9,12 +9,14 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.data.UpdateTransactable;
 import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.entity.Event;
-import com.ibus.mediabeaver.core.util.FileSystem;
 
 public abstract class FileProcessorBase
 {
@@ -86,6 +88,16 @@ public abstract class FileProcessorBase
 	
 	protected void logEvent(final Event event)
 	{
+		//if we are calling this class from the web ui we will already have a transaction
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction t = s.getTransaction();
+		
+		if(t != null){
+			Repository.saveEntity(event);
+			return;
+		}
+		
+		//otherwise we are calling from the cli
 		Repository.doInTransaction(
 			new UpdateTransactable(){
 				public void run()
@@ -96,6 +108,25 @@ public abstract class FileProcessorBase
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

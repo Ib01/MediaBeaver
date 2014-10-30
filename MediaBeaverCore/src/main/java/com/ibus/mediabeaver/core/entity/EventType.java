@@ -4,6 +4,7 @@ public enum EventType
 {
 	Move("Move File"),            
 	Copy("Copy File"),
+	Delete("Delete File"),
 	Rename("Rename File");
 
 	private String name; 
