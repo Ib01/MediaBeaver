@@ -24,42 +24,61 @@ import com.ibus.mediabeaver.core.entity.ResultType;
 public class MediaRemover extends SimpleFileVisitor<Path>
 {
 	protected Logger log = Logger.getLogger(MediaRemover.class.getName());
+	boolean deleteSuccess;
 	
-	public void deleteFiles(List<String> pathStrings) throws IOException
+	public boolean deleteFiles(List<String> pathStrings) throws IOException
 	{
 		for(String p : pathStrings)
 		{
-			deleteFile(p);
+			if(!deleteFile(p))
+				return false;
 		}
+		
+		return true;
 	}
 	
-	public void deleteFile(String filePath) 
+	public boolean deleteFile(String filePath) 
 	{
+		deleteSuccess = true;
 		Path path = Paths.get(filePath);
 		try
 		{
 			Files.walkFileTree(path, this);
 		} catch (IOException e)
 		{
+			log.error(String.format("An error occured while deleting the file %s", path.toString()), e);
+			logEvent(path.toString(), null, ResultType.Failed, "An error occured while deleting the file. please check the log for details.");
+			deleteSuccess = false;
 		}
+		
+		return deleteSuccess;
 	}
 	
 	 @Override
      public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
              throws IOException
      {
-		 delete(file);
-         return FileVisitResult.CONTINUE;
+		if(!delete(file))
+		{
+			deleteSuccess = false;
+			return FileVisitResult.TERMINATE;
+		}
+		return FileVisitResult.CONTINUE;
      }
 
      @Override
      public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException
      {
-         // try to delete the file anyway, even if its attributes
-         // could not be read, since delete-only access is
-         // theoretically possible
-    	 delete(file);
-         return FileVisitResult.CONTINUE;
+        // try to delete the file anyway, even if its attributes
+        // could not be read, since delete-only access is
+        // theoretically possible
+    	if(!delete(file))
+		{
+			deleteSuccess = false;
+			return FileVisitResult.TERMINATE;
+		}
+    	 
+        return FileVisitResult.CONTINUE;
      }
 
      @Override
@@ -67,7 +86,11 @@ public class MediaRemover extends SimpleFileVisitor<Path>
      {
          if (exc == null)
          {
-        	 delete(dir);
+        	if(!delete(dir))
+        	{
+        		deleteSuccess = false;
+        		return FileVisitResult.TERMINATE;
+        	}
             return FileVisitResult.CONTINUE;
          }
          else
@@ -79,18 +102,21 @@ public class MediaRemover extends SimpleFileVisitor<Path>
      
      
      
-     private void delete(Path path)
+     private boolean delete(Path path)
      {	 
     	try
 		{
 			Files.deleteIfExists(path);
 			logEvent(path.toString(), null, ResultType.Succeeded, "File or directory deleted successfully");
+			return true;
 			
 		} catch (IOException e)
 		{
 			log.error(String.format("An error occured while deleting the file %s", path.toString()), e);	
-			logEvent(path.toString(), null, ResultType.Failed, "An error occured while deleting the file");
+			logEvent(path.toString(), null, ResultType.Failed, "An error occured while deleting the file. please check the log for details.");
 		}
+    	
+    	return false;
      }
      
      
