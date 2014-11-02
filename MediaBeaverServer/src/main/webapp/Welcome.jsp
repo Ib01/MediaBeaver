@@ -17,6 +17,8 @@
 		<script type="text/javascript" src="/resources/script/jquery.validationEngine.js" charset="utf-8"></script>
 	    <script type="text/javascript" src="/resources/script/jquery.autocomplete.js"></script>
 	    
+	    <%@include file="includes/errors.jsp"%>
+	    
 	    <script type="text/javascript" >
 	
 			$(function ()
@@ -37,9 +39,6 @@
 		
 
 		</script>
-	
-	
-		<%@include file="includes/errors.jsp"%>
 	    
 	</head>
 

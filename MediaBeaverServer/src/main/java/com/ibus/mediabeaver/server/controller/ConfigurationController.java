@@ -34,10 +34,17 @@ public class ConfigurationController
 	}
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(@Validated ConfigurationViewModel configViewModel)
+	public ModelAndView save(@ModelAttribute("configuration") @Validated ConfigurationViewModel configViewModel, BindingResult result)
 	{
-		Data.saveOrUpdateConfig(configViewModel);
-		return "redirect:/configuration/";
+		String seperator = java.nio.file.FileSystems.getDefault().getSeparator();
+		
+		if(pathSeperatorsValid(seperator, configViewModel, result) && pathsExist(configViewModel, result))
+		{
+			Data.saveOrUpdateConfig(configViewModel);
+			return new ModelAndView("redirect:/configuration/");
+		}
+		
+		return new ModelAndView("Configuration","configuration", configViewModel);
 	}
 	
 	@RequestMapping(value = "/welcome")

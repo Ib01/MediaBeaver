@@ -3,7 +3,8 @@
 
 <%@include file="includes/header.jsp"%>
 
-
+	<%@include file="includes/errors.jsp"%>
+	
 	<script type="text/javascript" >
 	
 		$(function ()
@@ -126,7 +127,10 @@
                delimiter: /[\}\)]/
            });
 		}
+		
+		
 	</script>
+	
 	
 	<h2>Configuration</h2>
   
