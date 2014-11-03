@@ -23,21 +23,26 @@ public class RequestInterceptor implements HandlerInterceptor
 		if(request.toString().contains("resources/"))
 			return true;	
 		
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction transaction = session.beginTransaction();
-		
-		if(!appInitialised)
+
+		if(!request.getRequestURI().toString().endsWith("/configuration/welcome") && 
+				!request.getRequestURI().toString().endsWith("/configuration/initialise"))
 		{
-			appInitialised = true;
-			
+			Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+			Transaction tx = s.beginTransaction();
+
 			Configuration config = Repository.getFirstEntity(Configuration.class);
+			
+			tx.commit();
+			
 			if(config == null)
 			{
-				transaction.commit();
 				response.sendRedirect("/configuration/welcome");
 				return false;
 			}
 		}
+
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
 		
 		return true;
 	}
