@@ -18,7 +18,7 @@ public class EventsController
 	@RequestMapping
 	public ModelAndView showEvents(HttpServletRequest request)
 	{
-		List<Event> events = Repository.getAllEntities(Event.class);
+		List<Event> events = Repository.getAllEntities(Event.class, "eventTime");
 		return new ModelAndView("Events","events", events);
 	}
 	

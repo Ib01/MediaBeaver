@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 
 import com.ibus.mediabeaver.core.entity.Persistable;
 
@@ -66,18 +67,29 @@ public abstract class Repository
 		return results.get(0);
 	}
 	
-	
 	public static <T extends Persistable> List<T> getAllEntities(Class<T> cls) 
 	{
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		
 		Criteria criteria = s.createCriteria(cls);
-			
 		@SuppressWarnings("unchecked")
 		List<T> results = criteria.list();
 		
 		return results;
 	}
+	
+	public static <T extends Persistable> List<T> getAllEntities(Class<T> cls, String sortField) 
+	{
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		
+		Criteria criteria = s.createCriteria(cls);
+		@SuppressWarnings("unchecked")
+		List<T> results = criteria.addOrder(Order.desc(sortField)).list();
+		
+		return results;
+	}
+	
+	
 	
 	
 	public static <T> T getInTransaction(QueryTransactable<T> transactable)

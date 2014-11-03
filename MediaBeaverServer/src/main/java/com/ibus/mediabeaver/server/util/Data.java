@@ -23,6 +23,9 @@ public class Data
 		this.request = request;
 	}
 	
+	//-configuration --------------------------------------------------------------------//
+	
+	
 	public ConfigurationViewModel getConfiguration()
 	{
 		ConfigurationViewModel configvm =  (ConfigurationViewModel) request.getAttribute(ConfigurationSessionKey);	
@@ -60,7 +63,13 @@ public class Data
 		request.setAttribute(ConfigurationSessionKey, model);
 	}
 	
-	//---------------------------------------------------------------------//
+	
+	//-Events --------------------------------------------------------------------//
+	
+	
+	
+	
+	//-Files  --------------------------------------------------------------------//
 	
 	public FileViewModel getFileViewModel(String path)
 	{
