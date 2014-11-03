@@ -20,6 +20,7 @@ import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.filesystem.FileSystem;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
+import com.ibus.mediabeaver.core.filesystem.MediaRemover;
 import com.ibus.mediabeaver.server.util.Data;
 import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
@@ -35,13 +36,13 @@ public class SourceDirectoryController
 	@RequestMapping
 	public ModelAndView viewDirectory(HttpServletRequest request)
 	{
-		return getFileViewModel(new FileViewModel());
+		return getFileViewModel(new FileViewModel(),request);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView openCloseDirectories(FileViewModel viewModel, HttpServletRequest request)
 	{
-		return getFileViewModel(viewModel);
+		return getFileViewModel(viewModel,request);
 	}
 	
 	
@@ -56,28 +57,29 @@ public class SourceDirectoryController
 		mover.processFiles(config, files);
 		
 		//show files
-		return getFileViewModel(viewModel);
+		return getFileViewModel(viewModel,request);
 	}
 	
 	
 	@RequestMapping(value="/delete", method = RequestMethod.POST)
 	public ModelAndView deleteFiles(FileViewModel viewModel, HttpServletRequest request) throws IOException
 	{
-		FileSystem fs = new FileSystem();
+		MediaRemover mr = new MediaRemover();
 		List<String> paths = viewModel.getSelectedPaths(false);
-		fs.deleteFiles(paths);
+		mr.deleteFiles(paths);
 		
-		return getFileViewModel(viewModel);
+		return getFileViewModel(viewModel,request);
 	}
 	
 	
 	
 	
-	
-	private ModelAndView getFileViewModel(FileViewModel viewModel)
+	private ModelAndView getFileViewModel(FileViewModel viewModel, HttpServletRequest request)
 	{
-		ConfigurationViewModel config = Data.getConfiguration();
-		FileViewModel filevm = Data.getFileViewModel(config.getSourceDirectory(), viewModel);
+		Data data = new Data(request);
+		
+		ConfigurationViewModel config = data.getConfiguration();
+		FileViewModel filevm = data.getFileViewModel(config.getSourceDirectory(), viewModel);
 		
 		return new ModelAndView("SourceDirectory","directory", filevm);
 	}

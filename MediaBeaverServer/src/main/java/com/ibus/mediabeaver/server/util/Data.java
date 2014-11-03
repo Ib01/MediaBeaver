@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
@@ -13,34 +15,59 @@ import com.ibus.mediabeaver.server.viewmodel.FileViewModel;
 
 public class Data
 {
-	public static ConfigurationViewModel getConfiguration()
+	HttpServletRequest request;
+	private String ConfigurationSessionKey = "configuration";
+	
+	public Data(HttpServletRequest request)
 	{
-		Configuration configs = Repository.getFirstEntity(Configuration.class);
-		ConfigurationViewModel vm = Mapper.getMapper().map(configs, ConfigurationViewModel.class);
-		return vm;
+		this.request = request;
 	}
 	
-	public static void saveOrUpdateConfig(ConfigurationViewModel model)
+	public ConfigurationViewModel getConfiguration()
+	{
+		ConfigurationViewModel configvm =  (ConfigurationViewModel) request.getAttribute(ConfigurationSessionKey);	
+		if(configvm == null)
+		{
+			Configuration config = Repository.getFirstEntity(Configuration.class);
+			if(config == null)
+				return null;
+			
+			configvm = Mapper.getMapper().map(config, ConfigurationViewModel.class);
+			request.setAttribute(ConfigurationSessionKey, configvm);
+		}
+		
+		return configvm;
+	}
+	
+	public void saveOrUpdateConfig(ConfigurationViewModel model)
 	{
 		Configuration config = Mapper.getMapper().map(model, Configuration.class);
 		Repository.saveOrUpdate(config);
+		request.setAttribute(ConfigurationSessionKey, model);
 	}
 	
-	public static void saveConfig(ConfigurationViewModel model)
+	public void saveConfig(ConfigurationViewModel model)
 	{
 		Configuration config = Mapper.getMapper().map(model, Configuration.class);
 		Repository.saveEntity(config);
+		request.setAttribute(ConfigurationSessionKey, model);
 	}
 	
+	public void mergeConfig(ConfigurationViewModel model)
+	{
+		Configuration config = Mapper.getMapper().map(model, Configuration.class);
+		Repository.mergeEntity(config);
+		request.setAttribute(ConfigurationSessionKey, model);
+	}
 	
 	//---------------------------------------------------------------------//
 	
-	public static FileViewModel getFileViewModel(String path)
+	public FileViewModel getFileViewModel(String path)
 	{
 		return getFileViewModel(path, new FileViewModel());
 	}
 	
-	public static FileViewModel getFileViewModel(String path, FileViewModel postedModel)
+	public FileViewModel getFileViewModel(String path, FileViewModel postedModel)
 	{
 		File file = new File(path);
 		
@@ -51,7 +78,7 @@ public class Data
 	}
 	
 	
-	private static List<FileViewModel> getChildren(File rootFile, FileViewModel postedModel)
+	private List<FileViewModel> getChildren(File rootFile, FileViewModel postedModel)
 	{
 		List<File> subFiles = Arrays.asList(rootFile.listFiles());
 		List<FileViewModel> filevms = new ArrayList<FileViewModel>();
@@ -70,7 +97,7 @@ public class Data
 	}
 	
 	
-	private static FileViewModel getFileVM(File file, FileViewModel postedModel)
+	private FileViewModel getFileVM(File file, FileViewModel postedModel)
 	{
 		FileViewModel filevm = new FileViewModel();
 		

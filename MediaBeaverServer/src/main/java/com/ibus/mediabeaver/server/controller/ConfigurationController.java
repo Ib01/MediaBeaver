@@ -27,20 +27,28 @@ import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
 @RequestMapping(value = "/configuration")
 public class ConfigurationController
 {
+	
+	public ConfigurationController()
+	{
+	}
+	
 	@RequestMapping
 	public ModelAndView viewConfig(HttpServletRequest request)
 	{
-		return new ModelAndView("Configuration","configuration", Data.getConfiguration());
+		Data data = new Data(request);
+		return new ModelAndView("Configuration","configuration", data.getConfiguration());
 	}
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ModelAndView save(@ModelAttribute("configuration") @Validated ConfigurationViewModel configViewModel, BindingResult result)
+	public ModelAndView save(@ModelAttribute("configuration") @Validated ConfigurationViewModel configViewModel, BindingResult result, HttpServletRequest request)
 	{
 		String seperator = java.nio.file.FileSystems.getDefault().getSeparator();
 		
 		if(pathSeperatorsValid(seperator, configViewModel, result) && pathsExist(configViewModel, result))
 		{
-			Data.saveOrUpdateConfig(configViewModel);
+			Data data = new Data(request);
+			
+			data.mergeConfig(configViewModel);
 			return new ModelAndView("redirect:/configuration/");
 		}
 		
@@ -55,13 +63,15 @@ public class ConfigurationController
 	}
 	
 	@RequestMapping(value = "/initialise", method = RequestMethod.POST)
-	public ModelAndView initialise(@ModelAttribute("configuration") @Validated ConfigurationViewModel configViewModel, BindingResult result)
+	public ModelAndView initialise(@ModelAttribute("configuration") @Validated ConfigurationViewModel configViewModel, BindingResult result, HttpServletRequest request)
 	{
 		String seperator = java.nio.file.FileSystems.getDefault().getSeparator();
 		
 		if(pathSeperatorsValid(seperator, configViewModel, result) && pathsExist(configViewModel, result))
 		{
-			Data.saveConfig(addDefaultConfigValues(configViewModel, seperator));
+			Data data = new Data(request);
+			
+			data.saveConfig(addDefaultConfigValues(configViewModel, seperator));
 			return new ModelAndView("redirect:/configuration/");
 		}
 		

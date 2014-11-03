@@ -23,62 +23,6 @@ public class FileSystem
 	HashMap<String, List<String>> cachedPaths = new HashMap<String, List<String>>();
 	
 	
-	public void deleteFiles(List<String> pathStrings) throws IOException
-	{
-		for(String p : pathStrings)
-		{
-			deleteFile(p);
-		}
-	}
-	
-	
-	public void deleteFile(String pathString) throws IOException 
-	{
-		Path path = Paths.get(pathString);
-		
-		Files.walkFileTree(path, new SimpleFileVisitor<Path>()
-	    {
-	        @Override
-	        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
-	                throws IOException
-	        {
-	        	Files.deleteIfExists(file);
-	            return FileVisitResult.CONTINUE;
-	            
-	            //java.nio.file.FileSystemException
-	        }
-
-	        @Override
-	        public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException
-	        {
-	            // try to delete the file anyway, even if its attributes
-	            // could not be read, since delete-only access is
-	            // theoretically possible
-	            Files.deleteIfExists(file);
-	            return FileVisitResult.CONTINUE;
-	        }
-
-	        @Override
-	        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException
-	        {
-	            if (exc == null)
-	            {
-	            	Files.deleteIfExists(dir);
-	                return FileVisitResult.CONTINUE;
-	            }
-	            else
-	            {
-	                // directory iteration failed; propagate exception
-	                throw exc;
-	            }
-	        }
-	    });
-
-		
-	}
-	
-	
-	
 	/**
 	 * Move or rename a file from source to destination. all directories in the destination path will be 
 	 * created if they do not already exist. If the file already exists an exception will be thrown

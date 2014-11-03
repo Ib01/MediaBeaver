@@ -11,6 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Configuration;
+import com.ibus.mediabeaver.server.util.Data;
+import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
 
 public class RequestInterceptor implements HandlerInterceptor
 {
@@ -22,28 +24,23 @@ public class RequestInterceptor implements HandlerInterceptor
 		//we do not want to start a transaction when resources are called (scripts, css etc ... )
 		if(request.toString().contains("resources/"))
 			return true;	
-		
 
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		
 		if(!request.getRequestURI().toString().endsWith("/configuration/welcome") && 
 				!request.getRequestURI().toString().endsWith("/configuration/initialise"))
 		{
-			Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-			Transaction tx = s.beginTransaction();
-
-			Configuration config = Repository.getFirstEntity(Configuration.class);
+			Data data = new Data(request);
+			ConfigurationViewModel configvm =  data.getConfiguration();
 			
-			tx.commit();
-			
-			if(config == null)
+			if(configvm == null)
 			{
 				response.sendRedirect("/configuration/welcome");
 				return false;
 			}
 		}
 
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction transaction = session.beginTransaction();
-		
 		return true;
 	}
 
