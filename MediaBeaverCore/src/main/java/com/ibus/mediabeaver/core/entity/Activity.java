@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity(name = "Event")
-public class Event extends PersistentObject implements Persistable
+public class Activity extends PersistentObject implements Persistable
 {
 	@Column
 	private Date eventTime;

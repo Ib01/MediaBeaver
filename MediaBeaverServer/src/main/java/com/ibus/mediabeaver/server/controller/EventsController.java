@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.Repository;
-import com.ibus.mediabeaver.core.entity.Event;
+import com.ibus.mediabeaver.core.entity.Activity;
 
 @Controller
 @RequestMapping(value = "/events")
@@ -18,7 +18,7 @@ public class EventsController
 	@RequestMapping
 	public ModelAndView showEvents(HttpServletRequest request)
 	{
-		List<Event> events = Repository.getAllEntities(Event.class, "eventTime");
+		List<Activity> events = Repository.getAllEntities(Activity.class, "eventTime");
 		return new ModelAndView("Events","events", events);
 	}
 	

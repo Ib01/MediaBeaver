@@ -176,7 +176,6 @@
 		<br>
 		<br>
 		<a class="mainButton" href="#" id="Save">Save</a>
-		<a class="mainButton" href="#" id="Cancel">Cancel</a>
 		<br>
 		<br>
 		

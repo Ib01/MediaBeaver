@@ -16,7 +16,7 @@ import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.data.UpdateTransactable;
 import com.ibus.mediabeaver.core.entity.Configuration;
-import com.ibus.mediabeaver.core.entity.Event;
+import com.ibus.mediabeaver.core.entity.Activity;
 
 public abstract class FileProcessorBase
 {
@@ -86,7 +86,7 @@ public abstract class FileProcessorBase
 	protected abstract void processFile(File file);
 	protected abstract void afterProcess() throws MalformedURLException, IOException, XmlRpcException;
 	
-	protected void logEvent(final Event event)
+	protected void logEvent(final Activity event)
 	{
 		//if we are calling this class from the web ui we will already have a transaction
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();

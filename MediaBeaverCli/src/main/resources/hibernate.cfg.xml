@@ -35,7 +35,7 @@
         
         
 		<mapping class="com.ibus.mediabeaver.core.entity.Configuration"/>
-		<mapping class="com.ibus.mediabeaver.core.entity.Event"/>
+		<mapping class="com.ibus.mediabeaver.core.entity.Activity"/>
 		
     </session-factory>
 

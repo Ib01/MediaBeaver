@@ -17,7 +17,7 @@ import org.hibernate.Transaction;
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.data.UpdateTransactable;
-import com.ibus.mediabeaver.core.entity.Event;
+import com.ibus.mediabeaver.core.entity.Activity;
 import com.ibus.mediabeaver.core.entity.EventType;
 import com.ibus.mediabeaver.core.entity.ResultType;
 
@@ -122,7 +122,7 @@ public class MediaRemover extends SimpleFileVisitor<Path>
      
      private void logEvent(String source, String destination, ResultType result, String errorDescription)
  	{
- 		Event event = new Event();
+ 		Activity event = new Activity();
  		
  		event.setEventTime(new Date());
  		event.setEventType(EventType.Delete);
@@ -134,7 +134,7 @@ public class MediaRemover extends SimpleFileVisitor<Path>
  		logEvent(event);
  	}
      
-     protected void logEvent(final Event event)
+     protected void logEvent(final Activity event)
  	{
  		//if we are calling this class from the web ui we will already have a transaction
  		Session s = HibernateUtil.getSessionFactory().getCurrentSession();

@@ -24,7 +24,6 @@ import com.ibus.mediabeaver.core.filesystem.MediaRemover;
 import com.ibus.mediabeaver.server.util.Data;
 import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
-import com.ibus.mediabeaver.server.viewmodel.DirectoryExplorerViewModel;
 import com.ibus.mediabeaver.server.viewmodel.FileViewModel;
 import com.ibus.mediabeaver.core.util.*;
 

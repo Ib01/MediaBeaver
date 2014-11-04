@@ -18,7 +18,7 @@ import java.util.Map;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.xmlrpc.XmlRpcException;
 
-import com.ibus.mediabeaver.core.entity.Event;
+import com.ibus.mediabeaver.core.entity.Activity;
 import com.ibus.mediabeaver.core.entity.EventType;
 import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.entity.ResultType;
@@ -275,7 +275,7 @@ public class MediaMover extends FileProcessorBase
 	
 	private void logEvent(String source, String destination, ResultType result, String errorDescription)
 	{
-		Event event = new Event();
+		Activity event = new Activity();
 		
 		event.setEventTime(new Date());
 		event.setEventType(EventType.Move);
