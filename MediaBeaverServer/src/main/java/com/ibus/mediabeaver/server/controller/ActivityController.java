@@ -10,16 +10,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Activity;
+import com.ibus.mediabeaver.server.viewmodel.ActivityViewModel;
 
 @Controller
-@RequestMapping(value = "/events")
-public class EventsController
+@RequestMapping(value = "/activity")
+public class ActivityController
 {
 	@RequestMapping
 	public ModelAndView showEvents(HttpServletRequest request)
 	{
 		List<Activity> events = Repository.getAllEntities(Activity.class, "eventTime");
-		return new ModelAndView("Events","events", events);
+		ActivityViewModel vm = new ActivityViewModel();
+		vm.setActivities(events);
+		
+		return new ModelAndView("Activity","activity", vm);
 	}
 	
 	/*@RequestMapping(value = "/save", method = RequestMethod.POST)
