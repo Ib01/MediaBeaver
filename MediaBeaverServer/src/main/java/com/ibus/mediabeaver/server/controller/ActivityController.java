@@ -5,7 +5,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.Repository;
@@ -26,15 +28,15 @@ public class ActivityController
 		return new ModelAndView("Activity","activity", vm);
 	}
 	
-	/*@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(@Validated ConfigurationViewModel configViewModel)
+	@RequestMapping(value = "/manualMove", method = RequestMethod.POST)
+	public ModelAndView manualMove(@Validated ActivityViewModel viewModel, HttpServletRequest request)
 	{
-		Configuration config = Mapper.getMapper().map(configViewModel, Configuration.class);
-		Repository.saveOrUpdate(config);
+		request.getSession().setAttribute(ManualMoveController.SourcePathSessionKey, viewModel.getSelectedPath());
+		request.getSession().setAttribute(ManualMoveController.ReferrerSessionKey, "/activity");
 		
-		return "redirect:/configuration/";
+		return new ModelAndView("redirect:/manualmove/");
 	}
-	*/
+	
 	
 
 }

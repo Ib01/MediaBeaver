@@ -1,10 +1,11 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="myTags" %>
 
 <%@include file="includes/header.jsp"%>
-
-	<%@include file="includes/errors.jsp"%>
+	
+	<myTags:ErrorDisplay modelObject="movedata"/>
 	
 	<script type="text/javascript" >
 	
@@ -22,7 +23,6 @@
 		}); 
 	
 	</script>
-
 	
 	<h2>Manually Move File</h2>
   
@@ -31,6 +31,7 @@
 		<div class="roundedPanel">
 			<form:label path="selectedRoot">Source File</form:label>
 			<span>${movedata.sourceFile}</span>
+			<form:hidden path="sourceFile"/>
 			<br>
 		
 			<form:label path="selectedRoot">Destination Root</form:label>
@@ -46,6 +47,7 @@
 
 		<a class="mainButton" href="#" id="moveFiles">Move File</a>
 		<a class="mainButton" href="${movedata.referingPage}" id="Cancel">Cancel</a>
+		<form:hidden path="referingPage"/>
 		<br>
 		<br>
 	</form:form>

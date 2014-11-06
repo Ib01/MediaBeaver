@@ -8,22 +8,13 @@
 	
 		$(function ()
 		{	
-			$("#Enter").click(function() 
+			$(".manualMoveButton").click(function() 
 			{
-				if($("form:first").validationEngine('validate'))
-				{
-					$("form:first").attr("action", "/configuration/initialise");
-					$("form:first").submit();
-				}
-			});
-			
-			$("#Enter").click(function() 
-			{
-				if($("form:first").validationEngine('validate'))
-				{
-					$("form:first").attr("action", "/configuration/initialise");
-					$("form:first").submit();
-				}
+				$("#selectedPath").val($(this).siblings(".sourcePath").val());
+				
+				$("form:first").attr("action", "/activity/manualMove");
+				$("form:first").submit(); 
+				
 			});
 		}); 
 
@@ -31,7 +22,7 @@
 	
 	<h2>System Activity</h2>
   
-	<form:form method="POST" commandName="events" class="formLayout">
+	<form:form method="POST" commandName="activity" class="formLayout">
 		
 		<form:hidden path="selectedPath"/>
 	
@@ -47,14 +38,12 @@
 				<div>Description: <c:out value="${event.errorDescription}" /></div>
 		
 				<c:if test="${event.eventType == 'Delete'}">
-					<form:hidden path="sourcePath" class="sourcePath"/>
-					<a href="#" class="moveButton">Move file to a new location</a>
+					<input type="hidden" class="sourcePath" value="${event.sourcePath}"/>
+					<a href="#" class="manualMoveButton">Move file to a new location</a>
 				</c:if>
 				
 				<input type="hidden" class="filePath">
 			</div>
-			
-			
 			
 		</c:forEach>
 		

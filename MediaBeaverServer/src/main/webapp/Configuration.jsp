@@ -1,9 +1,10 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="myTags" %>
 
 <%@include file="includes/header.jsp"%>
 
-	<%@include file="includes/errors.jsp"%>
+	<myTags:ErrorDisplay modelObject="configuration"/>
 	
 	<script type="text/javascript" >
 	
@@ -14,7 +15,7 @@
 				if($("form:first").validationEngine('validate'))
 				{
 					$("form:first").attr("action", "/configuration/save");
-					$("form:first").submit();
+					$("form:first").submit() 
 				}
 			});
 			

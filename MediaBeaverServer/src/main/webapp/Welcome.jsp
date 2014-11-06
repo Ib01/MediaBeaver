@@ -1,6 +1,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="myTags" %>
 
 <html>
 	<head>
@@ -17,7 +18,8 @@
 		<script type="text/javascript" src="/resources/script/jquery.validationEngine.js" charset="utf-8"></script>
 	    <script type="text/javascript" src="/resources/script/jquery.autocomplete.js"></script>
 	    
-	    <%@include file="includes/errors.jsp"%>
+	    <myTags:ErrorDisplay modelObject="configuration"/>
+	    
 	    
 	    <script type="text/javascript" >
 	
