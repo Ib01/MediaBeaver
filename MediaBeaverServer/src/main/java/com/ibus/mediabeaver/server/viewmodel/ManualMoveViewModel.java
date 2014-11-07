@@ -1,13 +1,12 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-
 import com.ibus.mediabeaver.server.validation.EnvironmentPath;
 import com.ibus.mediabeaver.server.validation.PathExists;
 
+//need to put this validator on the class because it seems the only way to access the relevant fields from within the validator
+//@PathExists(message="This path does not exist under destination root", rootPathField = "selectedRoot", pathField = "pathEnd")
 public class ManualMoveViewModel
 {
 	private String referingPage;
@@ -15,7 +14,6 @@ public class ManualMoveViewModel
 	List<String> rootPaths = new ArrayList<String>();
 	private String selectedRoot;
 
-	@PathExists(message="This path does not exist on the file system")
 	@EnvironmentPath(message="This path contains invalid path seperators")
 	String pathEnd;
 	

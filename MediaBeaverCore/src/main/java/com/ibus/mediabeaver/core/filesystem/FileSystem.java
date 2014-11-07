@@ -85,6 +85,17 @@ public class FileSystem
 	 * @param path
 	 * @return
 	 */
+	public boolean pathExists(String root, String path)  
+	{
+		return Files.exists(Paths.get(root, path));
+	}
+	
+	
+	/**
+	 * Determines whether a file or directory exists on the file system
+	 * @param path
+	 * @return
+	 */
 	public boolean pathExists(String path)  
 	{
 		return Files.exists(Paths.get(path));

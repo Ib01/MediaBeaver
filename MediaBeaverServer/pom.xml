@@ -67,6 +67,7 @@
 			<artifactId>jsp-api-2.1-glassfish</artifactId>
 			<version>2.1.v20100127</version>
 		</dependency>
+		
 		<!-- Spring framework -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -74,7 +75,11 @@
 			<version>4.0.2.RELEASE</version>
 		</dependency>
 
-
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.9.2</version>
+		</dependency>
 		
 
 	</dependencies>
@@ -163,7 +168,7 @@
 
 							<!-- we need to unpack and copy some dependencies to the root of the 
 								war so we can boot jetty. yes this is a bit ugly -->
-							<includeGroupIds>log4j,org.eclipse.jetty,org.mortbay.jetty</includeGroupIds>
+							<includeGroupIds>log4j,org.eclipse.jetty,org.mortbay.jetty,commons-beanutils</includeGroupIds>
 
 							<excludes>META-INF/ECLIPSEF.*</excludes>
 							<outputDirectory>
