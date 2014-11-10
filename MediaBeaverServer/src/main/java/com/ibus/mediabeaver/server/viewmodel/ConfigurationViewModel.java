@@ -1,14 +1,31 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
+import com.ibus.mediabeaver.server.validation.EnvironmentPath;
+import com.ibus.mediabeaver.server.validation.PathExists;
+import com.ibus.mediabeaver.server.validation.PathsExists;
+
+/*@PathExists(message="This path does not exist under the Movie root directory", rootPathField = "movieRootDirectory", pathField = "moviePath")*/
+//@PathExists(message="This path does not exist under the TV root directory", rootPathField = "tvRootDirectory", pathField = "episodePath")
+//@PathExists(message="This path does not exist under the TV root directory", pathComponents={"tvRootDirectory"}, ownerField = "tvRootDirectory")
+/*@PathsExists(paths ={ 
+		@PathExists(message="This path does not exist under the TV root directory", pathComponents={"tvRootDirectory"}, ownerField = "tvRootDirectory") 
+})*/
+@PathExists(message="This path does not exist under the TV root directory", pathComponents={"tvRootDirectory"}, ownerField = "tvRootDirectory")
 public class ConfigurationViewModel extends ViewModel 
 {
 	private static final long serialVersionUID = 1L;
 
+	@EnvironmentPath(message="This path contains invalid path seperators")
 	private String sourceDirectory;
+	
+	@EnvironmentPath(message="This path contains invalid path seperators")
 	private String tvRootDirectory;
 	private String episodePath;
+	
+	@EnvironmentPath(message="This path contains invalid path seperators")
 	private String movieRootDirectory;
 	private String moviePath;
+	
 	private String videoExtensionFilter;
 	private boolean copyAsDefault;
 	

@@ -4,7 +4,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /* 
- * Valid if this path contains a path separators appropriate for its 
+ * Valid if this path contains path separators appropriate for its 
  * environment: / for linux. \ for windows
  */
 public class EnvironmentPathValidator implements ConstraintValidator<EnvironmentPath, String> 
@@ -16,8 +16,10 @@ public class EnvironmentPathValidator implements ConstraintValidator<Environment
 
 	public boolean isValid(String pathField, ConstraintValidatorContext arg1)
 	{
+		if(pathField == null || pathField.trim().length() == 0)
+			return false;
+			
 		String seperator = java.nio.file.FileSystems.getDefault().getSeparator();
-		
 		return (
 				(seperator.equals("\\") && !pathField.contains("/")) ||
 				(seperator.equals("//") && !pathField.contains("\\"))

@@ -37,7 +37,6 @@ public class RequestInterceptor implements HandlerInterceptor
 			if(configvm == null)
 			{
 				response.sendRedirect("/configuration/welcome");
-				return false;
 			}
 		}
 

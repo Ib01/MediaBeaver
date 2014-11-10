@@ -22,6 +22,7 @@ import com.ibus.mediabeaver.core.filesystem.FileSystem;
 import com.ibus.mediabeaver.server.util.Data;
 import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
+import com.ibus.mediabeaver.server.viewmodel.ManualMoveViewModel;
 
 @Controller
 @RequestMapping(value = "/configuration")
@@ -39,18 +40,25 @@ public class ConfigurationController
 		return new ModelAndView("Configuration","configuration", data.getConfiguration());
 	}
 	
+	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public ModelAndView save(@ModelAttribute("configuration") @Validated ConfigurationViewModel configViewModel, BindingResult result, HttpServletRequest request)
 	{
-		String seperator = java.nio.file.FileSystems.getDefault().getSeparator();
-		
-		if(pathSeperatorsValid(seperator, configViewModel, result) && pathsExist(configViewModel, result))
+		if(!result.hasErrors())
 		{
 			Data data = new Data(request);
 			
 			data.mergeConfig(configViewModel);
 			return new ModelAndView("redirect:/configuration/");
 		}
+		
+		/*if(pathSeperatorsValid(seperator, configViewModel, result) && pathsExist(configViewModel, result))
+		{
+			Data data = new Data(request);
+			
+			data.mergeConfig(configViewModel);
+			return new ModelAndView("redirect:/configuration/");
+		}*/
 		
 		return new ModelAndView("Configuration","configuration", configViewModel);
 	}
@@ -62,10 +70,20 @@ public class ConfigurationController
 		
 	}
 	
+	
 	@RequestMapping(value = "/initialise", method = RequestMethod.POST)
 	public ModelAndView initialise(@ModelAttribute("configuration") @Validated ConfigurationViewModel configViewModel, BindingResult result, HttpServletRequest request)
 	{
-		String seperator = java.nio.file.FileSystems.getDefault().getSeparator();
+		if(!result.hasErrors())
+		{
+			Data data = new Data(request);
+			
+			data.saveConfig(addDefaultConfigValues(configViewModel));
+			return new ModelAndView("redirect:/configuration/");
+		}
+		
+		
+		/*String seperator = java.nio.file.FileSystems.getDefault().getSeparator();
 		
 		if(pathSeperatorsValid(seperator, configViewModel, result) && pathsExist(configViewModel, result))
 		{
@@ -73,13 +91,13 @@ public class ConfigurationController
 			
 			data.saveConfig(addDefaultConfigValues(configViewModel, seperator));
 			return new ModelAndView("redirect:/configuration/");
-		}
+		}*/
 		
 		return new ModelAndView("Welcome","configuration", configViewModel);
 	}
 	
 	
-	private boolean pathSeperatorsValid(String seperator, ConfigurationViewModel configViewModel, BindingResult result)
+	/*private boolean pathSeperatorsValid(String seperator, ConfigurationViewModel configViewModel, BindingResult result)
 	{
 		boolean formValid = true;
 		
@@ -130,11 +148,13 @@ public class ConfigurationController
 		}
 		
 		return formValid;
-	}
+	}*/
 	
 	
-	private ConfigurationViewModel addDefaultConfigValues(ConfigurationViewModel configViewModel, String seperator)
+	private ConfigurationViewModel addDefaultConfigValues(ConfigurationViewModel configViewModel)
 	{
+		String seperator = java.nio.file.FileSystems.getDefault().getSeparator();
+		
 		configViewModel.setEpisodePath("{SeriesName}.replaceAll(\"[/\\?<>\\\\:\\*\\|\\\"\\^]\", \" \").normalizeSpace()"+seperator+"Season {SeasonNumber}"+seperator+"{SeriesName}.replaceAll(\"[/\\?<>\\\\:\\*\\|\\\"\\^]\", \" \").normalizeSpace() S{SeasonNumber}.leftPad(\"2\",\"0\")E{EpisodeNumber}.leftPad(\"2\",\"0\")");
 		configViewModel.setMoviePath("{MovieName}.replaceAll(\"[/\\?<>\\\\:\\*\\|\\\"\\^]\", \" \").normalizeSpace()({ReleaseDate}.substring(\"0\",\"4\"))"+seperator+"{MovieName}.replaceAll(\"[/\\?<>\\\\:\\*\\|\\\"\\^]\", \" \").normalizeSpace()({ReleaseDate}.substring(\"0\",\"4\"))");
 		configViewModel.setVideoExtensionFilter(".3g2, .3gp, .asf, .avi, .drc, .flv, .flv, .m4v, .mkv, .mng, .mov, .qt, .mp4, .m4p, .m4v, .mpg, .mp2, .mpeg, .mpg, .mpe, .mpv, .mpg, .mpeg, .m2, .mxf, .nsv, .ogv, .ogg, .rm, .rmvb, .roq, .svi, .webm, .wmv");

@@ -11,10 +11,13 @@ import java.nio.file.SimpleFileVisitor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import org.apache.log4j.Logger;
+
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
 import com.ibus.mediabeaver.core.exception.FileSystemException;
 import com.ibus.mediabeaver.core.exception.MediaBeaverConfigurationException;
+
 import java.nio.file.attribute.BasicFileAttributes;
 
 public class FileSystem
@@ -90,6 +93,35 @@ public class FileSystem
 		return Files.exists(Paths.get(root, path));
 	}
 	
+	
+	/**
+	 * Determines whether a file or directory exists on the file system
+	 * @param path
+	 * @return
+	 */
+	public boolean pathExists(List<String> pathComponents)  
+	{
+		return pathExists(pathComponents.toArray(new String[]{}));
+	}
+	
+	/**
+	 * Determines whether a file or directory exists on the file system
+	 * @param path
+	 * @return
+	 */
+	public boolean pathExists(String[] pathComponents)  
+	{
+		if(pathComponents == null || pathComponents.length == 0)
+			return false;
+		
+		Path path = Paths.get(pathComponents[0]);
+		for(int i = 1; i < pathComponents.length; i++)
+		{ 
+			path = Paths.get(path.toString(), pathComponents[i]);
+		}
+		
+		return Files.exists(path);
+	}
 	
 	/**
 	 * Determines whether a file or directory exists on the file system

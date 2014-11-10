@@ -1,7 +1,5 @@
 package com.ibus.mediabeaver.server.validation;
 
-import java.lang.annotation.Repeatable;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -15,19 +13,13 @@ import javax.validation.Payload;
 
 
 //@Target( { ElementType.METHOD, ElementType.FIELD })
-@Repeatable
-@Documented
+/*@Documented
 @Constraint(validatedBy = PathExistsValidator.class)
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
-@Retention(RetentionPolicy.RUNTIME)
-public @interface PathExists 
+@Retention(RetentionPolicy.RUNTIME)*/
+public @interface PathsExists 
 {   
-    String message() default "{PathExists}";    
-    Class<?>[] groups() default {};
-    Class<? extends Payload>[] payload() default {};
-    
-    String[] pathComponents() default {};
-    String ownerField();
+	PathExists[] paths();
     
 }
 
