@@ -1,27 +1,28 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
 import com.ibus.mediabeaver.server.validation.EnvironmentPath;
+import com.ibus.mediabeaver.server.validation.MultipartPathExists;
 import com.ibus.mediabeaver.server.validation.PathExists;
-import com.ibus.mediabeaver.server.validation.PathsExists;
 
-/*@PathExists(message="This path does not exist under the Movie root directory", rootPathField = "movieRootDirectory", pathField = "moviePath")*/
-//@PathExists(message="This path does not exist under the TV root directory", rootPathField = "tvRootDirectory", pathField = "episodePath")
-//@PathExists(message="This path does not exist under the TV root directory", pathComponents={"tvRootDirectory"}, ownerField = "tvRootDirectory")
-/*@PathsExists(paths ={ 
-		@PathExists(message="This path does not exist under the TV root directory", pathComponents={"tvRootDirectory"}, ownerField = "tvRootDirectory") 
+/*@MultipartPathExists.List({
+		@MultipartPathExists(message="This directory does not exist on the file system", pathComponents={"tvRootDirectory"}, ownerField = "tvRootDirectory"),
+		@MultipartPathExists(message="This directory does not exist on the file system", pathComponents={"movieRootDirectory"}, ownerField = "movieRootDirectory"),
+		@MultipartPathExists(message="This directory does not exist on the file system", pathComponents={"sourceDirectory"}, ownerField = "sourceDirectory")
 })*/
-@PathExists(message="This path does not exist under the TV root directory", pathComponents={"tvRootDirectory"}, ownerField = "tvRootDirectory")
 public class ConfigurationViewModel extends ViewModel 
 {
 	private static final long serialVersionUID = 1L;
 
+	@PathExists(message="This directory does not exist on the file system")
 	@EnvironmentPath(message="This path contains invalid path seperators")
 	private String sourceDirectory;
 	
+	@PathExists(message="This directory does not exist on the file system")
 	@EnvironmentPath(message="This path contains invalid path seperators")
 	private String tvRootDirectory;
 	private String episodePath;
 	
+	@PathExists(message="This directory does not exist on the file system")
 	@EnvironmentPath(message="This path contains invalid path seperators")
 	private String movieRootDirectory;
 	private String moviePath;

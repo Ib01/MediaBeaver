@@ -73,7 +73,7 @@ public class ManualMoveController
 		}
 		
 		
-		/*try
+		try
 		{
 			moveFile(viewModel.getSourceFile(), viewModel.getSelectedRoot(), viewModel.getPathEnd(), request);
 		} catch (IOException e)
@@ -84,7 +84,7 @@ public class ManualMoveController
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		
 		return new ModelAndView("redirect:" + viewModel.getReferingPage());
 	}

@@ -52,14 +52,6 @@ public class ConfigurationController
 			return new ModelAndView("redirect:/configuration/");
 		}
 		
-		/*if(pathSeperatorsValid(seperator, configViewModel, result) && pathsExist(configViewModel, result))
-		{
-			Data data = new Data(request);
-			
-			data.mergeConfig(configViewModel);
-			return new ModelAndView("redirect:/configuration/");
-		}*/
-		
 		return new ModelAndView("Configuration","configuration", configViewModel);
 	}
 	
@@ -82,73 +74,8 @@ public class ConfigurationController
 			return new ModelAndView("redirect:/configuration/");
 		}
 		
-		
-		/*String seperator = java.nio.file.FileSystems.getDefault().getSeparator();
-		
-		if(pathSeperatorsValid(seperator, configViewModel, result) && pathsExist(configViewModel, result))
-		{
-			Data data = new Data(request);
-			
-			data.saveConfig(addDefaultConfigValues(configViewModel, seperator));
-			return new ModelAndView("redirect:/configuration/");
-		}*/
-		
 		return new ModelAndView("Welcome","configuration", configViewModel);
 	}
-	
-	
-	/*private boolean pathSeperatorsValid(String seperator, ConfigurationViewModel configViewModel, BindingResult result)
-	{
-		boolean formValid = true;
-		
-		if((seperator.equals("\\") && configViewModel.getSourceDirectory().contains("/")) ||
-				(seperator.equals("/") && configViewModel.getSourceDirectory().contains("\\")))
-		{
-			result.rejectValue("sourceDirectory", "error.configuration", "The seperators in this path are incorrect for your environment");
-			formValid = false;
-		}
-		
-		if((seperator.equals("\\") && configViewModel.getTvRootDirectory().contains("/")) ||
-				(seperator.equals("/") && configViewModel.getTvRootDirectory().contains("\\")))
-		{
-			result.rejectValue("tvRootDirectory", "error.configuration", "The seperators in this path are incorrect for your environment");
-			formValid = false;
-		}
-		
-		if((seperator.equals("\\") && configViewModel.getMovieRootDirectory().contains("/")) ||
-				(seperator.equals("/") && configViewModel.getMovieRootDirectory().contains("\\")))
-		{
-			result.rejectValue("movieRootDirectory", "error.configuration", "The seperators in this path are incorrect for your environment");
-			formValid = false;
-		}
-	
-		return formValid;
-	}
-	
-	private boolean pathsExist(ConfigurationViewModel configViewModel, BindingResult result)
-	{
-		String msg = "This directory does not exist";
-		FileSystem fs = new FileSystem();
-		boolean formValid = true;
-		
-		if(!fs.pathExists(configViewModel.getSourceDirectory()))
-		{
-			result.rejectValue("sourceDirectory", "error.configuration", msg);
-			formValid =  false;
-		}
-		if(!fs.pathExists(configViewModel.getTvRootDirectory()))
-		{
-			result.rejectValue("tvRootDirectory", "error.configuration", msg);
-			formValid =  false;
-		}
-		if(!fs.pathExists(configViewModel.getMovieRootDirectory()))
-		{
-			result.rejectValue("movieRootDirectory", "error.configuration", msg);
-			formValid =  false;
-		}
-		
-		return formValid;
-	}*/
 	
 	
 	private ConfigurationViewModel addDefaultConfigValues(ConfigurationViewModel configViewModel)
@@ -162,6 +89,5 @@ public class ConfigurationController
 		
 		return configViewModel;
 	}
-	
 
 }

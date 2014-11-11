@@ -13,60 +13,24 @@ import javax.validation.ConstraintValidatorContext;
 import com.ibus.mediabeaver.core.filesystem.FileSystem;
 
 /* 
- * Valid if the path exists on the file system. all path fields can be optional depending on the context 
- * so if either rootPathField or pathField is empty or null this will return valid.  
- */
-public class PathExistsValidator implements ConstraintValidator<PathExists, Object> 
+ * Valid if the path exists on the file system. path is comprised of component paths which may be 
+ * specified in one or more fields
+ *  */
+public class PathExistsValidator implements ConstraintValidator<PathExists, String> 
 {
-	String message;
-	String ownerField;
-    String[] pathFields;
-	
 	public void initialize(PathExists annotation)
 	{
-		pathFields = annotation.pathComponents();
-		message = annotation.message();
-		ownerField = annotation.ownerField();
 	}
 
-	public boolean isValid(Object object, ConstraintValidatorContext ctx)  
+	public boolean isValid(String path, ConstraintValidatorContext ctx)  
 	{
-		try
-		{
-			boolean pathIsIncomplete = false;
-			List<String> pathComponents = new ArrayList<String>();
-			
-			for(String field : pathFields)
-			{
-				String path = BeanUtils.getProperty(object, field);
-				if(path == null || path.trim().length() == 0)
-				{
-					pathIsIncomplete = true;
-					break;
-				}
-				
-				pathComponents.add(path);
-			}
-			
-			if(!pathIsIncomplete)
-			{
-				FileSystem fs = new FileSystem();
-				if(fs.pathExists(pathComponents))	
-					return true;
-			}
-			
-			//set the field that the error will be displayed for  
-			ctx.disableDefaultConstraintViolation();
-			ctx.buildConstraintViolationWithTemplate(message).addNode(ownerField).addConstraintViolation();
-			
+		if(path == null || path.length() == 0)
 			return false;
-		} 
-		catch (IllegalAccessException e){throw new RuntimeException(e);}
-		catch (InvocationTargetException e){throw new RuntimeException(e);}
-		catch (NoSuchMethodException e){throw new RuntimeException(e);}
+		
+		FileSystem fs = new FileSystem();
+		return fs.pathExists(path);	
 
 	}
-
 	
 }
 
