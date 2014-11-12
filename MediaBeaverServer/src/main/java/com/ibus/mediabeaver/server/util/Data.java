@@ -83,6 +83,9 @@ public class Data
 		FileViewModel filevm  = getFileVM(file, postedModel);
 		filevm.setFiles(getChildren(file,postedModel));
 		
+		filevm.setOpenAll(postedModel.isOpenAll());
+		filevm.setSelectAll(postedModel.isSelectAll());
+		
 		return filevm;
 	}
 	
@@ -96,7 +99,7 @@ public class Data
 		{
 			FileViewModel filevm  = getFileVM(file,postedModel);
 			
-			if(!postedModel.isCloseAll() && !filevm.isFile() && (filevm.isOpen() || postedModel.isOpenAll()))
+			if(filevm.isOpen())
 				filevm.setFiles(getChildren(file,postedModel));
 			
 			filevms.add(filevm);
@@ -114,21 +117,36 @@ public class Data
 		filevm.setName(file.getName());
 		filevm.setPath(file.getAbsolutePath());
 		
+		//set open and selected according to posted incoming vm 
+		filevm.setOpen(postedModel.isOpen(filevm.getPath()));
 		filevm.setSelected(postedModel.isSelected(filevm.getPath()));
 		
-		if(postedModel.isOpenAll())
-		{
-			filevm.setOpen(true);	
-		}
-		else if(postedModel.isCloseAll())
+		//if action is to open or select all and the override selected and open
+		if(postedModel.getAction().equals(postedModel.OpenAllAction))
 		{
 			filevm.setOpen(false);	
-		}
-		else
+			if(postedModel.isOpenAll())
+			{
+				filevm.setOpen(true);		
+			}
+		}	
+		
+		//if action is to open or select all and the override selected and open
+		if(postedModel.getAction().equals(postedModel.SelectAllAction))
 		{
-			filevm.setOpen(postedModel.isOpen(filevm.getPath()));
+			filevm.setSelected(false);	
+			if(postedModel.isSelectAll())
+			{
+				filevm.setOpen(true); //open too so we can get the items and select them
+				filevm.setSelected(true);		
+			}
 		}
 		
+		
+		//it this is not a file set to closed
+		if(filevm.isFile())
+			filevm.setOpen(false);
+			
 		return filevm;
 	}
 	

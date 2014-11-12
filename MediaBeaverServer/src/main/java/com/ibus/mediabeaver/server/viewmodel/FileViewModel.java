@@ -7,6 +7,9 @@ import java.util.Map;
 
 public class FileViewModel
 {
+	public String OpenAllAction = "open all";
+	public String SelectAllAction = "select all";
+	
 	private String name;
 	private String path;
 	private boolean isFile;
@@ -15,9 +18,18 @@ public class FileViewModel
 	private List<FileViewModel> files = new ArrayList<FileViewModel>();
 	
 	private Map<String, FileViewModel> cache = null;
-	private boolean openAll = false;
-	private boolean closeAll = false;
+	private boolean openAll;
+	private boolean selectAll;
+	private String action = "";
 	
+	public String getAction()
+	{
+		return action;
+	}
+	public void setAction(String action)
+	{
+		this.action = action;
+	}
 	public String getName()
 	{
 		return name;
@@ -70,14 +82,16 @@ public class FileViewModel
 	{
 		this.openAll = openAll;
 	}
-	public boolean isCloseAll()
+	public boolean isSelectAll()
 	{
-		return closeAll;
+		return selectAll;
 	}
-	public void setCloseAll(boolean closeAll)
+	public void setSelectAll(boolean selectAll)
 	{
-		this.closeAll = closeAll;
+		this.selectAll = selectAll;
 	}
+	
+	
 	
 	public boolean isOpen(String path)
 	{
@@ -142,6 +156,8 @@ public class FileViewModel
 			cache.put(f.getPath(), f);
 		}
 	}
+	
+	
 	
 	
 	
