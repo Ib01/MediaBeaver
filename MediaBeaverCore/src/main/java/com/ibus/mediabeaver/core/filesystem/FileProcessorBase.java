@@ -23,7 +23,11 @@ public abstract class FileProcessorBase
 	protected Configuration config;		
 	protected Logger log = Logger.getLogger(FileProcessorBase.class.getName());
 	protected FileSystem fileSys = new FileSystem();
-	
+	protected Platform platform;
+	public enum Platform{
+		Web,
+		CLI
+	}
 	
 	/**
 	 * processes all files in directory and in all its sub directories
@@ -88,11 +92,9 @@ public abstract class FileProcessorBase
 	
 	protected void logEvent(final Activity event)
 	{
-		//if we are calling this class from the web ui we will already have a transaction
-		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction t = s.getTransaction();
 		
-		if(t != null){
+		if(platform == Platform.Web)
+		{
 			Repository.saveEntity(event);
 			return;
 		}

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Configuration;
+import com.ibus.mediabeaver.core.filesystem.FileProcessorBase.Platform;
 import com.ibus.mediabeaver.core.filesystem.FileSystem;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
 import com.ibus.mediabeaver.core.filesystem.MediaRemover;
@@ -38,13 +39,13 @@ public class SourceDirectoryController
 	@RequestMapping
 	public ModelAndView viewDirectory(HttpServletRequest request)
 	{
-		return getFileViewModel(new FileViewModel(),request);
+		return new ModelAndView("SourceDirectory","directory", getFileViewModel(new FileViewModel(),request));
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView openCloseDirectories(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request)
 	{
-		return getFileViewModel(viewModel,request);
+		return new ModelAndView("SourceDirectory","directory", getFileViewModel(viewModel,request));
 	}
 	
 	
@@ -55,11 +56,14 @@ public class SourceDirectoryController
 		
 		//move files
 		List<String> files = viewModel.getSelectedPaths(true);
-		MediaMover mover = new MediaMover();
+		MediaMover mover = new MediaMover(Platform.Web);
 		mover.processFiles(config, files);
 		
+		FileViewModel vm = getFileViewModel(viewModel,request);
+		vm.setFailedFiles(mover.getUnmovedMedia());
+		
 		//show files
-		return getFileViewModel(viewModel,request);
+		return new ModelAndView("SourceDirectory","directory", getFileViewModel(viewModel,request));
 	}
 	
 	
@@ -70,18 +74,20 @@ public class SourceDirectoryController
 		List<String> paths = viewModel.getSelectedPaths(false);
 		mr.deleteFiles(paths);
 		
-		return getFileViewModel(viewModel,request);
+		return new ModelAndView("SourceDirectory","directory", getFileViewModel(viewModel,request));
 	}
 	
 	
-	private ModelAndView getFileViewModel(FileViewModel viewModel, HttpServletRequest request)
+	private FileViewModel getFileViewModel(FileViewModel viewModel, HttpServletRequest request)
 	{
 		Data data = new Data(request);
 		
 		ConfigurationViewModel config = data.getConfiguration();
 		FileViewModel filevm = data.getFileViewModel(config.getSourceDirectory(), viewModel);
 		
-		return new ModelAndView("SourceDirectory","directory", filevm);
+		return filevm;
+		
+		
 	}
 	
 	

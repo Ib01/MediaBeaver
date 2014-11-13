@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.ibus.mediabeaver.core.entity.Configuration;
+import com.ibus.mediabeaver.core.filesystem.FileProcessorBase.Platform;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
 
 public class MediaManagerIT
@@ -34,7 +35,7 @@ public class MediaManagerIT
 		
 		
 
-		MediaMover mm = new MediaMover();
+		MediaMover mm = new MediaMover(Platform.CLI);
 		mm.processFiles(c);
 
 		

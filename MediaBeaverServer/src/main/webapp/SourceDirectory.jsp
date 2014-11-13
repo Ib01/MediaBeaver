@@ -139,6 +139,27 @@
 		<br>
 		<br>
 		
+		<c:if test="FailedFiles"></c:if>
+		
+		
+		<div style="border: 1px solid #F1F1F1">
+			<div style="background-color: #717372;  margin: 3px; color: white; padding: 5px;">
+			
+				<ul style="margin: 0px; padding: 0px;">
+					<li>
+						one
+					</li>
+					<li>
+						one
+					</li>
+				</ul>
+				
+			</div>
+		</div>
+		
+		<br>
+		<br>
+		
 		
 		
 		

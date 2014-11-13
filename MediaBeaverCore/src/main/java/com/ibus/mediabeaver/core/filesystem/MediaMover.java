@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -48,11 +49,22 @@ public class MediaMover extends FileProcessorBase
 	private static String ostHost = "http://api.opensubtitles.org/xml-rpc";
 	private static String ostSublanguageid = "eng";
 	private static String tmdbApiKey = "e482b9df13cbf32a25570c09174a1d84";
-	private int mediaFound = 0;
-	private int mediaMoved = 0;
+	private List<File> unmovedMedia = new ArrayList<File>();
+	private List<File> movedMedia = new ArrayList<File>();
 	
-	public MediaMover()
+	public List<File> getMovedMedia()
 	{
+		return movedMedia;
+	}
+
+	public List<File> getUnmovedMedia()
+	{
+		return unmovedMedia;
+	}
+	
+	public MediaMover(Platform platform)
+	{
+		this.platform = platform;
 		openSubtitlesClient = new OpenSubtitlesClient(ostHost,ostUseragent,ostUserName, ostPassword,ostSublanguageid);
 		tvdbClient = new TvdbClient();
 		tmdbApi = new TmdbApi(tmdbApiKey);
@@ -61,8 +73,8 @@ public class MediaMover extends FileProcessorBase
 	@Override
 	protected void beforeProcess() throws MalformedURLException, XmlRpcException
 	{
-		mediaFound = 0;
-		mediaMoved = 0;
+		unmovedMedia = new ArrayList<File>();
+		movedMedia = new ArrayList<File>();
 		
 		log.debug("******************************************************");
 		log.debug("Commencing Movement of files");
@@ -71,6 +83,7 @@ public class MediaMover extends FileProcessorBase
 		if(!openSubtitlesClient.login())
 		{
 			log.debug("Aborting movement of files. Could not login to the Open Subtitles web serivce.");
+			logEvent(null, null, ResultType.Failed, "Could not login to the Open Subtitles web serivce");
 			return;
 		}
 		
@@ -83,8 +96,8 @@ public class MediaMover extends FileProcessorBase
 	{
 		log.debug("");
 		log.debug("File movement is complete");
-		log.debug(String.format("Media found= %d", mediaFound));
-		log.debug(String.format("Media moved= %d", mediaMoved));
+		log.debug(String.format("Media found= %d", movedMedia.size() + unmovedMedia.size()));
+		log.debug(String.format("Media moved= %d", movedMedia.size()));
 		log.debug("******************************************************");
 		openSubtitlesClient.logOut();
 	}
@@ -97,7 +110,6 @@ public class MediaMover extends FileProcessorBase
 		
 		if(config.isVideoExtension(extension))
 		{
-			++mediaFound;
 			moveVideo(file);
 		}
 	}
@@ -140,8 +152,9 @@ public class MediaMover extends FileProcessorBase
 						
 			moveFile(file.getAbsolutePath(), config.getMovieRootDirectory(), destinationPathEnd);
 			
-			++mediaMoved;
 			logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
+			movedMedia.add(file);
+			return;
 		
 		} catch (IOException e)
 		{
@@ -162,6 +175,7 @@ public class MediaMover extends FileProcessorBase
 			logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, "Could not parse the path format string to a valid path");
 		}
 		
+		unmovedMedia.add(file);
 	}
 	
 	
@@ -232,10 +246,10 @@ public class MediaMover extends FileProcessorBase
 			log.debug(String.format("Destination path generated %s", fullDestinationPath));
 			
 			moveFile(file.getAbsolutePath(), config.getTvRootDirectory(), destinationPathEnd);
-			
-			++mediaMoved;
 			logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
 			
+			movedMedia.add(file);
+			return;
 			
 		} catch (IOException e)
 		{
@@ -260,6 +274,8 @@ public class MediaMover extends FileProcessorBase
 			log.error(String.format("An unspecified error occured while moving the file %s", file.getAbsolutePath()), e);	
 			logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, "An unspecified error occured while moving file");
 		}
+		
+		unmovedMedia.add(file);
 	}
 	
 	

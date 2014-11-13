@@ -1,5 +1,6 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +22,16 @@ public class FileViewModel
 	private boolean openAll;
 	private boolean selectAll;
 	private String action = "";
+	private List<File> failedFiles = new ArrayList<File>();
 	
+	public List<File> getFailedFiles()
+	{
+		return failedFiles;
+	}
+	public void setFailedFiles(List<File> failedFiles)
+	{
+		this.failedFiles = failedFiles;
+	}
 	public String getAction()
 	{
 		return action;
