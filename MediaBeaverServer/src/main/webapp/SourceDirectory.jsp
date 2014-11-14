@@ -139,29 +139,44 @@
 		<br>
 		<br>
 		
-		<c:if test="FailedFiles"></c:if>
+		<c:if test="${directory.action == 'deleted' || directory.action == 'moved'}">
 		
-		
-		<div style="border: 1px solid #F1F1F1">
-			<div style="background-color: #717372;  margin: 3px; color: white; padding: 5px;">
-			
-				<ul style="margin: 0px; padding: 0px;">
-					<li>
-						one
-					</li>
-					<li>
-						one
-					</li>
-				</ul>
+			<div style="border: 1px solid #F1F1F1">
+				<div style="background-color: #717372;  margin: 3px; color: white; padding: 5px;">
 				
+					<c:if test="${directory.successCount > 0 && directory.failureCount > 0}">
+						An error occurred while attempting to process your files. 
+					</c:if>
+				
+					<c:if test="${directory.successCount > 0}">
+						<c:out value="${directory.successCount}"></c:out> files successfully <c:out value="${directory.action}"></c:out>  
+					
+						<ul>
+							<c:forEach items="${directory.successes}" var="event" varStatus="i">
+								<li><c:out value="${event.sourcePath}" /></li>
+							</c:forEach>
+						</ul>
+						
+					</c:if>
+					
+					<c:if test="${directory.failureCount > 0}">
+						<c:out value="${directory.failureCount}"></c:out> files could not be <c:out value="${directory.action}"></c:out>
+						
+						<ul>
+							<c:forEach items="${directory.failures}" var="event" varStatus="i">
+								<li><c:out value="${event.sourcePath}" /></li>
+							</c:forEach>
+						</ul>
+						
+						<p style="margin-left: 22px">Please see <a href="/activity">Activities</a> for more detailed detail</p>
+					</c:if>
+					
+				</div>
 			</div>
-		</div>
+			
+		</c:if>
 		
 		<br>
-		<br>
-		
-		
-		
 		
 	</form:form>
 		

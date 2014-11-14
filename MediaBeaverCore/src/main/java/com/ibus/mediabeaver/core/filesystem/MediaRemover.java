@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +26,29 @@ public class MediaRemover extends SimpleFileVisitor<Path>
 {
 	protected Logger log = Logger.getLogger(MediaRemover.class.getName());
 	boolean deleteSuccess;
+	private List<Activity> deleted = new ArrayList<Activity>();
+	private List<Activity> notDeleted = new ArrayList<Activity>();
 	
+	public List<Activity> getNotDeleted()
+	{
+		return notDeleted;
+	}
+
+	public void setNotDeleted(List<Activity> notDeleted)
+	{
+		this.notDeleted = notDeleted;
+	}
+
+	public List<Activity> getDeleted()
+	{
+		return deleted;
+	}
+
+	public void setDeleted(List<Activity> deleted)
+	{
+		this.deleted = deleted;
+	}
+
 	public boolean deleteFiles(List<String> pathStrings) throws IOException
 	{
 		for(String p : pathStrings)
@@ -132,6 +155,11 @@ public class MediaRemover extends SimpleFileVisitor<Path>
  		event.setErrorDescription(errorDescription);
  		
  		logEvent(event);
+ 		
+ 		if(result == ResultType.Failed)
+ 			notDeleted.add(event);
+ 		else
+ 			deleted.add(event);
  	}
      
      protected void logEvent(final Activity event)

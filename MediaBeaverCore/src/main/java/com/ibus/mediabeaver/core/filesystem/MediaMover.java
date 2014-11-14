@@ -49,15 +49,15 @@ public class MediaMover extends FileProcessorBase
 	private static String ostHost = "http://api.opensubtitles.org/xml-rpc";
 	private static String ostSublanguageid = "eng";
 	private static String tmdbApiKey = "e482b9df13cbf32a25570c09174a1d84";
-	private List<File> unmovedMedia = new ArrayList<File>();
-	private List<File> movedMedia = new ArrayList<File>();
+	private List<Activity> unmovedMedia = new ArrayList<Activity>();
+	private List<Activity> movedMedia = new ArrayList<Activity>();
 	
-	public List<File> getMovedMedia()
+	public List<Activity> getMovedMedia()
 	{
 		return movedMedia;
 	}
 
-	public List<File> getUnmovedMedia()
+	public List<Activity> getUnmovedMedia()
 	{
 		return unmovedMedia;
 	}
@@ -73,8 +73,8 @@ public class MediaMover extends FileProcessorBase
 	@Override
 	protected void beforeProcess() throws MalformedURLException, XmlRpcException
 	{
-		unmovedMedia = new ArrayList<File>();
-		movedMedia = new ArrayList<File>();
+		unmovedMedia = new ArrayList<Activity>();
+		movedMedia = new ArrayList<Activity>();
 		
 		log.debug("******************************************************");
 		log.debug("Commencing Movement of files");
@@ -153,7 +153,6 @@ public class MediaMover extends FileProcessorBase
 			moveFile(file.getAbsolutePath(), config.getMovieRootDirectory(), destinationPathEnd);
 			
 			logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
-			movedMedia.add(file);
 			return;
 		
 		} catch (IOException e)
@@ -174,8 +173,6 @@ public class MediaMover extends FileProcessorBase
 					config.getMoviePath(), file.getAbsolutePath()), e);	
 			logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, "Could not parse the path format string to a valid path");
 		}
-		
-		unmovedMedia.add(file);
 	}
 	
 	
@@ -210,7 +207,7 @@ public class MediaMover extends FileProcessorBase
 			}
 			
 			//TvdbSeriesResponseDto only contains very basic info about the series itself.
-			TvdbSeriesResponseDto seriesDto = tvdbClient.getSeries(seriesImdbid);
+			TvdbSeriesResponseDto seriesDto = tvdbClient.getSeriesForImdbId(seriesImdbid);
 			if(seriesDto == null || seriesDto.getSeries() == null || seriesDto.getSeries().getId() == null)
 			{
 				logEvent(file.getAbsolutePath(), null,ResultType.Failed, "Failed to get valid title from service");
@@ -248,7 +245,6 @@ public class MediaMover extends FileProcessorBase
 			moveFile(file.getAbsolutePath(), config.getTvRootDirectory(), destinationPathEnd);
 			logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
 			
-			movedMedia.add(file);
 			return;
 			
 		} catch (IOException e)
@@ -275,7 +271,6 @@ public class MediaMover extends FileProcessorBase
 			logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, "An unspecified error occured while moving file");
 		}
 		
-		unmovedMedia.add(file);
 	}
 	
 	
@@ -289,7 +284,7 @@ public class MediaMover extends FileProcessorBase
 	
 	
 	
-	private void logEvent(String source, String destination, ResultType result, String errorDescription)
+	private Activity logEvent(String source, String destination, ResultType result, String errorDescription)
 	{
 		Activity event = new Activity();
 		
@@ -301,6 +296,13 @@ public class MediaMover extends FileProcessorBase
 		event.setErrorDescription(errorDescription);
 		
 		logEvent(event);
+		
+		if(result == ResultType.Succeeded)
+			movedMedia.add(event);
+		else
+			unmovedMedia.add(event);
+		
+		return event;
 	}
 	
 	

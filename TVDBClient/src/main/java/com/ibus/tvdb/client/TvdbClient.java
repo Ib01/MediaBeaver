@@ -27,9 +27,17 @@ public class TvdbClient
 		return doGet(TvdbEpisodesResponseDto.class, uri);
 	}
 	
-	public TvdbSeriesResponseDto getSeries(String imdbid) throws URISyntaxException
+	public TvdbSeriesResponseDto getSeriesForImdbId(String imdbid) throws URISyntaxException
 	{
 		URI uri = getURI("/api/GetSeriesByRemoteID.php", "imdbid=" + imdbid + "&language=" + language);
+		return doGet(TvdbSeriesResponseDto.class, uri);
+	}
+	
+	//http://www.thetvdb.com/api/GetSeries.php?seriesname=Game Of Thrones
+	public TvdbSeriesResponseDto getSeries(String seriesName) throws URISyntaxException
+	{
+		here
+		URI uri = getURI("/api/GetSeries.php", "seriesname=" + seriesName + "&language=" + language);
 		return doGet(TvdbSeriesResponseDto.class, uri);
 	}
 	

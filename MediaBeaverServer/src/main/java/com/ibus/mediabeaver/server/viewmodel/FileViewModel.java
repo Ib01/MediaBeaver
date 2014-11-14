@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ibus.mediabeaver.core.entity.Activity;
+
 public class FileViewModel
 {
 	public String OpenAllAction = "open all";
@@ -22,16 +24,38 @@ public class FileViewModel
 	private boolean openAll;
 	private boolean selectAll;
 	private String action = "";
-	private List<File> failedFiles = new ArrayList<File>();
+	private List<Activity> successes = new ArrayList<Activity>();
+	private List<Activity> failures = new ArrayList<Activity>();
 	
-	public List<File> getFailedFiles()
+
+	
+	public List<Activity> getFailures()
 	{
-		return failedFiles;
+		return failures;
 	}
-	public void setFailedFiles(List<File> failedFiles)
+	public void setFailures(List<Activity> failures)
 	{
-		this.failedFiles = failedFiles;
+		this.failures = failures;
 	}
+	public List<Activity> getSuccesses()
+	{
+		return successes;
+	}
+	public void setSuccesses(List<Activity> successes)
+	{
+		this.successes = successes;
+	}
+	
+	public int getSuccessCount()
+	{
+		return successes.size();
+	}
+	
+	public int getFailureCount()
+	{
+		return failures.size();
+	}
+	
 	public String getAction()
 	{
 		return action;

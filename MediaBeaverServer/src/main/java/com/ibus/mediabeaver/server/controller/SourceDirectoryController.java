@@ -60,10 +60,13 @@ public class SourceDirectoryController
 		mover.processFiles(config, files);
 		
 		FileViewModel vm = getFileViewModel(viewModel,request);
-		vm.setFailedFiles(mover.getUnmovedMedia());
+
+		vm.setAction("moved");
+		vm.setSuccesses(mover.getMovedMedia());
+		vm.setFailures(mover.getUnmovedMedia());
 		
 		//show files
-		return new ModelAndView("SourceDirectory","directory", getFileViewModel(viewModel,request));
+		return new ModelAndView("SourceDirectory","directory", vm);
 	}
 	
 	
@@ -74,7 +77,12 @@ public class SourceDirectoryController
 		List<String> paths = viewModel.getSelectedPaths(false);
 		mr.deleteFiles(paths);
 		
-		return new ModelAndView("SourceDirectory","directory", getFileViewModel(viewModel,request));
+		FileViewModel vm = getFileViewModel(viewModel,request);
+		vm.setAction("deleted");
+		vm.setSuccesses(mr.getDeleted());
+		vm.setFailures(mr.getNotDeleted());
+		
+		return new ModelAndView("SourceDirectory","directory", vm);
 	}
 	
 	

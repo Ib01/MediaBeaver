@@ -29,7 +29,7 @@ public class TvdbClientIT
 	public void getSeriesTest() throws URISyntaxException
 	{
 		TvdbClient c = new TvdbClient();
-		TvdbSeriesResponseDto dto = c.getSeries("tt0944947");
+		TvdbSeriesResponseDto dto = c.getSeriesForImdbId("tt0944947");
 		
 		assertTrue(true);
 	}
