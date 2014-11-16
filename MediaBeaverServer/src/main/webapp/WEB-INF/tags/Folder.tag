@@ -16,10 +16,10 @@
 				<input name="${parentObject}[${i.index}].open" type="hidden" value="${file.open}" class="openHiddenInput">
 			
 				<c:if test="${file.selected}">
-					<input type="checkbox" name="${parentObject}[${i.index}].selected" checked="checked">
+					<input type="checkbox" name="${parentObject}[${i.index}].selected" checked="checked" class="selectedCheckbox">
 				</c:if>		
 				<c:if test="${!file.selected}">
-					<input type="checkbox" name="${parentObject}[${i.index}].selected">
+					<input type="checkbox" name="${parentObject}[${i.index}].selected" class="selectedCheckbox">
 				</c:if>
 				
 				<c:if test="${file.file}">

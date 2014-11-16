@@ -1,12 +1,18 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ibus.mediabeaver.core.entity.Activity;
+
 public class FileViewModel
 {
+	public String OpenAllAction = "open all";
+	public String SelectAllAction = "select all";
+	
 	private String name;
 	private String path;
 	private boolean isFile;
@@ -15,9 +21,49 @@ public class FileViewModel
 	private List<FileViewModel> files = new ArrayList<FileViewModel>();
 	
 	private Map<String, FileViewModel> cache = null;
-	private boolean openAll = false;
-	private boolean closeAll = false;
+	private boolean openAll;
+	private boolean selectAll;
+	private String action = "";
+	private List<Activity> successes = new ArrayList<Activity>();
+	private List<Activity> failures = new ArrayList<Activity>();
 	
+
+	
+	public List<Activity> getFailures()
+	{
+		return failures;
+	}
+	public void setFailures(List<Activity> failures)
+	{
+		this.failures = failures;
+	}
+	public List<Activity> getSuccesses()
+	{
+		return successes;
+	}
+	public void setSuccesses(List<Activity> successes)
+	{
+		this.successes = successes;
+	}
+	
+	public int getSuccessCount()
+	{
+		return successes.size();
+	}
+	
+	public int getFailureCount()
+	{
+		return failures.size();
+	}
+	
+	public String getAction()
+	{
+		return action;
+	}
+	public void setAction(String action)
+	{
+		this.action = action;
+	}
 	public String getName()
 	{
 		return name;
@@ -70,14 +116,16 @@ public class FileViewModel
 	{
 		this.openAll = openAll;
 	}
-	public boolean isCloseAll()
+	public boolean isSelectAll()
 	{
-		return closeAll;
+		return selectAll;
 	}
-	public void setCloseAll(boolean closeAll)
+	public void setSelectAll(boolean selectAll)
 	{
-		this.closeAll = closeAll;
+		this.selectAll = selectAll;
 	}
+	
+	
 	
 	public boolean isOpen(String path)
 	{
@@ -142,6 +190,8 @@ public class FileViewModel
 			cache.put(f.getPath(), f);
 		}
 	}
+	
+	
 	
 	
 	

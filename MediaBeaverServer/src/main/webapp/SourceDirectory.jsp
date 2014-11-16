@@ -59,24 +59,6 @@
 				return false;
 			});
 			
-			$("#openAllButton").click(function() 
-			{			
-				$("#openAll").val("true");
-				
-				$("form:first").attr("action", "/source");
-				$("form:first").submit();
-				return false;
-			});
-			
-			$("#closeAllButton").click(function() 
-			{			
-				$("#closeAll").val("true");
-				
-				$("form:first").attr("action", "/source");
-				$("form:first").submit();
-				return false;
-			});
-			
 			$("#moveFiles").click(function() 
 			{	
 				$("form:first").attr("action", "/source/move");
@@ -91,6 +73,25 @@
 			});
 			
 			
+			$("#openAll1").click(function() 
+			{	
+				submitOpenOrSelectAll("open all");
+			});
+
+			$("#selectAll1").click(function() 
+			{	
+				submitOpenOrSelectAll("select all");
+			});
+			
+			
+			function submitOpenOrSelectAll(action)
+			{
+				$("#action").val(action);
+				
+				$("form:first").attr("action", "/source");
+				$("form:first").submit();
+			}
+			
 		}); 
 
 	</script>
@@ -104,33 +105,78 @@
 	
 	
 	
-	<form:form method="POST" commandName="directory" class="formLayout">
+	<form:form method="POST" commandName="directory" class="formLayoutX">
 		<h2>Source Directory</h2>
 		
-		<form:hidden path="openAll"/>
-		<form:hidden path="closeAll"/>
-		
-	
-		<ul style="list-style: none; padding-left: 0px;">
-			<li>
-				<form:hidden path="path"/>
-				<form:hidden path="name"/>
-				<form:hidden path="file"/>
-				<form:hidden path="open"/>
+		<div style="border: solid 1px #F1F1F1">
+			<div style="background-color: #F1F1F1; padding: 3px;">
+				<form:checkbox path="openAll" label="Expand All" /> |
+				<form:checkbox path="selectAll" label="Select All"/>
+				<form:hidden path="action"/>
 				
-				<img src="/resources/images/folder_24.png" style="padding-left: 10px;"><c:out value="${directory.path}" /> 
-				[<a href="#" id="openAllButton">Open All</a>][<a href="#" id="closeAllButton">Close All</a>]
-			</li>
-			<li>
-				<myTags:Folder folder="${directory}" parentObject="files"/>
+				<div style="float: right">
+					<a href="#" id="deleteFiles">Delete</a> | 
+					<a href="#" id="moveManually">Move Manually</a> |
+					<a href="#" id="moveFiles">Move Automatically</a> 
+					
+				</div> 
+			</div>
+			
+			<ul style="list-style: none; padding-left: 0px;">
+				<li>
+					<form:hidden path="path"/>
+					<form:hidden path="name"/>
+					<form:hidden path="file"/>
+					<form:hidden path="open"/>
+					<img src="/resources/images/folder_24.png" style="padding-left: 10px;"><c:out value="${directory.path}" /> 
+				</li>
+				<li>
+					<myTags:Folder folder="${directory}" parentObject="files"/>
+				</ul>
 			</ul>
-		</ul>
-	
-		<br>
-		<br>
-		<a class="mainButton" href="#" id="moveFiles">Move Files</a>
-		<a class="mainButton" href="#" id="deleteFiles">Delete Files</a>
+		</div>
 		
+		<br>
+		<br>
+		
+		<c:if test="${directory.action == 'deleted' || directory.action == 'moved'}">
+		
+			<div style="border: 1px solid #F1F1F1">
+				<div style="background-color: #717372;  margin: 3px; color: white; padding: 5px;">
+				
+					<c:if test="${directory.successCount > 0 && directory.failureCount > 0}">
+						An error occurred while attempting to process your files. 
+					</c:if>
+				
+					<c:if test="${directory.successCount > 0}">
+						<c:out value="${directory.successCount}"></c:out> files successfully <c:out value="${directory.action}"></c:out>  
+					
+						<ul>
+							<c:forEach items="${directory.successes}" var="event" varStatus="i">
+								<li><c:out value="${event.sourcePath}" /></li>
+							</c:forEach>
+						</ul>
+						
+					</c:if>
+					
+					<c:if test="${directory.failureCount > 0}">
+						<c:out value="${directory.failureCount}"></c:out> files could not be <c:out value="${directory.action}"></c:out>
+						
+						<ul>
+							<c:forEach items="${directory.failures}" var="event" varStatus="i">
+								<li><c:out value="${event.sourcePath}" /></li>
+							</c:forEach>
+						</ul>
+						
+						<p style="margin-left: 22px">Please see <a href="/activity">Activities</a> for more detailed detail</p>
+					</c:if>
+					
+				</div>
+			</div>
+			
+		</c:if>
+		
+		<br>
 		
 	</form:form>
 		
