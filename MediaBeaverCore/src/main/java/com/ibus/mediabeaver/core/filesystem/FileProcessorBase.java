@@ -90,7 +90,7 @@ public abstract class FileProcessorBase
 	{
 		//if we are calling this class from the web ui we will already have a transaction
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction t = s.getTransaction();
+		Transaction t = s.getTransaction(); 
 		
 		if(t != null){
 			Repository.saveEntity(event);
