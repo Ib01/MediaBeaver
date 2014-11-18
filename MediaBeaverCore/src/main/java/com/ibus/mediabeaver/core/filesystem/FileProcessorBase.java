@@ -62,7 +62,6 @@ public abstract class FileProcessorBase
 		}
 	}
 	
-	
 	/**
 	 * process a flat list of files.  directories will not be processed
 	 * @param paths

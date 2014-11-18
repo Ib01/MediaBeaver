@@ -17,8 +17,8 @@ import com.ibus.mediabeaver.core.data.QueryTransactable;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.data.UpdateTransactable;
 import com.ibus.mediabeaver.core.entity.Configuration;
-import com.ibus.mediabeaver.core.filesystem.FileProcessorBase.Platform;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
+import com.ibus.mediabeaver.core.filesystem.MediaMover.Platform;
 
 public class Main
 {    
