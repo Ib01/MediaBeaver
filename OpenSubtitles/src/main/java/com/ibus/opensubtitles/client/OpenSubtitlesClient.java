@@ -13,6 +13,7 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 import com.ibus.opensubtitles.client.dto.OstTitleDto;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesHashData;
+import com.ibus.opensubtitles.client.exception.OpenSubtitlesResponseException;
 
 public class OpenSubtitlesClient
 {
@@ -48,19 +49,19 @@ public class OpenSubtitlesClient
 	 * @return
 	 * @throws MalformedURLException
 	 * @throws XmlRpcException
+	 * @throws OpenSubtitlesResponseException 
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean login() throws MalformedURLException, XmlRpcException 
+	public void login() throws MalformedURLException, XmlRpcException, OpenSubtitlesResponseException 
 	{
-		if (!token.tokenHasExpired())
-			return true; 
+		if (!token.tokenHasExpired()) return; 
 		
         Object[] params = new Object[]{ userName, password, "", useragent };
         Map<String, String> result = (Map<String, String>)callRemoteProcedure("LogIn", params);
 		        		        
         token.setToken((String) result.get("token"));
 		
-        return responseOk(result);
+        responseOk(result);
 	}
 
 	/**
@@ -69,17 +70,17 @@ public class OpenSubtitlesClient
 	 * @throws MalformedURLException
 	 * @throws IOException
 	 * @throws XmlRpcException
+	 * @throws OpenSubtitlesResponseException 
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean logOut() throws MalformedURLException, IOException, XmlRpcException
+	public void logOut() throws MalformedURLException, IOException, XmlRpcException, OpenSubtitlesResponseException
 	{
-		if (token.tokenHasExpired())
-			return true; 
+		if (token.tokenHasExpired()) return; 
 
 		Object[] params = new Object[]{ token.getToken() };
         Map<String, String> result = (Map<String, String>)callRemoteProcedure("LogOut", params);
         
-        return responseOk(result);	
+        responseOk(result);
 	}
 
 	
@@ -91,10 +92,12 @@ public class OpenSubtitlesClient
 	 * @throws MalformedURLException
 	 * @throws IOException
 	 * @throws XmlRpcException
+	 * @throws OpenSubtitlesResponseException 
 	 */
 	@SuppressWarnings("unchecked")
-	public OstTitleDto getTitleForHash(OpenSubtitlesHashData data) throws MalformedURLException, IOException, XmlRpcException
+	public OstTitleDto getTitleForHash(OpenSubtitlesHashData data) throws MalformedURLException, IOException, XmlRpcException, OpenSubtitlesResponseException
 	{
+		//this should only happen if the developer miss-uses this class, as it should not take 30 minutes to call in here after calling logon.
 		if (token.tokenHasExpired())
 			throw new RuntimeException("Open subtitles conection token has timed out.  you need to call logon on the OpenSubtitlesClient before calling any other methods.");
 		
@@ -107,8 +110,8 @@ public class OpenSubtitlesClient
         Map result = (Map)callRemoteProcedure("SearchSubtitles", params);
         
     	OstTitleDto dto = new OstTitleDto();
-        if(responseOk(result))
-        	dto.setPossibleTitles((Object[]) result.get("data"));
+        responseOk(result);
+        dto.setPossibleTitles((Object[]) result.get("data"));
         
     	return dto;
  	}
@@ -127,9 +130,14 @@ public class OpenSubtitlesClient
         return result;
 	}
 	
-	private boolean responseOk(Map result)
+	private void responseOk(Map result) throws OpenSubtitlesResponseException
 	{
-		return (result.get("status") != null && ((String) result.get("status")).trim().toUpperCase().equals("200 OK"));
+		//return (result.get("status") != null && ((String) result.get("status")).trim().toUpperCase().equals("200 OK"));
+		
+		if(result.get("status") == null || !((String) result.get("status")).trim().toUpperCase().equals("200 OK"))
+		{
+			throw new OpenSubtitlesResponseException();
+		}
 	}
 	
 }

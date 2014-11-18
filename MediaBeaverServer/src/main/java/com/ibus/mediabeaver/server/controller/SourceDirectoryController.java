@@ -1,11 +1,7 @@
 package com.ibus.mediabeaver.server.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,16 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Configuration;
-import com.ibus.mediabeaver.core.filesystem.FileProcessorBase.Platform;
-import com.ibus.mediabeaver.core.filesystem.FileSystem;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
+import com.ibus.mediabeaver.core.filesystem.MediaMover.Platform;
 import com.ibus.mediabeaver.core.filesystem.MediaRemover;
 import com.ibus.mediabeaver.server.util.Data;
-import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
 import com.ibus.mediabeaver.server.viewmodel.FileViewModel;
-import com.ibus.mediabeaver.server.viewmodel.ManualMoveViewModel;
-import com.ibus.mediabeaver.core.util.*;
 
 @Controller
 @RequestMapping(value = "/source")

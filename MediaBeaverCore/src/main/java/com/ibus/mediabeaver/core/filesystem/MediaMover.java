@@ -12,37 +12,49 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
 
+import com.ibus.mediabeaver.core.data.Repository;
+import com.ibus.mediabeaver.core.data.UpdateTransactable;
 import com.ibus.mediabeaver.core.entity.Activity;
+import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.entity.EventType;
 import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.entity.ResultType;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
 import com.ibus.mediabeaver.core.exception.PathParseException;
+import com.ibus.mediabeaver.core.filesystem.FileProcessorBase.Platform;
 import com.ibus.mediabeaver.core.util.PathParser;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 import com.ibus.opensubtitles.client.dto.OstTitleDto;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesField;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesHashData;
+import com.ibus.opensubtitles.client.exception.OpenSubtitlesResponseException;
 import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashGenerator;
 import com.ibus.tvdb.client.TvdbClient;
 import com.ibus.tvdb.client.domain.TvdbEpisodeDto;
 import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
 import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
 
-public class MediaMover extends FileProcessorBase
+public class MediaMover 
 {	
+	Logger log = Logger.getLogger(MediaMover.class.getName());
 	TvdbClient tvdbClient;
 	TmdbApi tmdbApi;
+	OpenSubtitlesClient openSubtitlesClient;
+	Configuration config;	
+	FileSystem fileSys = new FileSystem();
+	Platform platform;
+	
 	List<PathToken> episodePathTokens;
 	List<PathToken> moviePathTokens;
-	OpenSubtitlesClient openSubtitlesClient;
 	private static String ostUserName = "";
 	private static String ostPassword = "";
 	//private static String ostUseragent = "OS Test User Agent";
@@ -52,6 +64,11 @@ public class MediaMover extends FileProcessorBase
 	private static String tmdbApiKey = "e482b9df13cbf32a25570c09174a1d84";
 	private List<Activity> unmovedMedia = new ArrayList<Activity>();
 	private List<Activity> movedMedia = new ArrayList<Activity>();
+	
+	public enum Platform{
+		Web,
+		CLI
+	}
 	
 	public List<Activity> getMovedMedia()
 	{
@@ -71,8 +88,88 @@ public class MediaMover extends FileProcessorBase
 		tmdbApi = new TmdbApi(tmdbApiKey);
 	}
 	
-	@Override
-	protected void beforeProcess() throws MalformedURLException, XmlRpcException
+	
+	/**
+	 * processes all files in directory and in all its sub directories
+	 * @param config
+	 * @throws IOException
+	 * @throws XmlRpcException
+	 */
+	public void processFiles(Configuration config) throws IOException, XmlRpcException 
+	{	
+		this.config = config;
+		if(!beforeProcess())
+			return;
+		
+		processFileTree(new File(config.getSourceDirectory()));
+		afterProcess();
+	}
+	
+	private void processFileTree(File directory) throws IOException 
+	{
+		List<File> fileSysObjects = Arrays.asList(directory.listFiles());
+		
+		for (File fso : fileSysObjects)
+		{
+			log.debug(String.format("Inspecting file system object: %s", fso.getPath()));
+			
+			if (fso.isDirectory())
+			{
+				processFileTree(fso); 
+			} 
+			else
+			{
+				processFile(fso);
+			}
+		}
+	}
+	/**
+	 * process a flat list of files.  directories will not be processed
+	 * @param paths
+	 * @throws XmlRpcException 
+	 * @throws IOException 
+	 */
+	public void processFiles(Configuration config, List<String> paths) throws XmlRpcException, IOException 
+	{ 
+		this.config = config;
+		if(!beforeProcess())
+			return;
+		
+		for(String path : paths)
+		{
+			File file = new File(path);
+			
+			if(!file.isDirectory())
+				processFile(file);
+		}
+		
+		afterProcess();
+	}
+	
+	protected void logEvent(final Activity event)
+	{
+
+		if(platform == Platform.Web)
+		{
+			Repository.saveEntity(event);
+			return;
+		}
+		
+		//otherwise we are calling from the cli
+		Repository.doInTransaction(
+			new UpdateTransactable(){
+				public void run()
+				{
+					Repository.saveEntity(event);
+				}
+			});
+	}
+	
+	
+	
+	
+	
+	protected boolean beforeProcess() 
 	{
 		unmovedMedia = new ArrayList<Activity>();
 		movedMedia = new ArrayList<Activity>();
@@ -81,18 +178,31 @@ public class MediaMover extends FileProcessorBase
 		log.debug("Commencing Movement of files");
 		
 		log.debug("Logging into the Open Subtitles web serivce.");
-		if(!openSubtitlesClient.login())
+		Exception thrownException = null;
+		try 
 		{
-			log.debug("Aborting movement of files. Could not login to the Open Subtitles web serivce.");
-			logEvent(null, null, ResultType.Failed, "Could not login to the Open Subtitles web serivce");
-			return;
-		}
+			openSubtitlesClient.login();
+			/*{
+				log.debug("Aborting movement of files. Could not login to the Open Subtitles web serivce.");
+				logEvent(null, null, ResultType.Failed, "Could not login to the Open Subtitles web serivce");
+				return false;
+			}*/
 		
-		episodePathTokens = PathParser.getTokens(config.getEpisodePath());
-		moviePathTokens = PathParser.getTokens(config.getMoviePath());
+			episodePathTokens = PathParser.getTokens(config.getEpisodePath());
+			moviePathTokens = PathParser.getTokens(config.getMoviePath());
+			return true;
+		} 
+		catch (MalformedURLException e) {thrownException = e;} 
+		catch (XmlRpcException e) {thrownException = e;}
+		catch (OpenSubtitlesResponseException e) {thrownException = e;}
+		
+		log.error("Aborting movement of files. An exception was thrown while attempting to login to the Open Subtitles web serivce.", thrownException);
+		logEvent(null, null, ResultType.Failed, "Could not login to the Open Subtitles web serivce");
+		
+		return true;
 	}
 
-	@Override
+	
 	protected void afterProcess() throws MalformedURLException, IOException, XmlRpcException
 	{
 		log.debug("");
@@ -104,7 +214,7 @@ public class MediaMover extends FileProcessorBase
 	}
 	
 	
-	@Override
+	
 	protected void processFile(File file) 
 	{
 		String extension = FilenameUtils.getExtension(file.getAbsolutePath());
@@ -435,8 +545,8 @@ public class MediaMover extends FileProcessorBase
 		} 
 		catch (Exception e)
 		{
-			logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Could not find title for thumbprint");
-			log.debug(String.format("Open Subtitles thumbprint search on file %s failed. No results were returned by the service", 
+			logEvent(file.getAbsolutePath(), null, ResultType.Failed, "An error occured while performing a thumbprint search against the Open Subtitles service");
+			log.debug(String.format("Open Subtitles thumbprint search on file %s failed. An error occured while performing a thumbprint search against the service", 
 					file.getAbsolutePath()));
 			return null;
 		}
