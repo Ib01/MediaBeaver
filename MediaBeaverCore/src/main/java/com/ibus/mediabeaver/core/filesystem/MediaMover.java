@@ -57,13 +57,16 @@ public class MediaMover
 	List<PathToken> moviePathTokens;
 	private static String ostUserName = "";
 	private static String ostPassword = "";
-	private static String ostUseragent = "OS Test User Agent";
+	private static String ostUseragent = "FileBot v4.5";
+	//private static String ostUseragent = "OS Test User Agent";
 	//private static String ostUseragent = "OSTestUserAgent";
 	private static String ostHost = "http://api.opensubtitles.org/xml-rpc";
 	private static String ostSublanguageid = "eng";
 	private static String tmdbApiKey = "e482b9df13cbf32a25570c09174a1d84";
 	private List<Activity> unmovedMedia = new ArrayList<Activity>();
 	private List<Activity> movedMedia = new ArrayList<Activity>();
+	
+	//FileBot v4.5
 	
 	public enum Platform{
 		Web,
@@ -197,20 +200,31 @@ public class MediaMover
 		catch (OpenSubtitlesResponseException e) {thrownException = e;}
 		
 		log.error("Aborting movement of files. An exception was thrown while attempting to login to the Open Subtitles web serivce.", thrownException);
-		logEvent(null, null, ResultType.Failed, "Could not login to the Open Subtitles web serivce");
+		logEvent(null, null, ResultType.Failed, "Could not login to the Open Subtitles web serivce. An exception was thrown while attempting to login to the serivce.");
 		
 		return true;
 	}
 
 	
-	protected void afterProcess() throws MalformedURLException, IOException, XmlRpcException
+	protected void afterProcess() 
 	{
 		log.debug("");
 		log.debug("File movement is complete");
 		log.debug(String.format("Media found= %d", movedMedia.size() + unmovedMedia.size()));
 		log.debug(String.format("Media moved= %d", movedMedia.size()));
 		log.debug("******************************************************");
-		openSubtitlesClient.logOut();
+		
+		Exception thrownException = null;
+		try {
+			openSubtitlesClient.logOut();
+			return;
+		} 
+		catch (OpenSubtitlesResponseException e) {thrownException = e;}
+		catch (MalformedURLException e){thrownException = e;}
+		catch (IOException e) {thrownException = e;}
+		catch (XmlRpcException e){thrownException = e;}
+		
+		log.error("An exception was thrown while attempting to logout of the Open Subtitles web serivce.", thrownException);
 	}
 	
 	

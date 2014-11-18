@@ -12,6 +12,7 @@ import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 import com.ibus.opensubtitles.client.OpenSubtitlesToken;
 import com.ibus.opensubtitles.client.dto.OstTitleDto;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesHashData;
+import com.ibus.opensubtitles.client.exception.OpenSubtitlesResponseException;
 import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashGenerator;
 
 public class OpenSubtitlesClientIT
@@ -40,23 +41,23 @@ public class OpenSubtitlesClientIT
 	}
 	
 	@Test
-	public void logonLogoutTest() throws XmlRpcException, IOException
+	public void logonLogoutTest() throws XmlRpcException, IOException, OpenSubtitlesResponseException
 	{
 		OpenSubtitlesClient osClient = new OpenSubtitlesClient(host,useragent,userName, password,sublanguageid);
 		
-		assertTrue(osClient.login());
-		assertTrue(osClient.logOut());
+		osClient.login();
+		osClient.logOut();
 	}
 	
 	@Test
-	public void getTitleForHashTest() throws XmlRpcException, IOException
+	public void getTitleForHashTest() throws XmlRpcException, IOException, OpenSubtitlesResponseException
 	{
 		OpenSubtitlesHashData data = OpenSubtitlesHashGenerator.computeHash(new File("D:\\MediabeaverTests\\Aliens (1986) Special Edition.avi"));
 		OpenSubtitlesClient osClient = new OpenSubtitlesClient(host,useragent,userName, password,sublanguageid);
 		
-		assertTrue(osClient.login());
+		osClient.login();
 		OstTitleDto dto = osClient.getTitleForHash(data);
-		assertTrue(osClient.logOut());
+		osClient.logOut();
 		
 		assertTrue(dto.getPossibleTitles().size() > 0);
 	}

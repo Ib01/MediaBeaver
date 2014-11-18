@@ -11,8 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.ibus.mediabeaver.core.entity.Configuration;
-import com.ibus.mediabeaver.core.filesystem.FileProcessorBase.Platform;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
+import com.ibus.mediabeaver.core.filesystem.MediaMover.Platform;
 
 public class MediaManagerIT
 {
