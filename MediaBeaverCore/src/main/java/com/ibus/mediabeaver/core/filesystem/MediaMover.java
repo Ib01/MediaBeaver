@@ -45,8 +45,8 @@ public class MediaMover extends FileProcessorBase
 	OpenSubtitlesClient openSubtitlesClient;
 	private static String ostUserName = "";
 	private static String ostPassword = "";
-	//private static String ostUseragent = "OS Test User Agent";
-	private static String ostUseragent = "OSTestUserAgent";
+	private static String ostUseragent = "OS Test User Agent";
+	//private static String ostUseragent = "OSTestUserAgent";
 	private static String ostHost = "http://api.opensubtitles.org/xml-rpc";
 	private static String ostSublanguageid = "eng";
 	private static String tmdbApiKey = "e482b9df13cbf32a25570c09174a1d84";
