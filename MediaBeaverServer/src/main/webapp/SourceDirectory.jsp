@@ -61,17 +61,31 @@
 			
 			$("#moveFiles").click(function() 
 			{	
-				$("form:first").attr("action", "/source/move");
-				$("form:first").submit();
-				return false;
+				if($('.selectedCheckbox:checked').length > 0)
+				{
+					$("form:first").attr("action", "/source/move");
+					$("form:first").submit();
+					return false;
+				}
 			});
 			$("#deleteFiles").click(function() 
 			{	
-				$("form:first").attr("action", "/source/delete");
-				$("form:first").submit();
-				return false;
+				if($('.selectedCheckbox:checked').length > 0)
+				{
+					$("form:first").attr("action", "/source/delete");
+					$("form:first").submit();
+					return false;
+				}
 			});
-			
+			$("#moveManually").click(function() 
+			{	
+				if($('.selectedCheckbox:checked').length > 0)
+				{
+					$("form:first").attr("action", "/source/serviceMove");
+					$("form:first").submit();
+					return false;
+				}
+			});
 			
 			$("#openAll1").click(function() 
 			{	
@@ -105,7 +119,7 @@
 	
 	
 	
-	<form:form method="POST" commandName="directory" class="formLayoutX">
+	<form:form method="POST" commandName="directory">
 		<h2>Source Directory</h2>
 		
 		<div style="border: solid 1px #F1F1F1">

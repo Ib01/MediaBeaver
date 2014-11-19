@@ -12,7 +12,7 @@ public class ManualMoveViewModel
 	List<String> rootPaths = new ArrayList<String>();
 	private String selectedRoot;
 
-	@EnvironmentPath(message="This path contains invalid path seperators")
+	/*@EnvironmentPath(message="This path contains invalid path seperators")*/
 	String pathEnd;
 	
 	public List<String> getRootPaths()

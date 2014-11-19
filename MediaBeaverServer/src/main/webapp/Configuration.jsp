@@ -138,22 +138,22 @@
 	<form:form method="POST" commandName="configuration" id="configForm" class="formLayout">
 		<form:hidden path="id"/>
 
-		<div class="roundedPanel">
+		<!-- <div class="roundedPanel"> -->
 			<form:label path="sourceDirectory">Source Directory</form:label>
 			<form:input path="sourceDirectory" style="width: 750px" class="autoComplete validate[required]"/>
 			<br>
-		</div>
+		<!-- </div> -->
 		
-		<div class="roundedPanel">
+		<!-- <div class="roundedPanel"> -->
 			<form:label path="tvRootDirectory">Tv Root</form:label>
 			<form:input path="tvRootDirectory" style="width: 750px" class="validate[required]"/>
 			<br>
 			<form:label path="episodePath">Episode Path Format</form:label>
 			<form:textarea path="episodePath" style="width: 750px; height: 80px" class="autoComplete validate[required]"/>
 			<br>
-		</div>
+		<!-- </div> -->
 		
-		<div class="roundedPanel">
+		<!-- <div class="roundedPanel"> -->
 			
 			<form:label path="movieRootDirectory">Movie Root</form:label>
 			<form:input path="movieRootDirectory" style="width: 750px" class="validate[required]"/>
@@ -161,18 +161,19 @@
 			<form:label path="moviePath">Movie Path Format</form:label>
 			<form:textarea path="moviePath" style="width: 750px; height: 80px" class="autoComplete validate[required]"/>
 			<br>
-		</div>
+		<!-- </div> -->
 	 
-		<div class="roundedPanel">
+		<!-- <div class="roundedPanel"> -->
 		 	<form:label path="videoExtensionFilter">Video Extensions</form:label>
 		 	<form:textarea path="videoExtensionFilter" style="width: 750px; height: 100px" class="validate[required]"/>
 		 	<br>
-		</div>
+		<!-- </div> -->
 	 
-	 	<div class="roundedPanel">
-	 		<form:checkbox path="copyAsDefault" /> Set copy as default move action
+	 	<!-- <div class="roundedPanel"> -->
+	 		<form:label path="copyAsDefault">Move action</form:label>
+	 		<form:checkbox path="copyAsDefault" /> (Set copy as default move action)
 		 	<br>
-		</div>
+		<!-- </div> -->
 	 
 		<br>
 		<br>

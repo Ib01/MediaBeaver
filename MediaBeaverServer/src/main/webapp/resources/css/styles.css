@@ -198,7 +198,7 @@ input[type="text"], textarea
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
-.formLayout .roundedPanel label{
+.formLayout label{
 	width: 150px;
 }
 

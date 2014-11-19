@@ -13,17 +13,17 @@ public class ConfigurationViewModel extends ViewModel
 {
 	private static final long serialVersionUID = 1L;
 
+	/*@EnvironmentPath(message="This path contains invalid path seperators")*/
 	@PathExists(message="This directory does not exist on the file system")
-	@EnvironmentPath(message="This path contains invalid path seperators")
 	private String sourceDirectory;
-	
+
+	/*@EnvironmentPath(message="This path contains invalid path seperators")*/
 	@PathExists(message="This directory does not exist on the file system")
-	@EnvironmentPath(message="This path contains invalid path seperators")
 	private String tvRootDirectory;
 	private String episodePath;
 	
+	/*@EnvironmentPath(message="This path contains invalid path seperators")*/
 	@PathExists(message="This directory does not exist on the file system")
-	@EnvironmentPath(message="This path contains invalid path seperators")
 	private String movieRootDirectory;
 	private String moviePath;
 	

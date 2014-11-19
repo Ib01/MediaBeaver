@@ -61,6 +61,16 @@ public class SourceDirectoryController
 		return new ModelAndView("SourceDirectory","directory", vm);
 	}
 	
+
+	@RequestMapping(value="/serviceMove", method = RequestMethod.POST)
+	public ModelAndView serviceMove(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request) throws IOException, XmlRpcException
+	{
+		List<String> files = viewModel.getSelectedPaths(true);
+		request.getSession().setAttribute(ServiceMoverController.FilesToMoveSessionKey, files);
+		
+		return new ModelAndView("redirect:/serviceMover");
+	}
+	
 	
 	@RequestMapping(value="/delete", method = RequestMethod.POST)
 	public ModelAndView deleteFiles(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request) throws IOException
