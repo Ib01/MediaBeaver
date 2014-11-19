@@ -143,12 +143,12 @@
 		
 			<div style="border: 1px solid #F1F1F1">
 				<div style="background-color: #717372;  margin: 3px; color: white; padding: 5px;">
-				
+				<%-- 
 					<c:if test="${directory.successCount > 0 && directory.failureCount > 0}">
 						An error occurred while attempting to process your files. 
-					</c:if>
+					</c:if> --%>
 				
-					<c:if test="${directory.successCount > 0}">
+					<%-- <c:if test="${directory.successCount > 0}">
 						<c:out value="${directory.successCount}"></c:out> files successfully <c:out value="${directory.action}"></c:out>  
 					
 						<ul>
@@ -157,7 +157,9 @@
 							</c:forEach>
 						</ul>
 						
-					</c:if>
+					</c:if> --%>
+					
+					<c:out value="${directory.successCount}"></c:out> files were successfully <c:out value="${directory.action}"></c:out>
 					
 					<c:if test="${directory.failureCount > 0}">
 						<c:out value="${directory.failureCount}"></c:out> files could not be <c:out value="${directory.action}"></c:out>

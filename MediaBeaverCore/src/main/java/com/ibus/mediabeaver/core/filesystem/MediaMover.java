@@ -66,8 +66,6 @@ public class MediaMover
 	private List<Activity> unmovedMedia = new ArrayList<Activity>();
 	private List<Activity> movedMedia = new ArrayList<Activity>();
 	
-	//FileBot v4.5
-	
 	public enum Platform{
 		Web,
 		CLI
@@ -83,8 +81,9 @@ public class MediaMover
 		return unmovedMedia;
 	}
 	
-	public MediaMover(Platform platform)
+	public MediaMover(Platform platform, Configuration config)
 	{
+		this.config = config;
 		this.platform = platform;
 		openSubtitlesClient = new OpenSubtitlesClient(ostHost,ostUseragent,ostUserName, ostPassword,ostSublanguageid);
 		tvdbClient = new TvdbClient();
@@ -93,14 +92,13 @@ public class MediaMover
 	
 	
 	/**
-	 * processes all files in directory and in all its sub directories
+	 * processes all files in source directory and in all its sub directories
 	 * @param config
 	 * @throws IOException
 	 * @throws XmlRpcException
 	 */
-	public void processFiles(Configuration config) throws IOException, XmlRpcException 
+	public void processSourceDirectory() throws IOException, XmlRpcException 
 	{	
-		this.config = config;
 		if(!beforeProcess())
 			return;
 		
@@ -132,9 +130,8 @@ public class MediaMover
 	 * @throws XmlRpcException 
 	 * @throws IOException 
 	 */
-	public void processFiles(Configuration config, List<String> paths) throws XmlRpcException, IOException 
-	{ 
-		this.config = config;
+	public void moveFiles(List<String> paths) throws XmlRpcException, IOException 
+	{ 		
 		if(!beforeProcess())
 			return;
 		

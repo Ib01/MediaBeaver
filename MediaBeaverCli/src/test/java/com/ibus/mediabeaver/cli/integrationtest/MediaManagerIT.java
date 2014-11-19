@@ -35,8 +35,8 @@ public class MediaManagerIT
 		
 		
 
-		MediaMover mm = new MediaMover(Platform.CLI);
-		mm.processFiles(c);
+		MediaMover mm = new MediaMover(Platform.CLI, c);
+		mm.processSourceDirectory();
 
 		
 		

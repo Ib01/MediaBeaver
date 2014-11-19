@@ -48,8 +48,8 @@ public class SourceDirectoryController
 		
 		//move files
 		List<String> files = viewModel.getSelectedPaths(true);
-		MediaMover mover = new MediaMover(Platform.Web);
-		mover.processFiles(config, files);
+		MediaMover mover = new MediaMover(Platform.Web,config);
+		mover.moveFiles(files);
 		
 		FileViewModel vm = getFileViewModel(viewModel,request);
 

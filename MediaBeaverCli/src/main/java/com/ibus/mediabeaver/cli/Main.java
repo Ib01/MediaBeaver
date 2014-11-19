@@ -58,8 +58,8 @@ public class Main
 					}
 				});
 	
-		MediaMover mm = new MediaMover(Platform.CLI);
-		mm.processFiles(config);
+		MediaMover mm = new MediaMover(Platform.CLI, config);
+		mm.processSourceDirectory();
 	}
 	
 	
