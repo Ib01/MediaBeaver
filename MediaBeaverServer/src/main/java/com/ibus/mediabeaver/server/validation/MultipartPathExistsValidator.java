@@ -50,8 +50,7 @@ public class MultipartPathExistsValidator implements ConstraintValidator<Multipa
 			
 			if(!pathIsIncomplete)
 			{
-				FileSystem fs = new FileSystem();
-				if(fs.pathExists(pathComponents))	
+				if(FileSystem.pathExists(pathComponents))	
 					return true;
 			}
 			

@@ -20,11 +20,11 @@ import com.ibus.mediabeaver.core.exception.MediaBeaverConfigurationException;
 
 import java.nio.file.attribute.BasicFileAttributes;
 
-public class FileSystem
+public abstract class FileSystem
 {
-	private Logger log = Logger.getLogger(FileSystem.class.getName());
-	HashMap<String, List<String>> cachedPaths = new HashMap<String, List<String>>();
-	
+	//TODO: Decide whether we want to use cache? may be over killa and stops us using this class statically 
+	private static Logger log = Logger.getLogger(FileSystem.class.getName());
+	//HashMap<String, List<String>> cachedPaths = new HashMap<String, List<String>>();
 	
 	/**
 	 * Move or rename a file from source to destination. all directories in the destination path will be 
@@ -37,7 +37,7 @@ public class FileSystem
 	 * @throws IOException 
 	 * @throws DuplicateFileException 
 	 */
-	public boolean moveFile(String source, String destinationRoot, String destinationEnd) throws IOException, DuplicateFileException 
+	public static boolean moveFile(String source, String destinationRoot, String destinationEnd) throws IOException, DuplicateFileException 
 	{
 		validateDestinationPath(destinationRoot, destinationEnd);
 		
@@ -66,7 +66,7 @@ public class FileSystem
 	 * @throws IOException 
 	 * @throws DuplicateFileException 
 	 */
-	public boolean copyFile(String source, String destinationRoot, String destinationEnd) throws IOException, DuplicateFileException 
+	public static boolean copyFile(String source, String destinationRoot, String destinationEnd) throws IOException, DuplicateFileException 
 	{
 		validateDestinationPath(destinationRoot, destinationEnd);
 		
@@ -88,7 +88,7 @@ public class FileSystem
 	 * @param path
 	 * @return
 	 */
-	public boolean pathExists(String root, String path)  
+	public static boolean pathExists(String root, String path)  
 	{
 		return Files.exists(Paths.get(root, path));
 	}
@@ -99,7 +99,7 @@ public class FileSystem
 	 * @param path
 	 * @return
 	 */
-	public boolean pathExists(List<String> pathComponents)  
+	public static boolean pathExists(List<String> pathComponents)  
 	{
 		return pathExists(pathComponents.toArray(new String[]{}));
 	}
@@ -109,7 +109,7 @@ public class FileSystem
 	 * @param path
 	 * @return
 	 */
-	public boolean pathExists(String[] pathComponents)  
+	public static boolean pathExists(String[] pathComponents)  
 	{
 		if(pathComponents == null || pathComponents.length == 0)
 			return false;
@@ -128,13 +128,13 @@ public class FileSystem
 	 * @param path
 	 * @return
 	 */
-	public boolean pathExists(String path)  
+	public static boolean pathExists(String path)  
 	{
 		return Files.exists(Paths.get(path));
 	}
 	
 	
-	private void createAllDirectoriesInPath(Path path) throws IOException
+	private static void createAllDirectoriesInPath(Path path) throws IOException
 	{
 		path = path.getParent();
 		Files.createDirectories(path);
@@ -164,7 +164,7 @@ public class FileSystem
 	 * @throws DuplicateFileException
 	 * @throws IOException
 	 */
-	public void validateDestinationPath(String pathRoot, String pathEnd) throws DuplicateFileException, IOException    
+	public static void validateDestinationPath(String pathRoot, String pathEnd) throws DuplicateFileException, IOException    
 	{
 		Path rootPath = Paths.get(pathRoot);
 		if(!Files.exists(rootPath))
@@ -208,7 +208,7 @@ public class FileSystem
 	}
 	
 	
-	private boolean pathExistsWithAlternateCasing(String root, String file) throws IOException 
+	private static boolean pathExistsWithAlternateCasing(String root, String file) throws IOException 
 	{
 		Path filePath = Paths.get(file);
 		
@@ -228,7 +228,29 @@ public class FileSystem
 	}
 	
 	
-	private boolean siblingExistsWithAlternateCasing(Path filePath) throws IOException   
+	
+	private static boolean siblingExistsWithAlternateCasing(Path filePath) throws IOException   
+	{
+		Path parentPath = filePath.getParent();
+		
+		if(!Files.exists(parentPath))
+			return false; 
+			
+		File parentFile = parentPath.toFile(); 
+		for (File sibling : parentFile.listFiles())
+		{
+			String sib = sibling.getAbsolutePath().replaceFirst("[\\\\/]$", ""); 
+			String path = filePath.toString().replaceFirst("[\\\\/]$", "");
+			
+			if(!path.equals(sib) && path.equalsIgnoreCase(sib))
+				return true;
+		}
+		
+		return false;
+	}
+	
+	
+	/*private boolean siblingExistsWithAlternateCasing(Path filePath) throws IOException   
 	{
 		Path parentPath = filePath.getParent();
 		
@@ -241,12 +263,12 @@ public class FileSystem
 		{
 			File parentFile = parentPath.toFile(); 
 			
-			List<String> dirs = new ArrayList<String>();
+			List<String> paths = new ArrayList<String>();
 			for (File sibling : parentFile.listFiles())
 			{
-				dirs.add(sibling.getAbsolutePath());
+				paths.add(sibling.getAbsolutePath());
 			}
-			cachedPaths.put(parentPath.toString(), dirs);
+			cachedPaths.put(parentPath.toString(), paths);
 		}
 		
 		//check if there is a case insensitive version of sourceString
@@ -261,7 +283,7 @@ public class FileSystem
 		}
 		
 		return false;
-	}
+	}*/
 }
 
 

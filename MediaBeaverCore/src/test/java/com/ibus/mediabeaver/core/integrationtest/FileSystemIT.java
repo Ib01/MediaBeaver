@@ -19,26 +19,24 @@ public class FileSystemIT
 	@Test
 	public void pathExistsWithArray()
 	{
-		FileSystem fileSys = new FileSystem();
-		
 		boolean result = false; 
 		
-		result = fileSys.pathExists(new String[]{"D:\\MediabeaverTests\\Destination", "\\Movies"});
+		result = FileSystem.pathExists(new String[]{"D:\\MediabeaverTests\\Destination", "\\Movies"});
 		assertTrue(result);
 		
-		result = fileSys.pathExists(new String[]{"D:\\MediabeaverTests\\Destination", "Movies"});
+		result = FileSystem.pathExists(new String[]{"D:\\MediabeaverTests\\Destination", "Movies"});
 		assertTrue(result);
 		
-		result = fileSys.pathExists(new String[]{"D:\\MediabeaverTests\\Destination\\", "Movies"});
+		result = FileSystem.pathExists(new String[]{"D:\\MediabeaverTests\\Destination\\", "Movies"});
 		assertTrue(result);
 		
-		result = fileSys.pathExists(new String[]{"D:\\MediabeaverTests\\Destination", "Movies"});
+		result = FileSystem.pathExists(new String[]{"D:\\MediabeaverTests\\Destination", "Movies"});
 		assertTrue(result);
 		
-		result = fileSys.pathExists(new String[]{"D:\\MediabeaverTests\\Destination", "MoviesXX"});
+		result = FileSystem.pathExists(new String[]{"D:\\MediabeaverTests\\Destination", "MoviesXX"});
 		assertFalse(result);
 		
-		result = fileSys.pathExists(new String[]{"D:\\MediabeaverTests\\DestinationXX", "Movies"});
+		result = FileSystem.pathExists(new String[]{"D:\\MediabeaverTests\\DestinationXX", "Movies"});
 		assertFalse(result);
 	}
 	

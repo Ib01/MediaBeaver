@@ -42,6 +42,7 @@ import com.ibus.tvdb.client.TvdbClient;
 import com.ibus.tvdb.client.domain.TvdbEpisodeDto;
 import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
 import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
+import com.ibus.opensubtitles.client.exception.OpenSubtitlesResponseException;
 
 public class MediaMover 
 {	
@@ -50,7 +51,6 @@ public class MediaMover
 	TmdbApi tmdbApi;
 	OpenSubtitlesClient openSubtitlesClient;
 	Configuration config;	
-	FileSystem fileSys = new FileSystem();
 	Platform platform;
 	
 	List<PathToken> episodePathTokens;
@@ -399,9 +399,9 @@ public class MediaMover
 	private void moveFile(String source, String destinationRoot, String destinationEnd) throws IOException, DuplicateFileException
 	{
 		if(config.isCopyAsDefault())
-			fileSys.copyFile(source, destinationRoot, destinationEnd);
+			FileSystem.copyFile(source, destinationRoot, destinationEnd);
 		else
-			fileSys.moveFile(source, destinationRoot, destinationEnd);
+			FileSystem.moveFile(source, destinationRoot, destinationEnd);
 	}
 	
 	

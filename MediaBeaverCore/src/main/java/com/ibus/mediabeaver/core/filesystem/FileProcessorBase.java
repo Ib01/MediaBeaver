@@ -22,7 +22,6 @@ public abstract class FileProcessorBase
 {
 	protected Configuration config;		
 	protected Logger log = Logger.getLogger(FileProcessorBase.class.getName());
-	protected FileSystem fileSys = new FileSystem();
 	protected Platform platform;
 	public enum Platform{
 		Web,

@@ -31,6 +31,73 @@
 		<dependency>
 			<groupId>org.eclipse.jetty.aggregate</groupId>
 			<artifactId>jetty-all-server</artifactId>
+			<version>8.1.16.v20140903</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jetty.aggregate</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<version>8.1.16.v20140903</version>
+		</dependency>
+
+		<!-- JSP Support -->
+
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jsp-2.1</artifactId>
+			<version>7.5.4.v20111024</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-util</artifactId>
+			<version>9.2.5.v20141112</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jsp-2.1-glassfish</artifactId>
+			<version>2.1.v20100127</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jdt.core.compiler</groupId>
+			<artifactId>ecj</artifactId>
+			<version>4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jsp-api-2.1-glassfish</artifactId>
+			<version>2.1.v20100127</version>
+		</dependency>
+		
+		<!-- Spring framework -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>4.0.2.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+		
+
+	</dependencies>
+	
+	
+	<!-- <dependencies>
+
+		<dependency>
+			<groupId>com.ibus</groupId>
+			<artifactId>mediaBeaverCore</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+
+		Jetty
+		<dependency>
+			<groupId>org.eclipse.jetty.aggregate</groupId>
+			<artifactId>jetty-all-server</artifactId>
 			<version>8.1.0.RC5</version>
 		</dependency>
 
@@ -40,7 +107,7 @@
 			<version>8.1.0.RC5</version>
 		</dependency>
 
-		<!-- JSP Support -->
+		JSP Support
 
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
@@ -68,7 +135,7 @@
 			<version>2.1.v20100127</version>
 		</dependency>
 		
-		<!-- Spring framework -->
+		Spring framework
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
@@ -82,7 +149,8 @@
 		</dependency>
 		
 
-	</dependencies>
+	</dependencies> -->
+	
 
 	<build>
 		<plugins>

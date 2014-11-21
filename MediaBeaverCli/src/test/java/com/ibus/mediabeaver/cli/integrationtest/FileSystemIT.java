@@ -29,14 +29,13 @@ public class FileSystemIT
 	{
 		String root;
 		String pathEnd;
-		FileSystem fs = new FileSystem();
 		
 		root = "D:\\MediabeaverTests\\Destination\\Validation Tests";
 		
 		pathEnd = "\\Folder 1\\Folder 2\\somefile.mkv";
 		try
 		{
-			fs.validateDestinationPath(root, pathEnd);
+			FileSystem.validateDestinationPath(root, pathEnd);
 			
 		} 
 		catch (DuplicateFileException e)
@@ -47,7 +46,7 @@ public class FileSystemIT
 		pathEnd = "Folder 2\\Folder 2\\somefile.mkv";
 		try
 		{
-			fs.validateDestinationPath(root, pathEnd);
+			FileSystem.validateDestinationPath(root, pathEnd);
 			assertTrue(false);
 		} 
 		catch (DuplicateFileException e)
@@ -56,7 +55,7 @@ public class FileSystemIT
 		pathEnd = "Folder 3\\Folder 2\\somefile.mkv";
 		try
 		{
-			fs.validateDestinationPath(root, pathEnd);
+			FileSystem.validateDestinationPath(root, pathEnd);
 			assertTrue(false);
 		} 
 		catch (DuplicateFileException e)
@@ -65,7 +64,7 @@ public class FileSystemIT
 		pathEnd = "Folder 4\\Folder 2\\somefile.mkv";
 		try
 		{
-			fs.validateDestinationPath(root, pathEnd);
+			FileSystem.validateDestinationPath(root, pathEnd);
 			assertTrue(false);
 		} 
 		catch (DuplicateFileException e)
@@ -74,7 +73,7 @@ public class FileSystemIT
 		pathEnd = "\\Folder 5\\Folder 2\\somefile.mkv";
 		try
 		{
-			fs.validateDestinationPath(root, pathEnd);
+			FileSystem.validateDestinationPath(root, pathEnd);
 		} 
 		catch (DuplicateFileException e)
 		{

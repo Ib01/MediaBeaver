@@ -27,7 +27,6 @@ public class ManualMoveController
 {
 	public static String SourcePathSessionKey ="ManualMove.SourcePath";
 	public static String ReferrerSessionKey ="ManualMove.Referrer";
-	FileSystem fileSys = new FileSystem();
 	
 	@RequestMapping
 	public ModelAndView manualMove(HttpServletRequest request) throws Exception
@@ -96,9 +95,9 @@ public class ManualMoveController
 		ConfigurationViewModel config = data.getConfiguration();
 		
 		if(config.isCopyAsDefault())
-			fileSys.copyFile(source, destinationRoot, destinationEnd);
+			FileSystem.copyFile(source, destinationRoot, destinationEnd);
 		else
-			fileSys.moveFile(source, destinationRoot, destinationEnd);
+			FileSystem.moveFile(source, destinationRoot, destinationEnd);
 	}
 	
 	

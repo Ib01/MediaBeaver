@@ -27,8 +27,7 @@ public class PathExistsValidator implements ConstraintValidator<PathExists, Stri
 		if(path == null || path.length() == 0)
 			return false;
 		
-		FileSystem fs = new FileSystem();
-		return fs.pathExists(path);	
+		return FileSystem.pathExists(path);	
 
 	}
 	
