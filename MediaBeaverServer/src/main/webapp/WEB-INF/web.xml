@@ -24,6 +24,15 @@
 		<servlet-name>mvc-dispatcher</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>HotlinkedImage</servlet-name>
+		<servlet-class>com.ibus.mediabeaver.server.controller.HotlinkedImage</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HotlinkedImage</servlet-name>
+		<url-pattern>/HotlinkedImage</url-pattern>
+	</servlet-mapping>
 
 
 
