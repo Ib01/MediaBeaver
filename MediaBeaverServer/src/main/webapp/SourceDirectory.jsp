@@ -117,8 +117,6 @@
 	</style>
 	
 	
-	
-	
 	<form:form method="POST" commandName="directory">
 		<h2>Source Directory</h2>
 		
