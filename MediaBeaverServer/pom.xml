@@ -42,19 +42,6 @@
 
 		<!-- JSP Support -->
 
-		<!--  <dependency>
-		    <groupId>org.eclipse.jetty</groupId>
-		    <artifactId>jetty-jsp</artifactId>
-		    <version>8.1.4.v20120524</version>
-		  </dependency>    
-		  <dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>jstl</artifactId>
-		    <version>1.2</version>
-		    <scope>provided</scope>
-		  </dependency> -->
-
-
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-jsp-2.1</artifactId>
@@ -71,19 +58,17 @@
 			<version>2.1.v20100127</version>
 		</dependency>
 		
-		
-		
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-util</artifactId>
 			<version>9.2.5.v20141112</version>
-		</dependency> -->                               
+		</dependency>                               
 		
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.eclipse.jdt.core.compiler</groupId>
 			<artifactId>ecj</artifactId>
 			<version>4.4</version>
-		</dependency> -->
+		</dependency> 
 		
 		
 		

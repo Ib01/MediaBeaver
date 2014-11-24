@@ -226,6 +226,12 @@ td
 	vertical-align: top;
 }
 
+.documentList
+{
+	list-style-image: url('/resources/images/document_24.png');
+}
+
+
 
 
 

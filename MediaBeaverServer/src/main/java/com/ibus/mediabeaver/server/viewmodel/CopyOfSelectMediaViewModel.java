@@ -3,7 +3,7 @@ package com.ibus.mediabeaver.server.viewmodel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceMoverViewModel 
+public class CopyOfSelectMediaViewModel 
 {
 	private List<String> filesToResolve = new ArrayList<String>(); 
 	private String selectedMediaType;
@@ -12,6 +12,7 @@ public class ServiceMoverViewModel
 	private String Series;
 	private String Season;
 	private String Episode;
+	private String wizardAction;
 	
 	public String getSelectedMediaType() {
 		return selectedMediaType;
