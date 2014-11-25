@@ -5,6 +5,8 @@
 <%@include file="includes/header.jsp"%>
 
 
+
+
 	<script type="text/javascript" >
 	
 		var dontCheck = false;
@@ -143,7 +145,14 @@
 					<img src="/resources/images/folder_24.png" style="padding-left: 10px;"><c:out value="${directory.path}" /> 
 				</li>
 				<li>
-					<myTags:Folder folder="${directory}" parentObject="files"/>
+				
+					<c:set var="FolderIncludeCurrentFolder" value="${directory}" scope="request"/>
+					<c:set var="FolderIncludeReferenceString" value="files" scope="request"/>
+					
+					<jsp:include page="includes/Folder.jsp"></jsp:include>
+				
+					<%-- <%@include file="includes/Folder.jsp"%> --%>
+					<%-- <myTags:Folder folder="${directory}" parentObject="files"/> --%>
 				</ul>
 			</ul>
 		</div>

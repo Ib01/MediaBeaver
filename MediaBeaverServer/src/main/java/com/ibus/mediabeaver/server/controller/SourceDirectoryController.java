@@ -31,6 +31,8 @@ public class SourceDirectoryController
 	@RequestMapping
 	public ModelAndView viewDirectory(HttpServletRequest request)
 	{
+		request.setAttribute("test", "tetstoing");
+		
 		return new ModelAndView("SourceDirectory","directory", getFileViewModel(new FileViewModel(),request));
 	}
 	
