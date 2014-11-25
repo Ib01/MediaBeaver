@@ -10,8 +10,9 @@ import javax.xml.bind.annotation.XmlType;
 public class TvdbSeriesDto
 {
 	private Long id;
-
-	@XmlElement(name = "Combined_episodenumber")
+	//private static String SeriesBannerPrefixUrl = "http://www.thetvdb.com/banners/";
+	
+	@XmlElement(name = "Combined_episodensumber")
 	private String combinedEpisodenumber;
 
 	@XmlElement(name = "Actors")
@@ -361,5 +362,8 @@ public class TvdbSeriesDto
 	}
 	
 	
-	
+	/*public String getSeriesBannerUrl()
+	{
+		SeriesBannerPrefixUrl.
+	}*/
 }

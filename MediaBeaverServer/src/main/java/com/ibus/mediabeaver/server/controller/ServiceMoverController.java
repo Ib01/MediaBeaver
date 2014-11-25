@@ -21,6 +21,7 @@ import com.ibus.mediabeaver.server.viewmodel.SelectMediaViewModel;
 import com.ibus.mediabeaver.server.viewmodel.SelectSeriesViewModel;
 import com.ibus.tvdb.client.TvdbClient;
 import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
+import com.ibus.tvdb.client.domain.TvdbSeriesListResponseDto;
 import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
 
 @Controller
@@ -61,10 +62,24 @@ public class ServiceMoverController
 	@RequestMapping(value="/searchSeries", method = RequestMethod.POST)
 	public ModelAndView searchSeries(@ModelAttribute("SelectSeries") @Validated SelectSeriesViewModel viewModel, BindingResult result, HttpServletRequest request)
 	{
-		try 
+		/*TODO:
+		 * 
+		 * PROCESS.
+		 * 
+		 * call http://www.thetvdb.com/api/FA86CE5B6769E616/series/{series Id}/banners.xml to get all banners for series
+		 * 
+		 * search for the right banner according to http://thetvdb.com/wiki/index.php?title=API:banners.xml
+		 * 
+		 * append BannerPath returned in banners.xml to <mirrorpath>/banners/ to get url of
+		 * 
+		 * 
+		 * */
+		
+		
+		/*try 
 		{
 			TvdbClient client = new TvdbClient();
-			TvdbSeriesResponseDto tvDto = client.getSeries(viewModel.getSeries());
+			TvdbSeriesListResponseDto tvDto = client.getSeries(viewModel.getSeries());
 			
 			long tvdbSeriesId = tvDto.getSeries().getId();
 			
@@ -79,7 +94,7 @@ public class ServiceMoverController
 		{
 		
 		}
-		
+		*/
 		return null;
 	}
 	

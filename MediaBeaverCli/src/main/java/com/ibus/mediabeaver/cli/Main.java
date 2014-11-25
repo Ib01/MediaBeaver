@@ -19,7 +19,7 @@ import com.ibus.mediabeaver.core.data.UpdateTransactable;
 import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
 import com.ibus.mediabeaver.core.filesystem.MediaMover.Platform;
-
+import com.ibus.mediabeaver.core.util.AppConfig;
 public class Main
 {    
 	static Logger log = Logger.getLogger(Main.class.getName());
@@ -28,6 +28,8 @@ public class Main
 	
 	public static void main(String[] args) throws XmlRpcException, IOException
 	{
+		AppConfig.createFile();
+		
 		
 		if(args[0].equals(initialiseArg))
 		{

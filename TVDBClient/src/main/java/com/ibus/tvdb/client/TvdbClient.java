@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
+import com.ibus.tvdb.client.domain.TvdbSeriesListResponseDto;
 import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
@@ -34,11 +35,29 @@ public class TvdbClient
 	}
 	
 	//http://www.thetvdb.com/api/GetSeries.php?seriesname=Game Of Thrones
-	public TvdbSeriesResponseDto getSeries(String seriesName) throws URISyntaxException
+	public TvdbSeriesListResponseDto getSeries(String seriesName) throws URISyntaxException
 	{
 		URI uri = getURI("/api/GetSeries.php", "seriesname=" + seriesName + "&language=" + language);
-		return doGet(TvdbSeriesResponseDto.class, uri);
+		return doGet(TvdbSeriesListResponseDto.class, uri);
 	}
+	
+	
+	
+	/*TODO:
+	 * 
+	 * get banners
+	 * 
+	 * PROCESS.
+	 * 
+	 * call http://www.thetvdb.com/api/FA86CE5B6769E616/series/{series Id}/banners.xml to get all banners for series
+	 * 
+	 * search for the right banner according to http://thetvdb.com/wiki/index.php?title=API:banners.xml
+	 * 
+	 * append BannerPath returned in banners.xml to <mirrorpath>/banners/ to get url for image
+	 * 
+	 * 
+	 * */
+	
 	
 	private static <R, T> R doGet(Class<R> returnType, URI uri)
 	{

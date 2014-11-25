@@ -57,7 +57,8 @@ public class MediaMover
 	List<PathToken> moviePathTokens;
 	private static String ostUserName = "";
 	private static String ostPassword = "";
-	private static String ostUseragent = "FileBot v4.5";
+	private static String ostUseragent = "MediaBeaver V0.1";
+	//private static String ostUseragent = "FileBot v4.5";
 	//private static String ostUseragent = "OS Test User Agent";
 	//private static String ostUseragent = "OSTestUserAgent";
 	private static String ostHost = "http://api.opensubtitles.org/xml-rpc";

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.ibus.tvdb.client.TvdbClient;
 import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
+import com.ibus.tvdb.client.domain.TvdbSeriesListResponseDto;
 import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
 
 public class TvdbClientIT
@@ -26,11 +27,23 @@ public class TvdbClientIT
 	
 	
 	@Test
-	public void getSeriesTest() throws URISyntaxException
+	public void getSeriesByImdbTest() throws URISyntaxException
 	{
 		TvdbClient c = new TvdbClient();
 		TvdbSeriesResponseDto dto = c.getSeriesForImdbId("tt0944947");
 		
 		assertTrue(true);
+	}
+	
+	@Test
+	public void getSeriesByNameTest() throws URISyntaxException
+	{
+		TvdbClient c = new TvdbClient();
+		TvdbSeriesListResponseDto dto = c.getSeries("the killing");
+		
+		assertTrue(dto.getSeries().size() > 1);
+		
+		dto = c.getSeries("game of thrones");
+		assertTrue(dto.getSeries().size() == 1);
 	}
 }

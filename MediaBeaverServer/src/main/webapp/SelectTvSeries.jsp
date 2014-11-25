@@ -39,7 +39,10 @@
 		<form:input path="series"/>
 		<br>
 		
+<!-- http://www.thetvdb.com/api/FA86CE5B6769E616/series/121361/banners.xml 
 		
+http://www.thetvdb.com/banners/episodes/121361/4161693.jpg -->
+
 		
 		<!-- <image src="/HotlinkedImage?imgUri=http://www.thetvdb.com/banners/episodes/121361/4161693.jpg"> -->
 		
