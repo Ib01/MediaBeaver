@@ -12,14 +12,17 @@ import com.sun.jersey.api.client.WebResource;
 public class TvdbClient
 {
 	protected static Client client = Client.create(); 
-	private String scheme=  "http";
-	private String host = "www.thetvdb.com";
-	private String language=  "en";
-	//private static String apiKey = "694FAD89942D3827"; file bots key?
-	private static String apiKey = "FA86CE5B6769E616";
+	private String scheme;
+	private String host;
+	private String language;
+	private String apiKey;
 	
-	public TvdbClient()
+	public TvdbClient(String scheme,String host,String language, String apiKey)
 	{
+		this.scheme = scheme;
+		this.host = host;
+		this.language = language;
+		this.apiKey = apiKey;
 	}
 	
 	public TvdbEpisodesResponseDto getEpisodes(String seriesId) throws URISyntaxException

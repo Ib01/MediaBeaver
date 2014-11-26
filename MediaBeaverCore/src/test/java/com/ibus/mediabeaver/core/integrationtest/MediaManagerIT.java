@@ -1,4 +1,4 @@
-package com.ibus.mediabeaver.cli.integrationtest;
+package com.ibus.mediabeaver.core.integrationtest;
 
 import static org.junit.Assert.assertTrue;
 
