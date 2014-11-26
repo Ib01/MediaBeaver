@@ -10,7 +10,8 @@ public abstract class Services
 	public static TvdbClient getTvdbClient()
 	{
 		if(tvdbClient == null)
-		tvdbClient = new TvdbClient(AppConfig.TVDBScheme, AppConfig.TVDBhost, AppConfig.TVDBlanguage, AppConfig.TVDBApiKey);
+			tvdbClient = new TvdbClient(AppConfig.TVDBScheme, AppConfig.TVDBhost, AppConfig.TVDBlanguage, AppConfig.TVDBApiKey);
+		return tvdbClient;
 	}
 	
 	

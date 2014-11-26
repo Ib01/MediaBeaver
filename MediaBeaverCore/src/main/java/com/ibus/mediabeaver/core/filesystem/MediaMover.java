@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,24 +29,21 @@ import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.entity.ResultType;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
 import com.ibus.mediabeaver.core.exception.PathParseException;
-import com.ibus.mediabeaver.core.filesystem.FileProcessorBase.Platform;
 import com.ibus.mediabeaver.core.util.PathParser;
+import com.ibus.mediabeaver.core.util.Services;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 import com.ibus.opensubtitles.client.dto.OstTitleDto;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesField;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesHashData;
 import com.ibus.opensubtitles.client.exception.OpenSubtitlesResponseException;
 import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashGenerator;
-import com.ibus.tvdb.client.TvdbClient;
 import com.ibus.tvdb.client.domain.TvdbEpisodeDto;
 import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
 import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
-import com.ibus.opensubtitles.client.exception.OpenSubtitlesResponseException;
 
 public class MediaMover 
 {	
 	Logger log = Logger.getLogger(MediaMover.class.getName());
-	TvdbClient tvdbClient;
 	TmdbApi tmdbApi;
 	OpenSubtitlesClient openSubtitlesClient;
 	Configuration config;	
@@ -87,7 +83,6 @@ public class MediaMover
 		this.config = config;
 		this.platform = platform;
 		openSubtitlesClient = new OpenSubtitlesClient(ostHost,ostUseragent,ostUserName, ostPassword,ostSublanguageid);
-		tvdbClient = new TvdbClient();
 		tmdbApi = new TmdbApi(tmdbApiKey);
 	}
 	
@@ -330,7 +325,7 @@ public class MediaMover
 			}
 			
 			//TvdbSeriesResponseDto only contains very basic info about the series itself.
-			TvdbSeriesResponseDto seriesDto = tvdbClient.getSeriesForImdbId(seriesImdbid);
+			TvdbSeriesResponseDto seriesDto = Services.getTvdbClient().getSeriesForImdbId(seriesImdbid);
 			if(seriesDto == null || seriesDto.getSeries() == null || seriesDto.getSeries().getId() == null)
 			{
 				logEvent(file.getAbsolutePath(), null,ResultType.Failed, "Failed to get valid title from service");
@@ -343,7 +338,7 @@ public class MediaMover
 			long tvdbSeriesId = seriesDto.getSeries().getId();
 			//TvdbEpisodesResponseDto contains detailed info about not only the series but all its seasons and episodes. pity there isn't a way to 
 			//get single episode info for an episode imdb.
-			TvdbEpisodesResponseDto tvdbEpisodes = tvdbClient.getEpisodes(Long.toString(tvdbSeriesId));
+			TvdbEpisodesResponseDto tvdbEpisodes = Services.getTvdbClient().getEpisodes(Long.toString(tvdbSeriesId));
 			if(tvdbEpisodes == null)
 			{
 				logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get valid title from service");
