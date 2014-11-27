@@ -7,48 +7,21 @@ import java.util.Properties;
 
 public abstract class AppConfig 
 {
-	public static String TVDBScheme=  "http";
-	public static String TVDBhost = "www.thetvdb.com";
-	public static String TVDBlanguage=  "en";
+	public static String TvdbScheme=  "http";
+	public static String TvdbHost = "www.thetvdb.com";
+	public static String TvdbLanguage=  "en";
 	//private static String apiKey = "694FAD89942D3827"; file bots key?
-	public static String TVDBApiKey = "FA86CE5B6769E616";
-	
-	  
-	
+	public static String TvdbApiKey = "FA86CE5B6769E616";
+	public static String TmdbApiKey = "e482b9df13cbf32a25570c09174a1d84";
 	
 	
-	
-
-	/*public static void createFile()
-	{
-		Properties prop = new Properties();
-		OutputStream output = null;
-	 
-		try {
-	 
-			output = new FileOutputStream("config.properties");
-	 
-			// set the properties value
-			prop.setProperty("database", "localhost");
-			prop.setProperty("dbuser", "mkyong");
-			prop.setProperty("dbpassword", "password");
-	 
-			// save properties to project root folder
-			prop.store(output, null);
-	 
-		} catch (IOException io) 
-		{
-			io.printStackTrace();
-		} finally {
-			if (output != null) {
-				try {
-					output.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-	 
-		}
-	}*/
+	public static String OstUserName = "";
+	public static String OstPassword = "";
+	public static String OstUseragent = "MediaBeaver V0.1";
+	//private static String ostUseragent = "FileBot v4.5";
+	//private static String ostUseragent = "OS Test User Agent";
+	//private static String ostUseragent = "OSTestUserAgent";
+	public static String OstHost = "http://api.opensubtitles.org/xml-rpc";
+	public static String OstSublanguageid = "eng";
 	
 }

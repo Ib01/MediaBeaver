@@ -12,6 +12,8 @@ import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 import com.ibus.opensubtitles.client.OpenSubtitlesToken;
 import com.ibus.opensubtitles.client.dto.OstTitleDto;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesHashData;
+import com.ibus.opensubtitles.client.exception.OpenSubtitlesException;
+import com.ibus.opensubtitles.client.exception.OpenSubtitlesLoginException;
 import com.ibus.opensubtitles.client.exception.OpenSubtitlesResponseException;
 import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashGenerator;
 
@@ -41,7 +43,7 @@ public class OpenSubtitlesClientIT
 	}
 	
 	@Test
-	public void logonLogoutTest() throws XmlRpcException, IOException, OpenSubtitlesResponseException
+	public void logonLogoutTest() throws OpenSubtitlesLoginException, OpenSubtitlesResponseException, OpenSubtitlesException
 	{
 		OpenSubtitlesClient osClient = new OpenSubtitlesClient(host,useragent,userName, password,sublanguageid);
 		
@@ -50,7 +52,7 @@ public class OpenSubtitlesClientIT
 	}
 	
 	@Test
-	public void getTitleForHashTest() throws XmlRpcException, IOException, OpenSubtitlesResponseException
+	public void getTitleForHashTest() throws IOException, OpenSubtitlesLoginException, OpenSubtitlesResponseException, OpenSubtitlesException 
 	{
 		OpenSubtitlesHashData data = OpenSubtitlesHashGenerator.computeHash(new File("D:\\MediabeaverTests\\Aliens (1986) Special Edition.avi"));
 		OpenSubtitlesClient osClient = new OpenSubtitlesClient(host,useragent,userName, password,sublanguageid);

@@ -2,7 +2,7 @@ package com.ibus.opensubtitles.client.exception;
 
 public class OpenSubtitlesResponseException extends Exception 
 {
-	private static final long serialVersionUID = -2586484496593679147L;
+	private static final long serialVersionUID = 5356107148397511248L;
 
 	public OpenSubtitlesResponseException()
 	{

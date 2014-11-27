@@ -57,7 +57,7 @@ public class Main
 				});
 	
 		MediaMover mm = new MediaMover(Platform.CLI, config);
-		mm.processSourceDirectory();
+		mm.moveFiles();
 	}
 	
 	
