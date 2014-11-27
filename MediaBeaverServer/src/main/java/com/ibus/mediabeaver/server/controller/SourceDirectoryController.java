@@ -10,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.Repository;
@@ -88,6 +90,18 @@ public class SourceDirectoryController
 		
 		return new ModelAndView("SourceDirectory","directory", vm);
 	}
+	
+	
+	@RequestMapping(value="/delete2", method = RequestMethod.POST)
+	public @ResponseBody List<String> deleteFiles2(@RequestBody List<String> paths, HttpServletRequest request) 
+	{
+		return paths;
+	}
+	
+	
+	
+	
+	
 	
 	
 	private FileViewModel getFileViewModel(FileViewModel viewModel, HttpServletRequest request)

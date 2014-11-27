@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ibus.mediabeaver.core.util.Services;
 import com.ibus.mediabeaver.server.viewmodel.FileViewModel;
+import com.ibus.mediabeaver.server.viewmodel.SearchSeriesViewModel;
 import com.ibus.mediabeaver.server.viewmodel.SelectMediaViewModel;
-import com.ibus.mediabeaver.server.viewmodel.SelectSeriesViewModel;
 import com.ibus.tvdb.client.TvdbClient;
 import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
 import com.ibus.tvdb.client.domain.TvdbSeriesListResponseDto;
@@ -35,10 +36,10 @@ public class ServiceMoverController
 	@RequestMapping
 	public ModelAndView serviceMove(HttpServletRequest request) throws Exception
 	{
-		SelectMediaViewModel vm = getSelectedMedia(request);
+		SelectMediaViewModel vm = getSelectMediaViewModel(request);
 			
 		ModelAndView mav = new ModelAndView("SelectMediaType","SelectMediaType", vm);
-		mav = addSeletedFiles(mav, request);
+		mav = addSelectedFiles(mav, request);
 		
 		return mav;
 	}
@@ -48,19 +49,18 @@ public class ServiceMoverController
 	{
 		if(viewModel.getSelectedMediaType().equals(SelectMediaViewModel.SelectedMediaType.Tv.toString()))
 		{
-			SelectSeriesViewModel vm = getSelectedSeries(request);
+			SearchSeriesViewModel vm = getSearchSeriesViewModel(request);
 			ModelAndView mav =new ModelAndView("SelectTvSeries","SelectSeries", vm); 
 			
-			mav = addSeletedFiles(mav, request);
+			mav = addSelectedFiles(mav, request);
 			return mav; 			
 		}
-		
 		
 		return null;
 	}
 	
 	@RequestMapping(value="/searchSeries", method = RequestMethod.POST)
-	public ModelAndView searchSeries(@ModelAttribute("SelectSeries") @Validated SelectSeriesViewModel viewModel, BindingResult result, HttpServletRequest request)
+	public ModelAndView searchSeries(@ModelAttribute("SelectSeries") @Validated SearchSeriesViewModel viewModel, BindingResult result, HttpServletRequest request)
 	{
 		/*TODO:
 		 * 
@@ -76,25 +76,26 @@ public class ServiceMoverController
 		 * */
 		
 		
-		/*try 
+		try 
 		{
-			TvdbClient client = new TvdbClient();
-			TvdbSeriesListResponseDto tvDto = client.getSeries(viewModel.getSeries());
+			TvdbSeriesListResponseDto tvDto = Services.getTvdbClient().getSeries(viewModel.getSeries());
 			
-			long tvdbSeriesId = tvDto.getSeries().getId();
+			
+			
+			
+			//long tvdbSeriesId = tvDto.getSeries().getId();
 			
 			//TvdbEpisodesResponseDto contains detailed info about not only the series but all its seasons and episodes. pity there isn't a way to 
 			//get single episode info for an episode imdb.
-			TvdbEpisodesResponseDto tvdbEpisodes = client.getEpisodes(Long.toString(tvdbSeriesId));
+			/*TvdbEpisodesResponseDto tvdbEpisodes = client.getEpisodes(Long.toString(tvdbSeriesId));
 			
-			
-			TvdbSeriesResponseDto g = tvDto;
-			
-		} catch (URISyntaxException e) 
+			TvdbSeriesResponseDto g = tvDto;*/
+		} 
+		catch (URISyntaxException e) 
 		{
 		
 		}
-		*/
+		
 		return null;
 	}
 	
@@ -102,18 +103,18 @@ public class ServiceMoverController
 	
 	
 	
-	private SelectSeriesViewModel getSelectedSeries(HttpServletRequest request)
+	private SearchSeriesViewModel getSearchSeriesViewModel(HttpServletRequest request)
 	{
 		//we will have something loaded in session if we are coming from a previous button
-		SelectSeriesViewModel vm = new SelectSeriesViewModel();
+		SearchSeriesViewModel vm = new SearchSeriesViewModel();
 		if(request.getSession().getAttribute("SelectSeries") != null)
-			vm = (SelectSeriesViewModel) request.getSession().getAttribute("SelectSeries");
+			vm = (SearchSeriesViewModel) request.getSession().getAttribute("SelectSeries");
 		
 		return vm;
 	}
 	
 	
-	private SelectMediaViewModel getSelectedMedia(HttpServletRequest request)
+	private SelectMediaViewModel getSelectMediaViewModel(HttpServletRequest request)
 	{
 		//we will have something loaded in session if we are coming from a previous button
 		SelectMediaViewModel vm = new SelectMediaViewModel();
@@ -124,7 +125,7 @@ public class ServiceMoverController
 	}
 	
 	@SuppressWarnings("unchecked")
-	private ModelAndView addSeletedFiles(ModelAndView mav, HttpServletRequest request)
+	private ModelAndView addSelectedFiles(ModelAndView mav, HttpServletRequest request)
 	{
 		List<String> paths = (List<String>) request.getSession().getAttribute(FilesToMoveSessionKey);
 		mav.addObject(FilesToMoveSessionKey, paths);

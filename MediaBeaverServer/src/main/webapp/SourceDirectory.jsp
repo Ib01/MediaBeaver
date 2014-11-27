@@ -4,9 +4,6 @@
 
 <%@include file="includes/header.jsp"%>
 
-
-
-
 	<script type="text/javascript" >
 	
 		var dontCheck = false;
@@ -142,17 +139,16 @@
 					<form:hidden path="name"/>
 					<form:hidden path="file"/>
 					<form:hidden path="open"/>
-					<img src="/resources/images/folder_24.png" style="padding-left: 10px;"><c:out value="${directory.path}" /> 
+					<img src="/resources/images/folder_24.png" style="padding-left: 10px;"><c:out value="${directory.path}"/> 
 				</li>
 				<li>
+				 
+				 	<!-- have to pass directory in request scope as it is an object.--> 
+					<c:set var="CurrentFolder" value="${directory}" scope="request"/>
+					<jsp:include page="includes/Folder.jsp" >
+					    <jsp:param name="ReferenceString" value="files" />
+					</jsp:include>
 				
-					<c:set var="FolderIncludeCurrentFolder" value="${directory}" scope="request"/>
-					<c:set var="FolderIncludeReferenceString" value="files" scope="request"/>
-					
-					<jsp:include page="includes/Folder.jsp"></jsp:include>
-				
-					<%-- <%@include file="includes/Folder.jsp"%> --%>
-					<%-- <myTags:Folder folder="${directory}" parentObject="files"/> --%>
 				</ul>
 			</ul>
 		</div>

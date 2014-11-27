@@ -3,19 +3,18 @@
 
 <ul style="list-style: none">
 
-	<c:forEach items="${FolderIncludeCurrentFolder.files}" var="file" varStatus="i">
-
+	<c:forEach items="${CurrentFolder.files}" var="file" varStatus="i">
 		<li class="highlightableLi"> 
-			<input name="${FolderIncludeReferenceString}[${i.index}].path" type="hidden" value="${file.path}">
-			<input name="${FolderIncludeReferenceString}[${i.index}].name" type="hidden" value="${file.name}">
-			<input name="${FolderIncludeReferenceString}[${i.index}].file" type="hidden" value="${file.file}">
-			<input name="${FolderIncludeReferenceString}[${i.index}].open" type="hidden" value="${file.open}" class="openHiddenInput">
+			<input name="${param.ReferenceString}[${i.index}].path" type="hidden" value="${file.path}">
+			<input name="${param.ReferenceString}[${i.index}].name" type="hidden" value="${file.name}">
+			<input name="${param.ReferenceString}[${i.index}].file" type="hidden" value="${file.file}">
+			<input name="${param.ReferenceString}[${i.index}].open" type="hidden" value="${file.open}" class="openHiddenInput">
 		
 			<c:if test="${file.selected}">
-				<input type="checkbox" name="${FolderIncludeReferenceString}[${i.index}].selected" checked="checked" class="selectedCheckbox">
+				<input type="checkbox" name="${param.ReferenceString}[${i.index}].selected" checked="checked" class="selectedCheckbox">
 			</c:if>		
 			<c:if test="${!file.selected}">
-				<input type="checkbox" name="${FolderIncludeReferenceString}[${i.index}].selected" class="selectedCheckbox">
+				<input type="checkbox" name="${param.ReferenceString}[${i.index}].selected" class="selectedCheckbox">
 			</c:if>
 			
 			<c:if test="${file.file}">
@@ -31,10 +30,18 @@
 		
 		<c:if test="${!file.file}">
 			<li>
-				<c:set var="FolderIncludeCurrentFolder" value="${file}" scope="request"/>
-				<c:set var="FolderIncludeReferenceString" value="${FolderIncludeReferenceString}[${i.index}].files" scope="request"/>
-			
-				<jsp:include page="Folder.jsp"></jsp:include>
+				
+				<!-- 
+					have to pass directory in request scope as it is an object. looks like each include call however 
+					however will have its own file collection (even though we are resetting the file collection here!!).
+					if we dont pass ReferenceString as a parameter however it will get longer and longer since it has is not 
+					scoped for each include. yup pretty hacky but it works   
+				-->
+				<c:set var="CurrentFolder" value="${file}" scope="request"/>
+				<jsp:include page="Folder.jsp" >
+					    <jsp:param name="ReferenceString" value="${param.ReferenceString}[${i.index}].files" />
+				</jsp:include>
+				
 			</li>
 		</c:if>
 	

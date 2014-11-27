@@ -1,7 +1,7 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
 
-public class SelectSeriesViewModel 
+public class SearchSeriesViewModel 
 {
 	private String series;
 	
