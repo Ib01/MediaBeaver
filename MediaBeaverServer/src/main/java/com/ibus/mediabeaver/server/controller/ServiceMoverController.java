@@ -27,7 +27,7 @@ import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
 
 @Controller
 @RequestMapping(value = "/serviceMover")
-@SessionAttributes({"SelectMediaType", "SelectSeries"})
+@SessionAttributes({"SelectMediaType", "SearchSeries"})
 public class ServiceMoverController 
 {
 	public static final String FilesToMoveSessionKey = "filesToResolve";
@@ -50,7 +50,7 @@ public class ServiceMoverController
 		if(viewModel.getSelectedMediaType().equals(SelectMediaViewModel.SelectedMediaType.Tv.toString()))
 		{
 			SearchSeriesViewModel vm = getSearchSeriesViewModel(request);
-			ModelAndView mav =new ModelAndView("SelectTvSeries","SelectSeries", vm); 
+			ModelAndView mav =new ModelAndView("SearchTvSeries","SearchSeries", vm); 
 			
 			mav = addSelectedFiles(mav, request);
 			return mav; 			
@@ -60,7 +60,7 @@ public class ServiceMoverController
 	}
 	
 	@RequestMapping(value="/searchSeries", method = RequestMethod.POST)
-	public ModelAndView searchSeries(@ModelAttribute("SelectSeries") @Validated SearchSeriesViewModel viewModel, BindingResult result, HttpServletRequest request)
+	public ModelAndView searchSeries(@ModelAttribute("SearchSeries") @Validated SearchSeriesViewModel viewModel, BindingResult result, HttpServletRequest request)
 	{
 		/*TODO:
 		 * 
@@ -78,10 +78,12 @@ public class ServiceMoverController
 		
 		try 
 		{
-			TvdbSeriesListResponseDto tvDto = Services.getTvdbClient().getSeries(viewModel.getSeries());
+			TvdbSeriesListResponseDto tvDto = Services.getTvdbClient().getSeries(viewModel.getSearchText());
+			viewModel.setSearchResults(tvDto.getSeries());
 			
+			ModelAndView mav =new ModelAndView("SearchTvSeries","SearchSeries", viewModel); 
 			
-			
+			return mav;
 			
 			//long tvdbSeriesId = tvDto.getSeries().getId();
 			
@@ -107,8 +109,8 @@ public class ServiceMoverController
 	{
 		//we will have something loaded in session if we are coming from a previous button
 		SearchSeriesViewModel vm = new SearchSeriesViewModel();
-		if(request.getSession().getAttribute("SelectSeries") != null)
-			vm = (SearchSeriesViewModel) request.getSession().getAttribute("SelectSeries");
+		if(request.getSession().getAttribute("SearchSeries") != null)
+			vm = (SearchSeriesViewModel) request.getSession().getAttribute("SearchSeries");
 		
 		return vm;
 	}

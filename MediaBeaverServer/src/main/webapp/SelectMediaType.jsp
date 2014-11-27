@@ -27,28 +27,18 @@
   
 	<form:form method="POST" commandName="SelectMediaType" class="formLayout">
 		
-		<p>You have chosen to resolve the following Media files:</p>
-		
-		<ul class="documentList">
-			<c:forEach items="${filesToResolve}" var="path" varStatus="i">
-			 	<li><c:out value="${path}"></c:out></li>
-			</c:forEach>
-		</ul>
-	
-	
+		<c:set var="filesToResolve" value="${filesToResolve}" scope="request"/>
+		<jsp:include page="includes/FilesToResolve.jsp" />
+		<br>
 	
 	
 		<form:label path="selectedMediaType">These files constitute</form:label>
-		
 		<form:select path="selectedMediaType">
 			<form:option value="A movie which may or may not span multiple files"></form:option>
 			<form:option value="1 or more Tv Episodes that are a part of the same Tv Series"></form:option>
 		</form:select>
-		
 		<br>
 	
-		
-		
 		<!-- <image src="/HotlinkedImage?imgUri=http://www.thetvdb.com/banners/episodes/121361/4161693.jpg"> -->
 		
 		

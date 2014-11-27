@@ -8,7 +8,7 @@
 	
 		$(function ()
 		{	
-			$("#Next").click(function() 
+			$("#Search").click(function() 
 			{
 				if($("form:first").validationEngine('validate'))
 				{
@@ -23,21 +23,60 @@
 	
 	<h2>Enter Series Name</h2>
   
-	<form:form method="POST" commandName="SelectSeries" class="formLayout">
-		
-	
-		<p>You have chosen to resolve the following Media files:</p>
-		
-		<ul class="documentList">
-			<c:forEach items="${filesToResolve}" var="path" varStatus="i">
-			 	<li><c:out value="${path}"></c:out></li>
-			</c:forEach>
-		</ul>
-	
-		
-		<form:label path="series">TV Series Name</form:label>
-		<form:input path="series"/>
+	<form:form method="POST" commandName="SearchSeries" class="formLayout">
+
+		<c:set var="filesToResolve" value="${filesToResolve}" scope="request"/>
+		<jsp:include page="includes/FilesToResolve.jsp" />
 		<br>
+	
+		
+		<form:label path="searchText">TV Series Name</form:label>
+		<form:input path="searchText"/><a class="button" href="#" id="Search">Search</a>
+		<br>
+		<br>
+		
+		
+
+		
+		<c:forEach items="${SearchSeries.searchResults}" var="result" varStatus="i">
+
+			
+			<image src="/HotlinkedImage?imgUri=http://www.thetvdb.com/banners/${result.banner}" style="float:right; margin: 3px;">
+			<p style="font-weight: bold; font-size: 18px; font-style: italic;margin-top: 0px"><form:checkbox path="" value="" style="margin: 0px;"/> 
+			<c:out value="${result.seriesName}"></c:out></p>
+			<p style="font-style: italic; margin: 0px">First aired: <c:out value="${result.firstAired}"></c:out></p>
+			<p style="font-style: italic; margin: 0px">Network :<c:out value="${result.network}"></c:out></p>
+			<p style="font-style: italic; margin: 0px">IMDB Id :<c:out value="${result.imdbId}"></c:out></p>
+			
+			<br />
+			<p style="font-style: italic;">Overview</p>
+			<p style="font-style: italic; margin-top: 0px"><c:out value="${result.overview}"></c:out></p>
+			
+			
+			
+			<br style="clear:both;"/>
+			
+			
+			
+			
+			<br style="clear:both;"/>
+			<br style="clear:both;"/>
+			
+			<%-- <table>
+				<tr>
+					<td><image src="/HotlinkedImage?imgUri=http://www.thetvdb.com/banners/${result.banner}"></td>
+				</tr>
+			</table>
+			 --%>
+		
+		
+		</c:forEach>
+		
+		<!-- searchResults -->
+		
+		
+		
+		
 		
 <!-- http://www.thetvdb.com/api/FA86CE5B6769E616/series/121361/banners.xml 
 		
