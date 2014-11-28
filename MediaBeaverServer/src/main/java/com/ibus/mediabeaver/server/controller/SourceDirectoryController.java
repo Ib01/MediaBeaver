@@ -93,9 +93,9 @@ public class SourceDirectoryController
 	
 	
 	@RequestMapping(value="/delete2", method = RequestMethod.POST)
-	public @ResponseBody List<String> deleteFiles2(@RequestBody List<String> paths, HttpServletRequest request) 
+	public @ResponseBody FileViewModel deleteFiles2(@RequestBody FileViewModel model, HttpServletRequest request) 
 	{
-		return paths;
+		return model;
 	}
 	
 	

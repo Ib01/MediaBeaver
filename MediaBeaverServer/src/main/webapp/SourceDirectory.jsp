@@ -58,24 +58,6 @@
 				return false;
 			});
 			
-			$("#moveFiles").click(function() 
-			{	
-				if($('.selectedCheckbox:checked').length > 0)
-				{
-					$("form:first").attr("action", "/source/move");
-					$("form:first").submit();
-					return false;
-				}
-			});
-			$("#deleteFiles").click(function() 
-			{	
-				if($('.selectedCheckbox:checked').length > 0)
-				{
-					$("form:first").attr("action", "/source/delete");
-					$("form:first").submit();
-					return false;
-				}
-			});
 			$("#moveManually").click(function() 
 			{	
 				if($('.selectedCheckbox:checked').length > 0)
@@ -104,6 +86,74 @@
 				$("form:first").attr("action", "/source");
 				$("form:first").submit();
 			}
+			
+			$("#moveFiles").click(function() 
+			{	
+				if($('.selectedCheckbox:checked').length > 0)
+				{
+					$("form:first").attr("action", "/source/move");
+					$("form:first").submit();
+					return false;
+				}
+			});
+			
+			/* $("#deleteFiles").click(function() 
+			{	
+				if($('.selectedCheckbox:checked').length > 0)
+				{
+					$("form:first").attr("action", "/source/delete");
+					$("form:first").submit();
+					return false;
+				}
+			}); */
+			
+			
+			$("#deleteFiles").click(function() 
+			{	
+				if($('.selectedCheckbox:checked').length > 0)
+				{
+					alert("adsf");
+					
+					$.ajax({
+			                url: '/source/delete2',
+			                data: JSON.stringify(getFileViewModel()),
+			                dataType: 'json',
+			                contentType: 'application/json',
+			                mimeType: 'application/json',
+			                type: "POST",           
+			                success: function(data){
+			                       alert("success");
+			                },
+			                error: function(data, status, er) { 
+						        alert("error: ");
+						    }
+			                
+			            });
+				}
+				
+		
+			});
+			
+			function deleteSuccess()
+			{
+				alert(data);
+			}
+			
+	
+			
+			function getFileViewModel()
+			{
+				return {
+					"path": "path",
+					"name": "name",
+					"file": true,
+					"open": true,
+					"selected": true
+				};
+				
+				/* */
+			}
+			
 			
 		}); 
 
