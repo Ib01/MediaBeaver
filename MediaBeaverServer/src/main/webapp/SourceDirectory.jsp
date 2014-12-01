@@ -110,35 +110,85 @@
 			
 			$("#deleteFiles").click(function() 
 			{	
+				var previousPath = "";
+				
+				$('.selectedCheckbox:checked').each(
+					function( index ) 
+					{
+						var previousLiIsFolder = $(this).parent("li").parent("ul").parent("li").prev("li").find(".folderName").length;
+						var previousLiIsSelected = $(this).parent("li").parent("ul").parent("li").prev("li").find(".selectedCheckbox:checked").length;
+						
+						if(!previousLiIsFolder || !previousLiIsSelected)
+						{
+							//if it does not have a selected parent folder
+							
+							alert("selected");
+						}
+						
+							
+						
+						
+						
+						
+						//alert($(this).parent("li").parent("ul").parent("li").html().prev("li").find(".folderName").length);
+						
+						//alert($(this).parent("ul").parent("li").prev("li").find(".folderName").length);
+						
+						
+						
+						
+						//parent > next sibling li > ul
+						
+						
+						/* if(previousPath.length > 0)
+							alert(previousPath);
+						
+						previousPath = $(this).siblings("input")[0].value; */
+					}
+				);
+				
+				return;
+				
+				/* for(int i = 0; i <  $('.selectedCheckbox:checked'))
+				{
+					
+				}
+				 */
+				
+				
+				
 				if($('.selectedCheckbox:checked').length > 0)
 				{
-					alert("adsf");
-					
-					$.ajax({
-			                url: '/source/delete2',
-			                data: JSON.stringify(getFileViewModel()),
-			                dataType: 'json',
-			                contentType: 'application/json',
-			                mimeType: 'application/json',
-			                type: "POST",           
-			                success: function(data){
-			                       alert("success");
-			                },
-			                error: function(data, status, er) { 
-						        alert("error: ");
-						    }
-			                
-			            });
+					callDelete(getFileViewModel());
 				}
 				
-		
 			});
 			
-			function deleteSuccess()
+			
+			function callDelete(viewModel)
 			{
-				alert(data);
+				$.ajax({
+	                url: '/source/delete2',
+	                data: JSON.stringify(viewModel),
+	                dataType: 'json',
+	                contentType: 'application/json',
+	                mimeType: 'application/json',
+	                type: "POST",           
+	                success: deleteSuccess,
+	                error: operationError
+	            });
 			}
 			
+			
+			function deleteSuccess(data)
+			{
+				alert("success");
+				alert(data);
+			}
+			function operationError(data, status, er)
+			{
+				alert("error");
+			}
 	
 			
 			function getFileViewModel()
@@ -151,7 +201,6 @@
 					"selected": true
 				};
 				
-				/* */
 			}
 			
 			
