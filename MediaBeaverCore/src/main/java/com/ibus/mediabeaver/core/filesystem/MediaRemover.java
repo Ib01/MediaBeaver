@@ -53,14 +53,19 @@ public class MediaRemover extends SimpleFileVisitor<Path>
 	{
 		for(String p : pathStrings)
 		{
-			if(!deleteFile(p))
+			if(!doDelete(p))
 				return false;
 		}
 		
 		return true;
 	}
 	
-	public boolean deleteFile(String filePath) 
+	public boolean deleteFile(String pathString) 
+	{
+		return doDelete(pathString);
+	}
+	
+	public boolean doDelete(String filePath) 
 	{
 		deleteSuccess = true;
 		Path path = Paths.get(filePath);

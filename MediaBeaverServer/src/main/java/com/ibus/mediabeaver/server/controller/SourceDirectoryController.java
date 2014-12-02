@@ -76,7 +76,7 @@ public class SourceDirectoryController
 	}
 	
 	
-	@RequestMapping(value="/delete", method = RequestMethod.POST)
+	/*@RequestMapping(value="/delete", method = RequestMethod.POST)
 	public ModelAndView deleteFiles(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request) throws IOException
 	{
 		MediaRemover mr = new MediaRemover();
@@ -89,12 +89,15 @@ public class SourceDirectoryController
 		vm.setFailures(mr.getNotDeleted());
 		
 		return new ModelAndView("SourceDirectory","directory", vm);
-	}
+	}*/
 	
 	
-	@RequestMapping(value="/delete2", method = RequestMethod.POST)
-	public @ResponseBody FileViewModel deleteFiles2(@RequestBody FileViewModel model, HttpServletRequest request) 
+	@RequestMapping(value="/delete", method = RequestMethod.POST)
+	public @ResponseBody FileViewModel deleteFiles(@RequestBody FileViewModel model, HttpServletRequest request) 
 	{
+		MediaRemover mr = new MediaRemover();
+		mr.deleteFile(model.getPath());
+		
 		return model;
 	}
 	

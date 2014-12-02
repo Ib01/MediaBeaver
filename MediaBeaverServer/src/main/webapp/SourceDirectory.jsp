@@ -7,6 +7,8 @@
 	<script type="text/javascript" >
 	
 		var dontCheck = false;
+		var dissabled = false;
+		var selectedLi;
 	
 		$(function ()
 		{	
@@ -108,67 +110,49 @@
 			}); */
 			
 			
+			
+			
 			$("#deleteFiles").click(function() 
 			{	
-				var previousPath = "";
+				//dissableInterface();
 				
+				selectedLi = getNextDeleteableLi();
+				var viewModel = getFileViewModel(selectedLi);
+				callDelete(viewModel);
+				
+				return;
+			});
+			
+			/* get next file or folder that does not have a selected parent folder*/
+			function getNextDeleteableLi()
+			{
+				var obj;
 				$('.selectedCheckbox:checked').each(
 					function( index ) 
 					{
-						var previousLiIsFolder = $(this).parent("li").parent("ul").parent("li").prev("li").find(".folderName").length;
-						var previousLiIsSelected = $(this).parent("li").parent("ul").parent("li").prev("li").find(".selectedCheckbox:checked").length;
+						var parentFolderSelected = $(this).parent("li").parent("ul").parent("li").prev("li").find(".selectedCheckbox:checked").length;
 						
-						if(!previousLiIsFolder || !previousLiIsSelected)
+						if(!parentFolderSelected)
 						{
-							//if it does not have a selected parent folder
-							
-							alert("selected");
+							obj = $(this).parent("li");
+							return false; //breaks the for loop 
 						}
-						
-							
-						
-						
-						
-						
-						//alert($(this).parent("li").parent("ul").parent("li").html().prev("li").find(".folderName").length);
-						
-						//alert($(this).parent("ul").parent("li").prev("li").find(".folderName").length);
-						
-						
-						
-						
-						//parent > next sibling li > ul
-						
-						
-						/* if(previousPath.length > 0)
-							alert(previousPath);
-						
-						previousPath = $(this).siblings("input")[0].value; */
 					}
 				);
 				
-				return;
-				
-				/* for(int i = 0; i <  $('.selectedCheckbox:checked'))
-				{
-					
-				}
-				 */
-				
-				
-				
-				if($('.selectedCheckbox:checked').length > 0)
-				{
-					callDelete(getFileViewModel());
-				}
-				
-			});
+				return obj;
+			}
 			
+			
+			function dissableInterface()
+			{
+				$(".selectedCheckbox").attr("disabled", "disabled");
+			}
 			
 			function callDelete(viewModel)
 			{
 				$.ajax({
-	                url: '/source/delete2',
+	                url: '/source/delete',
 	                data: JSON.stringify(viewModel),
 	                dataType: 'json',
 	                contentType: 'application/json',
@@ -179,28 +163,41 @@
 	            });
 			}
 			
-			
 			function deleteSuccess(data)
 			{
-				alert("success");
-				alert(data);
+				//change dom
+				if($(selectedLi).next("li").find("ul").length > 0)
+					$(selectedLi).next("li").remove();
+				
+				$(selectedLi).remove();
+				
+				//delete next selected item
+				selectedLi = getNextDeleteableLi();
+				if(selectedLi)
+				{
+					var viewModel = getFileViewModel(selectedLi);
+					callDelete(viewModel);
+				}
+				
+				$("#messageBoard").append(data.path + " deleted successfully </br>");
+				
+				//alert(data.path);
 			}
 			function operationError(data, status, er)
 			{
 				alert("error");
 			}
 	
-			
-			function getFileViewModel()
+			function getFileViewModel(li)
 			{
 				return {
-					"path": "path",
-					"name": "name",
-					"file": true,
-					"open": true,
-					"selected": true
+					"path": $(li).find("input:nth-child(1)").val(),
+					"name": $(li).find("input:nth-child(2)").val(),
+					"file": $(li).find("input:nth-child(3)").val(),
+					"open": $(li).find("input:nth-child(4)").val()
 				};
 				
+				//"selected": $(checkbox).parent("li").find("input:nth-child(5)").val()
 			}
 			
 			
@@ -255,16 +252,25 @@
 		<br>
 		<br>
 		
-		<c:if test="${directory.action == 'deleted' || directory.action == 'moved'}">
+	
+		<div style="border: 1px solid #F1F1F1">
+			<div style="background-color: #717372;  margin: 3px; color: white; padding: 5px;" id="messageBoard">
+				
+				
+			</div>
+		</div>
+			
+		
+		<%-- <c:if test="${directory.action == 'deleted' || directory.action == 'moved'}">
 		
 			<div style="border: 1px solid #F1F1F1">
 				<div style="background-color: #717372;  margin: 3px; color: white; padding: 5px;">
-				<%-- 
+				
 					<c:if test="${directory.successCount > 0 && directory.failureCount > 0}">
 						An error occurred while attempting to process your files. 
-					</c:if> --%>
+					</c:if>
 				
-					<%-- <c:if test="${directory.successCount > 0}">
+					<c:if test="${directory.successCount > 0}">
 						<c:out value="${directory.successCount}"></c:out> files successfully <c:out value="${directory.action}"></c:out>  
 					
 						<ul>
@@ -273,7 +279,7 @@
 							</c:forEach>
 						</ul>
 						
-					</c:if> --%>
+					</c:if>
 					
 					<c:out value="${directory.successCount}"></c:out> files were successfully <c:out value="${directory.action}"></c:out>
 					
@@ -292,7 +298,7 @@
 				</div>
 			</div>
 			
-		</c:if>
+		</c:if> --%>
 		
 		<br>
 		

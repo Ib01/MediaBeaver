@@ -15,20 +15,20 @@ public class MediaRemoverIT
 	public void deleteFile() throws IOException
 	{
 		MediaRemover mr = new MediaRemover();
-		mr.deleteFile("D:\\MediabeaverTests\\DeleteTest\\b\\c.docx");
+		mr.doDelete("D:\\MediabeaverTests\\DeleteTest\\b\\c.docx");
 	}
 	
 	@Test
 	public void deleteFolder() throws IOException
 	{
 		MediaRemover mr = new MediaRemover();
-		mr.deleteFile("D:\\MediabeaverTests\\DeleteTest\\b");
+		mr.doDelete("D:\\MediabeaverTests\\DeleteTest\\b");
 	}
 	
 	@Test
 	public void deleteNonexistantFile() throws IOException
 	{
 		MediaRemover mr = new MediaRemover();
-		mr.deleteFile("D:\\MediabeaverTests\\DeleteTest\\b\\xxx");
+		mr.doDelete("D:\\MediabeaverTests\\DeleteTest\\b\\xxx");
 	}
 }
