@@ -33,8 +33,6 @@ public class SourceDirectoryController
 	@RequestMapping
 	public ModelAndView viewDirectory(HttpServletRequest request)
 	{
-		request.setAttribute("test", "tetstoing");
-		
 		return new ModelAndView("SourceDirectory","directory", getFileViewModel(new FileViewModel(),request));
 	}
 	
@@ -43,9 +41,32 @@ public class SourceDirectoryController
 	{
 		return new ModelAndView("SourceDirectory","directory", getFileViewModel(viewModel,request));
 	}
+
+	@RequestMapping(value="/serviceMove", method = RequestMethod.POST)
+	public ModelAndView serviceMove(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request) throws IOException, XmlRpcException
+	{
+		List<String> files = viewModel.getSelectedPaths(true);
+		request.getSession().setAttribute(ServiceMoverController.FilesToMoveSessionKey, files);
+		
+		return new ModelAndView("redirect:/serviceMover");
+	}
 	
+	/*@RequestMapping(value="/delete", method = RequestMethod.POST)
+	public ModelAndView deleteFiles(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request) throws IOException
+	{
+		MediaRemover mr = new MediaRemover();
+		List<String> paths = viewModel.getSelectedPaths(false);
+		mr.deleteFiles(paths);
+		
+		FileViewModel vm = getFileViewModel(viewModel,request);
+		vm.setAction("deleted");
+		vm.setSuccesses(mr.getDeleted());
+		vm.setFailures(mr.getNotDeleted());
+		
+		return new ModelAndView("SourceDirectory","directory", vm);
+	}*/
 	
-	@RequestMapping(value="/move", method = RequestMethod.POST)
+	/*@RequestMapping(value="/move", method = RequestMethod.POST)
 	public ModelAndView moveFiles(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request) throws IOException, XmlRpcException
 	{
 		Configuration config = Repository.getFirstEntity(Configuration.class);
@@ -63,40 +84,28 @@ public class SourceDirectoryController
 		
 		//show files
 		return new ModelAndView("SourceDirectory","directory", vm);
-	}
-	
-
-	@RequestMapping(value="/serviceMove", method = RequestMethod.POST)
-	public ModelAndView serviceMove(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request) throws IOException, XmlRpcException
-	{
-		List<String> files = viewModel.getSelectedPaths(true);
-		request.getSession().setAttribute(ServiceMoverController.FilesToMoveSessionKey, files);
-		
-		return new ModelAndView("redirect:/serviceMover");
-	}
-	
-	
-	/*@RequestMapping(value="/delete", method = RequestMethod.POST)
-	public ModelAndView deleteFiles(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request) throws IOException
-	{
-		MediaRemover mr = new MediaRemover();
-		List<String> paths = viewModel.getSelectedPaths(false);
-		mr.deleteFiles(paths);
-		
-		FileViewModel vm = getFileViewModel(viewModel,request);
-		vm.setAction("deleted");
-		vm.setSuccesses(mr.getDeleted());
-		vm.setFailures(mr.getNotDeleted());
-		
-		return new ModelAndView("SourceDirectory","directory", vm);
 	}*/
 	
 	
-	@RequestMapping(value="/delete", method = RequestMethod.POST)
-	public @ResponseBody FileViewModel deleteFiles(@RequestBody FileViewModel model, HttpServletRequest request) 
+	
+	@RequestMapping(value="/deleteFile", method = RequestMethod.POST)
+	public @ResponseBody FileViewModel deleteFile(@RequestBody FileViewModel model, HttpServletRequest request) 
 	{
 		MediaRemover mr = new MediaRemover();
-		mr.deleteFile(model.getPath());
+		boolean success = mr.deleteFile(model.getPath());
+		model.setOperationSuccess(success);
+		
+		return model;
+	}
+	
+	@RequestMapping(value="/moveFile", method = RequestMethod.POST)
+	public @ResponseBody FileViewModel moveFile(@RequestBody FileViewModel model, HttpServletRequest request) 
+	{
+		Configuration config = Repository.getFirstEntity(Configuration.class);
+		MediaMover mm = new MediaMover(Platform.Web, config);
+		
+		boolean success = mm.moveFile(model.getPath());
+		model.setOperationSuccess(success);
 		
 		return model;
 	}

@@ -26,7 +26,6 @@ public class FileViewModel
 	private String action = "";
 	private List<Activity> successes = new ArrayList<Activity>();
 	private List<Activity> failures = new ArrayList<Activity>();
-	
 	private boolean operationSuccess = false;
 
 	public boolean isOperationSuccess() {

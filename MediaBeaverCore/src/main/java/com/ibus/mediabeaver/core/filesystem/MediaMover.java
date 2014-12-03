@@ -93,6 +93,8 @@ public class MediaMover
 			logEvent(null, null, ResultType.Failed, 
 					"Failed to login to the Open Subtitles web service while attempting to move a file. Further file movements aborted");
 			log.error("Failed to login to the Open Subtitles web service while attempting to move a file. Further file movements aborted", e);
+			afterProcess();
+			return;
 		}
 		
 		afterProcess();
@@ -143,6 +145,7 @@ public class MediaMover
 							"Failed to login to the Open Subtitles web service while attempting to move a file. Further file movements aborted");
 					log.error(String.format("Failed to login to the Open Subtitles web service while attempting to move %s. Further file movements aborted", 
 							file.getAbsolutePath()), e);
+					afterProcess();
 					break;
 				}
 			}
@@ -150,6 +153,42 @@ public class MediaMover
 		
 		afterProcess();
 	}
+	
+	
+	/**
+	 * Move a file.  directories will not be processed
+	 * @param paths
+	 * @throws XmlRpcException 
+	 * @throws IOException 
+	 */
+	public boolean moveFile(String path) 
+	{ 		
+		if(!beforeProcess())
+			return false;
+		
+		File file = new File(path);
+		
+		if(file.isDirectory())
+			return false;
+		
+		try 
+		{
+			processFile(file);
+			afterProcess();
+			return unmovedMedia.size() == 0;
+		} 
+		catch (OpenSubtitlesLoginException e) 
+		{
+			logEvent(file.getAbsolutePath(), null, ResultType.Failed, 
+					"Failed to login to the Open Subtitles web service while attempting to move a file. Further file movements aborted");
+			log.error(String.format("Failed to login to the Open Subtitles web service while attempting to move %s. Further file movements aborted", 
+					file.getAbsolutePath()), e);
+			afterProcess();
+		}
+	
+		return false;
+	}
+	
 	
 	protected void logEvent(final Activity event)
 	{

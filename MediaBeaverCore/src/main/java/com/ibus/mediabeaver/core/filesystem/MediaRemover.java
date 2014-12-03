@@ -33,17 +33,14 @@ public class MediaRemover extends SimpleFileVisitor<Path>
 	{
 		return notDeleted;
 	}
-
 	public void setNotDeleted(List<Activity> notDeleted)
 	{
 		this.notDeleted = notDeleted;
 	}
-
 	public List<Activity> getDeleted()
 	{
 		return deleted;
 	}
-
 	public void setDeleted(List<Activity> deleted)
 	{
 		this.deleted = deleted;

@@ -89,7 +89,21 @@
 				$("form:first").submit();
 			}
 			
-			$("#moveFiles").click(function() 
+			$("#deleteFiles").click(function() 
+			{	
+				if($('.selectedCheckbox:checked').length > 0)
+				{
+					$("#messageBoard").show("slow", function()
+					{
+						//dissableInterface();
+						selectedLi = getNextDeleteableLi();
+						var viewModel = getFileViewModel(selectedLi);
+						callDelete(viewModel);
+					});
+				}
+			});
+			
+			/* $("#moveFiles").click(function() 
 			{	
 				if($('.selectedCheckbox:checked').length > 0)
 				{
@@ -97,112 +111,141 @@
 					$("form:first").submit();
 					return false;
 				}
-			});
-			
-			/* $("#deleteFiles").click(function() 
-			{	
-				if($('.selectedCheckbox:checked').length > 0)
-				{
-					$("form:first").attr("action", "/source/delete");
-					$("form:first").submit();
-					return false;
-				}
 			}); */
 			
-			
-			
-			
-			$("#deleteFiles").click(function() 
+			$("#moveFiles").click(function() 
 			{	
-				//dissableInterface();
+				var fileLi = getNextSelectedFileLi();
 				
-				selectedLi = getNextDeleteableLi();
-				var viewModel = getFileViewModel(selectedLi);
-				callDelete(viewModel);
-				
-				return;
-			});
-			
-			/* get next file or folder that does not have a selected parent folder*/
-			function getNextDeleteableLi()
-			{
-				var obj;
-				$('.selectedCheckbox:checked').each(
-					function( index ) 
-					{
-						var parentFolderSelected = $(this).parent("li").parent("ul").parent("li").prev("li").find(".selectedCheckbox:checked").length;
-						
-						if(!parentFolderSelected)
-						{
-							obj = $(this).parent("li");
-							return false; //breaks the for loop 
-						}
-					}
-				);
-				
-				return obj;
-			}
-			
-			
-			function dissableInterface()
-			{
-				$(".selectedCheckbox").attr("disabled", "disabled");
-			}
-			
-			function callDelete(viewModel)
-			{
-				$.ajax({
-	                url: '/source/delete',
-	                data: JSON.stringify(viewModel),
-	                dataType: 'json',
-	                contentType: 'application/json',
-	                mimeType: 'application/json',
-	                type: "POST",           
-	                success: deleteSuccess,
-	                error: operationError
-	            });
-			}
-			
-			function deleteSuccess(data)
-			{
-				//change dom
-				if($(selectedLi).next("li").find("ul").length > 0)
-					$(selectedLi).next("li").remove();
-				
-				$(selectedLi).remove();
-				
-				//delete next selected item
-				selectedLi = getNextDeleteableLi();
-				if(selectedLi)
+				if(fileLi.length > 0)
 				{
-					var viewModel = getFileViewModel(selectedLi);
-					callDelete(viewModel);
+					
 				}
-				
-				$("#messageBoard").append(data.path + " deleted successfully </br>");
-				
-				//alert(data.path);
-			}
-			function operationError(data, status, er)
-			{
-				alert("error");
-			}
+					
+			});
 	
-			function getFileViewModel(li)
-			{
-				return {
-					"path": $(li).find("input:nth-child(1)").val(),
-					"name": $(li).find("input:nth-child(2)").val(),
-					"file": $(li).find("input:nth-child(3)").val(),
-					"open": $(li).find("input:nth-child(4)").val()
-				};
-				
-				//"selected": $(checkbox).parent("li").find("input:nth-child(5)").val()
-			}
+			
 			
 			
 		}); 
+		
+		
+		//---------------------------------------------------------------------------------//
+		//---------------------------------------------------------------------------------//
+		//---------------------------------------------------------------------------------//
+		
+		
+		function callMove(viewModel)
+		{
+			 doAjaxCall('/source/moveFile', viewModel, deleteSuccess, operationError);
+		}
+		
+		function callDelete(viewModel)
+		{
+			 doAjaxCall('/source/deleteFile', viewModel, deleteSuccess, operationError);
+		}
+		
+		function deleteSuccess(data)
+		{
+			//alert("success");
+			
+			//change dom
+			if($(selectedLi).next("li").find("ul").length > 0)
+				$(selectedLi).next("li").remove();
+			
+			$(selectedLi).remove();
+			
+			//delete next selected item
+			selectedLi = getNextDeleteableLi();
+			if(selectedLi)
+			{
+				var viewModel = getFileViewModel(selectedLi);
+				callDelete(viewModel);
+			}
+			
+			//show message
+			showMessages(data);
+		}
+		
+		function showMessages(data)
+		{
+			if(data.operationSuccess)
+			{
+				$("#messageBoard  > div").append("<a href=\"/activity\">" + data.path + "</a> <span style=\"color:#FF6600\">deleted successfully<span></br>");
+			}
+			else
+			{
+				$("#messageBoard  > div").append("<a href=\"/activity\">" + data.path + "</a> <span style=\"color:#FF6600\">deleted unsuccessfully<span></br>");
+			}
+			
+			
+			
+		}
+		
+		function dissableInterface()
+		{
+			$(".selectedCheckbox").attr("disabled", "disabled");
+		}
+		
+		function doAjaxCall(url, viewModel, successFunction, errorFunction)
+		{
+			$.ajax({
+                url: url,
+                data: JSON.stringify(viewModel),
+                dataType: 'json',
+                contentType: 'application/json',
+                mimeType: 'application/json',
+                type: "POST",           
+                success: successFunction,
+                error: errorFunction
+            });
+		}
+		
+		function operationError(data, status, er)
+		{
+			alert("error");
+		}
 
+		function getFileViewModel(li)
+		{
+			return {
+				"path": $(li).find("input:nth-child(1)").val(),
+				"name": $(li).find("input:nth-child(2)").val(),
+				"file": $(li).find("input:nth-child(3)").val(),
+				"open": $(li).find("input:nth-child(4)").val()
+			};
+			
+			//"selected": $(checkbox).parent("li").find("input:nth-child(5)").val()
+		}
+		
+		
+		/* get the first li that has a checked checkbox and an input indicating it is a file */
+		function getNextSelectedFileLi()
+		{
+			return $(".selectedCheckbox:checked").parent("li").find("input[name$='file'][value='true']").parent("li").first();
+		}
+		
+		
+		/* get next file or folder that does not have a selected parent folder*/
+		function getNextDeleteableLi()
+		{
+			var obj;
+			$('.selectedCheckbox:checked').each(
+				function( index ) 
+				{
+					var parentFolderSelected = $(this).parent("li").parent("ul").parent("li").prev("li").find(".selectedCheckbox:checked").length;
+					
+					if(!parentFolderSelected)
+					{
+						obj = $(this).parent("li");
+						return false; //breaks the for loop 
+					}
+				}
+			);
+			
+			return obj;
+		}
+		
 	</script>
 	
 	<style>
@@ -249,56 +292,13 @@
 			</ul>
 		</div>
 		
-		<br>
-		<br>
-		
 	
-		<div style="border: 1px solid #F1F1F1">
-			<div style="background-color: #717372;  margin: 3px; color: white; padding: 5px;" id="messageBoard">
+		<div style="border: 1px solid #F1F1F1; display:none; " id="messageBoard">
+			<div style="background-color: #CCCCCC;  margin: 3px; color: white; padding: 5px; ">
 				
 				
 			</div>
 		</div>
-			
-		
-		<%-- <c:if test="${directory.action == 'deleted' || directory.action == 'moved'}">
-		
-			<div style="border: 1px solid #F1F1F1">
-				<div style="background-color: #717372;  margin: 3px; color: white; padding: 5px;">
-				
-					<c:if test="${directory.successCount > 0 && directory.failureCount > 0}">
-						An error occurred while attempting to process your files. 
-					</c:if>
-				
-					<c:if test="${directory.successCount > 0}">
-						<c:out value="${directory.successCount}"></c:out> files successfully <c:out value="${directory.action}"></c:out>  
-					
-						<ul>
-							<c:forEach items="${directory.successes}" var="event" varStatus="i">
-								<li><c:out value="${event.sourcePath}" /></li>
-							</c:forEach>
-						</ul>
-						
-					</c:if>
-					
-					<c:out value="${directory.successCount}"></c:out> files were successfully <c:out value="${directory.action}"></c:out>
-					
-					<c:if test="${directory.failureCount > 0}">
-						<c:out value="${directory.failureCount}"></c:out> files could not be <c:out value="${directory.action}"></c:out>
-						
-						<ul>
-							<c:forEach items="${directory.failures}" var="event" varStatus="i">
-								<li><c:out value="${event.sourcePath}" /></li>
-							</c:forEach>
-						</ul>
-						
-						<p style="margin-left: 22px">Please see <a href="/activity">Activities</a> for more detailed detail</p>
-					</c:if>
-					
-				</div>
-			</div>
-			
-		</c:if> --%>
 		
 		<br>
 		
