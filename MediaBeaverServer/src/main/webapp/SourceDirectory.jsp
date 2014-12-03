@@ -91,6 +91,8 @@
 			
 			$("#deleteFiles").click(function() 
 			{	
+				$(".operationFailed").val("false");
+				
 				if($('.selectedCheckbox:checked').length > 0)
 				{
 					$("#messageBoard").show("slow", function()
@@ -103,23 +105,18 @@
 				}
 			});
 			
-			/* $("#moveFiles").click(function() 
-			{	
-				if($('.selectedCheckbox:checked').length > 0)
-				{
-					$("form:first").attr("action", "/source/move");
-					$("form:first").submit();
-					return false;
-				}
-			}); */
-			
 			$("#moveFiles").click(function() 
-			{	
-				var fileLi = getNextSelectedFileLi();
+			{
+				$(".operationFailed").val("false");
+				selectedLi = getNextSelectedFileLi();
 				
-				if(fileLi.length > 0)
+				if(selectedLi.length > 0)
 				{
-					
+					$("#messageBoard").show("slow", function()
+					{
+						var vm = getFileViewModel(selectedLi);
+						callMove(vm);
+					});
 				}
 					
 			});
@@ -137,7 +134,7 @@
 		
 		function callMove(viewModel)
 		{
-			 doAjaxCall('/source/moveFile', viewModel, deleteSuccess, operationError);
+			 doAjaxCall('/source/moveFile', viewModel, moveSuccess, operationError);
 		}
 		
 		function callDelete(viewModel)
@@ -145,15 +142,45 @@
 			 doAjaxCall('/source/deleteFile', viewModel, deleteSuccess, operationError);
 		}
 		
+		function moveSuccess(data)
+		{
+			//change dom
+			if(data.operationSuccess)
+			{
+				$(selectedLi).remove();
+			}
+			else
+			{
+				//ensure we dont reprocess this item
+				$(selectedLi).find(".operationFailed").val("true");
+			}
+			
+			//show message
+			showMessages(data, "moved");
+			
+			//move next selected item
+			selectedLi = getNextSelectedFileLi();
+			if(selectedLi.length > 0)
+			{
+				var vm = getFileViewModel(selectedLi);
+				callMove(vm);
+			}
+		}
+		
+		
 		function deleteSuccess(data)
 		{
-			//alert("success");
-			
 			//change dom
-			if($(selectedLi).next("li").find("ul").length > 0)
-				$(selectedLi).next("li").remove();
+			if(data.operationSuccess)
+			{
+				if($(selectedLi).next("li").find("ul").length > 0)
+					$(selectedLi).next("li").remove();
+				
+				$(selectedLi).remove();
+			}
 			
-			$(selectedLi).remove();
+			//show message
+			showMessages(data, "deleted");
 			
 			//delete next selected item
 			selectedLi = getNextDeleteableLi();
@@ -162,24 +189,18 @@
 				var viewModel = getFileViewModel(selectedLi);
 				callDelete(viewModel);
 			}
-			
-			//show message
-			showMessages(data);
 		}
 		
-		function showMessages(data)
+		function showMessages(data, operation)
 		{
 			if(data.operationSuccess)
 			{
-				$("#messageBoard  > div").append("<a href=\"/activity\">" + data.path + "</a> <span style=\"color:#FF6600\">deleted successfully<span></br>");
+				$("#messageBoard  > div").append("<a href=\"/activity\">" + data.path + "</a> <span style=\"\">"+operation+" successfully<span></br>");
 			}
 			else
 			{
-				$("#messageBoard  > div").append("<a href=\"/activity\">" + data.path + "</a> <span style=\"color:#FF6600\">deleted unsuccessfully<span></br>");
+				$("#messageBoard  > div").append("<a href=\"/activity\">" + data.path + "</a> <span style=\"\">"+operation+" unsuccessfully<span></br>");
 			}
-			
-			
-			
 		}
 		
 		function dissableInterface()
@@ -222,13 +243,20 @@
 		/* get the first li that has a checked checkbox and an input indicating it is a file */
 		function getNextSelectedFileLi()
 		{
-			return $(".selectedCheckbox:checked").parent("li").find("input[name$='file'][value='true']").parent("li").first();
+			//TODO: MAKE THIS MORE EFFICIENT
+			
+			var selectedFileLis = $(".selectedCheckbox:checked").parent("li").find("input[name$='file'][value='true']").parent("li");
+			var previouslyUnprocessed = $(selectedFileLis).find(".operationFailed[value='false']").parent("li").first();
+			
+			return previouslyUnprocessed;
 		}
 		
 		
 		/* get next file or folder that does not have a selected parent folder*/
 		function getNextDeleteableLi()
 		{
+			//TODO: MAKE THIS MORE EFFICIENT
+			
 			var obj;
 			$('.selectedCheckbox:checked').each(
 				function( index ) 
@@ -252,6 +280,11 @@
 		.highlightableLi{
 			cursor: hand;			
 		}
+		
+		#messageBoard a:link {color:#FFFFFF;text-decoration:underline;}
+		#messageBoard a:visited {color:#FFFFFF;text-decoration:underline;}  
+		#messageBoard a:hover {color:#FFFFFF;text-decoration:underline;}  
+		#messageBoard a:active {color:#FFFFFF;text-decoration:underline;} 
 	</style>
 	
 	
@@ -294,7 +327,7 @@
 		
 	
 		<div style="border: 1px solid #F1F1F1; display:none; " id="messageBoard">
-			<div style="background-color: #CCCCCC;  margin: 3px; color: white; padding: 5px; ">
+			<div style="background-color: #919191;  margin: 3px; color: white; padding: 5px; ">
 				
 				
 			</div>
