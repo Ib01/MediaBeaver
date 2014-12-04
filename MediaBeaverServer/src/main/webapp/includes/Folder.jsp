@@ -25,7 +25,7 @@
 				<img src="/resources/images/folder_24.png">
 				<span class="folderName"><c:out value="${file.name}"/></span>
 			</c:if>
-			<input type="hidden" value="false" class="operationFailed" >
+			<input type="hidden" value="false" class="operationTried" >
 		</li>
 		
 		<c:if test="${!file.file}">

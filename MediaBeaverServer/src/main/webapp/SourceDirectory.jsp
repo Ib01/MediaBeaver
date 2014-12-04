@@ -6,7 +6,6 @@
 
 	<script type="text/javascript" >
 	
-		var dontCheck = false;
 		var dissabled = false;
 		var selectedLi;
 	
@@ -23,41 +22,16 @@
 			});
 			$(".highlightableLi").click(function() 
 			{
-				if(!dontCheck)
-				{
-					$(this).find("input:checkbox").prop(
-							'checked', 
-							!$(this).find("input:checkbox").is(':checked')
-					);
-				}
-				dontCheck = false;
+				$(this).find("input:checkbox").prop(
+						'checked', 
+						!$(this).find("input:checkbox").is(':checked')
+				);
 			});
 			
-			$(".highlightableLi input:checkbox").click(function() 
+			$(".highlightableLi input:checkbox").click(function(e) 
 			{
-				dontCheck = true;
-			});
-			
-			
-			$(".folderName").mouseover(function() 
-			{
-				$(this).css("text-decoration", "underline");
-			});
-			$(".folderName").mouseout(function() 
-			{
-				$(this).css("text-decoration", "");
-			});
-			$(".folderName").click(function() 
-			{				
-				if($(this).parent("li").find(".openHiddenInput").val() == "true")
-					$(this).parent("li").find(".openHiddenInput").val("false");
-				else
-					$(this).parent("li").find(".openHiddenInput").val("true");
-				
-				$("form:first").attr("action", "/source");
-				$("form:first").submit();
-				
-				return false;
+				//stop $(".highlightableLi").click(function() being called
+				e.stopPropagation();
 			});
 			
 			$("#moveManually").click(function() 
@@ -80,25 +54,16 @@
 				submitOpenOrSelectAll("select all");
 			});
 			
-			
-			function submitOpenOrSelectAll(action)
-			{
-				$("#action").val(action);
-				
-				$("form:first").attr("action", "/source");
-				$("form:first").submit();
-			}
-			
 			$("#deleteFiles").click(function() 
 			{	
-				$(".operationFailed").val("false");
+				$(".operationTried").val("false");
+				selectedLi = getNextSelectedLi();
 				
-				if($('.selectedCheckbox:checked').length > 0)
+				if(selectedLi.length > 0)
 				{
 					$("#messageBoard").show("slow", function()
 					{
 						//dissableInterface();
-						selectedLi = getNextDeleteableLi();
 						var viewModel = getFileViewModel(selectedLi);
 						callDelete(viewModel);
 					});
@@ -107,7 +72,7 @@
 			
 			$("#moveFiles").click(function() 
 			{
-				$(".operationFailed").val("false");
+				$(".operationTried").val("false");
 				selectedLi = getNextSelectedFileLi();
 				
 				if(selectedLi.length > 0)
@@ -121,6 +86,43 @@
 					
 			});
 	
+			$(".folderName").mouseover(function() 
+			{
+				$(this).css("text-decoration", "underline");
+			});
+			$(".folderName").mouseout(function() 
+			{
+				$(this).css("text-decoration", "");
+			});
+			
+			/* $(".folderName").click(function() 
+			{		
+				var parent = $(this).parent("li");
+				var vm = getFileViewModel(parent);
+				
+				
+				if($(this).parent("li").find(".openHiddenInput").val() == "true")
+					$(this).parent("li").find(".openHiddenInput").val("false");
+				else
+					$(this).parent("li").find(".openHiddenInput").val("true");
+				
+				$("form:first").attr("action", "/source");
+				$("form:first").submit();
+				
+				return false;
+			}); 
+			*/
+	
+			$(".folderName").click(function(e) 
+			{	
+				e.stopPropagation();
+				$(".operationTried").val("false");
+				selectedLi = $(this).parent("li");
+				
+				var vm = getFileViewModel(selectedLi);
+				callOpen(vm);
+			});
+			
 			
 			
 			
@@ -131,6 +133,18 @@
 		//---------------------------------------------------------------------------------//
 		//---------------------------------------------------------------------------------//
 		
+		function submitOpenOrSelectAll(action)
+		{
+			$("#action").val(action);
+			
+			$("form:first").attr("action", "/source");
+			$("form:first").submit();
+		}
+	
+		function callOpen(viewModel)
+		{
+			 doAjaxCall('/source/openFolder', viewModel, openSuccess, operationError);
+		}
 		
 		function callMove(viewModel)
 		{
@@ -142,6 +156,26 @@
 			 doAjaxCall('/source/deleteFile', viewModel, deleteSuccess, operationError);
 		}
 		
+		
+		function openSuccess(data)
+		{
+			alert("done");
+			
+			var source = $("#folderTemplate").html(); 
+			
+			alert(source);
+			
+			var template = Handlebars.compile(source); 
+			
+			//alert(template);
+			
+			var s = template(data)
+			alert(s);
+			//var d = data;
+			
+		}
+		
+		
 		function moveSuccess(data)
 		{
 			//change dom
@@ -152,7 +186,7 @@
 			else
 			{
 				//ensure we dont reprocess this item
-				$(selectedLi).find(".operationFailed").val("true");
+				$(selectedLi).find(".operationTried").val("true");
 			}
 			
 			//show message
@@ -167,7 +201,6 @@
 			}
 		}
 		
-		
 		function deleteSuccess(data)
 		{
 			//change dom
@@ -178,13 +211,18 @@
 				
 				$(selectedLi).remove();
 			}
+			else
+			{
+				//ensure we dont reprocess this item
+				$(selectedLi).find(".operationTried").val("true");
+			}
 			
 			//show message
 			showMessages(data, "deleted");
 			
 			//delete next selected item
-			selectedLi = getNextDeleteableLi();
-			if(selectedLi)
+			selectedLi = getNextSelectedLi();
+			if(selectedLi.length > 0)
 			{
 				var viewModel = getFileViewModel(selectedLi);
 				callDelete(viewModel);
@@ -232,49 +270,37 @@
 			return {
 				"path": $(li).find("input:nth-child(1)").val(),
 				"name": $(li).find("input:nth-child(2)").val(),
-				"file": $(li).find("input:nth-child(3)").val(),
-				"open": $(li).find("input:nth-child(4)").val()
+				"file": $(li).find("input:nth-child(3)").val()
 			};
 			
+			//"open": $(li).find("input:nth-child(4)").val()
 			//"selected": $(checkbox).parent("li").find("input:nth-child(5)").val()
 		}
-		
 		
 		/* get the first li that has a checked checkbox and an input indicating it is a file */
 		function getNextSelectedFileLi()
 		{
-			//TODO: MAKE THIS MORE EFFICIENT
-			
-			var selectedFileLis = $(".selectedCheckbox:checked").parent("li").find("input[name$='file'][value='true']").parent("li");
-			var previouslyUnprocessed = $(selectedFileLis).find(".operationFailed[value='false']").parent("li").first();
-			
-			return previouslyUnprocessed;
+			return  $(".selectedCheckbox:checked").siblings("input[name$='file'][value='true']").siblings(".operationTried[value='false']").parent("li").first();
 		}
 		
-		
 		/* get next file or folder that does not have a selected parent folder*/
-		function getNextDeleteableLi()
+		function getNextSelectedLi()
 		{
-			//TODO: MAKE THIS MORE EFFICIENT
-			
-			var obj;
-			$('.selectedCheckbox:checked').each(
-				function( index ) 
-				{
-					var parentFolderSelected = $(this).parent("li").parent("ul").parent("li").prev("li").find(".selectedCheckbox:checked").length;
-					
-					if(!parentFolderSelected)
-					{
-						obj = $(this).parent("li");
-						return false; //breaks the for loop 
-					}
-				}
-			);
-			
-			return obj;
+			//get the first checked li that we have not already tried to move / delete 
+			return $('.selectedCheckbox:checked').siblings(".operationTried[value='false']").parent("li").first();
 		}
 		
 	</script>
+	
+	<script id="folderTemplate" type="text/x-handlebars-template"> 
+			 {{#files}} 
+				<p>{{path}}</p>		        
+ 			{{/files}} 
+	</script>
+	
+	
+	
+	
 	
 	<style>
 		.highlightableLi{

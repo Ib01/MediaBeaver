@@ -71,7 +71,50 @@ public class Data
 	
 	//-Files  --------------------------------------------------------------------//
 	
+	
 	public FileViewModel getFileViewModel(String path)
+	{
+		File file = new File(path);
+		FileViewModel filevm  = getFileVM(file);
+		filevm.setFiles(getChildren(file));
+		
+		return filevm;
+	}
+	
+	
+	private List<FileViewModel> getChildren(File rootFile)
+	{
+		List<File> subFiles = Arrays.asList(rootFile.listFiles());
+		List<FileViewModel> filevms = new ArrayList<FileViewModel>();
+		
+		for(File file : subFiles)
+		{
+			FileViewModel filevm  = getFileVM(file);
+			filevms.add(filevm);
+		}
+		
+		return filevms;
+	}
+	
+	private FileViewModel getFileVM(File file)
+	{
+		FileViewModel filevm = new FileViewModel();
+		
+		filevm.setFile(file.isFile());
+		filevm.setName(file.getName());
+		filevm.setPath(file.getAbsolutePath());
+			
+		return filevm;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	/*public FileViewModel getFileViewModel(String path)
 	{
 		return getFileViewModel(path, new FileViewModel());
 	}
@@ -148,7 +191,7 @@ public class Data
 			filevm.setOpen(false);
 			
 		return filevm;
-	}
+	}*/
 	
 	
 	

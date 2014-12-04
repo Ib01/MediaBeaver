@@ -33,15 +33,19 @@ public class SourceDirectoryController
 	@RequestMapping
 	public ModelAndView viewDirectory(HttpServletRequest request)
 	{
-		return new ModelAndView("SourceDirectory","directory", getFileViewModel(new FileViewModel(),request));
+		Data data = new Data(request);
+		ConfigurationViewModel config = data.getConfiguration();
+		FileViewModel filevm = data.getFileViewModel(config.getSourceDirectory());
+		
+		return new ModelAndView("SourceDirectory","directory", filevm);
 	}
 	
-	@RequestMapping(method = RequestMethod.POST)
+	/*@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView openCloseDirectories(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request)
 	{
-		return new ModelAndView("SourceDirectory","directory", getFileViewModel(viewModel,request));
+		return new ModelAndView("SourceDirectory","directory", getSourceDirectoryViewModel(request));
 	}
-
+*/
 	@RequestMapping(value="/serviceMove", method = RequestMethod.POST)
 	public ModelAndView serviceMove(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request) throws IOException, XmlRpcException
 	{
@@ -111,23 +115,32 @@ public class SourceDirectoryController
 	}
 	
 	
+	@RequestMapping(value="/openFolder", method = RequestMethod.POST)
+	public @ResponseBody FileViewModel openFolder(@RequestBody FileViewModel model, HttpServletRequest request) 
+	{
+		Data data = new Data(request);
+		FileViewModel filevm = data.getFileViewModel(model.getPath());
+		
+		return filevm;
+	}
 	
 	
 	
 	
 	
-	private FileViewModel getFileViewModel(FileViewModel viewModel, HttpServletRequest request)
+	
+	/*private FileViewModel getSourceDirectoryViewModel(HttpServletRequest request)
 	{
 		Data data = new Data(request);
 		
 		ConfigurationViewModel config = data.getConfiguration();
-		FileViewModel filevm = data.getFileViewModel(config.getSourceDirectory(), viewModel);
+		FileViewModel filevm = data.getFileViewModel(config.getSourceDirectory());
 		
 		return filevm;
 		
 		
 	}
-	
+	*/
 	
 }
 
