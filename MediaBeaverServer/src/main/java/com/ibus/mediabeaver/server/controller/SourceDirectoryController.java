@@ -120,7 +120,7 @@ public class SourceDirectoryController
 	{
 		Data data = new Data(request);
 		FileViewModel filevm = data.getFileViewModel(model.getPath());
-		
+		filevm.setOpen(true);
 		return filevm;
 	}
 	

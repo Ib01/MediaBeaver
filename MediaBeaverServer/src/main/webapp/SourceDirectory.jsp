@@ -12,28 +12,29 @@
 		$(function ()
 		{	
 
-			$(".highlightableLi").mouseover(function() 
+			$( "body" ).delegate( ".highlightableLi", "mouseover", function()  
 			{
 				$(this).css("background-color", "#F1F1F1");
 			});
-			$(".highlightableLi").mouseout(function() 
+			
+			$( "body" ).delegate( ".highlightableLi", "mouseout", function()  
 			{
 				$(this).css("background-color", "");
 			});
-			$(".highlightableLi").click(function() 
+			
+			$( "body" ).delegate( ".highlightableLi", "click", function()  
 			{
 				$(this).find("input:checkbox").prop(
 						'checked', 
 						!$(this).find("input:checkbox").is(':checked')
 				);
 			});
-			
-			$(".highlightableLi input:checkbox").click(function(e) 
+				
+			$( "body" ).delegate( ".highlightableLi input:checkbox", "click", function()  
 			{
-				//stop $(".highlightableLi").click(function() being called
 				e.stopPropagation();
 			});
-			
+				
 			$("#moveManually").click(function() 
 			{	
 				if($('.selectedCheckbox:checked').length > 0)
@@ -44,7 +45,7 @@
 				}
 			});
 			
-			$("#openAll1").click(function() 
+			/* $("#openAll1").click(function() 
 			{	
 				submitOpenOrSelectAll("open all");
 			});
@@ -52,7 +53,7 @@
 			$("#selectAll1").click(function() 
 			{	
 				submitOpenOrSelectAll("select all");
-			});
+			}); */
 			
 			$("#deleteFiles").click(function() 
 			{	
@@ -86,45 +87,46 @@
 					
 			});
 	
-			$(".folderName").mouseover(function() 
+			$( "body" ).delegate( ".folderName", "mouseover", function()
 			{
 				$(this).css("text-decoration", "underline");
 			});
-			$(".folderName").mouseout(function() 
+	 
+			$( "body" ).delegate( ".folderName", "mouseout", function()
 			{
 				$(this).css("text-decoration", "");
 			});
 			
-			/* $(".folderName").click(function() 
-			{		
-				var parent = $(this).parent("li");
-				var vm = getFileViewModel(parent);
-				
-				
-				if($(this).parent("li").find(".openHiddenInput").val() == "true")
-					$(this).parent("li").find(".openHiddenInput").val("false");
-				else
-					$(this).parent("li").find(".openHiddenInput").val("true");
-				
-				$("form:first").attr("action", "/source");
-				$("form:first").submit();
-				
-				return false;
-			}); 
-			*/
-	
-			$(".folderName").click(function(e) 
+			$("body").delegate(".folderName", "click", function(e)		
 			{	
 				e.stopPropagation();
-				$(".operationTried").val("false");
-				selectedLi = $(this).parent("li");
 				
-				var vm = getFileViewModel(selectedLi);
-				callOpen(vm);
+				var isOpen = $(this).siblings("input[name$='open'][value='true']");
+				if(isOpen.length > 0)
+				{
+					$(this).parent("li").next("li").remove();
+					$(this).siblings("input[name$='open']").val("false");
+				}
+				else
+				{
+					//$(".operationTried").val("false");
+					selectedLi = $(this).parent("li");
+					
+					var vm = getFileViewModel(selectedLi);
+					callOpen(vm);
+				}
 			});
 			
 			
-			
+			$("#openAll").click(function() 
+			{	
+				selectedLi =  getNextUnopenedFolderLi();
+				if(selectedLi.length > 0)
+				{
+					var vm = getFileViewModel(selectedLi);
+					callOpenAll(vm);
+				}
+			});
 			
 		}); 
 		
@@ -132,6 +134,9 @@
 		//---------------------------------------------------------------------------------//
 		//---------------------------------------------------------------------------------//
 		//---------------------------------------------------------------------------------//
+		
+		
+		
 		
 		function submitOpenOrSelectAll(action)
 		{
@@ -141,6 +146,11 @@
 			$("form:first").submit();
 		}
 	
+		function callOpenAll(viewModel)
+		{
+			 doAjaxCall('/source/openFolder', viewModel, openAllSuccess, operationError);
+		}
+		
 		function callOpen(viewModel)
 		{
 			 doAjaxCall('/source/openFolder', viewModel, openSuccess, operationError);
@@ -157,22 +167,34 @@
 		}
 		
 		
+		
+		
+		function openAllSuccess(data)
+		{
+			var source = $("#folderTemplate").html(); 
+			var template = Handlebars.compile(source); 
+			var s = template(data);
+			
+			$(selectedLi).find("input[name$='open']").val("true");
+			$(selectedLi).after(s);
+			
+			selectedLi =  getNextUnopenedFolderLi();
+			if(selectedLi.length > 0)
+			{
+				var vm = getFileViewModel(selectedLi);
+				callOpenAll(vm);
+			}
+		}
+		
+		
 		function openSuccess(data)
 		{
-			alert("done");
-			
 			var source = $("#folderTemplate").html(); 
-			
-			alert(source);
-			
 			var template = Handlebars.compile(source); 
+			var s = template(data);
 			
-			//alert(template);
-			
-			var s = template(data)
-			alert(s);
-			//var d = data;
-			
+			$(selectedLi).find("input[name$='open']").val("true");
+			$(selectedLi).after(s);
 		}
 		
 		
@@ -270,10 +292,10 @@
 			return {
 				"path": $(li).find("input:nth-child(1)").val(),
 				"name": $(li).find("input:nth-child(2)").val(),
-				"file": $(li).find("input:nth-child(3)").val()
+				"file": $(li).find("input:nth-child(3)").val(),
+				"open": $(li).find("input:nth-child(4)").val()
 			};
 			
-			//"open": $(li).find("input:nth-child(4)").val()
 			//"selected": $(checkbox).parent("li").find("input:nth-child(5)").val()
 		}
 		
@@ -290,15 +312,40 @@
 			return $('.selectedCheckbox:checked').siblings(".operationTried[value='false']").parent("li").first();
 		}
 		
+		
+		function getNextUnopenedFolderLi()
+		{
+			return $(".folderName").siblings("input[name$='open'][value='false']").parent("li").first();
+		}
+		
+		
+		
 	</script>
 	
 	<script id="folderTemplate" type="text/x-handlebars-template"> 
-			 {{#files}} 
-				<p>{{path}}</p>		        
- 			{{/files}} 
-	</script>
-	
-	
+		<li>
+			<ul style="list-style: none">
+				{{#files}} 
+					<li class="highlightableLi"> 
+						<input name="path" type="hidden" value="{{path}}">
+						<input name="name" type="hidden" value="{{name}}">
+						<input name="file" type="hidden" value="{{file}}">
+						<input name="open" type="hidden" value="{{open}}" class="openHiddenInput">
+					
+						<input type="checkbox" name="selected" class="selectedCheckbox">
+					
+						{{#if file}}
+							<img src="/resources/images/document_24.png"> {{name}}
+						{{else}}
+							<img src="/resources/images/folder_24.png"> <span class="folderName">{{name}}</span>
+						{{/if}}
+				
+						<input type="hidden" value="false" class="operationTried" >
+					</li>
+				{{/files}} 
+			</ul>
+		</li>	
+	</script>	
 	
 	
 	
@@ -319,8 +366,11 @@
 		
 		<div style="border: solid 1px #F1F1F1">
 			<div style="background-color: #F1F1F1; padding: 3px;">
+				<input type="checkbox" id="openAll"> Expand All | 
+				<input type="checkbox" id="selectAll"> Select All 
+			<%-- 
 				<form:checkbox path="openAll" label="Expand All" /> |
-				<form:checkbox path="selectAll" label="Select All"/>
+				<form:checkbox path="selectAll" label="Select All"/> --%>
 				<form:hidden path="action"/>
 				
 				<div style="float: right">
