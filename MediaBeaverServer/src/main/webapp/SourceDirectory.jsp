@@ -8,6 +8,7 @@
 	
 		var dissabled = false;
 		var selectedLi;
+		var openAllRoot;
 	
 		$(function ()
 		{	
@@ -19,6 +20,7 @@
 			
 			$( "body" ).delegate( ".highlightableLi", "mouseout", function()  
 			{
+				
 				$(this).css("background-color", "");
 			});
 			
@@ -44,16 +46,6 @@
 					return false;
 				}
 			});
-			
-			/* $("#openAll1").click(function() 
-			{	
-				submitOpenOrSelectAll("open all");
-			});
-
-			$("#selectAll1").click(function() 
-			{	
-				submitOpenOrSelectAll("select all");
-			}); */
 			
 			$("#deleteFiles").click(function() 
 			{	
@@ -91,7 +83,7 @@
 			{
 				$(this).css("text-decoration", "underline");
 			});
-	 
+	
 			$( "body" ).delegate( ".folderName", "mouseout", function()
 			{
 				$(this).css("text-decoration", "");
@@ -109,16 +101,13 @@
 				}
 				else
 				{
-					//$(".operationTried").val("false");
 					selectedLi = $(this).parent("li");
-					
 					var vm = getFileViewModel(selectedLi);
 					callOpen(vm);
 				}
 			});
 			
-			
-			$("#openAll").click(function() 
+			$("#expandAll").click(function(e) 
 			{	
 				selectedLi =  getNextUnopenedFolderLi();
 				if(selectedLi.length > 0)
@@ -126,6 +115,41 @@
 					var vm = getFileViewModel(selectedLi);
 					callOpenAll(vm);
 				}
+				else
+				{
+					$("#expandAll").hide();
+					$("#colapseAll").show();
+				}
+				
+				e.stopPropagation();
+			});
+			
+			
+			$("#colapseAll").click(function(e) 
+			{	
+				$(".folderName").parent("li").next("li").children("ul").parent().remove();
+				$(".folderName").siblings("input[name$='open']").val("false");
+				
+				$("#expandAll").show();
+				$("#colapseAll").hide();
+				
+				e.stopPropagation();
+			});
+			
+			$("#selectAll").click(function(e) 
+			{	
+				$("input:checkbox").prop('checked', true);
+				
+				$("#selectAll").hide();
+				$("#deselectAll").show();
+			});
+			
+			$("#deselectAll").click(function(e) 
+			{	
+				$("input:checkbox").prop('checked', false);
+				
+				$("#selectAll").show();
+				$("#deselectAll").hide();
 			});
 			
 		}); 
@@ -134,18 +158,13 @@
 		//---------------------------------------------------------------------------------//
 		//---------------------------------------------------------------------------------//
 		//---------------------------------------------------------------------------------//
-		
-		
-		
-		
-		function submitOpenOrSelectAll(action)
-		{
-			$("#action").val(action);
-			
-			$("form:first").attr("action", "/source");
-			$("form:first").submit();
-		}
 	
+		
+		function callOpenFromRoot(viewModel)
+		{
+			 doAjaxCall('/source/openFolder', viewModel, openFromRootSuccess, operationError);
+		}
+		
 		function callOpenAll(viewModel)
 		{
 			 doAjaxCall('/source/openFolder', viewModel, openAllSuccess, operationError);
@@ -167,7 +186,22 @@
 		}
 		
 		
-		
+		function openFromRootSuccess(data)
+		{
+			var source = $("#folderTemplate").html(); 
+			var template = Handlebars.compile(source); 
+			var s = template(data);
+			
+			$(selectedLi).find("input[name$='open']").val("true");
+			$(selectedLi).after(s);
+			
+			selectedLi =  getNextUnopenedFolderLiOfRoot();
+			if(selectedLi.length > 0)
+			{
+				var vm = getFileViewModel(selectedLi);
+				callOpenAll(vm);
+			}
+		}
 		
 		function openAllSuccess(data)
 		{
@@ -184,8 +218,12 @@
 				var vm = getFileViewModel(selectedLi);
 				callOpenAll(vm);
 			}
+			else
+			{
+				$("#expandAll").hide();
+				$("#colapseAll").show();
+			}
 		}
-		
 		
 		function openSuccess(data)
 		{
@@ -312,12 +350,15 @@
 			return $('.selectedCheckbox:checked').siblings(".operationTried[value='false']").parent("li").first();
 		}
 		
-		
 		function getNextUnopenedFolderLi()
 		{
 			return $(".folderName").siblings("input[name$='open'][value='false']").parent("li").first();
 		}
 		
+		function getNextUnopenedFolderLiOfRoot()
+		{
+			return $(openAllRoot).find(".folderName").siblings("input[name$='open'][value='false']").parent("li").first();
+		}
 		
 		
 	</script>
@@ -329,8 +370,8 @@
 					<li class="highlightableLi"> 
 						<input name="path" type="hidden" value="{{path}}">
 						<input name="name" type="hidden" value="{{name}}">
-						<input name="file" type="hidden" value="{{file}}">
-						<input name="open" type="hidden" value="{{open}}" class="openHiddenInput">
+						<input name="file" type="hidden" value="{{#if file}}true{{else}}false{{/if}}">
+						<input name="open" type="hidden" value="{{#if open}}true{{else}}false{{/if}}" class="openHiddenInput">
 					
 						<input type="checkbox" name="selected" class="selectedCheckbox">
 					
@@ -346,6 +387,8 @@
 			</ul>
 		</li>	
 	</script>	
+	
+	
 	
 	
 	
@@ -365,24 +408,20 @@
 		<h2>Source Directory</h2>
 		
 		<div style="border: solid 1px #F1F1F1">
-			<div style="background-color: #F1F1F1; padding: 3px;">
-				<input type="checkbox" id="openAll"> Expand All | 
-				<input type="checkbox" id="selectAll"> Select All 
-			<%-- 
-				<form:checkbox path="openAll" label="Expand All" /> |
-				<form:checkbox path="selectAll" label="Select All"/> --%>
+			<div style="background-color: #F1F1F1; padding: 3px;height: 20px">
 				<form:hidden path="action"/>
 				
 				<div style="float: right">
+					<a href="#" id="selectAll" style="font-size: 14px"> Select All </a><a href="#" id="deselectAll" style="font-size: 14px; display: none;"> Deselect All </a> |
+					<a href="#" id="expandAll" style="font-size: 14px"> Expand All </a><a href="#" id="colapseAll" style="font-size: 14px; display: none;"> Colapse All </a> |
 					<a href="#" id="deleteFiles">Delete</a> | 
-					<a href="#" id="moveManually">Move Manually</a> |
-					<a href="#" id="moveFiles">Move Automatically</a> 
-					
+					<a href="#" id="moveManually">Match and Move</a> |
+					<a href="#" id="moveFiles">Move</a> 
 				</div> 
 			</div>
 			
 			<ul style="list-style: none; padding-left: 0px;">
-				<li>
+				<li> 
 					<form:hidden path="path"/>
 					<form:hidden path="name"/>
 					<form:hidden path="file"/>

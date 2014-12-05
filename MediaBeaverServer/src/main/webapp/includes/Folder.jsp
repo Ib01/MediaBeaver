@@ -17,14 +17,17 @@
 				<input type="checkbox" name="${param.ReferenceString}[${i.index}].selected" class="selectedCheckbox">
 			</c:if>
 			
-			<c:if test="${file.file}">
-				<img src="/resources/images/document_24.png">
-				<c:out value="${file.name}"/>
-			</c:if>		
-			<c:if test="${!file.file}">
-				<img src="/resources/images/folder_24.png">
-				<span class="folderName"><c:out value="${file.name}"/></span>
-			</c:if>
+			
+			
+				<c:if test="${file.file}">
+					<img src="/resources/images/document_24.png">
+					<c:out value="${file.name}"/>
+				</c:if>		
+				<c:if test="${!file.file}">
+					<img src="/resources/images/folder_24.png">
+					<span class="folderName"><c:out value="${file.name}"/></span>
+				</c:if>
+			
 			<input type="hidden" value="false" class="operationTried" >
 		</li>
 		
