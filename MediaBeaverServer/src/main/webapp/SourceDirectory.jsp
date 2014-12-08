@@ -476,8 +476,7 @@
 					<jsp:include page="includes/Folder.jsp" >
 					    <jsp:param name="ReferenceString" value="files" />
 					</jsp:include>
-				
-				</ul>
+				</li>
 			</ul>
 		</div>
 		
