@@ -6,7 +6,7 @@
 
 	<script type="text/javascript" >
 	
-		var dissabled = false;
+		var uiEnabled = true;
 		var selectedLi;
 		var openAllRoot;
 	
@@ -26,6 +26,8 @@
 			
 			$( "body" ).delegate( ".highlightableLi", "click", function()  
 			{
+				if(!uiEnabled) return;
+				
 				$(this).find("input:checkbox").prop(
 						'checked', 
 						!$(this).find("input:checkbox").is(':checked')
@@ -38,7 +40,9 @@
 			});
 				
 			$("#moveManually").click(function() 
-			{	
+			{
+				if(!uiEnabled) return;
+				
 				if($('.selectedCheckbox:checked').length > 0)
 				{
 					$("form:first").attr("action", "/source/serviceMove");
@@ -49,6 +53,8 @@
 			
 			$("#deleteFiles").click(function() 
 			{	
+				if(!uiEnabled) return;
+				
 				$(".operationTried").val("false");
 				selectedLi = getNextSelectedLi();
 				
@@ -56,8 +62,8 @@
 				{
 					$("#messageBoard").show("slow", function()
 					{
-						//dissableInterface();
 						var viewModel = getFileViewModel(selectedLi);
+						dissableInterface();
 						callDelete(viewModel);
 					});
 				}
@@ -65,6 +71,8 @@
 			
 			$("#moveFiles").click(function() 
 			{
+				if(!uiEnabled) return;
+				
 				$(".operationTried").val("false");
 				selectedLi = getNextSelectedFileLi();
 				
@@ -73,6 +81,7 @@
 					$("#messageBoard").show("slow", function()
 					{
 						var vm = getFileViewModel(selectedLi);
+						dissableInterface();
 						callMove(vm);
 					});
 				}
@@ -91,6 +100,8 @@
 			
 			$("body").delegate(".folderName", "click", function(e)		
 			{	
+				if(!uiEnabled) return;
+				
 				e.stopPropagation();
 				
 				var isOpen = $(this).siblings("input[name$='open'][value='true']");
@@ -103,16 +114,20 @@
 				{
 					selectedLi = $(this).parent("li");
 					var vm = getFileViewModel(selectedLi);
+					dissableInterface();
 					callOpen(vm);
 				}
 			});
 			
 			$("#expandAll").click(function(e) 
 			{	
+				if(!uiEnabled) return;
+				
 				selectedLi =  getNextUnopenedFolderLi();
 				if(selectedLi.length > 0)
 				{
 					var vm = getFileViewModel(selectedLi);
+					dissableInterface();
 					callOpenAll(vm);
 				}
 				else
@@ -127,6 +142,8 @@
 			
 			$("#colapseAll").click(function(e) 
 			{	
+				if(!uiEnabled) return; 
+				
 				$(".folderName").parent("li").next("li").children("ul").parent().remove();
 				$(".folderName").siblings("input[name$='open']").val("false");
 				
@@ -138,6 +155,8 @@
 			
 			$("#selectAll").click(function(e) 
 			{	
+				if(!uiEnabled) return;
+				
 				$("input:checkbox").prop('checked', true);
 				
 				$("#selectAll").hide();
@@ -146,6 +165,8 @@
 			
 			$("#deselectAll").click(function(e) 
 			{	
+				if(!uiEnabled) return;
+				
 				$("input:checkbox").prop('checked', false);
 				
 				$("#selectAll").show();
@@ -159,6 +180,21 @@
 		//---------------------------------------------------------------------------------//
 		//---------------------------------------------------------------------------------//
 	
+		function dissableInterface()
+		{
+			uiEnabled = false;
+			$(".selectedCheckbox").attr("disabled", "disabled");
+			$("#folderMenu a").css("color", "grey");
+			$("li").css("color", "grey");
+		}
+		
+		function enableInterface()
+		{
+			uiEnabled = true;
+			$(".selectedCheckbox").removeAttr("disabled");
+			$("#folderMenu a").css("color", "");
+			$("li").css("color", "");
+		}
 		
 		function callOpenFromRoot(viewModel)
 		{
@@ -185,7 +221,6 @@
 			 doAjaxCall('/source/deleteFile', viewModel, deleteSuccess, operationError);
 		}
 		
-		
 		function openFromRootSuccess(data)
 		{
 			var source = $("#folderTemplate").html(); 
@@ -200,6 +235,10 @@
 			{
 				var vm = getFileViewModel(selectedLi);
 				callOpenAll(vm);
+			}
+			else
+			{
+				enableInterface();
 			}
 		}
 		
@@ -222,6 +261,7 @@
 			{
 				$("#expandAll").hide();
 				$("#colapseAll").show();
+				enableInterface();
 			}
 		}
 		
@@ -233,6 +273,7 @@
 			
 			$(selectedLi).find("input[name$='open']").val("true");
 			$(selectedLi).after(s);
+			enableInterface();
 		}
 		
 		
@@ -259,6 +300,11 @@
 				var vm = getFileViewModel(selectedLi);
 				callMove(vm);
 			}
+			else
+			{
+				enableInterface();
+			}
+			
 		}
 		
 		function deleteSuccess(data)
@@ -273,7 +319,7 @@
 			}
 			else
 			{
-				//ensure we dont reprocess this item
+				//ensure we dont reprocess this item again
 				$(selectedLi).find(".operationTried").val("true");
 			}
 			
@@ -287,6 +333,10 @@
 				var viewModel = getFileViewModel(selectedLi);
 				callDelete(viewModel);
 			}
+			else
+			{
+				enableInterface();
+			}
 		}
 		
 		function showMessages(data, operation)
@@ -299,11 +349,6 @@
 			{
 				$("#messageBoard  > div").append("<a href=\"/activity\">" + data.path + "</a> <span style=\"\">"+operation+" unsuccessfully<span></br>");
 			}
-		}
-		
-		function dissableInterface()
-		{
-			$(".selectedCheckbox").attr("disabled", "disabled");
 		}
 		
 		function doAjaxCall(url, viewModel, successFunction, errorFunction)
@@ -397,10 +442,6 @@
 			cursor: hand;			
 		}
 		
-		#messageBoard a:link {color:#FFFFFF;text-decoration:underline;}
-		#messageBoard a:visited {color:#FFFFFF;text-decoration:underline;}  
-		#messageBoard a:hover {color:#FFFFFF;text-decoration:underline;}  
-		#messageBoard a:active {color:#FFFFFF;text-decoration:underline;} 
 	</style>
 	
 	
@@ -411,8 +452,8 @@
 			<div style="background-color: #F1F1F1; padding: 3px;height: 20px">
 				<form:hidden path="action"/>
 				
-				<div style="float: right">
-					<a href="#" id="selectAll" style="font-size: 14px"> Select All </a><a href="#" id="deselectAll" style="font-size: 14px; display: none;"> Deselect All </a> |
+				<div style="float: right" id="folderMenu">
+					<a href="#" id="selectAll" style="font-size: 14px;"> Select All </a><a href="#" id="deselectAll" style="font-size: 14px; display: none;"> Deselect All </a> |
 					<a href="#" id="expandAll" style="font-size: 14px"> Expand All </a><a href="#" id="colapseAll" style="font-size: 14px; display: none;"> Colapse All </a> |
 					<a href="#" id="deleteFiles">Delete</a> | 
 					<a href="#" id="moveManually">Match and Move</a> |

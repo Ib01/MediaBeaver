@@ -17,8 +17,6 @@
 				<input type="checkbox" name="${param.ReferenceString}[${i.index}].selected" class="selectedCheckbox">
 			</c:if>
 			
-			
-			
 				<c:if test="${file.file}">
 					<img src="/resources/images/document_24.png">
 					<c:out value="${file.name}"/>
