@@ -32,7 +32,6 @@ public class ServiceMoverController
 {
 	public static final String FilesToMoveSessionKey = "filesToResolve";
 
-	
 	@RequestMapping
 	public ModelAndView serviceMove(HttpServletRequest request) throws Exception
 	{

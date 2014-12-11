@@ -25,13 +25,17 @@ public class OstTitleDto
 	@SuppressWarnings("unchecked")
 	public void setPossibleTitles(Object[] titles)
 	{
+		possibleTitles.clear();
 		if(titles == null)
 			return;
 		
-		possibleTitles.clear();
 		for(int i = 0; i < titles.length; i++)
         {
-			possibleTitles.add((Map<String, String>) titles[i]);
+			if(titles[i] instanceof Map)
+			{
+				//TODO: how can i know that titles[i] is instanceof Map<String, String> instead of just map
+				possibleTitles.add((Map<String, String>) titles[i]);	 
+			}
         }
 	}
 	

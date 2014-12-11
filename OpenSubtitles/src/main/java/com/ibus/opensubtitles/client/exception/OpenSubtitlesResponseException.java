@@ -3,20 +3,22 @@ package com.ibus.opensubtitles.client.exception;
 public class OpenSubtitlesResponseException extends Exception 
 {
 	private static final long serialVersionUID = 5356107148397511248L;
-
+	private static String BaseMessage ="The Open Subtitles service responded with an exception";  
+	
 	public OpenSubtitlesResponseException()
 	{
-		super("The Open Subtitles service responded with an exception");
+		super(BaseMessage);
 	}
 	
-    public OpenSubtitlesResponseException(String message) 
+	
+    public OpenSubtitlesResponseException(String status) 
     {
-    	super(message);
+    	super(BaseMessage + ". The status returned from the service was: " + status);
     }
  
-    public OpenSubtitlesResponseException(String message, Throwable cause) 
+    public OpenSubtitlesResponseException(String status, Throwable cause) 
     {
-    	super(message, cause);
+    	super(BaseMessage + ". The status returned from the service was: " + status, cause);
     }
 
 }
