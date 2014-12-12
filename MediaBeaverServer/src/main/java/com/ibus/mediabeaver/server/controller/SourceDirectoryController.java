@@ -39,13 +39,7 @@ public class SourceDirectoryController
 		
 		return new ModelAndView("SourceDirectory","directory", filevm);
 	}
-	
-	/*@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView openCloseDirectories(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request)
-	{
-		return new ModelAndView("SourceDirectory","directory", getSourceDirectoryViewModel(request));
-	}
-*/
+
 	@RequestMapping(value="/serviceMove", method = RequestMethod.POST)
 	public ModelAndView serviceMove(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request) throws IOException, XmlRpcException
 	{
@@ -54,43 +48,6 @@ public class SourceDirectoryController
 		
 		return new ModelAndView("redirect:/serviceMover");
 	}
-	
-	/*@RequestMapping(value="/delete", method = RequestMethod.POST)
-	public ModelAndView deleteFiles(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request) throws IOException
-	{
-		MediaRemover mr = new MediaRemover();
-		List<String> paths = viewModel.getSelectedPaths(false);
-		mr.deleteFiles(paths);
-		
-		FileViewModel vm = getFileViewModel(viewModel,request);
-		vm.setAction("deleted");
-		vm.setSuccesses(mr.getDeleted());
-		vm.setFailures(mr.getNotDeleted());
-		
-		return new ModelAndView("SourceDirectory","directory", vm);
-	}*/
-	
-	/*@RequestMapping(value="/move", method = RequestMethod.POST)
-	public ModelAndView moveFiles(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request) throws IOException, XmlRpcException
-	{
-		Configuration config = Repository.getFirstEntity(Configuration.class);
-		
-		//move files
-		List<String> files = viewModel.getSelectedPaths(true);
-		MediaMover mover = new MediaMover(Platform.Web,config);
-		mover.moveFiles(files);
-		
-		FileViewModel vm = getFileViewModel(viewModel,request);
-
-		vm.setAction("moved");
-		vm.setSuccesses(mover.getMovedMedia());
-		vm.setFailures(mover.getUnmovedMedia());
-		
-		//show files
-		return new ModelAndView("SourceDirectory","directory", vm);
-	}*/
-	
-	
 	
 	@RequestMapping(value="/deleteFile", method = RequestMethod.POST)
 	public @ResponseBody FileViewModel deleteFile(@RequestBody FileViewModel model, HttpServletRequest request) 
@@ -127,20 +84,6 @@ public class SourceDirectoryController
 	
 	
 	
-	
-	
-	/*private FileViewModel getSourceDirectoryViewModel(HttpServletRequest request)
-	{
-		Data data = new Data(request);
-		
-		ConfigurationViewModel config = data.getConfiguration();
-		FileViewModel filevm = data.getFileViewModel(config.getSourceDirectory());
-		
-		return filevm;
-		
-		
-	}
-	*/
 	
 }
 
