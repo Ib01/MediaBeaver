@@ -15,6 +15,7 @@ import com.ibus.opensubtitles.client.dto.OstTitleDto;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesHashData;
 import com.ibus.opensubtitles.client.exception.OpenSubtitlesException;
 import com.ibus.opensubtitles.client.exception.OpenSubtitlesLoginException;
+import com.ibus.opensubtitles.client.exception.OpenSubtitlesMalformedResponseException;
 import com.ibus.opensubtitles.client.exception.OpenSubtitlesResponseException;
 
 public class OpenSubtitlesClient
@@ -113,6 +114,7 @@ public class OpenSubtitlesClient
 	 * @throws OpenSubtitlesResponseException 
 	 * @throws OpenSubtitlesLoginException 
 	 * @throws OpenSubtitlesException 
+	 * @throws OpenSubtitlesMalformedResponseException 
 	 */
 	@SuppressWarnings("unchecked")
 	public OstTitleDto getTitleForHash(OpenSubtitlesHashData data) throws OpenSubtitlesResponseException, OpenSubtitlesLoginException, OpenSubtitlesException
@@ -132,14 +134,25 @@ public class OpenSubtitlesClient
 	        
 	    	OstTitleDto dto = new OstTitleDto();
 	        responseOk(result);
-	        dto.setPossibleTitles((Object[]) result.get("data"));
 	        
+	        try
+	        {
+	        	if(result.containsKey("data"))
+	        	{
+		        	//the data field can still be: null, false or Object[]. we will simply return a dto with 
+	        		//an empty collection to indicate that the service had no data   
+		        	dto.setPossibleTitles((Object[]) result.get("data"));
+	        	}
+	        }
+	        catch(ClassCastException ex){}
 	        return dto;
 		}
 		catch(IOException | XmlRpcException e)
 		{
+			//TODO: this could be a more specific exception such as a ServiceCommunicationException
 			throw new OpenSubtitlesException(e);
 		}
+		
 	}
 	
 	
@@ -158,13 +171,52 @@ public class OpenSubtitlesClient
 	
 	private void responseOk(Map result) throws OpenSubtitlesResponseException
 	{
-		if(result.get("status") == null || !((String) result.get("status")).trim().toUpperCase().equals("200 OK"))
-		{
+		String status = null;
+		try
+        {
+			status = (String)result.get("status");
+        }
+        catch(ClassCastException ex){
+        	throw new OpenSubtitlesResponseException();
+        }
+		
+		if(status == null)
 			throw new OpenSubtitlesResponseException();
+			
+			
+		if(!status.trim().toUpperCase().equals("200 OK"))
+		{
+			throw new OpenSubtitlesResponseException(status);
 		}
+        
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

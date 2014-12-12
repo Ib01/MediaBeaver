@@ -566,8 +566,11 @@ public class MediaMover
 		{
 			logEvent(file.getAbsolutePath(), null, ResultType.Failed, 
 					"While attempting to perform a thumbprint search against the file the Open Subtitles service returned an error in its response");
+			
 			log.error(String.format("While attempting to perform a thumbprint search against %s the Open Subtitles service returned an error in its response", 
 					file.getAbsolutePath()), e);
+			
+			
 			return null;
 		}
 		catch (OpenSubtitlesException e) 
