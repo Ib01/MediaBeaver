@@ -2,7 +2,10 @@ package com.ibus.tvdb.client;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 
+import com.ibus.tvdb.client.domain.TvdbBannerDto;
+import com.ibus.tvdb.client.domain.TvdbBannersResponseDto;
 import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
 import com.ibus.tvdb.client.domain.TvdbSeriesListResponseDto;
 import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
@@ -16,6 +19,9 @@ public class TvdbClient
 	private String host;
 	private String language;
 	private String apiKey;
+	private HashMap<Long, TvdbBannersResponseDto> cachedBanners = new HashMap<Long, TvdbBannersResponseDto>();
+	private HashMap<String, TvdbSeriesResponseDto> cachedSeries = new HashMap<String, TvdbSeriesResponseDto>();
+	private HashMap<String, TvdbEpisodesResponseDto> cachedEpisodes = new HashMap<String, TvdbEpisodesResponseDto>();
 	
 	public TvdbClient(String scheme,String host,String language, String apiKey)
 	{
@@ -24,26 +30,44 @@ public class TvdbClient
 		this.language = language;
 		this.apiKey = apiKey;
 	}
+
+	//http://www.thetvdb.com/api/GetSeries.php?seriesname=Game Of Thrones
+	public TvdbSeriesListResponseDto getSeries(String seriesName) throws URISyntaxException
+	{
+		URI uri = getURI("/api/GetSeries.php", String.format("seriesname=%s&language=%s", seriesName,language));
+		//URI uri = getURI("/api/GetSeries.php", "seriesname=" + seriesName + "&language=" + language);
+		return doGet(TvdbSeriesListResponseDto.class, uri);
+	}
+		
 	
-	public TvdbEpisodesResponseDto getEpisodes(String seriesId) throws URISyntaxException
-	{		
-		URI uri = getURI("/api/" + apiKey + "/series/" + seriesId + "/all/" + language + ".xml", null);
+	//http://www.thetvdb.com/api/FA86CE5B6769E616/series/121361/all/en.xml
+	public TvdbEpisodesResponseDto getEpisodes(Long seriesId) throws URISyntaxException
+	{	
+		URI uri = getURI(String.format("/api/%s/series/%d/all/%s.xml", apiKey, seriesId, language), null);
+		//URI uri = getURI("/api/" + apiKey + "/series/" + Long.toString(seriesId) + "/all/" + language + ".xml", null);
 		return doGet(TvdbEpisodesResponseDto.class, uri);
 	}
 	
 	public TvdbSeriesResponseDto getSeriesForImdbId(String imdbid) throws URISyntaxException
 	{
-		URI uri = getURI("/api/GetSeriesByRemoteID.php", "imdbid=" + imdbid + "&language=" + language);
+		URI uri = getURI("/api/GetSeriesByRemoteID.php", String.format("imdbid=%s&language=%s", imdbid,language));
+		//URI uri = getURI("/api/GetSeriesByRemoteID.php", "imdbid=" + imdbid + "&language=" + language);
 		return doGet(TvdbSeriesResponseDto.class, uri);
 	}
 	
-	//http://www.thetvdb.com/api/GetSeries.php?seriesname=Game Of Thrones
-	public TvdbSeriesListResponseDto getSeries(String seriesName) throws URISyntaxException
-	{
-		URI uri = getURI("/api/GetSeries.php", "seriesname=" + seriesName + "&language=" + language);
-		return doGet(TvdbSeriesListResponseDto.class, uri);
+	//http://www.thetvdb.com/api/FA86CE5B6769E616/series/121361/banners.xml
+	public TvdbBannersResponseDto getBanners(Long seriesId) throws URISyntaxException
+	{		
+		if(!cachedBanners.containsKey(seriesId))
+		{
+			URI uri = getURI(String.format("/api/%s/series/%s/banners.xml", apiKey, seriesId), null);
+			//URI uri = getURI("/api/" + apiKey + "/series/" + seriesId + "/banners.xml", null);
+			TvdbBannersResponseDto response =  doGet(TvdbBannersResponseDto.class, uri);
+			cachedBanners.put(seriesId, response);
+		}
+
+		return cachedBanners.get(seriesId);
 	}
-	
 	
 	
 	/*TODO:
@@ -59,6 +83,10 @@ public class TvdbClient
 	 * append BannerPath returned in banners.xml to <mirrorpath>/banners/ to get url for image
 	 * 
 	 * 
+	 * http://www.thetvdb.com/api/FA86CE5B6769E616/series/121361/banners.xml
+	 * http://www.thetvdb.com/banners/seasons/121361-4.jpg
+	 * 
+	 * http://www.thetvdb.com/banners/seasonswide/121361-3-3.jpg
 	 * */
 	
 	

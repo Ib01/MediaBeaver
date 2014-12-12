@@ -103,6 +103,17 @@ public class ServiceMoverController
 	
 	
 	
+	@RequestMapping(value="/selectSeries", method = RequestMethod.POST)
+	public ModelAndView selectSeries(@ModelAttribute("SearchSeries") @Validated SearchSeriesViewModel viewModel, BindingResult result, HttpServletRequest request)
+	{
+		
+		
+		return null;
+		
+	}
+	
+	
+	
 	
 	
 	private SearchSeriesViewModel getSearchSeriesViewModel(HttpServletRequest request)

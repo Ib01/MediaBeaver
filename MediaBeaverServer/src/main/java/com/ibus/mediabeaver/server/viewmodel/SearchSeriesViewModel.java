@@ -10,6 +10,7 @@ public class SearchSeriesViewModel
 {
 	private String searchText;
 	private List<TvdbSeriesDto> searchResults = new ArrayList<TvdbSeriesDto>();
+	private long selectedSeriesId;
 	
 	public String getSearchText() {
 		return searchText;
@@ -23,6 +24,12 @@ public class SearchSeriesViewModel
 	}
 	public void setSearchResults(List<TvdbSeriesDto> searchResults) {
 		this.searchResults = searchResults;
+	}
+	public long getSelectedSeriesId() {
+		return selectedSeriesId;
+	}
+	public void setSelectedSeriesId(long selectedSeriesId) {
+		this.selectedSeriesId = selectedSeriesId;
 	}
 
 	
