@@ -1,8 +1,11 @@
 package com.ibus.tvdb.client.integrationtest;
 
 import static org.junit.Assert.assertTrue;
+
 import java.net.URISyntaxException;
+
 import org.junit.Test;
+
 import com.ibus.tvdb.client.TvdbClient;
 import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
 import com.ibus.tvdb.client.domain.TvdbSeriesListResponseDto;
@@ -22,7 +25,7 @@ public class TvdbClientIT
 	{
 		TvdbClient c = new TvdbClient(TVDBScheme, TVDBhost, TVDBlanguage, TVDBApiKey);
 		
-		TvdbEpisodesResponseDto dto = c.getEpisodes("121361");
+		TvdbEpisodesResponseDto dto = c.getEpisodes(121361L);
 		
 		assertTrue(dto != null);
 		assertTrue(dto.getEpisodes().get(0) != null);
@@ -34,6 +37,7 @@ public class TvdbClientIT
 	public void getSeriesByImdbTest() throws URISyntaxException
 	{
 		TvdbClient c = new TvdbClient(TVDBScheme, TVDBhost, TVDBlanguage, TVDBApiKey);
+		@SuppressWarnings("unused")
 		TvdbSeriesResponseDto dto = c.getSeriesForImdbId("tt0944947");
 		
 		assertTrue(true);

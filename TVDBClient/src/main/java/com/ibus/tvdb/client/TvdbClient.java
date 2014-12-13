@@ -2,8 +2,12 @@ package com.ibus.tvdb.client;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import com.ibus.tvdb.client.domain.BannerSubtype;
+import com.ibus.tvdb.client.domain.BannerType;
 import com.ibus.tvdb.client.domain.TvdbBannerDto;
 import com.ibus.tvdb.client.domain.TvdbBannersResponseDto;
 import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
@@ -68,6 +72,60 @@ public class TvdbClient
 
 		return cachedBanners.get(seriesId);
 	}
+	
+	
+	public TvdbBannerDto getTopSeasonBanner(Long seriesId, int seasonNumber) throws URISyntaxException
+	{
+		TvdbBannersResponseDto response = getBanners(seriesId);
+		TvdbBannerDto highestRatedBanner = null;
+		
+		for(TvdbBannerDto banner : response.getBanners())
+		{
+			if(banner.getBannerType().equals(BannerType.Season.toString()))
+			{
+				if(banner.getBannerType2().equals(BannerSubtype.Seasonwide))
+				{
+					if(highestRatedBanner == null){
+						highestRatedBanner = banner;
+						continue;
+					}
+					
+					Float lastRating;
+					try
+					{
+						lastRating = Float.parseFloat(highestRatedBanner.getRating());
+					}
+					catch(NullPointerException | NumberFormatException ex)
+					{
+						highestRatedBanner = banner;
+						continue;
+					}
+					
+					try
+					{
+						Float rating = Float.parseFloat(banner.getRating());
+						
+						if(rating > lastRating)
+						{
+							highestRatedBanner = banner;
+						}
+					}
+					catch(NullPointerException | NumberFormatException ex)
+					{/*do nothing.last banner was a higher rated banner*/}
+				}
+			}
+		}
+		
+		return highestRatedBanner;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	/*TODO:
