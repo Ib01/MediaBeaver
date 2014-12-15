@@ -351,7 +351,7 @@ public class MediaMover
 			long tvdbSeriesId = seriesDto.getSeries().getId();
 			//TvdbEpisodesResponseDto contains detailed info about not only the series but all its seasons and episodes. pity there isn't a way to 
 			//get single episode info for an episode imdb.
-			TvdbEpisodesResponseDto tvdbEpisodes = Services.getTvdbClient().getEpisodes(Long.toString(tvdbSeriesId));
+			TvdbEpisodesResponseDto tvdbEpisodes = Services.getTvdbClient().getEpisodes(tvdbSeriesId);
 			if(tvdbEpisodes == null)
 			{
 				logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get valid title from service");
