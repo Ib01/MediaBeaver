@@ -5,7 +5,7 @@
 // Generated on: 2011.04.30 at 09:14:47 PM EST 
 //
 
-package com.ibus.tvdb.client.domain;
+package com.ibus.tvdb.client.domain.wrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,37 +15,33 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.ibus.tvdb.client.domain.Episode;
+import com.ibus.tvdb.client.domain.Series;
+
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "Banners")
-public class TvdbBannersResponseDto 
+@XmlRootElement(name = "Data")
+public class EpisodesXmlWrapper 
 {
+	@XmlElement(name="Series")
+	protected Series series = new Series();
 
-    @XmlElement(name="Banners")
-	private List<TvdbBannerDto> banners= new ArrayList<TvdbBannerDto>();
-
-	public List<TvdbBannerDto> getBanners() {
-		return banners;
-	}
-
-	public void setBanners(List<TvdbBannerDto> banners) {
-		this.banners = banners;
-	}
+	//XmlElementWrapper(name="Episodes")
+    @XmlElement(name="Episode")
+	protected List<Episode> episodes= new ArrayList<Episode>();
 	
 
-
-/*	public TvdbEpisodeDto getEpisode(String seasonNumber, String episodeNumber)
+	public List<Episode> getEpisodes()
 	{
-		for(TvdbEpisodeDto episode : episodes)
-		{
-			if(episode.getSeasonNumber().equals(seasonNumber) && episode.getEpisodeNumber().equals(episodeNumber))
-			{
-				return episode;
-			}
-		}
-		
-		return null;
+        return this.episodes;
 	}
-*/    
+
+	public void setEpisodes(List<Episode> episodes)
+	{
+		this.episodes = episodes;
+	}
+
+	
+    
   
 
 }

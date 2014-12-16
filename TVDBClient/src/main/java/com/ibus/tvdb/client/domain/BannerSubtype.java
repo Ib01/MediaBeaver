@@ -4,9 +4,9 @@ public enum BannerSubtype
 {
 	Text("text"),
 	Graphical("graphical"),
-	Blank("Series "),
-	Season ("Season"),
-	Seasonwide ("Season"),
+	Blank("series "),
+	Season ("season"),
+	Seasonwide ("seasonwide"),
 	Twelve80x720("1280x720"),
 	Nineteen20x1080 ("1920x1080"),
 	Six80x1000 ("680x1000");

@@ -5,7 +5,7 @@
 // Generated on: 2011.04.30 at 09:14:47 PM EST 
 //
 
-package com.ibus.tvdb.client.domain;
+package com.ibus.tvdb.client.domain.wrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,29 +15,27 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "Data")
-public class TvdbEpisodesResponseDto 
-{
-	@XmlElement(name="Series")
-	protected TvdbSeriesDto series = new TvdbSeriesDto();
+import com.ibus.tvdb.client.domain.Banner;
 
-	//XmlElementWrapper(name="Episodes")
-    @XmlElement(name="Episode")
-	protected List<TvdbEpisodeDto> episodes= new ArrayList<TvdbEpisodeDto>();
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Banners")
+public class BannersXmlWrapper 
+{
+
+    @XmlElement(name="Banner")
+	private List<Banner> banners= new ArrayList<Banner>();
+
+	public List<Banner> getBanners() {
+		return banners;
+	}
+
+	public void setBanners(List<Banner> banners) {
+		this.banners = banners;
+	}
 	
 
-	public List<TvdbEpisodeDto> getEpisodes()
-	{
-        return this.episodes;
-	}
 
-	public void setEpisodes(List<TvdbEpisodeDto> episodes)
-	{
-		this.episodes = episodes;
-	}
-
-	public TvdbEpisodeDto getEpisode(String seasonNumber, String episodeNumber)
+/*	public TvdbEpisodeDto getEpisode(String seasonNumber, String episodeNumber)
 	{
 		for(TvdbEpisodeDto episode : episodes)
 		{
@@ -49,7 +47,7 @@ public class TvdbEpisodesResponseDto
 		
 		return null;
 	}
-    
+*/    
   
 
 }

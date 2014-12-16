@@ -2,10 +2,10 @@ package com.ibus.tvdb.client.domain;
 
 public enum BannerType
 {
-	Poster("Poster"),
-	Fanart("Fanart"),
-	Series("Series "),
-	Season("Season");
+	Poster("poster"),
+	Fanart("fanart"),
+	Series("series "),
+	Season("season");
 	
 
 	private String name; 

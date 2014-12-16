@@ -8,13 +8,13 @@ import java.util.List;
 
 import com.ibus.tvdb.client.domain.BannerSubtype;
 import com.ibus.tvdb.client.domain.BannerType;
-import com.ibus.tvdb.client.domain.TvdbBannerDto;
-import com.ibus.tvdb.client.domain.TvdbBannersResponseDto;
-import com.ibus.tvdb.client.domain.TvdbEpisodeDto;
-import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
-import com.ibus.tvdb.client.domain.TvdbSeriesDto;
-import com.ibus.tvdb.client.domain.TvdbSeriesListResponseDto;
-import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
+import com.ibus.tvdb.client.domain.Banner;
+import com.ibus.tvdb.client.domain.Episode;
+import com.ibus.tvdb.client.domain.Series;
+import com.ibus.tvdb.client.domain.wrapper.BannersXmlWrapper;
+import com.ibus.tvdb.client.domain.wrapper.EpisodesXmlWrapper;
+import com.ibus.tvdb.client.domain.wrapper.SeriesListXmlWrapper;
+import com.ibus.tvdb.client.domain.wrapper.SeriesXmlWrapper;
 import com.ibus.tvdb.client.exception.TvdbConnectionException;
 import com.ibus.tvdb.client.exception.TvdbException;
 import com.sun.jersey.api.client.Client;
@@ -23,15 +23,16 @@ import com.sun.jersey.api.client.WebResource;
 
 public class TvdbClient
 {
-	protected static Client client = Client.create(); 
+	private int allowedAttempts = 3;
+	private Client client = Client.create(); 
 	private String scheme;
 	private String host;
 	private String language;
 	private String apiKey;
-	private HashMap<Long, List<TvdbBannerDto>> bannersBySeriesId = new HashMap<Long, List<TvdbBannerDto>>(); 
-	private HashMap<String, TvdbSeriesDto> seriesByImdb = new HashMap<String, TvdbSeriesDto>();
-	private HashMap<String, List<TvdbSeriesDto>> seriesByName = new HashMap<String, List<TvdbSeriesDto>>();  
-	private HashMap<Long, List<TvdbEpisodeDto>> episodesBySeriesId = new HashMap<Long, List<TvdbEpisodeDto>>();
+	private HashMap<Long, List<Banner>> bannersBySeriesId = new HashMap<Long, List<Banner>>(); 
+	private HashMap<String, Series> seriesByImdb = new HashMap<String, Series>();
+	private HashMap<String, List<Series>> seriesByName = new HashMap<String, List<Series>>();  
+	private HashMap<Long, List<Episode>> episodesBySeriesId = new HashMap<Long, List<Episode>>();
 	
 	public TvdbClient(String scheme,String host,String language, String apiKey)
 	{
@@ -62,17 +63,17 @@ public class TvdbClient
 	 * @throws TvdbException
 	 * @throws TvdbConnectionException
 	 */
-	public List<TvdbSeriesDto> getSeries(String seriesName) throws TvdbException, TvdbConnectionException 
+	public List<Series> getSeries(String seriesName) throws TvdbException, TvdbConnectionException 
 	{
 		if(!seriesByName.containsKey(seriesName))
 		{
 			try
 			{
 				URI uri = getURI("/api/GetSeries.php", String.format("seriesname=%s&language=%s", seriesName,language));
-				TvdbSeriesListResponseDto response = doGet(TvdbSeriesListResponseDto.class, uri);
+				SeriesListXmlWrapper response = doGet(SeriesListXmlWrapper.class, uri);
 			
-				if(response == null || response.getSeries() == null)
-					return new ArrayList<TvdbSeriesDto>();
+				if(response == null || response.getSeries() == null || response.getSeries().size() == 0)
+					return new ArrayList<Series>();
 				
 				seriesByName.put(seriesName, response.getSeries());
 			} 
@@ -96,22 +97,26 @@ public class TvdbClient
 	 * @throws TvdbException
 	 * @throws TvdbConnectionException
 	 */
-	public List<TvdbEpisodeDto> getEpisodes(Long seriesId) throws TvdbException, TvdbConnectionException
+	public List<Episode> getEpisodes(Long seriesId) throws TvdbException, TvdbConnectionException
 	{
 		if(!episodesBySeriesId.containsKey(seriesId))
 		{
 			try
 			{
 				URI uri = getURI(String.format("/api/%s/series/%d/all/%s.xml", apiKey, seriesId, language), null);
-				TvdbEpisodesResponseDto response =  doGet(TvdbEpisodesResponseDto.class, uri);
+				EpisodesXmlWrapper response =  doGet(EpisodesXmlWrapper.class, uri);
 				
-				if(response == null || response.getEpisodes() == null)
-					return new ArrayList<TvdbEpisodeDto>();
+				if(response == null || response.getEpisodes() == null || response.getEpisodes().size() == 0)
+					return new ArrayList<Episode>();
 				
 				episodesBySeriesId.put(seriesId, response.getEpisodes());
 			} 
 			catch (UniformInterfaceException e)
 			{
+				//a 404 is a normal part of execution.  simply means resource not found
+				if(e.getMessage().endsWith("404 Not Found"))
+					return new ArrayList<Episode>(); 
+				
 				//TODO: what response do we get if title is simply not found. this should be handled by returning new ArrayList<TvdbBannerDto>().
 				throw new TvdbConnectionException(e);
 			}
@@ -128,14 +133,14 @@ public class TvdbClient
 	 * @throws TvdbException
 	 * @throws TvdbConnectionException
 	 */
-	public TvdbSeriesDto getSeriesForImdbId(String imdbid) throws TvdbException, TvdbConnectionException 
+	public Series getSeriesForImdbId(String imdbid) throws TvdbException, TvdbConnectionException 
 	{
 		if(!seriesByImdb.containsKey(imdbid))
 		{
 			try
 			{
 				URI uri = getURI("/api/GetSeriesByRemoteID.php", String.format("imdbid=%s&language=%s", imdbid,language));
-				TvdbSeriesResponseDto response = doGet(TvdbSeriesResponseDto.class, uri);
+				SeriesXmlWrapper response = doGet(SeriesXmlWrapper.class, uri);
 				
 				//TODO: check actual response for a non existant title
 				if(response == null || response.getSeries() == null)
@@ -163,18 +168,18 @@ public class TvdbClient
 	 * @throws TvdbException
 	 * @throws TvdbConnectionException
 	 */
-	public  List<TvdbBannerDto> getBanners(Long seriesId) throws TvdbException, TvdbConnectionException
+	public  List<Banner> getBanners(Long seriesId) throws TvdbException, TvdbConnectionException
 	{		
 		if(!bannersBySeriesId.containsKey(seriesId))
 		{
 			try 
 			{
 				URI uri = getURI(String.format("/api/%s/series/%s/banners.xml", apiKey, seriesId), null);
-				TvdbBannersResponseDto response =  doGet(TvdbBannersResponseDto.class, uri);
+				BannersXmlWrapper response =  doGet(BannersXmlWrapper.class, uri);
 				
 				//TODO: check actual response for a non existant title
-				if(response == null || response.getBanners() == null)
-					return new ArrayList<TvdbBannerDto>();
+				if(response == null || response.getBanners() == null || response.getBanners().size() == 0)
+					return new ArrayList<Banner>();
 				
 				bannersBySeriesId.put(seriesId, response.getBanners());
 			} 
@@ -188,61 +193,97 @@ public class TvdbClient
 		return bannersBySeriesId.get(seriesId);
 	}
 	
+
 	
-	/*TODO:
-	 * call http://www.thetvdb.com/api/FA86CE5B6769E616/series/{series Id}/banners.xml to get all banners for series
-	 * search for the right banner according to http://thetvdb.com/wiki/index.php?title=API:banners.xml
-	 * append BannerPath returned in banners.xml to <mirrorpath>/banners/ to get url for image
+	/**
+	 * Gets highest rated season banner. to get banner url append BannerPath returned in banners.xml 
+	 * to <mirrorpath>/banners/. See http://thetvdb.com/wiki/index.php?title=API:banners.xml for more info.
 	 * 
-	 * http://www.thetvdb.com/api/FA86CE5B6769E616/series/121361/banners.xml
-	 * http://www.thetvdb.com/banners/seasons/121361-4.jpg
-	 * http://www.thetvdb.com/banners/seasonswide/121361-3-3.jpg
-	 * */
-	
-	public TvdbBannerDto getTopSeasonBanner(Long seriesId, int seasonNumber) throws TvdbException, TvdbConnectionException 
+	 *  test url: http://www.thetvdb.com/api/FA86CE5B6769E616/series/121361/banners.xml
+	 * @param seriesId
+	 * @param seasonNumber
+	 * @return
+	 * @throws TvdbException
+	 * @throws TvdbConnectionException
+	 */
+	public Banner getTopSeasonBanner(Long seriesId, int seasonNumber) throws TvdbException, TvdbConnectionException 
 	{
-		List<TvdbBannerDto> banners = getBanners(seriesId);
-		TvdbBannerDto highestRatedBanner = null;
+		List<Banner> banners = getBanners(seriesId);
+		Banner highestRatedBanner = null;
+		String seasonNum = Integer.toString(seasonNumber);
 		
-		for(TvdbBannerDto banner : banners)
+		for(Banner banner : banners)
 		{
-			if(banner.getBannerType().equals(BannerType.Season.toString()))
+			if(!banner.getBannerType().toLowerCase().equals(BannerType.Season.toString().toLowerCase()))
+				continue;
+			
+			if(!banner.getBannerType2().toLowerCase().equals(BannerSubtype.Seasonwide.toString().toLowerCase()))
+				continue;
+			
+			if(!banner.getSeason().equals(seasonNum))
+				continue;
+					
+			if(highestRatedBanner == null){
+				highestRatedBanner = banner;
+				continue;
+			}
+			
+			Float lastRating;
+			try
 			{
-				if(banner.getBannerType2().equals(BannerSubtype.Seasonwide))
+				lastRating = Float.parseFloat(highestRatedBanner.getRating());
+			}
+			catch(NullPointerException | NumberFormatException ex)
+			{
+				highestRatedBanner = banner;
+				continue;
+			}
+			
+			try
+			{
+				Float rating = Float.parseFloat(banner.getRating());
+				
+				if(rating > lastRating)
 				{
-					if(highestRatedBanner == null){
-						highestRatedBanner = banner;
-						continue;
-					}
-					
-					Float lastRating;
-					try
-					{
-						lastRating = Float.parseFloat(highestRatedBanner.getRating());
-					}
-					catch(NullPointerException | NumberFormatException ex)
-					{
-						highestRatedBanner = banner;
-						continue;
-					}
-					
-					try
-					{
-						Float rating = Float.parseFloat(banner.getRating());
-						
-						if(rating > lastRating)
-						{
-							highestRatedBanner = banner;
-						}
-					}
-					catch(NullPointerException | NumberFormatException ex)
-					{/*do nothing.last banner was a higher rated banner*/}
+					highestRatedBanner = banner;
 				}
 			}
+			catch(NullPointerException | NumberFormatException ex)
+			{/*do nothing.last banner was a higher rated banner*/}
+				
 		}
 		
 		return highestRatedBanner;
 	}
+	
+	
+	/**
+	 * Gets the first episode that belongs to the series corresponding to seriesId and 
+	 * has the specified season number and episode number  
+	 * @param seriesId
+	 * @param seasonNumber
+	 * @param episodeNumber
+	 * @return
+	 * @throws TvdbException
+	 * @throws TvdbConnectionException
+	 */
+	public Episode getEpisode(Long seriesId, int seasonNumber, int episodeNumber) throws TvdbException, TvdbConnectionException
+	{
+		List<Episode> episodes = getEpisodes(seriesId);
+		String seasonNum = Integer.toString(seasonNumber);
+		String episodeNum = Integer.toString(episodeNumber);
+		
+		for(Episode episode : episodes)
+		{
+			if(episode.getSeasonNumber().equals(seasonNum) && episode.getEpisodeNumber().equals(episodeNum))
+			{
+				return episode;
+			}
+		}
+		
+		return null;
+	}
+	
 	
 	
 	/*
@@ -250,11 +291,24 @@ public class TvdbClient
 	 * if the title is not found the service will return the parent wrapper object with no content. Wrap and throw fundamental connection errors 
 	 * for the client to decide what to do 
 	 */
-	private static <R, T> R doGet(Class<R> returnType, URI uri) 
+	private <R, T> R doGet(Class<R> returnType, URI uri) 
 	{
 		WebResource webResource = client.resource(uri);
-		R result = webResource.get(returnType);		//throws UniformInterfaceException
-		return result;
+		int attempts = 0;
+		
+		while(true)
+		{
+			try
+			{
+				R result = webResource.get(returnType);		//throws UniformInterfaceException
+				return result;
+			}
+			catch(Throwable e)
+			{
+				if(++attempts >= allowedAttempts)
+					throw e;
+			}
+		}
 	}
 	
 	private URI getURI(String path, String query) throws TvdbException  

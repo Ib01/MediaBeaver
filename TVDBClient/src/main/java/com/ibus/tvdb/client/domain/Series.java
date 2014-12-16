@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Series")
-public class TvdbSeriesDto
+public class Series
 {
 	private Long id;
 	//private static String SeriesBannerPrefixUrl = "http://www.thetvdb.com/banners/";

@@ -37,10 +37,12 @@ import com.ibus.opensubtitles.client.exception.OpenSubtitlesException;
 import com.ibus.opensubtitles.client.exception.OpenSubtitlesLoginException;
 import com.ibus.opensubtitles.client.exception.OpenSubtitlesResponseException;
 import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashGenerator;
-import com.ibus.tvdb.client.domain.TvdbEpisodeDto;
-import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
-import com.ibus.tvdb.client.domain.TvdbSeriesDto;
-import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
+import com.ibus.tvdb.client.domain.Episode;
+import com.ibus.tvdb.client.domain.Series;
+import com.ibus.tvdb.client.domain.wrapper.EpisodesXmlWrapper;
+import com.ibus.tvdb.client.domain.wrapper.SeriesXmlWrapper;
+import com.ibus.tvdb.client.exception.TvdbConnectionException;
+import com.ibus.tvdb.client.exception.TvdbException;
 
 public class MediaMover 
 {	
@@ -51,6 +53,7 @@ public class MediaMover
 	List<PathToken> moviePathTokens;
 	List<Activity> unmovedMedia = new ArrayList<Activity>();
 	List<Activity> movedMedia = new ArrayList<Activity>();
+	boolean processTvShows = true;
 	
 	public enum Platform{
 		Web,
@@ -213,6 +216,7 @@ public class MediaMover
 	
 	protected boolean beforeProcess() 
 	{
+		processTvShows = true;
 		unmovedMedia = new ArrayList<Activity>();
 		movedMedia = new ArrayList<Activity>();
 		
@@ -256,7 +260,21 @@ public class MediaMover
 		//let the OST Service identify what kind of file we have 
 		if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("episode") || ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("tv series"))
 		{
-			moveTvEpisode(ostTitle, file);
+			try 
+			{
+				if(processTvShows)
+					moveTvEpisode(ostTitle, file);
+			} 
+			catch (TvdbException | TvdbConnectionException e) 
+			{
+				logEvent(null, null, ResultType.Failed, "Processing of Tv shows disscontinued. the TVDB Service appears to be unavailable.");
+				log.debug(
+						String.format("Aborting movement of %s. Disscontinuing further processing of Tv shows the TVDB Service appears to be unavailable.", 
+						file.getAbsolutePath()));
+				
+				//A fatal communication error occurred communicating with the TVDB Service. disable further processing of TV shows.
+				processTvShows = false;
+			}
 		}
 		else if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("movie"))
 		{
@@ -309,7 +327,7 @@ public class MediaMover
 	
 	
 	
-	protected void moveTvEpisode(Map<String,String> ostTitle, File file) 
+	protected void moveTvEpisode(Map<String,String> ostTitle, File file) throws TvdbException, TvdbConnectionException 
 	{
 		
 		String fullDestinationPath = "";
@@ -317,34 +335,49 @@ public class MediaMover
 		{
 			//Get Series imdb from the OST title. we will use this id to get data from other services 
 			String seriesImdbid = OstTitleDto.parseImdbId(ostTitle.get(OpenSubtitlesField.SeriesIMDBParent.toString()));
-			if(seriesImdbid == null)
+			if(seriesImdbid == null || seriesImdbid.trim().length() == 0)
 			{
-				logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get valid title from service");
-				log.debug(String.format("Aborting movement of %s. Failed to get a valid series imdbId from open subtitles service.", file.getAbsolutePath()));
+				logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get a valid series IMDB Id from the Open Subtitles Service.");
+				log.debug(String.format("Aborting movement of %s. Failed to get a valid series IMDB Id from open subtitles service.", file.getAbsolutePath()));
 				return;
 			}
 			
-			//we need the season and episode number from the OST Service to identify the episode we are after once we have gotten series info from TVDB below.
-			//Note: we could stop here and just use data from the OST Service. However the data does not appear to be as accurate or as detailed as other 
-			//services offer
-			String seasonNumber = ostTitle.get(OpenSubtitlesField.SeriesSeason.toString());
-			String episodeNumber = ostTitle.get(OpenSubtitlesField.SeriesEpisode.toString());
-			if(seasonNumber == null || seasonNumber.length() == 0 || episodeNumber == null || episodeNumber.length() == 0)
+			//get season number and episode number
+			int seasonNumber;
+			int episodeNumber;
+			try
 			{
-				logEvent(file.getAbsolutePath(), null,ResultType.Failed, "Failed to get valid title from service");
-				log.debug(
-						String.format("Aborting movement of %s. Failed to get a valid season and episode number from the open subtitles service.", 
-						file.getAbsolutePath()));
+				//we need the season and episode number from the OST Service to identify the episode we are after once we have gotten series info from TVDB below.
+				//Note: we could stop here and just use data from the OST Service. However the data does not appear to be as accurate or as detailed as other 
+				//services offer
+				seasonNumber = Integer.parseInt(ostTitle.get(OpenSubtitlesField.SeriesSeason.toString()));
+			}
+			catch(NumberFormatException ex)
+			{
+				logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get a valid season number from the Open Subtitles Service.");
+				log.debug(String.format("Aborting movement of %s. Failed to get a valid season number from the Open Subtitles Service.", file.getAbsolutePath()));
 				return;
 			}
+			
+			try
+			{
+				episodeNumber = Integer.parseInt(ostTitle.get(OpenSubtitlesField.SeriesEpisode.toString()));
+			}
+			catch(NumberFormatException ex)
+			{
+				logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get a valid episode number from the Open Subtitles Service.");
+				log.debug(String.format("Aborting movement of %s. Failed to get a valid episode number from the Open Subtitles Service.", file.getAbsolutePath()));
+				return;
+			}
+			
 			
 			//TvdbSeriesResponseDto only contains very basic info about the series itself.
-			TvdbSeriesDto seriesDto = Services.getTvdbClient().getSeriesForImdbId(seriesImdbid);
+			Series seriesDto = Services.getTvdbClient().getSeriesForImdbId(seriesImdbid);
 			if(seriesDto == null || seriesDto.getId() == null)
 			{
-				logEvent(file.getAbsolutePath(), null,ResultType.Failed, "Failed to get valid title from service");
+				logEvent(file.getAbsolutePath(), null,ResultType.Failed, "Failed to get valid series data from the TVDB service.");
 				log.debug(
-						String.format("Aborting movement of %s. Failed to get a valid series data from the TMDB service.", 
+						String.format("Aborting movement of %s. Failed to get valid series data from the TVDB service.", 
 						file.getAbsolutePath()));
 				return;
 			}
@@ -352,20 +385,20 @@ public class MediaMover
 			long tvdbSeriesId = seriesDto.getId();
 			//TvdbEpisodesResponseDto contains detailed info about not only the series but all its seasons and episodes. pity there isn't a way to 
 			//get single episode info for an episode imdb.
-			List<TvdbEpisodeDto> tvdbEpisodes = Services.getTvdbClient().getEpisodes(tvdbSeriesId);
-			if(tvdbEpisodes.size() == 0)
+			Episode tvdbEpisode = Services.getTvdbClient().getEpisode(tvdbSeriesId, seasonNumber, episodeNumber);
+			if(tvdbEpisode == null)
 			{
-				logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get valid title from service");
+				logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get episode data from the TVDB service.");
 				log.debug(
-						String.format("Aborting movement of %s. Failed to get a valid episode data from the TMDB service.", 
+						String.format("Aborting movement of %s. Failed to get episode data from the TVDB service.", 
 						file.getAbsolutePath()));
 				return;
 			}
 			
 			//we now have the series.  i.e series info, seasons info and info on every episode. but we don't know which episode to get info on 
 			//so we need to use season and episode numbers from OST Service 
-			TvdbEpisodeDto tvdbEpisode = tvdbEpisodes.getEpisode(seasonNumber, episodeNumber);
 			log.debug(String.format("Successfully acquired episode data for %s.", file.getAbsolutePath()));
+			
 			
 			String  destinationPathEnd = parseEpisodePath(seriesDto, tvdbEpisode);
 			destinationPathEnd += "." + FilenameUtils.getExtension(file.getAbsolutePath());
@@ -379,7 +412,7 @@ public class MediaMover
 			
 			return;
 			
-		} catch (IOException | URISyntaxException e)
+		} catch (IOException e)
 		{
 			log.error(String.format("An unspecified error occured while moving the file %s", file.getAbsolutePath()), e);	
 			logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, "An unspecified error occured while moving file");
@@ -483,7 +516,7 @@ public class MediaMover
 	 * @return
 	 * @throws PathParseException
 	 */
-	private String parseEpisodePath(TvdbSeriesResponseDto seriesDto, TvdbEpisodeDto tvdbEpisode) throws PathParseException
+	private String parseEpisodePath(Series seriesDto, Episode tvdbEpisode) throws PathParseException
 	{
 		String rawEpisodePath =  config.getEpisodePath(); //path with tokens in it
 		
@@ -492,7 +525,7 @@ public class MediaMover
 			PathToken parsedToken = null;
 			if(token.getName().equals("SeriesName"))
 			{
-				parsedToken = PathParser.parseToken(token, seriesDto.getSeries().getSeriesName());
+				parsedToken = PathParser.parseToken(token, seriesDto.getSeriesName());
 			}
 			else if(token.getName().equals("SeasonNumber"))
 			{

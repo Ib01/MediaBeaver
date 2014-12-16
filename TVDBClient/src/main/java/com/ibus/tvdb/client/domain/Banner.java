@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Banner")
-public class TvdbBannerDto
+public class Banner
 {
 	private Long id;
 	

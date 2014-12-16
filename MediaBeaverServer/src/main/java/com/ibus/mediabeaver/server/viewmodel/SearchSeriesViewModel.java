@@ -3,13 +3,13 @@ package com.ibus.mediabeaver.server.viewmodel;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ibus.tvdb.client.domain.TvdbSeriesDto;
+import com.ibus.tvdb.client.domain.Series;
 
 
 public class SearchSeriesViewModel 
 {
 	private String searchText;
-	private List<TvdbSeriesDto> searchResults = new ArrayList<TvdbSeriesDto>();
+	private List<Series> searchResults = new ArrayList<Series>();
 	private long selectedSeriesId;
 	
 	public String getSearchText() {
@@ -19,10 +19,10 @@ public class SearchSeriesViewModel
 		this.searchText = series;
 	}
 	
-	public List<TvdbSeriesDto> getSearchResults() {
+	public List<Series> getSearchResults() {
 		return searchResults;
 	}
-	public void setSearchResults(List<TvdbSeriesDto> searchResults) {
+	public void setSearchResults(List<Series> searchResults) {
 		this.searchResults = searchResults;
 	}
 	public long getSelectedSeriesId() {

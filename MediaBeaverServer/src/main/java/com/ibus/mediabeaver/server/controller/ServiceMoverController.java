@@ -21,9 +21,12 @@ import com.ibus.mediabeaver.server.viewmodel.FileViewModel;
 import com.ibus.mediabeaver.server.viewmodel.SearchSeriesViewModel;
 import com.ibus.mediabeaver.server.viewmodel.SelectMediaViewModel;
 import com.ibus.tvdb.client.TvdbClient;
-import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
-import com.ibus.tvdb.client.domain.TvdbSeriesListResponseDto;
-import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
+import com.ibus.tvdb.client.domain.Series;
+import com.ibus.tvdb.client.domain.wrapper.EpisodesXmlWrapper;
+import com.ibus.tvdb.client.domain.wrapper.SeriesListXmlWrapper;
+import com.ibus.tvdb.client.domain.wrapper.SeriesXmlWrapper;
+import com.ibus.tvdb.client.exception.TvdbConnectionException;
+import com.ibus.tvdb.client.exception.TvdbException;
 
 @Controller
 @RequestMapping(value = "/serviceMover")
@@ -77,8 +80,8 @@ public class ServiceMoverController
 		
 		try 
 		{
-			TvdbSeriesListResponseDto tvDto = Services.getTvdbClient().getSeries(viewModel.getSearchText());
-			viewModel.setSearchResults(tvDto.getSeries());
+			List<Series> tvDto = Services.getTvdbClient().getSeries(viewModel.getSearchText());
+			viewModel.setSearchResults(tvDto);
 			
 			ModelAndView mav =new ModelAndView("SearchTvSeries","SearchSeries", viewModel); 
 			
@@ -92,9 +95,12 @@ public class ServiceMoverController
 			
 			TvdbSeriesResponseDto g = tvDto;*/
 		} 
-		catch (URISyntaxException e) 
-		{
-		
+		catch (TvdbException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TvdbConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		return null;

@@ -5,7 +5,7 @@
 // Generated on: 2011.04.30 at 09:14:47 PM EST 
 //
 
-package com.ibus.tvdb.client.domain;
+package com.ibus.tvdb.client.domain.wrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,19 +16,21 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
+import com.ibus.tvdb.client.domain.Series;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Data")
-public class TvdbSeriesListResponseDto 
+public class SeriesListXmlWrapper 
 {
 	/*@XmlElementWrapper(name="Series")*/
 	@XmlElement(name="Series",required = true)
-	private List<TvdbSeriesDto> series = new ArrayList<TvdbSeriesDto>();
+	private List<Series> series = new ArrayList<Series>();
 
-	public List<TvdbSeriesDto> getSeries() {
+	public List<Series> getSeries() {
 		return series;
 	}
 
-	public void setSeries(List<TvdbSeriesDto> series) {
+	public void setSeries(List<Series> series) {
 		this.series = series;
 	}
 	

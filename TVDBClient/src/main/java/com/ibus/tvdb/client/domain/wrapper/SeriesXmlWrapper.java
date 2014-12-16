@@ -4,27 +4,28 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2011.04.30 at 09:14:47 PM EST 
 //
-
-package com.ibus.tvdb.client.domain;
+package com.ibus.tvdb.client.domain.wrapper;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.ibus.tvdb.client.domain.Series;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Data")
-public class TvdbSeriesResponseDto 
+public class SeriesXmlWrapper 
 {
 	@XmlElement(name="Series")
-	private TvdbSeriesDto series = new TvdbSeriesDto();
+	private Series series;
 
-	public TvdbSeriesDto getSeries()
+	public Series getSeries()
 	{
 		return series;
 	}
 
-	public void setSeries(TvdbSeriesDto series)
+	public void setSeries(Series series)
 	{
 		this.series = series;
 	}
