@@ -39,6 +39,7 @@ import com.ibus.opensubtitles.client.exception.OpenSubtitlesResponseException;
 import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashGenerator;
 import com.ibus.tvdb.client.domain.TvdbEpisodeDto;
 import com.ibus.tvdb.client.domain.TvdbEpisodesResponseDto;
+import com.ibus.tvdb.client.domain.TvdbSeriesDto;
 import com.ibus.tvdb.client.domain.TvdbSeriesResponseDto;
 
 public class MediaMover 
@@ -338,8 +339,8 @@ public class MediaMover
 			}
 			
 			//TvdbSeriesResponseDto only contains very basic info about the series itself.
-			TvdbSeriesResponseDto seriesDto = Services.getTvdbClient().getSeriesForImdbId(seriesImdbid);
-			if(seriesDto == null || seriesDto.getSeries() == null || seriesDto.getSeries().getId() == null)
+			TvdbSeriesDto seriesDto = Services.getTvdbClient().getSeriesForImdbId(seriesImdbid);
+			if(seriesDto == null || seriesDto.getId() == null)
 			{
 				logEvent(file.getAbsolutePath(), null,ResultType.Failed, "Failed to get valid title from service");
 				log.debug(
@@ -348,11 +349,11 @@ public class MediaMover
 				return;
 			}
 			
-			long tvdbSeriesId = seriesDto.getSeries().getId();
+			long tvdbSeriesId = seriesDto.getId();
 			//TvdbEpisodesResponseDto contains detailed info about not only the series but all its seasons and episodes. pity there isn't a way to 
 			//get single episode info for an episode imdb.
-			TvdbEpisodesResponseDto tvdbEpisodes = Services.getTvdbClient().getEpisodes(tvdbSeriesId);
-			if(tvdbEpisodes == null)
+			List<TvdbEpisodeDto> tvdbEpisodes = Services.getTvdbClient().getEpisodes(tvdbSeriesId);
+			if(tvdbEpisodes.size() == 0)
 			{
 				logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Failed to get valid title from service");
 				log.debug(
