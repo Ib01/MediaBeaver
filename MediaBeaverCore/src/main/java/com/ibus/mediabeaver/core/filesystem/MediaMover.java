@@ -6,19 +6,15 @@ import info.movito.themoviedbapi.model.MovieDb;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
-
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.data.UpdateTransactable;
 import com.ibus.mediabeaver.core.entity.Activity;
@@ -39,8 +35,6 @@ import com.ibus.opensubtitles.client.exception.OpenSubtitlesResponseException;
 import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashGenerator;
 import com.ibus.tvdb.client.domain.Episode;
 import com.ibus.tvdb.client.domain.Series;
-import com.ibus.tvdb.client.domain.wrapper.EpisodesXmlWrapper;
-import com.ibus.tvdb.client.domain.wrapper.SeriesXmlWrapper;
 import com.ibus.tvdb.client.exception.TvdbConnectionException;
 import com.ibus.tvdb.client.exception.TvdbException;
 
@@ -260,21 +254,7 @@ public class MediaMover
 		//let the OST Service identify what kind of file we have 
 		if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("episode") || ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("tv series"))
 		{
-			try 
-			{
-				if(processTvShows)
-					moveTvEpisode(ostTitle, file);
-			} 
-			catch (TvdbException | TvdbConnectionException e) 
-			{
-				logEvent(null, null, ResultType.Failed, "Processing of Tv shows disscontinued. the TVDB Service appears to be unavailable.");
-				log.debug(
-						String.format("Aborting movement of %s. Disscontinuing further processing of Tv shows the TVDB Service appears to be unavailable.", 
-						file.getAbsolutePath()));
-				
-				//A fatal communication error occurred communicating with the TVDB Service. disable further processing of TV shows.
-				processTvShows = false;
-			}
+			moveTvEpisode(ostTitle, file);
 		}
 		else if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("movie"))
 		{
@@ -327,8 +307,10 @@ public class MediaMover
 	
 	
 	
-	protected void moveTvEpisode(Map<String,String> ostTitle, File file) throws TvdbException, TvdbConnectionException 
+	protected void moveTvEpisode(Map<String,String> ostTitle, File file)
 	{
+		if(!processTvShows)
+			return;
 		
 		String fullDestinationPath = "";
 		try
@@ -431,6 +413,16 @@ public class MediaMover
 					config.getEpisodePath(), file.getAbsolutePath()), e);	
 			logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, "Could not parse the path format string to a valid path");
 		} 
+		catch (TvdbException | TvdbConnectionException e) 
+		{
+			logEvent(null, null, ResultType.Failed, "Processing of Tv shows disscontinued. the TVDB Service appears to be unavailable.");
+			log.debug(
+					String.format("Aborting movement of %s. Disscontinuing further processing of Tv shows the TVDB Service appears to be unavailable.", 
+					file.getAbsolutePath()));
+			
+			//A fatal communication error occurred communicating with the TVDB Service. disable further processing of TV shows.
+			processTvShows = false;
+		}
 		
 		
 	}
