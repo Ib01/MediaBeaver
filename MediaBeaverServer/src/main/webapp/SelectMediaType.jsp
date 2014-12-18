@@ -14,7 +14,7 @@
 			{  
 				if($("form:first").validationEngine('validate'))
 				{
-					$("form:first").attr("action", "/serviceMover/selectMedia");
+					$("form:first").attr("action", "/serviceMover/serviceMover_Next");
 					$("form:first").submit();
 				}
 			});
@@ -43,7 +43,7 @@
 		
 		
 		<br>
-		<a class="mainButton" href="#" id="Next">Next</a><a class="mainButton" href="#" id="Cancel">Cancel</a>
+		<a class="mainButton" href="#" id="Next">Next</a><a class="mainButton" href="/source" id="Cancel">Cancel</a>
 		<br>
 	</form:form>
 	

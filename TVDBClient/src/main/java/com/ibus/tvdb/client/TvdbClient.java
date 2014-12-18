@@ -42,6 +42,11 @@ public class TvdbClient
 		this.apiKey = apiKey;
 	}
 
+	//TODO IMPLEMENT:
+	//http://www.thetvdb.com/api/FA86CE5B6769E616/series/{series id}/default/{season number}/{episode number}/en.xml
+	
+	
+	
 	/**
 	 * By default this object caches all responses from the server since the server can serve alot of data with a single call.  
 	 * for eg you can got info about a single episode without getting info on the entire series. Call this to clear the cache
@@ -283,6 +288,65 @@ public class TvdbClient
 		
 		return null;
 	}
+	
+	
+	/**
+	 * Gets gets all series episodes for a series id and season number
+	 * @param seriesId
+	 * @param seasonNumber
+	 * @param episodeNumber
+	 * @return
+	 * @throws TvdbException
+	 * @throws TvdbConnectionException
+	 */
+	public List<Episode> getEpisodes(Long seriesId, int seasonNumber) throws TvdbException, TvdbConnectionException
+	{
+		List<Episode> returnEpisodes = new ArrayList<Episode>();
+		List<Episode> episodes = getEpisodes(seriesId);
+		String seasonNum = Integer.toString(seasonNumber);
+		
+		for(Episode episode : episodes)
+		{
+			if(episode.getSeasonNumber().equals(seasonNum))
+			{
+				returnEpisodes.add(episode);
+			}
+		}
+		
+		return returnEpisodes;
+	}
+	
+	
+
+	/**
+	 * Gets the first episode that belongs to the series corresponding to seriesId and 
+	 * has the specified season number and episode number  
+	 * @param seriesId
+	 * @param seasonNumber
+	 * @param episodeNumber
+	 * @return
+	 * @throws TvdbException
+	 * @throws TvdbConnectionException
+	 */
+	public int getSeasonCount(Long seriesId) throws TvdbException, TvdbConnectionException
+	{
+		List<Episode> episodes = getEpisodes(seriesId);
+		int greatesNumber = 0;
+		
+		for(Episode episode : episodes)
+		{
+			try
+			{
+				int seasonNumber = Integer.parseInt(episode.getSeasonNumber());
+				if(seasonNumber >0 && seasonNumber >  greatesNumber)
+					greatesNumber = seasonNumber;
+			}
+			catch(NumberFormatException ex){}
+		}
+		
+		return greatesNumber;
+	}
+	
 	
 	
 	

@@ -25,7 +25,7 @@ a:active {color:#FF8A00;text-decoration:none;}
 #messageBoard a:active {color:#FFFFFF;text-decoration:underline;} 
 		
 
-a.button, a.mainButton
+a.button, a.mainButton, a.dissabledMainButton
 {
 	margin-left: 5px;
 	background: #ff8a00;
@@ -44,10 +44,16 @@ a.button, a.mainButton
 	font-style: normal;
 }
 
-a.mainButton
+a.mainButton, a.dissabledMainButton
 {
 	float: right; 
 }
+
+ a.dissabledMainButton
+ {
+ 	background: grey;
+ }
+ 
 
 
 #contentDiv 
