@@ -45,8 +45,6 @@ public class TvdbClient
 	//TODO IMPLEMENT:
 	//http://www.thetvdb.com/api/FA86CE5B6769E616/series/{series id}/default/{season number}/{episode number}/en.xml
 	
-	
-	
 	/**
 	 * By default this object caches all responses from the server since the server can serve alot of data with a single call.  
 	 * for eg you can got info about a single episode without getting info on the entire series. Call this to clear the cache

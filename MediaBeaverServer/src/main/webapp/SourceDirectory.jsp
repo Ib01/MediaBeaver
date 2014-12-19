@@ -7,12 +7,15 @@
 	<script type="text/javascript" >
 	
 		var uiEnabled = true;
+		var deleteFilesEnabled;
+		var moveManuallyEnabled;
+		var moveFilesEnabled;
 		var selectedLi;
 		var openAllRoot;
 	
 		$(function ()
 		{	
-
+			
 			$( "body" ).delegate( ".highlightableLi", "mouseover", function()  
 			{
 				$(this).css("background-color", "#F1F1F1");
@@ -32,6 +35,8 @@
 						'checked', 
 						!$(this).find("input:checkbox").is(':checked')
 				);
+			
+				setMenuState();
 			});
 				
 			$( "body" ).delegate( ".highlightableLi input:checkbox", "click", function()  
@@ -41,7 +46,7 @@
 				
 			$("#moveManually").click(function() 
 			{
-				if(!uiEnabled) return;
+				if(!uiEnabled || !moveManuallyEnabled) return;
 				
 				if($('.selectedCheckbox:checked').length > 0)
 				{
@@ -53,7 +58,7 @@
 			
 			$("#deleteFiles").click(function() 
 			{	
-				if(!uiEnabled) return;
+				if(!uiEnabled || !deleteFilesEnabled) return;
 				
 				$(".operationTried").val("false");
 				selectedLi = getNextSelectedLi();
@@ -71,7 +76,7 @@
 			
 			$("#moveFiles").click(function() 
 			{
-				if(!uiEnabled) return;
+				if(!uiEnabled || !moveFilesEnabled) return;
 				
 				$(".operationTried").val("false");
 				selectedLi = getNextSelectedFileLi();
@@ -109,6 +114,7 @@
 				{
 					$(this).parent("li").next("li").remove();
 					$(this).siblings("input[name$='open']").val("false");
+					setMenuState();
 				}
 				else
 				{
@@ -150,6 +156,7 @@
 				$("#expandAll").show();
 				$("#colapseAll").hide();
 				
+				setMenuState();
 				e.stopPropagation();
 			});
 			
@@ -161,6 +168,7 @@
 				
 				$("#selectAll").hide();
 				$("#deselectAll").show();
+				setMenuState();
 			});
 			
 			$("#deselectAll").click(function(e) 
@@ -171,8 +179,11 @@
 				
 				$("#selectAll").show();
 				$("#deselectAll").hide();
+				setMenuState();
 			});
 			
+			
+			setMenuState();
 		}); 
 		
 		
@@ -180,9 +191,46 @@
 		//---------------------------------------------------------------------------------//
 		//---------------------------------------------------------------------------------//
 	
+		
+		function setMenuState()
+		{
+			var numSelectedFiles = $(".selectedCheckbox:checked").siblings("input[name$='file'][value='true']").length;
+			var numSelectedItems = $(".selectedCheckbox:checked").length;
+		
+			if(numSelectedFiles > 0)
+			{
+				$("#moveManually").css("color", "");
+				$("#moveFiles").css("color", "");
+				moveManuallyEnabled = true;
+				moveFilesEnabled = true;
+			}
+			else
+			{
+				$("#moveManually").css("color", "grey");
+				$("#moveFiles").css("color", "grey");
+				moveManuallyEnabled = false;
+				moveFilesEnabled = false;
+			}
+			
+			if(numSelectedItems > 0)
+			{
+				$("#deleteFiles").css("color", "");
+				deleteFilesEnabled = true;
+			}
+			else
+			{
+				$("#deleteFiles").css("color", "grey");
+				deleteFilesEnabled = false;
+			}
+		}
+		
 		function dissableInterface()
 		{
 			uiEnabled = false;
+			deleteFilesEnabled = false;
+			moveManuallyEnabled = false;
+			moveFilesEnabled = false;
+			
 			$(".selectedCheckbox").attr("disabled", "disabled");
 			$("#folderMenu a").css("color", "grey");
 			$("li").css("color", "grey");
@@ -191,6 +239,10 @@
 		function enableInterface()
 		{
 			uiEnabled = true;
+			deleteFilesEnabled = true;
+			moveManuallyEnabled = true;
+			moveFilesEnabled = true;
+			
 			$(".selectedCheckbox").removeAttr("disabled");
 			$("#folderMenu a").css("color", "");
 			$("li").css("color", "");
@@ -239,6 +291,7 @@
 			else
 			{
 				enableInterface();
+				setMenuState();
 			}
 		}
 		
@@ -262,6 +315,7 @@
 				$("#expandAll").hide();
 				$("#colapseAll").show();
 				enableInterface();
+				setMenuState();
 			}
 		}
 		
@@ -274,6 +328,7 @@
 			$(selectedLi).find("input[name$='open']").val("true");
 			$(selectedLi).after(s);
 			enableInterface();
+			setMenuState();
 		}
 		
 		
@@ -303,6 +358,7 @@
 			else
 			{
 				enableInterface();
+				setMenuState();
 			}
 			
 		}
@@ -336,6 +392,7 @@
 			else
 			{
 				enableInterface();
+				setMenuState();
 			}
 		}
 		
