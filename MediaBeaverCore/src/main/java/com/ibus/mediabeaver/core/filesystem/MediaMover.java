@@ -12,9 +12,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
+
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.data.UpdateTransactable;
 import com.ibus.mediabeaver.core.entity.Activity;
@@ -24,7 +26,6 @@ import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.entity.ResultType;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
 import com.ibus.mediabeaver.core.exception.PathParseException;
-import com.ibus.mediabeaver.core.util.PathParser;
 import com.ibus.mediabeaver.core.util.Services;
 import com.ibus.opensubtitles.client.dto.OstTitleDto;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesField;
@@ -43,11 +44,12 @@ public class MediaMover
 	Logger log = Logger.getLogger(MediaMover.class.getName());
 	Configuration config;	
 	Platform platform;
-	List<PathToken> episodePathTokens;
-	List<PathToken> moviePathTokens;
-	List<Activity> unmovedMedia = new ArrayList<Activity>();
-	List<Activity> movedMedia = new ArrayList<Activity>();
 	boolean processTvShows = true;
+	EpisodePathParser episodeParser;
+	MoviePathParser movieParser; 
+	//List<Activity> unmovedMedia = new ArrayList<Activity>();
+	List<Activity> movedMedia = new ArrayList<Activity>();
+	List<Activity> foundMedia = new ArrayList<Activity>();
 	
 	public enum Platform{
 		Web,
@@ -59,17 +61,16 @@ public class MediaMover
 		return movedMedia;
 	}
 
-	public List<Activity> getUnmovedMedia()
+	/*public List<Activity> getUnmovedMedia()
 	{
 		return unmovedMedia;
-	}
+	}*/
 	
 	public MediaMover(Platform platform, Configuration config)
 	{
 		this.config = config;
 		this.platform = platform;
-	}
-	
+	}	
 	
 	/**
 	 * processes all files in source directory and in all its sub directories
@@ -79,8 +80,7 @@ public class MediaMover
 	 */
 	public void moveFiles()  
 	{	
-		if(!beforeProcess())
-			return;
+		beforeProcess();
 		
 		try 
 		{
@@ -91,12 +91,16 @@ public class MediaMover
 			logEvent(null, null, ResultType.Failed, 
 					"Failed to login to the Open Subtitles web service while attempting to move a file. Further file movements aborted");
 			log.error("Failed to login to the Open Subtitles web service while attempting to move a file. Further file movements aborted", e);
-			afterProcess();
-			return;
 		}
 		
 		afterProcess();
 	}
+	
+	
+	
+	
+	
+	
 	
 	private void processFileTree(File directory) throws OpenSubtitlesLoginException 
 	{
@@ -124,9 +128,8 @@ public class MediaMover
 	 */
 	public void moveFiles(List<String> paths) 
 	{ 		
-		if(!beforeProcess())
-			return;
-		
+		beforeProcess();
+				
 		for(String path : paths)
 		{
 			File file = new File(path);
@@ -161,8 +164,7 @@ public class MediaMover
 	 */
 	public boolean moveFile(String path) 
 	{ 		
-		if(!beforeProcess())
-			return false;
+		beforeProcess();
 		
 		File file = new File(path);
 		
@@ -188,38 +190,20 @@ public class MediaMover
 	}
 	
 	
-	protected void logEvent(final Activity event)
-	{
+	//------------------------------------------------------------------------------------------------------------//
 
-		if(platform == Platform.Web)
-		{
-			Repository.saveEntity(event);
-			return;
-		}
-		
-		//otherwise we are calling from the cli
-		Repository.doInTransaction(
-			new UpdateTransactable(){
-				public void run()
-				{
-					Repository.saveEntity(event);
-				}
-			});
-	}
-	
-	
-	protected boolean beforeProcess() 
+	protected void beforeProcess() 
 	{
 		processTvShows = true;
-		unmovedMedia = new ArrayList<Activity>();
+		//unmovedMedia = new ArrayList<Activity>();
+		foundMedia= new ArrayList<Activity>();
 		movedMedia = new ArrayList<Activity>();
 		
 		log.debug("******************************************************");
 		log.debug("Commencing Movement of files");
 		
-		episodePathTokens = PathParser.getTokens(config.getEpisodePath());
-		moviePathTokens = PathParser.getTokens(config.getMoviePath());
-		return true;
+		episodeParser = new EpisodePathParser(config.getEpisodePath());
+		movieParser = new MoviePathParser(config.getMoviePath()); 
 	}
 
 	
@@ -232,8 +216,6 @@ public class MediaMover
 		log.debug("******************************************************");
 	}
 	
-	
-	
 	protected void processFile(File file) throws OpenSubtitlesLoginException 
 	{
 		String extension = FilenameUtils.getExtension(file.getAbsolutePath());
@@ -243,6 +225,18 @@ public class MediaMover
 			moveVideo(file);
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	protected void moveVideo(File file) throws OpenSubtitlesLoginException 
 	{
@@ -273,7 +267,7 @@ public class MediaMover
 			String imdbId = OstTitleDto.parseImdbId(ostTitle.get(OpenSubtitlesField.IDMovieImdb.toString()));
 			FindResults result = Services.getTmdbClient().getFind().find(imdbId, TmdbFind.ExternalSource.imdb_id, null);
 			
-			String destinationPathEnd = parseMoviePath(result.getMovieResults().get(0));
+			String destinationPathEnd = movieParser.parseMoviePath(result.getMovieResults().get(0));
 			
 			destinationPathEnd += "." + FilenameUtils.getExtension(file.getAbsolutePath());
 			fullDestinationPath = Paths.get(config.getMovieRootDirectory(), destinationPathEnd).toString();
@@ -281,8 +275,10 @@ public class MediaMover
 			log.debug(String.format("Destination path generated %s.", fullDestinationPath));
 						
 			moveFile(file.getAbsolutePath(), config.getMovieRootDirectory(), destinationPathEnd);
+			Activity act = logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
 			
-			logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
+			movedMedia.add(act);
+			
 			return;
 		
 		} catch (IOException e)
@@ -381,8 +377,7 @@ public class MediaMover
 			//so we need to use season and episode numbers from OST Service 
 			log.debug(String.format("Successfully acquired episode data for %s.", file.getAbsolutePath()));
 			
-			
-			String  destinationPathEnd = parseEpisodePath(seriesDto, tvdbEpisode);
+			String  destinationPathEnd = episodeParser.parseEpisodePath(seriesDto, tvdbEpisode);
 			destinationPathEnd += "." + FilenameUtils.getExtension(file.getAbsolutePath());
 			
 			fullDestinationPath = Paths.get(config.getTvRootDirectory(), destinationPathEnd).toString();
@@ -390,7 +385,9 @@ public class MediaMover
 			log.debug(String.format("Destination path generated %s", fullDestinationPath));
 			
 			moveFile(file.getAbsolutePath(), config.getTvRootDirectory(), destinationPathEnd);
-			logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
+			Activity act = logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
+			
+			movedMedia.add(act);
 			
 			return;
 			
@@ -425,121 +422,6 @@ public class MediaMover
 		}
 		
 		
-	}
-	
-	
-	private void moveFile(String source, String destinationRoot, String destinationEnd) throws IOException, DuplicateFileException
-	{
-		if(config.isCopyAsDefault())
-			FileSystem.copyFile(source, destinationRoot, destinationEnd);
-		else
-			FileSystem.moveFile(source, destinationRoot, destinationEnd);
-	}
-	
-	
-	
-	private Activity logEvent(String source, String destination, ResultType result, String errorDescription)
-	{
-		Activity event = new Activity();
-		
-		event.setEventTime(new Date());
-		event.setEventType(EventType.Move);
-		event.setDestinationPath(destination);
-		event.setResult(result);
-		event.setSourcePath(source);
-		event.setErrorDescription(errorDescription);
-		
-		logEvent(event);
-		
-		if(result == ResultType.Succeeded)
-			movedMedia.add(event);
-		else
-			unmovedMedia.add(event);
-		
-		return event;
-	}
-	
-	
-	/**
-	 * parse tokenised or templated movie path for a Movie. for eg will  
-	 * parse: 
-	 *  {MovieName}({ReleaseDate})\\{MovieName}({ReleaseDate})
-	 *  to: 
-	 *  Iron Man (2010)\Iron Man (2010)
-	 * @param seriesDto
-	 * @param tvdbEpisode
-	 * @return
-	 * @throws PathParseException
-	 */
-	private String parseMoviePath(MovieDb movie) throws PathParseException
-	{
-		String rawMoviePath =  config.getMoviePath(); //path with tokens in it
-		
-		for(PathToken token : moviePathTokens)
-		{
-			PathToken parsedToken = null;
-			if(token.getName().equals("MovieName"))
-			{
-				parsedToken = PathParser.parseToken(token, movie.getTitle());
-			}
-			else if(token.getName().equals("ReleaseDate"))
-			{
-				parsedToken = PathParser.parseToken(token, movie.getReleaseDate());
-			}
-			
-			rawMoviePath = PathParser.parsePath(parsedToken, rawMoviePath);
-		}
-		
-		if(PathParser.containsTokens(rawMoviePath))
-			throw new PathParseException(String.format("Episode path is malformed. Path contains tokens after being parsed: %s", rawMoviePath));
-		
-		return rawMoviePath;
-	}
-
-	
-	/**
-	 * parse tokenised or templated episode path for an episode. for eg will  
-	 * parse: 
-	 *  \{SeriesName}\Season {SeasonNumber}\{SeriesName} S{SeasonNumber}.leftPad("2","0")E{EpisodeNumber}.leftPad("2","0")"
-	 *  to: 
-	 *  Game of Thrones\Season 1\Game of Thrones S01E01.avi
-	 * @param seriesDto
-	 * @param tvdbEpisode
-	 * @return
-	 * @throws PathParseException
-	 */
-	private String parseEpisodePath(Series seriesDto, Episode tvdbEpisode) throws PathParseException
-	{
-		String rawEpisodePath =  config.getEpisodePath(); //path with tokens in it
-		
-		for(PathToken token : episodePathTokens)
-		{
-			PathToken parsedToken = null;
-			if(token.getName().equals("SeriesName"))
-			{
-				parsedToken = PathParser.parseToken(token, seriesDto.getSeriesName());
-			}
-			else if(token.getName().equals("SeasonNumber"))
-			{
-				parsedToken = PathParser.parseToken(token, tvdbEpisode.getSeasonNumber());
-			}
-			else if(token.getName().equals("EpisodeNumber"))
-			{
-				parsedToken = PathParser.parseToken(token, tvdbEpisode.getEpisodeNumber());
-			}
-			else if(token.getName().equals("EpisodeName"))
-			{
-				parsedToken = PathParser.parseToken(token, tvdbEpisode.getEpisodeName());
-			}
-			
-			rawEpisodePath = PathParser.parsePath(parsedToken, rawEpisodePath);
-		}
-		
-		
-		if(PathParser.containsTokens(rawEpisodePath))
-			throw new PathParseException(String.format("Episode path is malformed. Path contains tokens after being parsed: %s", rawEpisodePath));
-		
-		return rawEpisodePath;
 	}
 	
 	
@@ -608,7 +490,58 @@ public class MediaMover
 		}
 		
 	}
+	
+	
+	
 
+	private void moveFile(String source, String destinationRoot, String destinationEnd) throws IOException, DuplicateFileException
+	{
+		if(config.isCopyAsDefault())
+			FileSystem.copyFile(source, destinationRoot, destinationEnd);
+		else
+			FileSystem.moveFile(source, destinationRoot, destinationEnd);
+	}
+	
+
+	private Activity logEvent(String source, String destination, ResultType result, String errorDescription)
+	{
+		Activity event = new Activity();
+		
+		event.setEventTime(new Date());
+		event.setEventType(EventType.Move);
+		event.setDestinationPath(destination);
+		event.setResult(result);
+		event.setSourcePath(source);
+		event.setErrorDescription(errorDescription);
+		
+		logEvent(event);
+		
+		/*if(result == ResultType.Succeeded)
+			movedMedia.add(event);
+		else
+			unmovedMedia.add(event);*/
+		
+		return event;
+	}
+	
+	protected void logEvent(final Activity event)
+	{
+
+		if(platform == Platform.Web)
+		{
+			Repository.saveEntity(event);
+			return;
+		}
+		
+		//otherwise we are calling from the cli
+		Repository.doInTransaction(
+			new UpdateTransactable(){
+				public void run()
+				{
+					Repository.saveEntity(event);
+				}
+			});
+	}
 	
 	
 	

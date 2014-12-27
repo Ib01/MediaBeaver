@@ -1,4 +1,4 @@
-package com.ibus.mediabeaver.core.util;
+package com.ibus.mediabeaver.core.filesystem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -214,49 +214,8 @@ public class PathParser
 			return fieldValue.substring(Integer.parseInt(parameters.get(0)), Integer.parseInt(parameters.get(1)));
 		}
 		
-		
-		
 		throw new PathParseException(String.format("Method token %s not recognised", methodName));
 	}
-	
-	
-	
-	
-	
-	
-	
-	/*
-	itterate over all varaible with methods  
-	\{([a-zA-Z]+)\}(\.(?:[a-zA-Z]+)\((?:\s*"(?:[^"]|(?<=\\)")*"\s*,(?!\s*\)))*(?:\s*"(?:[^"]|(?<=\\)")*"\s*)?\))+
-	
-	itterate over each above to get methods for each varaible  
-	\.([a-zA-Z]+)\(((?:\s*"(?:[^"]|(?<=\\)")*"\s*,(?!\s*\)))*(?:\s*"(?:[^"]|(?<=\\)")*"\s*)?)\)
-	
-	//itterate over each methods parameters
-	"((?:[^"]|(?<=\\)")*)"
-	 */
-
-	
-	
-
-	/*
-	public String getFieldIdentifier(String transformFormat)
-	{		
-		Pattern pattern = Pattern.compile("^\\{([a-zA-Z]+)\\}");
-		Matcher matcher = pattern.matcher(transformFormat.trim());
-		
-		if (matcher.find()) 
-		{
-			if(matcher.groupCount() ==1 && matcher.group(1)!= null )
-			{
-				return matcher.group(1);
-			}
-		}
-		
-		return null;
-	}*/
-	
-	
 	
 }
 

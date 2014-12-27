@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.exception.PathParseException;
-import com.ibus.mediabeaver.core.util.PathParser;
+import com.ibus.mediabeaver.core.filesystem.PathParser;
 
 public class PathParserIT
 {
