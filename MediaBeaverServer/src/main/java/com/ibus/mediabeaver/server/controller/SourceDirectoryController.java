@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.Repository;
-import com.ibus.mediabeaver.core.entity.Configuration;
+import com.ibus.mediabeaver.core.entity.UserConfiguration;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
 import com.ibus.mediabeaver.core.filesystem.MediaMover.Platform;
 import com.ibus.mediabeaver.core.filesystem.MediaRemover;
@@ -62,7 +62,7 @@ public class SourceDirectoryController
 	@RequestMapping(value="/moveFile", method = RequestMethod.POST)
 	public @ResponseBody FileViewModel moveFile(@RequestBody FileViewModel model, HttpServletRequest request) 
 	{
-		Configuration config = Repository.getFirstEntity(Configuration.class);
+		UserConfiguration config = Repository.getFirstEntity(UserConfiguration.class);
 		MediaMover mm = new MediaMover(Platform.Web, config);
 		
 		boolean success = mm.moveFile(model.getPath());

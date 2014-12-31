@@ -10,7 +10,7 @@ import org.apache.xmlrpc.XmlRpcException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.ibus.mediabeaver.core.entity.Configuration;
+import com.ibus.mediabeaver.core.entity.UserConfiguration;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
 import com.ibus.mediabeaver.core.filesystem.MediaMover.Platform;
 
@@ -25,13 +25,13 @@ public class MediaManagerIT
 	@Test
 	public void processConfigsTest() throws XmlRpcException, IOException
 	{
-		Configuration c = new Configuration();
+		UserConfiguration c = new UserConfiguration();
 		c.setSourceDirectory("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Source\\");
 		c.setTvRootDirectory("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Destination\\TV\\");
 		c.setMovieRootDirectory("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Destination\\Movies\\");
 		
-		c.setEpisodePath("{SeriesName}\\Season {SeasonNumber}\\{SeriesName} S{SeasonNumber}.leftPad(\"2\",\"0\")E{EpisodeNumber}.leftPad(\"2\",\"0\")");
-		c.setMoviePath("{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))\\{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))");
+		c.setEpisodeFormatPath("{SeriesName}\\Season {SeasonNumber}\\{SeriesName} S{SeasonNumber}.leftPad(\"2\",\"0\")E{EpisodeNumber}.leftPad(\"2\",\"0\")");
+		c.setMovieFormatPath("{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))\\{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))");
 		
 		
 

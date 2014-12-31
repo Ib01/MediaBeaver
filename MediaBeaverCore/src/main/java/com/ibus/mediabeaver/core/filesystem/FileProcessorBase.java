@@ -15,12 +15,12 @@ import org.hibernate.Transaction;
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.data.UpdateTransactable;
-import com.ibus.mediabeaver.core.entity.Configuration;
+import com.ibus.mediabeaver.core.entity.UserConfiguration;
 import com.ibus.mediabeaver.core.entity.Activity;
 
 public abstract class FileProcessorBase
 {
-	protected Configuration config;		
+	protected UserConfiguration config;		
 	protected Logger log = Logger.getLogger(FileProcessorBase.class.getName());
 	protected Platform platform;
 	public enum Platform{
@@ -34,7 +34,7 @@ public abstract class FileProcessorBase
 	 * @throws IOException
 	 * @throws XmlRpcException
 	 */
-	public void processFiles(Configuration config) throws IOException, XmlRpcException 
+	public void processFiles(UserConfiguration config) throws IOException, XmlRpcException 
 	{	
 		this.config = config;
 		beforeProcess();
@@ -67,7 +67,7 @@ public abstract class FileProcessorBase
 	 * @throws XmlRpcException 
 	 * @throws IOException 
 	 */
-	public void processFiles(Configuration config, List<String> paths) throws XmlRpcException, IOException 
+	public void processFiles(UserConfiguration config, List<String> paths) throws XmlRpcException, IOException 
 	{ 
 		this.config = config;
 		beforeProcess();

@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
-import com.ibus.mediabeaver.core.entity.Configuration;
+import com.ibus.mediabeaver.core.entity.UserConfiguration;
 
 public class ConfigurationIT
 {
@@ -28,7 +28,7 @@ public class ConfigurationIT
 	{
 		StartTransaction();
 		
-		Configuration config = Repository.getFirstEntity(Configuration.class);
+		UserConfiguration config = Repository.getFirstEntity(UserConfiguration.class);
 		boolean hasExtension = config.isVideoExtension("avi");
 		assertTrue(hasExtension);
 		
