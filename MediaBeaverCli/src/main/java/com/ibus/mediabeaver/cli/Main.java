@@ -16,10 +16,9 @@ import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.QueryTransactable;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.data.UpdateTransactable;
-import com.ibus.mediabeaver.core.entity.UserConfiguration;
-import com.ibus.mediabeaver.core.filesystem.MediaMover;
-import com.ibus.mediabeaver.core.util.Platform;
+import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.util.Factory;
+
 public class Main
 {    
 	static Logger log = Logger.getLogger(Main.class.getName());
@@ -48,18 +47,16 @@ public class Main
 	{
 		log.debug("Retreiving Media Configuration Items");
 	
-		UserConfiguration config = Repository.getInTransaction(
-				new QueryTransactable<UserConfiguration>() 
+		Configuration config = Repository.getInTransaction(
+				new QueryTransactable<Configuration>() 
 				{
-					public UserConfiguration run()
+					public Configuration run()
 					{
-						return Repository.getFirstEntity(UserConfiguration.class);
+						return Repository.getFirstEntity(Configuration.class);
 					}
 				});
 		Factory.initialise(com.ibus.mediabeaver.core.util.Platform.CLI, config);
-	
-		MediaMover mm = new MediaMover(Platform.CLI, config);
-		mm.moveFiles();
+		Factory.getMediaMover().moveFiles(config.getSourceDirectory());
 	}
 	
 	

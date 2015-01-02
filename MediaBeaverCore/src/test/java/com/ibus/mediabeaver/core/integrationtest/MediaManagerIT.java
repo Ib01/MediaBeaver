@@ -1,45 +1,40 @@
 package com.ibus.mediabeaver.core.integrationtest;
 
 import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.io.IOException;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.xmlrpc.XmlRpcException;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.ibus.mediabeaver.core.entity.UserConfiguration;
+import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
-import com.ibus.mediabeaver.core.filesystem.MediaMover.Platform;
+import com.ibus.mediabeaver.core.util.Factory;
 
 public class MediaManagerIT
 {
+	Configuration configuration;
 	@Before
 	public void beforeTest()
 	{
-		//refreshTestDirs();
+		configuration = new Configuration();
+		
+		configuration.setSourceDirectory("D:\\MediabeaverTests\\Source\\");
+		configuration.setTvRootDirectory("D:\\MediabeaverTests\\Destination\\TV\\");
+		configuration.setMovieRootDirectory("D:\\MediabeaverTests\\Destination\\Movies\\");
+		configuration.setCopyAsDefault(false);
+		configuration.setEpisodeFormatPath("{SeriesName}.replaceAll(\"[/\\?<>\\\\:\\*\\|\\\"\\^]\", \" \").normalizeSpace()\\Season {SeasonNumber}\\{SeriesName}.replaceAll(\"[/\\?<>\\\\:\\*\\|\\\"\\^]\", \" \").normalizeSpace() S{SeasonNumber}.leftPad(\"2\",\"0\")E{EpisodeNumber}.leftPad(\"2\",\"0\")");
+		configuration.setMovieFormatPath("{MovieName}.replaceAll(\"[/\\?<>\\\\:\\*\\|\\\"\\^]\", \" \").normalizeSpace()({ReleaseDate}.substring(\"0\",\"4\"))\\{MovieName}.replaceAll(\"[/\\?<>\\\\:\\*\\|\\\"\\^]\", \" \").normalizeSpace()({ReleaseDate}.substring(\"0\",\"4\"))");
+		configuration.setVideoExtensionFilter(".3g2, .3gp, .asf, .avi, .drc, .flv, .flv, .m4v, .mkv, .mng, .mov, .qt, .mp4, .m4p, .m4v, .mpg, .mp2, .mpeg, .mpg, .mpe, .mpv, .mpg, .mpeg, .m2, .mxf, .nsv, .ogv, .ogg, .rm, .rmvb, .roq, .svi, .webm, .wmv");
+		
+		Factory.initialise(com.ibus.mediabeaver.core.util.Platform.CLI, configuration);
 	}
 	
 	@Test
 	public void processConfigsTest() throws XmlRpcException, IOException
 	{
-		UserConfiguration c = new UserConfiguration();
-		c.setSourceDirectory("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Source\\");
-		c.setTvRootDirectory("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Destination\\TV\\");
-		c.setMovieRootDirectory("C:\\Users\\Ib\\Desktop\\MediabeaverTests\\Destination\\Movies\\");
-		
-		c.setEpisodeFormatPath("{SeriesName}\\Season {SeasonNumber}\\{SeriesName} S{SeasonNumber}.leftPad(\"2\",\"0\")E{EpisodeNumber}.leftPad(\"2\",\"0\")");
-		c.setMovieFormatPath("{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))\\{MovieName}({ReleaseDate}.substring(\"0\",\"4\"))");
-		
-		
-
-		MediaMover mm = new MediaMover(Platform.CLI, c);
-		mm.moveFiles();
-
-		
-		
+		MediaMover mm = Factory.getMediaMover();
+		mm.moveFiles(configuration.getSourceDirectory());
 		assertTrue(true);
 	}
 	
@@ -65,61 +60,6 @@ public class MediaManagerIT
 
 	
 	
-	/*@Test
-	public void processConfigsTest()
-	{
-		MediaManager mm = new MediaManager();
-
-		List<MediaConfig> cl = new ArrayList<MediaConfig>();
-		cl.add(getMediaConfig());
-
-		mm.processConfigs(cl);
-
-		assertTrue(true);
-	}
-
-	private MediaConfig getMediaConfig()
-	{
-		String movieNameVar = "MovieName";
-		String movieYearVar = "MovieYear";
-		String movieExtensionVar = "movieExtension";
-
-		//create variables
-		RegExVariableSetter nameVar = new RegExVariableSetter();
-		nameVar.setVariableName(movieNameVar);
-		nameVar.setGroupAssembly("{1}");
-		nameVar.setReplaceExpression("[\\.-]+");
-		nameVar.setReplaceWithCharacter(" ");
-
-		RegExVariableSetter yearVar = new RegExVariableSetter();
-		yearVar.setVariableName(movieYearVar);
-		yearVar.setGroupAssembly("{2}");
-
-		RegExVariableSetter extensionVar = new RegExVariableSetter();
-		extensionVar.setVariableName(movieExtensionVar);
-		extensionVar.setGroupAssembly("{3}");
-		
-		//create selector and add variables to it
-		RegExSelector sel = new RegExSelector();
-		sel.setExpression("(.+)[\\(\\[\\{]([0-9]{4})[\\)\\]\\}].+\\.([a-zA-Z]+)");
-		sel.addRegExVariable(nameVar);
-		sel.addRegExVariable(yearVar);
-		sel.addRegExVariable(extensionVar);
-		
-		//add media config and add selector to it
-		MediaConfig config = new MediaConfig();
-		config.setAction(TransformAction.Move);
-		config.setDescription("Move Movie files");
-		config.setSourceDirectory("D:\\MediabeaverTests\\Source");
-		config.addConfigVariable(new ConfigVariable(movieNameVar));
-		config.addConfigVariable(new ConfigVariable(movieYearVar));
-		config.addConfigVariable(new ConfigVariable(movieExtensionVar));
-		config.setDestinationRoot("D:\\MediabeaverTests\\Destination\\Movies");
-		config.setRelativeDestinationPath(String.format("{%s} ({%s})\\{%s} ({%s}).{%s}", movieNameVar, movieYearVar, movieNameVar, movieYearVar, movieExtensionVar));
-		config.addRegExSelector(sel);
-
-		return config;
-	}*/
 
 }
 

@@ -9,7 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.ibus.mediabeaver.core.data.Repository;
-import com.ibus.mediabeaver.core.entity.UserConfiguration;
+import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
 import com.ibus.mediabeaver.server.viewmodel.FileViewModel;
 
@@ -31,7 +31,7 @@ public class Data
 		ConfigurationViewModel configvm =  (ConfigurationViewModel) request.getAttribute(ConfigurationSessionKey);	
 		if(configvm == null)
 		{
-			UserConfiguration config = Repository.getFirstEntity(UserConfiguration.class);
+			Configuration config = Repository.getFirstEntity(Configuration.class);
 			if(config == null)
 				return null;
 			
@@ -44,21 +44,21 @@ public class Data
 	
 	public void saveOrUpdateConfig(ConfigurationViewModel model)
 	{
-		UserConfiguration config = Mapper.getMapper().map(model, UserConfiguration.class);
+		Configuration config = Mapper.getMapper().map(model, Configuration.class);
 		Repository.saveOrUpdate(config);
 		request.setAttribute(ConfigurationSessionKey, model);
 	}
 	
 	public void saveConfig(ConfigurationViewModel model)
 	{
-		UserConfiguration config = Mapper.getMapper().map(model, UserConfiguration.class);
+		Configuration config = Mapper.getMapper().map(model, Configuration.class);
 		Repository.saveEntity(config);
 		request.setAttribute(ConfigurationSessionKey, model);
 	}
 	
 	public void mergeConfig(ConfigurationViewModel model)
 	{
-		UserConfiguration config = Mapper.getMapper().map(model, UserConfiguration.class);
+		Configuration config = Mapper.getMapper().map(model, Configuration.class);
 		Repository.mergeEntity(config);
 		request.setAttribute(ConfigurationSessionKey, model);
 	}

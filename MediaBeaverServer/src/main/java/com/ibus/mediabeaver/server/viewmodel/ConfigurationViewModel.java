@@ -1,7 +1,5 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
-import com.ibus.mediabeaver.server.validation.EnvironmentPath;
-import com.ibus.mediabeaver.server.validation.MultipartPathExists;
 import com.ibus.mediabeaver.server.validation.PathExists;
 
 /*@MultipartPathExists.List({
@@ -20,12 +18,12 @@ public class ConfigurationViewModel extends ViewModel
 	/*@EnvironmentPath(message="This path contains invalid path seperators")*/
 	@PathExists(message="This directory does not exist on the file system")
 	private String tvRootDirectory;
-	private String episodePath;
+	private String episodeFormatPath;
 	
 	/*@EnvironmentPath(message="This path contains invalid path seperators")*/
 	@PathExists(message="This directory does not exist on the file system")
 	private String movieRootDirectory;
-	private String moviePath;
+	private String movieFormatPath;
 	
 	private String videoExtensionFilter;
 	private boolean copyAsDefault;
@@ -50,14 +48,14 @@ public class ConfigurationViewModel extends ViewModel
 		this.tvRootDirectory = tvRootDirectory;
 	}
 
-	public String getEpisodePath()
+	public String getEpisodeFormatPath()
 	{
-		return episodePath;
+		return episodeFormatPath;
 	}
 
-	public void setEpisodePath(String tvPath)
+	public void setEpisodeFormatPath(String tvPath)
 	{
-		this.episodePath = tvPath;
+		this.episodeFormatPath = tvPath;
 	}
 
 	public String getMovieRootDirectory()
@@ -70,14 +68,14 @@ public class ConfigurationViewModel extends ViewModel
 		this.movieRootDirectory = movieRootDirectory;
 	}
 
-	public String getMoviePath()
+	public String getMovieFormatPath()
 	{
-		return moviePath;
+		return movieFormatPath;
 	}
 
-	public void setMoviePath(String moviePath)
+	public void setMovieFormatPath(String moviePath)
 	{
-		this.moviePath = moviePath;
+		this.movieFormatPath = moviePath;
 	}
 
 	public String getVideoExtensionFilter()

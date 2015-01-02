@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 
 import com.ibus.mediabeaver.core.entity.Activity;
 import com.ibus.mediabeaver.core.entity.ResultType;
-import com.ibus.mediabeaver.core.entity.UserConfiguration;
+import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
 import com.ibus.mediabeaver.core.exception.PathParseException;
 import com.ibus.mediabeaver.core.filesystem.EpisodePathParser;
@@ -28,9 +28,9 @@ public class TvService
 	Logger log = Logger.getLogger(MediaMover.class.getName());
 	EventLogger eventLogger;
 	EpisodePathParser episodeParser;
-	UserConfiguration userConfiguration;
+	Configuration userConfiguration;
 	
-	public TvService(EventLogger eventLogger, UserConfiguration configuration, EpisodePathParser episodeParser)
+	public TvService(EventLogger eventLogger, Configuration configuration, EpisodePathParser episodeParser)
 	{
 		this.userConfiguration = configuration;  
 		this.eventLogger = eventLogger;

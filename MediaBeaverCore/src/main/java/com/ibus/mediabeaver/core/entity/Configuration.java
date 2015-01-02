@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity(name = "Configuration")
-public class UserConfiguration extends PersistentObject
+public class Configuration extends PersistentObject
 {
 	private static final long serialVersionUID = 1L;
 

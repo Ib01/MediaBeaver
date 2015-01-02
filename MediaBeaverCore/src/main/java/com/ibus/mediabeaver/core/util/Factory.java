@@ -2,7 +2,7 @@ package com.ibus.mediabeaver.core.util;
 
 import info.movito.themoviedbapi.TmdbApi;
 
-import com.ibus.mediabeaver.core.entity.UserConfiguration;
+import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.filesystem.EpisodePathParser;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
 import com.ibus.mediabeaver.core.filesystem.MoviePathParser;
@@ -15,9 +15,9 @@ public abstract class Factory
 	static TmdbApi tmdbApi = null;			
 	static OpenSubtitlesClient openSubtitlesClient;
 	static Platform platform;
-	static UserConfiguration config;
+	static Configuration config;
 	
-	public static void initialise(Platform platform, UserConfiguration config)
+	public static void initialise(Platform platform, Configuration config)
 	{
 		Factory.platform = platform;
 		Factory.config = config;
@@ -47,7 +47,7 @@ public abstract class Factory
 		return openSubtitlesClient;
 	}
 	
-	public MediaMover getMediaMover()
+	public static MediaMover getMediaMover()
 	{
 		throwUninitialised();
 		return new MediaMover(getTvService(), getMovieService());
@@ -71,7 +71,7 @@ public abstract class Factory
 		return new EventLogger(platform);
 	}
 	
-	public static UserConfiguration getUserConfiguration()
+	public static Configuration getUserConfiguration()
 	{
 		throwUninitialised();
 		return config;

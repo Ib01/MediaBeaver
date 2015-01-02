@@ -101,7 +101,7 @@
 	       			'.substring("fromIndex","toIndex")',
 	       			'.trim()'];
 				
-             $('#episodePath').autocomplete({
+             $('#episodeFormatPath').autocomplete({
             	 lookup: episodeFields,
                  minChars: 1,
                  delimiter: /[\}\)]/
@@ -122,7 +122,7 @@
 	       			'.substring("fromIndex","toIndex")',
 	       			'.trim()'];
 				
-           $('#moviePath').autocomplete({
+           $('#movieFormatPath').autocomplete({
           	 lookup: movieFields,
                minChars: 1,
                delimiter: /[\}\)]/
@@ -148,8 +148,8 @@
 			<form:label path="tvRootDirectory">Tv Root</form:label>
 			<form:input path="tvRootDirectory" style="width: 750px" class="validate[required]"/>
 			<br>
-			<form:label path="episodePath">Episode Path Format</form:label>
-			<form:textarea path="episodePath" style="width: 750px; height: 80px" class="autoComplete validate[required]"/>
+			<form:label path="episodeFormatPath">Episode Path Format</form:label>
+			<form:textarea path="episodeFormatPath" style="width: 750px; height: 80px" class="autoComplete validate[required]"/>
 			<br>
 		<!-- </div> -->
 		
@@ -158,8 +158,8 @@
 			<form:label path="movieRootDirectory">Movie Root</form:label>
 			<form:input path="movieRootDirectory" style="width: 750px" class="validate[required]"/>
 			<br>
-			<form:label path="moviePath">Movie Path Format</form:label>
-			<form:textarea path="moviePath" style="width: 750px; height: 80px" class="autoComplete validate[required]"/>
+			<form:label path="movieFormatPath">Movie Path Format</form:label>
+			<form:textarea path="movieFormatPath" style="width: 750px; height: 80px" class="autoComplete validate[required]"/>
 			<br>
 		<!-- </div> -->
 	 

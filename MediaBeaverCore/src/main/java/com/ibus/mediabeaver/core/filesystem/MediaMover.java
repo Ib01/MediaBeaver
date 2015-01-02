@@ -1,38 +1,19 @@
 package com.ibus.mediabeaver.core.filesystem;
 
-import info.movito.themoviedbapi.TmdbFind;
-import info.movito.themoviedbapi.model.FindResults;
-import info.movito.themoviedbapi.model.MovieDb;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
-
-import com.ibus.mediabeaver.core.data.Repository;
-import com.ibus.mediabeaver.core.data.UpdateTransactable;
-import com.ibus.mediabeaver.core.entity.Activity;
-import com.ibus.mediabeaver.core.entity.Configuration;
-import com.ibus.mediabeaver.core.entity.EventType;
-import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.entity.ResultType;
-import com.ibus.mediabeaver.core.entity.UserConfiguration;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
-import com.ibus.mediabeaver.core.exception.PathParseException;
 import com.ibus.mediabeaver.core.util.EventLogger;
 import com.ibus.mediabeaver.core.util.Factory;
 import com.ibus.mediabeaver.core.util.MovieService;
-import com.ibus.mediabeaver.core.util.Platform;
-import com.ibus.mediabeaver.core.util.Services;
 import com.ibus.mediabeaver.core.util.TvService;
 import com.ibus.opensubtitles.client.dto.OstTitleDto;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesField;
@@ -41,10 +22,6 @@ import com.ibus.opensubtitles.client.exception.OpenSubtitlesException;
 import com.ibus.opensubtitles.client.exception.OpenSubtitlesLoginException;
 import com.ibus.opensubtitles.client.exception.OpenSubtitlesResponseException;
 import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashGenerator;
-import com.ibus.tvdb.client.domain.Episode;
-import com.ibus.tvdb.client.domain.Series;
-import com.ibus.tvdb.client.exception.TvdbConnectionException;
-import com.ibus.tvdb.client.exception.TvdbException;
 
 public class MediaMover 
 {	
@@ -63,20 +40,23 @@ public class MediaMover
 	}	
 	
 	/**
-	 * processes all files in source directory and in all its sub directories
+	 * processes all media files in source directory and in all its sub directories. returns true if all found 
+	 * media files were moved
 	 * @param config
 	 * @throws IOException
 	 * @throws XmlRpcException
 	 */
-	public void moveFiles(String directory)  //config.getSourceDirectory()
+	public boolean moveFiles(String directory)  //config.getSourceDirectory()
 	{	
 		beforeProcess();
-		processFileTree(new File(directory));
+		boolean allMoved = processFileTree(new File(directory));
 		afterProcess();
+		
+		return allMoved;
 	}
 	
 	
-	private void processFileTree(File directory)  
+	private boolean processFileTree(File directory)  
 	{
 		List<File> fileSysObjects = Arrays.asList(directory.listFiles());
 		
@@ -90,70 +70,57 @@ public class MediaMover
 			} 
 			else
 			{
-				processFile(fso);
+				if(processFile(fso))
+					++processedMedia;
 			}
 		}
+		
+		return processedMedia == foundMedia;
 	}
 	/**
-	 * process a flat list of files.  directories will not be processed
+	 * process a flat list of files.  Directories, files with unrecognised media extensions, and files not recognised by the media 
+	 * services used will not be moved. returns true if all the media files found were moved.
 	 * @param paths
 	 * @throws XmlRpcException 
 	 * @throws IOException 
 	 */
-	public void moveFiles(List<String> paths) 
+	public boolean moveFiles(List<String> paths) 
 	{ 		
 		beforeProcess();
 				
 		for(String path : paths)
 		{
 			File file = new File(path);
-			
 			if(!file.isDirectory())
 			{
-				try 
-				{
-					processFile(file);
-				} 
-				catch (OpenSubtitlesLoginException e) 
-				{
-					logEvent(file.getAbsolutePath(), null, ResultType.Failed, 
-							"Failed to login to the Open Subtitles web service while attempting to move a file. Further file movements aborted");
-					log.error(String.format("Failed to login to the Open Subtitles web service while attempting to move %s. Further file movements aborted", 
-							file.getAbsolutePath()), e);
-					afterProcess();
-					break;
-				}
+				if(processFile(file))
+					++processedMedia;
 			}
 		}
 		
 		afterProcess();
+		return processedMedia == foundMedia;
 	}
 	
 	
 	/**
 	 * Move a file.  Directories, files with unrecognised media extensions, and files not recognised by the media 
-	 * services used will not be moved
+	 * services used will not be moved. returns true if the file was moved.
 	 * @param paths
-	 * @throws XmlRpcException 
-	 * @throws IOException 
 	 */
 	public boolean moveFile(String path) 
 	{ 	
-		*************here ********************
-		
 		beforeProcess();
-		boolean moved = false;
 		
 		File file = new File(path);
 		if(!file.isDirectory())
 		{
-			moved = processFile(file);
-			afterProcess(1,1);
-			return true;
+			if(processFile(file))
+				++processedMedia;
 		}
 	
-		afterProcess(1,1);
-		return moved;
+		afterProcess();
+		return processedMedia == 1;
 	}
 	
 	
@@ -161,17 +128,19 @@ public class MediaMover
 
 	protected void beforeProcess() 
 	{
+		foundMedia = 0;
+		processedMedia = 0;
 		log.debug("******************************************************");
 		log.debug("Commencing Movement of files");
 	}
 
 	
-	protected void afterProcess(int found, int moved) 
+	protected void afterProcess() 
 	{
 		log.debug("");
 		log.debug("File movement is complete");
-		log.debug(String.format("Media found= %d", found));
-		log.debug(String.format("Media moved= %d", moved));
+		log.debug(String.format("Media found= %d", foundMedia));
+		log.debug(String.format("Media moved= %d", processedMedia));
 		log.debug("******************************************************");
 	}
 	
@@ -181,6 +150,7 @@ public class MediaMover
 		
 		if(Factory.getUserConfiguration().isVideoExtension(extension))
 		{
+			++foundMedia;
 			return moveVideo(file);
 		}
 		
@@ -193,7 +163,7 @@ public class MediaMover
 		return false;
 	}
 	
-	protected boolean moveVideo(File file) throws OpenSubtitlesLoginException 
+	protected boolean moveVideo(File file) 
 	{
 		//get title for file hash from the open subtitles service
 		Map<String,String> ostTitle = getOpenSubtitlesTitle(file);
@@ -222,7 +192,7 @@ public class MediaMover
 	
 	protected boolean moveMovie(Map<String,String> ostTitle, File file) 
 	{
-		String fullDestinationPath ;
+		String fullDestinationPath = null;
 		try
 		{
 			String pathEnd = movieService.getMoviePath(ostTitle, file);
@@ -258,7 +228,7 @@ public class MediaMover
 	
 	protected boolean moveTvEpisode(Map<String,String> ostTitle, File file)
 	{
-		String fullDestinationPath;
+		String fullDestinationPath = null;
 		try
 		{
 			String pathEnd = tvService.getEpisodePath(ostTitle, file);
@@ -300,7 +270,7 @@ public class MediaMover
 	 * @throws OpenSubtitlesException 
 	 * @throws OpenSubtitlesLoginException 
 	 */
-	private Map<String,String> getOpenSubtitlesTitle(File file) throws OpenSubtitlesLoginException 
+	private Map<String,String> getOpenSubtitlesTitle(File file) 
 	{
 		//get media information from Open Subtitles Service using file thumbprint 
 		OpenSubtitlesHashData fileThumbprint;
@@ -352,6 +322,13 @@ public class MediaMover
 			eventLogger.logEvent(file.getAbsolutePath(), null, ResultType.Failed, "An unknown error occured while performing a thumbprint search against the Open Subtitles web service. See system logs for details");
 			log.error(String.format("Open Subtitles thumbprint search on file %s failed. An unknown error occured while performing a thumbprint search against the service", 
 					file.getAbsolutePath()), e);
+			return null;
+		} 
+		catch (OpenSubtitlesLoginException e) 
+		{
+			eventLogger.logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Could not login to the Opensubtitles service");
+			log.debug(String.format("Open Subtitles thumbprint search on file %s failed. Could not login to the Opensubtitles service.", 
+					file.getAbsolutePath()));
 			return null;
 		}
 		

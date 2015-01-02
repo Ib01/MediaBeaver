@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 
 import com.ibus.mediabeaver.core.entity.Activity;
 import com.ibus.mediabeaver.core.entity.ResultType;
-import com.ibus.mediabeaver.core.entity.UserConfiguration;
+import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
 import com.ibus.mediabeaver.core.exception.PathParseException;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
@@ -25,10 +25,10 @@ public class MovieService
 {
 	Logger log = Logger.getLogger(MediaMover.class.getName());
 	EventLogger eventLogger;
-	UserConfiguration userConfiguration;
+	Configuration userConfiguration;
 	MoviePathParser movieParser; 
 	
-	public MovieService(EventLogger eventLogger, UserConfiguration configuration, MoviePathParser movieParser)
+	public MovieService(EventLogger eventLogger, Configuration configuration, MoviePathParser movieParser)
 	{
 		this.eventLogger = eventLogger;
 		this.userConfiguration = configuration;

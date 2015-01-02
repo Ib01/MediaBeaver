@@ -2,7 +2,7 @@ package com.ibus.mediabeaver.core.data;
 
 import org.apache.log4j.Logger;
 
-import com.ibus.mediabeaver.core.entity.UserConfiguration;
+import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.entity.ServiceFieldMap;
 
 public class DataInitialiser 
@@ -18,7 +18,7 @@ public class DataInitialiser
 	
 	public static void addConfiguration()
 	{
-		UserConfiguration c = new UserConfiguration();
+		Configuration c = new Configuration();
 		c.setSourceDirectory("D:\\MediabeaverTests\\Source\\");
 		c.setTvRootDirectory("D:\\MediabeaverTests\\Destination\\TV\\");
 		c.setMovieRootDirectory("D:\\MediabeaverTests\\Destination\\Movies\\");
