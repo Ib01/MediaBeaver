@@ -55,8 +55,7 @@ public class Main
 						return Repository.getFirstEntity(Configuration.class);
 					}
 				});
-		Factory.initialise(com.ibus.mediabeaver.core.util.Platform.CLI, config);
-		Factory.getMediaMover().moveFiles(config.getSourceDirectory());
+		Factory.getMediaMover(com.ibus.mediabeaver.core.util.Platform.CLI, config).moveFiles(config.getSourceDirectory());
 	}
 	
 	

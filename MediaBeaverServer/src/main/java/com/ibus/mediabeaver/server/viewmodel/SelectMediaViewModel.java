@@ -1,7 +1,5 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class SelectMediaViewModel 
 {

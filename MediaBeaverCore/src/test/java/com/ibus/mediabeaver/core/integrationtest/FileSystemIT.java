@@ -1,19 +1,14 @@
 package com.ibus.mediabeaver.core.integrationtest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.ibus.mediabeaver.core.data.DataInitialiser;
-import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
 import com.ibus.mediabeaver.core.filesystem.FileSystem;
 

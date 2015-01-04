@@ -59,7 +59,16 @@
 		
 		<c:forEach items="${SelectEpisode.episodes}" var="episodes" varStatus="i">
 			
-			<image src="/HotlinkedImage?imgUri=http://www.thetvdb.com/banners/${episodes.fileName}" style="float:left; margin: 3px;">
+			<c:if test="${empty episodes.fileName}">
+				<img src="/resources/images/ImageNotSelected.png" style="left; margin: 3px; width: 758px; height: 140px">
+			</c:if>
+			<c:if test="${!empty episodes.fileName}">
+				<image src="/HotlinkedImage?imgUri=http://www.thetvdb.com/banners/${episodes.fileName}" style="float:left; margin: 3px; height: 150px">
+			</c:if>
+			
+			
+			
+			
 			<p style="font-weight: bold; font-size: 18px; font-style: italic;margin-top: 0px">
 				Episode ${episodes.episodeNumber}: ${episodes.episodeName}
 			</p>
@@ -85,7 +94,7 @@
 		
 		
 		<br>
-		<a class="dissabledMainButton" href="#" id="Next">Next</a><a class="mainButton" href="/serviceMover/selectSeason_Back" id="Previous">Previous</a>
+		<a class="dissabledMainButton" href="#" id="Next">Next</a><a class="mainButton" href="/serviceMover/selectEpisode_Back" id="Previous">Previous</a>
 		<br>
 	</form:form> 
 	

@@ -1,9 +1,5 @@
 package com.ibus.mediabeaver.core.util;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Properties;
 
 public abstract class AppConfig 
 {

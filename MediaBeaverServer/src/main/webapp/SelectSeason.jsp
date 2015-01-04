@@ -80,7 +80,14 @@
 					<input type="hidden" class="seasonNumber" value="${i.index + 1}" />
 				</span>
 		
-				<image src="/HotlinkedImage?imgUri=http://www.thetvdb.com/banners/${banner.bannerPath}" style="float:right; margin: 3px;">
+				
+				<c:if test="${empty banner.bannerPath}">
+					<img src="/resources/images/ImageNotSelected.png" style="float:right; margin: 3px; width: 758px; height: 140px">
+				</c:if>
+				<c:if test="${!empty banner.bannerPath}">
+					<image src="/HotlinkedImage?imgUri=http://www.thetvdb.com/banners/${banner.bannerPath}" style="float:right; margin: 3px;">
+				</c:if>
+						
 				<br style="clear:both;"/>
 			</div>
 			

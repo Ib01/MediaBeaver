@@ -1,28 +1,17 @@
 package com.ibus.mediabeaver.server.controller;
 
-import java.io.File;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ibus.mediabeaver.core.data.Repository;
-import com.ibus.mediabeaver.core.entity.Configuration;
-import com.ibus.mediabeaver.core.filesystem.FileSystem;
 import com.ibus.mediabeaver.server.util.Data;
-import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
-import com.ibus.mediabeaver.server.viewmodel.ManualMoveViewModel;
 
 @Controller
 @RequestMapping(value = "/configuration")

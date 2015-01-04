@@ -3,7 +3,6 @@ package com.ibus.mediabeaver.server.viewmodel;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ibus.tvdb.client.domain.Banner;
 import com.ibus.tvdb.client.domain.Episode;
 
 public class SelectEpisodeViewModel 

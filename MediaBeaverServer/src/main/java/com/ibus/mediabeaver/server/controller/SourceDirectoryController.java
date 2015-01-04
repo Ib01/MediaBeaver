@@ -20,6 +20,7 @@ import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
 import com.ibus.mediabeaver.core.filesystem.MediaRemover;
+import com.ibus.mediabeaver.core.util.Factory;
 import com.ibus.mediabeaver.core.util.Platform;
 import com.ibus.mediabeaver.server.util.Data;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
@@ -64,8 +65,8 @@ public class SourceDirectoryController
 	{
 		Configuration config = Repository.getFirstEntity(Configuration.class);
 		
-		
-		MediaMover mm = new MediaMover(Platform.Web, config);
+		MediaMover mm = Factory.getMediaMover(Platform.Web, config);
+		//MediaMover mm = new MediaMover(Platform.Web, config);
 		
 		boolean success = mm.moveFile(model.getPath());
 		model.setOperationSuccess(success);

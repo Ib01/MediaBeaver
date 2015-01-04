@@ -14,18 +14,17 @@ public abstract class Factory
 	static TvdbClient tvdbClient = null; 	//keep a handle on the service clients since they can be expensive to recreate / initialise 
 	static TmdbApi tmdbApi = null;			
 	static OpenSubtitlesClient openSubtitlesClient;
-	static Platform platform;
-	static Configuration config;
+	/*static Platform platform;
+	static Configuration config;*/
 	
-	public static void initialise(Platform platform, Configuration config)
+	/*public static void initialise(Platform platform, Configuration config)
 	{
 		Factory.platform = platform;
 		Factory.config = config;
-	}
+	}*/
 	
 	public static TvdbClient getTvdbClient()
 	{
-		throwUninitialised();
 		if(tvdbClient == null)
 			tvdbClient = new TvdbClient(AppConfig.TvdbScheme, AppConfig.TvdbHost, AppConfig.TvdbLanguage, AppConfig.TvdbApiKey);
 		return tvdbClient;
@@ -33,7 +32,6 @@ public abstract class Factory
 	
 	public static TmdbApi getTmdbClient()
 	{
-		throwUninitialised();
 		if(tmdbApi == null)
 			tmdbApi = new TmdbApi(AppConfig.TmdbApiKey);
 		return tmdbApi;
@@ -41,46 +39,40 @@ public abstract class Factory
 	
 	public static OpenSubtitlesClient getOpenSubtitlesClient()
 	{
-		throwUninitialised();
 		if(openSubtitlesClient == null)
 			openSubtitlesClient = new OpenSubtitlesClient(AppConfig.OstHost,AppConfig.OstUseragent,AppConfig.OstUserName, AppConfig.OstPassword,AppConfig.OstSublanguageid);
 		return openSubtitlesClient;
 	}
 	
-	public static MediaMover getMediaMover()
+	public static MediaMover getMediaMover(Platform platform, Configuration config)
 	{
-		throwUninitialised();
-		return new MediaMover(getTvService(), getMovieService());
+		return new MediaMover(getEventLogger(platform), config, getTvService(platform, config), getMovieService(platform, config));
 	}
 	
-	public static MovieService getMovieService()
+	public static MovieService getMovieService(Platform platform, Configuration config)
 	{
-		throwUninitialised();
-		return  new MovieService(getEventLogger(), config, new MoviePathParser(config.getMovieFormatPath()));
+		return  new MovieService(getEventLogger(platform), config, new MoviePathParser(config.getMovieFormatPath()));
 	}
 	
-	public static TvService getTvService()
+	public static TvService getTvService(Platform platform, Configuration config)
 	{
-		throwUninitialised();
-		return  new TvService(getEventLogger(), config, new EpisodePathParser(config.getEpisodeFormatPath()));
+		return  new TvService(getEventLogger(platform), config, new EpisodePathParser(config.getEpisodeFormatPath()));
 	}
 	
-	public static EventLogger getEventLogger()
-	{
-		throwUninitialised();
+	public static EventLogger getEventLogger(Platform platform)
+	{		
 		return new EventLogger(platform);
 	}
 	
-	public static Configuration getUserConfiguration()
-	{
-		throwUninitialised();
+	/*public static Configuration getUserConfiguration()
+	{	
 		return config;
-	}
+	}*/
 	
 	
-	private static void throwUninitialised()
+	/*private static void throwUninitialised()
 	{
 		if(config == null)
 			throw new IllegalArgumentException("The Factory object has not been initialised. Initialise the object before use.");
-	}
+	}*/
 }

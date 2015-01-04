@@ -1,12 +1,9 @@
 package com.ibus.mediabeaver.core.integrationtest;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 
 import org.junit.Test;
 
-import com.ibus.mediabeaver.core.filesystem.FileSystem;
 import com.ibus.mediabeaver.core.filesystem.MediaRemover;
 
 public class MediaRemoverIT

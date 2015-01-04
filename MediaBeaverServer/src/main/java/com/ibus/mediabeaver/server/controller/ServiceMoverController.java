@@ -1,12 +1,9 @@
 package com.ibus.mediabeaver.server.controller;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.xmlrpc.XmlRpcException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -16,19 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ibus.mediabeaver.core.util.Services;
-import com.ibus.mediabeaver.server.viewmodel.FileViewModel;
+import com.ibus.mediabeaver.core.util.Factory;
 import com.ibus.mediabeaver.server.viewmodel.SearchSeriesViewModel;
 import com.ibus.mediabeaver.server.viewmodel.SelectEpisodeViewModel;
 import com.ibus.mediabeaver.server.viewmodel.SelectMediaViewModel;
 import com.ibus.mediabeaver.server.viewmodel.SelectSeasonViewModel;
-import com.ibus.tvdb.client.TvdbClient;
 import com.ibus.tvdb.client.domain.Banner;
 import com.ibus.tvdb.client.domain.Episode;
 import com.ibus.tvdb.client.domain.Series;
-import com.ibus.tvdb.client.domain.wrapper.EpisodesXmlWrapper;
-import com.ibus.tvdb.client.domain.wrapper.SeriesListXmlWrapper;
-import com.ibus.tvdb.client.domain.wrapper.SeriesXmlWrapper;
 import com.ibus.tvdb.client.exception.TvdbConnectionException;
 import com.ibus.tvdb.client.exception.TvdbException;
 
@@ -54,12 +46,14 @@ public class ServiceMoverController
 	}
 	
 	@RequestMapping(value="/serviceMover_Next", method = RequestMethod.POST)
-	public ModelAndView selectMedia(@ModelAttribute("SelectMediaType") @Validated SelectMediaViewModel viewModel, BindingResult result, HttpServletRequest request)
+	public ModelAndView serviceMoverNext(@ModelAttribute("SelectMediaType") @Validated SelectMediaViewModel viewModel, BindingResult result, HttpServletRequest request)
 	{
 		if(viewModel.getSelectedMediaType().equals(SelectMediaViewModel.SelectedMediaType.Tv.toString()))
 		{
 			SearchSeriesViewModel vm = new SearchSeriesViewModel();
-			//SearchSeriesViewModel vm = getSearchSeriesViewModel(request);
+			if(request.getSession().getAttribute("SearchSeries") != null)
+				vm = (SearchSeriesViewModel) request.getSession().getAttribute("SearchSeries");
+			
 			ModelAndView mav =new ModelAndView("SearchTvSeries","SearchSeries", vm); 
 			
 			mav = addSelectedFiles(mav, request);
@@ -73,11 +67,11 @@ public class ServiceMoverController
 	
 	
 	@RequestMapping(value="/searchTvSeries_Search", method = RequestMethod.POST)
-	public ModelAndView searchSeries(@ModelAttribute("SearchSeries") @Validated SearchSeriesViewModel viewModel, BindingResult result, HttpServletRequest request)
+	public ModelAndView searchTvSeriesSearch(@ModelAttribute("SearchSeries") @Validated SearchSeriesViewModel viewModel, BindingResult result, HttpServletRequest request)
 	{
 		try 
 		{
-			List<Series> series = Services.getTvdbClient().getSeries(viewModel.getSearchText());
+			List<Series> series = Factory.getTvdbClient().getSeries(viewModel.getSearchText());
 			viewModel.setSearchResults(series);
 			ModelAndView mav =new ModelAndView("SearchTvSeries","SearchSeries", viewModel);
 			mav = addSelectedFiles(mav, request);
@@ -92,7 +86,7 @@ public class ServiceMoverController
 	}
 	
 	@RequestMapping(value="/searchTvSeries_Next", method = RequestMethod.POST)
-	public ModelAndView selectSeries(@ModelAttribute("SearchSeries") @Validated SearchSeriesViewModel viewModel, BindingResult result, HttpServletRequest request)
+	public ModelAndView searchTvSeriesNext(@ModelAttribute("SearchSeries") @Validated SearchSeriesViewModel viewModel, BindingResult result, HttpServletRequest request)
 	{
 		SelectSeasonViewModel vm =  new SelectSeasonViewModel();
 		try 
@@ -114,7 +108,7 @@ public class ServiceMoverController
 	
 	
 	@RequestMapping(value="/selectSeason_Back")
-	public ModelAndView backToServiceMover(HttpServletRequest request)
+	public ModelAndView selectSeasonBack(HttpServletRequest request)
 	{
 		SearchSeriesViewModel vm = (SearchSeriesViewModel) request.getSession().getAttribute("SearchSeries");
 		return new ModelAndView("SearchTvSeries","SearchSeries", vm);
@@ -129,7 +123,7 @@ public class ServiceMoverController
 		{
 			SearchSeriesViewModel seriesVm = (SearchSeriesViewModel) request.getSession().getAttribute("SearchSeries");
 			long seriesId = seriesVm.getSelectedSeriesId();
-			List<Episode> episodes = Services.getTvdbClient().getEpisodes(seriesId, viewModel.getSelectedSeasonNumber());
+			List<Episode> episodes = Factory.getTvdbClient().getEpisodes(seriesId, viewModel.getSelectedSeasonNumber());
 			epVm.setEpisodes(episodes);
 		} 
 		catch (TvdbException | TvdbConnectionException e) 
@@ -145,7 +139,12 @@ public class ServiceMoverController
 	
 	//---SelectEpisode  ------------------------------------------------------------------------//
 	
-	
+	@RequestMapping(value="/selectEpisode_Back")
+	public ModelAndView selectEpisodeBack(HttpServletRequest request)
+	{
+		SelectSeasonViewModel vm = (SelectSeasonViewModel) request.getSession().getAttribute("SelectSeason");
+		return new ModelAndView("SelectSeason","SelectSeason", vm);
+	}
 	
 	
 	
@@ -158,12 +157,12 @@ public class ServiceMoverController
 	{
 		SelectSeasonViewModel vm =  new SelectSeasonViewModel();
 		
-		int seasonCount = Services.getTvdbClient().getSeasonCount(seriesId);
+		int seasonCount = Factory.getTvdbClient().getSeasonCount(seriesId);
 		vm.setSeasonsCount(seasonCount);
 		
 		for(int i=1; i <= seasonCount; i++)
 		{
-			Banner banner = Services.getTvdbClient().getTopSeasonBanner(seriesId, i);
+			Banner banner = Factory.getTvdbClient().getTopSeasonBanner(seriesId, i);
 			
 			// 
 			if(banner != null && banner.getBannerPath() != null &&  banner.getBannerPath().trim().length() != 0)

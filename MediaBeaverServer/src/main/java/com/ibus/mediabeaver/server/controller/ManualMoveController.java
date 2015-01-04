@@ -1,7 +1,6 @@
 package com.ibus.mediabeaver.server.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ibus.mediabeaver.core.data.Repository;
-import com.ibus.mediabeaver.core.entity.Activity;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
 import com.ibus.mediabeaver.core.filesystem.FileSystem;
 import com.ibus.mediabeaver.server.util.Data;

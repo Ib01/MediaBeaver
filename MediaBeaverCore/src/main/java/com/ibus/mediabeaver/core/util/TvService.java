@@ -1,17 +1,13 @@
 package com.ibus.mediabeaver.core.util;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
-import com.ibus.mediabeaver.core.entity.Activity;
-import com.ibus.mediabeaver.core.entity.ResultType;
 import com.ibus.mediabeaver.core.entity.Configuration;
-import com.ibus.mediabeaver.core.exception.DuplicateFileException;
+import com.ibus.mediabeaver.core.entity.ResultType;
 import com.ibus.mediabeaver.core.exception.PathParseException;
 import com.ibus.mediabeaver.core.filesystem.EpisodePathParser;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
@@ -21,7 +17,6 @@ import com.ibus.tvdb.client.domain.Episode;
 import com.ibus.tvdb.client.domain.Series;
 import com.ibus.tvdb.client.exception.TvdbConnectionException;
 import com.ibus.tvdb.client.exception.TvdbException;
-import com.ibus.mediabeaver.core.util.Platform;
 
 public class TvService 
 {

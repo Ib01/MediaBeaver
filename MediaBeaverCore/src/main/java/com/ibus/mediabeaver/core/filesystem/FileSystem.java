@@ -2,14 +2,9 @@ package com.ibus.mediabeaver.core.filesystem;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
-import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -17,8 +12,6 @@ import org.apache.log4j.Logger;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
 import com.ibus.mediabeaver.core.exception.FileSystemException;
 import com.ibus.mediabeaver.core.exception.MediaBeaverConfigurationException;
-
-import java.nio.file.attribute.BasicFileAttributes;
 
 public abstract class FileSystem
 {

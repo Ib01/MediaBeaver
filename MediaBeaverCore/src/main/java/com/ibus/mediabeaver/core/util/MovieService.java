@@ -4,17 +4,13 @@ import info.movito.themoviedbapi.TmdbFind;
 import info.movito.themoviedbapi.model.FindResults;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
-import com.ibus.mediabeaver.core.entity.Activity;
-import com.ibus.mediabeaver.core.entity.ResultType;
 import com.ibus.mediabeaver.core.entity.Configuration;
-import com.ibus.mediabeaver.core.exception.DuplicateFileException;
+import com.ibus.mediabeaver.core.entity.ResultType;
 import com.ibus.mediabeaver.core.exception.PathParseException;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
 import com.ibus.mediabeaver.core.filesystem.MoviePathParser;

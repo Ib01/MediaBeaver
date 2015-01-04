@@ -1,8 +1,8 @@
 package com.ibus.mediabeaver.core.filesystem;
 
-import java.util.List;
-
 import info.movito.themoviedbapi.model.MovieDb;
+
+import java.util.List;
 
 import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.exception.PathParseException;

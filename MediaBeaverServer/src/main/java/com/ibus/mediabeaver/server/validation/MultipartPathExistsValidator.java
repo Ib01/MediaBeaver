@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 import org.apache.commons.beanutils.BeanUtils;
-
-import javax.validation.ConstraintValidatorContext;
 
 import com.ibus.mediabeaver.core.filesystem.FileSystem;
 

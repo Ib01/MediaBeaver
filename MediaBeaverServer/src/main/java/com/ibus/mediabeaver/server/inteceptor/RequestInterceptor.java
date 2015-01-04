@@ -9,8 +9,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.HibernateUtil;
-import com.ibus.mediabeaver.core.data.Repository;
-import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.server.util.Data;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
 

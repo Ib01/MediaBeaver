@@ -2,8 +2,6 @@ package com.ibus.mediabeaver.server.viewmodel;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.ibus.mediabeaver.server.validation.EnvironmentPath;
-import com.ibus.mediabeaver.server.validation.MultipartPathExists;
 
 public class ManualMoveViewModel
 {

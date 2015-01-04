@@ -6,9 +6,12 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
+
+import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.entity.ResultType;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
 import com.ibus.mediabeaver.core.util.EventLogger;
@@ -29,14 +32,17 @@ public class MediaMover
 	MoviePathParser movieParser; 
 	int foundMedia = 0;
 	int processedMedia = 0;
-	EventLogger eventLogger = Factory.getEventLogger();
+	EventLogger eventLogger;
 	TvService tvService;
 	MovieService movieService;
+	Configuration config;
 	
-	public MediaMover(TvService tvService, MovieService movieService)
+	public MediaMover(EventLogger eventLogger, Configuration config, TvService tvService, MovieService movieService)
 	{
 		this.tvService = tvService;
 		this.movieService = movieService;
+		this.eventLogger =eventLogger;
+		this.config = config;
 	}	
 	
 	/**
@@ -148,7 +154,7 @@ public class MediaMover
 	{
 		String extension = FilenameUtils.getExtension(file.getAbsolutePath());
 		
-		if(Factory.getUserConfiguration().isVideoExtension(extension))
+		if(config.isVideoExtension(extension))
 		{
 			++foundMedia;
 			return moveVideo(file);
@@ -198,10 +204,10 @@ public class MediaMover
 			String pathEnd = movieService.getMoviePath(ostTitle, file);
 			if(pathEnd != null)
 			{
-				fullDestinationPath = Paths.get(Factory.getUserConfiguration().getMovieRootDirectory(), pathEnd).toString();
+				fullDestinationPath = Paths.get(config.getMovieRootDirectory(), pathEnd).toString();
 				log.debug(String.format("Destination path generated %s.", fullDestinationPath));
 							
-				moveFile(file.getAbsolutePath(), Factory.getUserConfiguration().getMovieRootDirectory(), pathEnd);
+				moveFile(file.getAbsolutePath(), config.getMovieRootDirectory(), pathEnd);
 				eventLogger.logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
 				log.debug(String.format("File %s was successfully moved to %s", file.getAbsolutePath(), fullDestinationPath));
 				
@@ -234,10 +240,10 @@ public class MediaMover
 			String pathEnd = tvService.getEpisodePath(ostTitle, file);
 			if(pathEnd != null)
 			{
-				fullDestinationPath = Paths.get(Factory.getUserConfiguration().getTvRootDirectory(), pathEnd).toString();
+				fullDestinationPath = Paths.get(config.getTvRootDirectory(), pathEnd).toString();
 				log.debug(String.format("Destination path generated %s", fullDestinationPath));
 				
-				moveFile(file.getAbsolutePath(), Factory.getUserConfiguration().getTvRootDirectory(), pathEnd);
+				moveFile(file.getAbsolutePath(), config.getTvRootDirectory(), pathEnd);
 				
 				eventLogger.logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
 				log.debug(String.format("File %s was successfully moved to %s", file.getAbsolutePath(), fullDestinationPath));
@@ -337,7 +343,7 @@ public class MediaMover
 
 	private void moveFile(String source, String destinationRoot, String destinationEnd) throws IOException, DuplicateFileException
 	{
-		if(Factory.getUserConfiguration().isCopyAsDefault())
+		if(config.isCopyAsDefault())
 			FileSystem.copyFile(source, destinationRoot, destinationEnd);
 		else
 			FileSystem.moveFile(source, destinationRoot, destinationEnd);
