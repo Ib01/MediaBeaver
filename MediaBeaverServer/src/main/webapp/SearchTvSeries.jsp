@@ -27,7 +27,6 @@
 				
 			});
 			
-			
 			$("#Next").click(function(e) 
 			{
 				if($("#Next").attr("class") == "mainButton")
@@ -35,7 +34,7 @@
 					var id = $(".itemRadio:checked").siblings(".itemId").val();
 					$("#selectedSeriesId").val(id);
 					
-					$("form:first").attr("action", "/serviceMover/searchTvSeries_Next");
+					$("form:first").attr("action", "/serviceMover/selectSeason");
 					$("form:first").submit();
 				}
 			});
@@ -56,7 +55,6 @@
 				$(this).find(".itemRadio").prop('checked', true);
 			});
 			
-			
 			var seriesId = $("#selectedSeriesId").val();
 			if(seriesId > 0)
 			{
@@ -65,8 +63,6 @@
 			} 
 	
 		}); 
-		
-		//selectSeries
 		
 	</script>
 	
@@ -84,34 +80,35 @@
 		<br>
 
 		<c:forEach items="${SearchSeries.searchResults}" var="result" varStatus="i">
-			<div class="seriesItemContainer">
-				 
-				<c:if test="${empty result.banner}">
-					<img src="/resources/images/ImageNotSelected.png" style="float:right; margin: 3px; width: 758px; height: 140px">
-				</c:if>
-				<c:if test="${!empty result.banner}">
-					<image src="/HotlinkedImage?imgUri=http://www.thetvdb.com/banners/${result.banner}" style="float:right; margin: 3px;">
-				</c:if>
+			
+			<div class="seriesItemContainer" style="width: 758px; padding: 5px; margin-bottom: 10px; margin-left: auto; margin-right: auto;">
 				
-				<p style="font-weight: bold; font-size: 18px; font-style: italic;margin-top: 0px">
+				<div style="float:right; font-style: italic; font-weight: bold;">
+					<span style="margin-bottom: 0px">First aired: <c:out value="${result.firstAired}"></c:out></span> | 
+					<span style="margin: 0px">Network :<c:out value="${result.network}"></c:out></span> | 
+					<span style="margin: 0px">IMDB Id :<c:out value="${result.imdbId}"></c:out></span>
+				</div>
+				
+				<h2 style="font-weight: bold; font-size: 18px; font-style: italic; margin-top: 0px">
 					<input type="radio" style="margin: 0px;" class="itemRadio" name="selectItem" >
 					
 					<c:out value="${result.seriesName}"></c:out>
 					<input type="hidden" class="itemId" value="${result.id}" />
-				</p>
+				</h2>
 				
-				<p style="font-style: italic; margin: 0px">First aired: <c:out value="${result.firstAired}"></c:out></p>
-				<p style="font-style: italic; margin: 0px">Network :<c:out value="${result.network}"></c:out></p>
-				<p style="font-style: italic; margin: 0px">IMDB Id :<c:out value="${result.imdbId}"></c:out></p>
+				 
+				<c:if test="${empty result.banner}">
+					<img src="/resources/images/ImageNotSelected.png" style="width: 758px; height: 140px">
+				</c:if>
+				<c:if test="${!empty result.banner}">
+					<image src="/HotlinkedImage?imgUri=http://www.thetvdb.com/banners/${result.banner}" style="">
+				</c:if>
 				
-				<br />
 				<p style="font-style: italic;">Overview</p>
 				<p style="font-style: italic; margin-top: 0px"><c:out value="${result.overview}"></c:out></p>
 			</div>
 			
-			<br style="clear:both;"/>
-			<br style="clear:both;"/>
-			<br style="clear:both;"/>
+			<!-- <br style="clear:both;"/> -->
 		</c:forEach>
 			
 		<br>

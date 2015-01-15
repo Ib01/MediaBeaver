@@ -40,7 +40,7 @@
 	</div>
 	
 
-	<div id="outerDiv" style="width: 1000px; margin-left: auto; margin-right: auto; padding-top: 10px;">
+	<div id="outerDiv" style="width: 800px; margin-left: auto; margin-right: auto; padding-top: 10px;">
 	
 		<!-- <div id="menuDiv" 
 		style="float:left; width: 160px; height: 200px; 

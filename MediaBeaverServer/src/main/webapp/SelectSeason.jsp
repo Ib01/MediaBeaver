@@ -26,7 +26,7 @@
 					var number = $(".itemRadio:checked").siblings(".seasonNumber").val();
 					$("#selectedSeasonNumber").val(number);
 					
-					$("form:first").attr("action", "/serviceMover/selectSeason_Next");
+					$("form:first").attr("action", "/serviceMover/matchFiles");
 					$("form:first").submit();
 				}
 			});
@@ -72,20 +72,19 @@
 		
 		<c:forEach items="${SelectSeason.banners}" var="banner" varStatus="i">
 			
-			<div class="seasonItemContainer">
+			<div class="seasonItemContainer" style="width: 758px; padding: 5px; margin-bottom: 10px; margin-left: auto; margin-right: auto;">
 			
-				<span style="font-weight: bold; font-size: 18px; font-style: italic;margin-top: 0px">
+				<h2 style="font-weight: bold; font-size: 18px; font-style: italic; margin-top: 0px">
 					<input type="radio" style="margin: 0px;" class="itemRadio" name="selectItem" >
 					Season <c:out value="${i.index + 1}"></c:out>
 					<input type="hidden" class="seasonNumber" value="${i.index + 1}" />
-				</span>
-		
+				</h2>
 				
 				<c:if test="${empty banner.bannerPath}">
-					<img src="/resources/images/ImageNotSelected.png" style="float:right; margin: 3px; width: 758px; height: 140px">
+					<img src="/resources/images/ImageNotSelected.png" style="width: 758px; height: 140px">
 				</c:if>
 				<c:if test="${!empty banner.bannerPath}">
-					<image src="/HotlinkedImage?imgUri=http://www.thetvdb.com/banners/${banner.bannerPath}" style="float:right; margin: 3px;">
+					<image src="/HotlinkedImage?imgUri=http://www.thetvdb.com/banners/${banner.bannerPath}" style="">
 				</c:if>
 						
 				<br style="clear:both;"/>
@@ -95,7 +94,7 @@
 		
 		
 		<br>
-		<a class="dissabledMainButton" href="#" id="Next">Next</a><a class="mainButton" href="/serviceMover/selectSeason_Back" id="Previous">Previous</a>
+		<a class="dissabledMainButton" href="#" id="Next">Next</a><a class="mainButton" href="/serviceMover/searchTvSeries" id="Previous">Previous</a>
 		<br>
 	</form:form>
 	

@@ -8,39 +8,14 @@
 	
 		$(function ()
 		{	
-			/* $("#Search").click(function() 
+			$(".MatchEpisode").click(function() 
 			{
-				if($("form:first").validationEngine('validate'))
-				{
-					$("form:first").attr("action", "/serviceMover/searchSeries");
-					$("form:first").submit();
-				}
-			});
-			
-			$(".itemCheckbox").click(function() 
-			{
-				$("#Next").attr("class", "dissabledMainButton");
-				if($(".itemCheckbox:checked").length == 1)
-				{
-					$("#Next").attr("class", "mainButton");
-				}
+				$("#selectedEpisodeId").val($(this).siblings(".EpisodeId").val());
+				
+				$("form:first").attr("action", "/serviceMover/doSelectEpisode");
+				$("form:first").submit();
 				
 			});
-			
-			
-			 */
-			
-			/* $("#Next").click(function(e) 
-			{
-				if($("#Next").attr("class") == "mainButton")
-				{
-					var number = $(".itemRadio:checked").siblings(".seasonNumber").val();
-					$("#selectedSeasonNumber").val(number);
-					
-					$("form:first").attr("action", "/serviceMover/selectSeries");
-					$("form:first").submit(); 
-				}
-			}); */
 	
 		}); 
 		
@@ -49,52 +24,50 @@
 	</script>
 	
 	<h2>Select Episode</h2>
-  	<c:set var="filesToResolve" value="${filesToResolve}" scope="request"/>
-	<jsp:include page="includes/FilesToResolve.jsp" />
-	<p>Match the above files to the TV Episodes below</p>
-	
 	
 	<form:form method="POST" commandName="SelectEpisode" class="formLayout">
 		<form:hidden path="selectedEpisodeId"/>
-		
-		<c:forEach items="${SelectEpisode.episodes}" var="episodes" varStatus="i">
-			
-			<c:if test="${empty episodes.fileName}">
-				<img src="/resources/images/ImageNotSelected.png" style="left; margin: 3px; width: 758px; height: 140px">
-			</c:if>
-			<c:if test="${!empty episodes.fileName}">
-				<image src="/HotlinkedImage?imgUri=http://www.thetvdb.com/banners/${episodes.fileName}" style="float:left; margin: 3px; height: 150px">
-			</c:if>
-			
-			
-			
-			
-			<p style="font-weight: bold; font-size: 18px; font-style: italic;margin-top: 0px">
-				Episode ${episodes.episodeNumber}: ${episodes.episodeName}
-			</p>
-			<p style="font-style: italic;margin-top: 0px">
-				${episodes.overview}
-			</p>
-			<br style="clear:both;"/>	
-			
-			
+		<form:hidden path="selectedFile"/>
 	
-	<%-- 		<div>
-				<p style="font-weight: bold; font-size: 18px; font-style: italic;margin-top: 0px">
-					<input type="radio" style="margin: 0px;" class="itemRadio" name="selectItem" >
-					Season <c:out value="${i.index + 1}"></c:out>
-					<input type="hidden" class="seasonNumber" value="${i.index + 1}" />
-				</P>
+		<div style="background-color: #F1F1F1; padding: 3px;">
+			<ul class="documentList" style="margin:0px">
+				<li>
+					<c:out value="${SelectEpisode.selectedFile}"></c:out>
+				</li>
+			</ul>
+		</div>
+	
+		<p>Match the file above to an episode:</p>	
 		
-				<image src="/HotlinkedImage?imgUri=http://www.thetvdb.com/banners/${banner.bannerPath}" style="float:right; margin: 3px;">
-				<br style="clear:both;"/>
+		<c:forEach items="${SelectEpisode.episodes}" var="episode" varStatus="i">
+			
+			<div class="seriesItemContainer" style="width: 758px; padding: 5px; margin-bottom: 10px; margin-left: auto; margin-right: auto;">
+			
+				<input type="hidden" class="EpisodeId" value="${episode.id}"/>
+				<a href="#" style="float:right;" class="MatchEpisode">Match this episode</a>
+			
+				<h2 style="font-weight: bold; font-size: 18px; font-style: italic; margin-top: 0px">
+					Episode ${episode.episodeNumber}: ${episode.episodeName}
+				</h2>
+				
+				<c:if test="${empty episode.fileName}">
+					<img src="/resources/images/ImageNotSelected.png" style="float:left; margin-right:10px; width: 758px; height: 140px">
+				</c:if>
+				<c:if test="${!empty episode.fileName}">
+					<image src="/HotlinkedImage?imgUri=http://www.thetvdb.com/banners/${episode.fileName}" style="float:left; margin-right:10px; height: 150px">
+				</c:if>
+				
+				<p style="font-style: italic; margin-top: 0px; height: 150px; overflow-y:auto;">
+					${episode.overview}
+				</p>
+			
 			</div>
-	 --%>		
+			
 		</c:forEach>
 		
 		
 		<br>
-		<a class="dissabledMainButton" href="#" id="Next">Next</a><a class="mainButton" href="/serviceMover/selectEpisode_Back" id="Previous">Previous</a>
+		<a class="mainButton" href="/serviceMover/selectSeason" id="Previous">Cancel</a>
 		<br>
 	</form:form> 
 	
