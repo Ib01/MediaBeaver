@@ -30,7 +30,7 @@ public class EpisodePathParser
 	 * @return
 	 * @throws PathParseException
 	 */
-	public String parseEpisodePath(Series seriesDto, Episode tvdbEpisode) throws PathParseException
+	public String parseEpisodePath(String seriesName, String seasonNumber, String episodeNumber, String episodeName) throws PathParseException
 	{
 		String rawEpisodePath =  episodePath; //path with tokens in it
 		
@@ -39,20 +39,21 @@ public class EpisodePathParser
 			PathToken parsedToken = null;
 			if(token.getName().equals("SeriesName"))
 			{
-				parsedToken = PathParser.parseToken(token, seriesDto.getSeriesName());
+				parsedToken = PathParser.parseToken(token, seriesName);
 			}
 			else if(token.getName().equals("SeasonNumber"))
 			{
-				parsedToken = PathParser.parseToken(token, tvdbEpisode.getSeasonNumber());
+				parsedToken = PathParser.parseToken(token, seasonNumber);
 			}
 			else if(token.getName().equals("EpisodeNumber"))
 			{
-				parsedToken = PathParser.parseToken(token, tvdbEpisode.getEpisodeNumber());
+				parsedToken = PathParser.parseToken(token, episodeNumber);
 			}
 			else if(token.getName().equals("EpisodeName"))
 			{
-				parsedToken = PathParser.parseToken(token, tvdbEpisode.getEpisodeName());
+				parsedToken = PathParser.parseToken(token, episodeName);
 			}
+			
 			
 			rawEpisodePath = PathParser.parsePath(parsedToken, rawEpisodePath);
 		}

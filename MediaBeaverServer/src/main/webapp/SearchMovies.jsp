@@ -8,7 +8,17 @@
 	
 		$(function ()
 		{	
+			
 			$("#Search").click(function() 
+			{
+				if($("form:first").validationEngine('validate'))
+				{
+					$("form:first").attr("action", "/mediaMatcher/SearchMovies_Search");
+					$("form:first").submit();
+				}
+			});
+			
+			/* $("#Search").click(function() 
 			{
 				if($("form:first").validationEngine('validate'))
 				{
@@ -60,26 +70,31 @@
 			{
 				$(".itemId[value='"+seriesId+"']").siblings(".itemRadio").prop('checked', true);
 				$("#Next").attr("class", "mainButton");
-			} 
+			}  */
 	
 		}); 
 		
 	</script>
 	
-	<h2>Enter Series Name</h2>
+	<h2>Search for Movie</h2>
 	<c:set var="filesToResolve" value="${filesToResolve}" scope="request"/>
 	<jsp:include page="includes/FilesToResolve.jsp" />
-	<p>Search for a TV Series that these files belong to</p>
+	<p>Search for a Movie that these files belong to:</p>
 	
 	
-	<form:form method="POST" commandName="SearchSeries" class="formLayout">
-		<form:hidden path="selectedSeriesId"/>
-		<form:label path="searchText">TV Series Name</form:label>
-		<form:input path="searchText"/><a class="button" href="#" id="Search">Search</a>
+	<form:form method="POST" commandName="SearchMovies" class="formLayout">
+		<%-- <form:hidden path="selectedSeriesId"/> --%>
+		<form:label path="movieName">Movie Name</form:label>
+		<form:input path="movieName"/> 
+		<br>
+		<form:label path="movieYear">Movie Year</form:label>
+		<form:input path="movieYear"/>
+		
+		<a class="button" href="#" id="Search">Search</a>
 		<br>
 		<br>
 
-		<c:forEach items="${SearchSeries.searchResults}" var="result" varStatus="i">
+<%-- 		<c:forEach items="${SearchSeries.searchResults}" var="result" varStatus="i">
 			
 			<div class="seriesItemContainer" style="width: 758px; padding: 5px; margin-bottom: 10px; margin-left: auto; margin-right: auto;">
 				
@@ -108,8 +123,8 @@
 				<p style="font-style: italic; margin-top: 0px"><c:out value="${result.overview}"></c:out></p>
 			</div>
 			
-			<!-- <br style="clear:both;"/> -->
-		</c:forEach>
+		
+		</c:forEach> --%>
 			
 		<br>
 		<a class="dissabledMainButton" href="#" id="Next">Next</a><a class="mainButton" href="/mediaMatcher" id="Previous">Previous</a>

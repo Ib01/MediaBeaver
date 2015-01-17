@@ -32,16 +32,17 @@ public class SearchSeriesViewModel
 		this.selectedSeriesId = selectedSeriesId;
 	}
 
-	
-/*	public String getBannerUrlPrefix() {
-		return "/HotlinkedImage?imgUri=http://www.thetvdb.com/banners";
-	}*/
-	/*public void setSearchText(String series) {
-		this.searchText = series;
-	}*/
-	
-	
-	
 
+	public Series getSelectedSeries()
+	{
+		Series selected = null;
+		for(Series s : searchResults)
+		{
+			if(s.getId().equals(selectedSeriesId))
+				selected = s;
+		}
+		
+		return selected;
+	}
 
 }

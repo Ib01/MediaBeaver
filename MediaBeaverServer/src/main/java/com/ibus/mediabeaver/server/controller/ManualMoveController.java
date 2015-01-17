@@ -89,7 +89,7 @@ public class ManualMoveController
 	private void moveFile(String source, String destinationRoot, String destinationEnd, HttpServletRequest request) throws IOException, DuplicateFileException
 	{
 		Data data = new Data(request);
-		ConfigurationViewModel config = data.getConfiguration();
+		ConfigurationViewModel config = data.getConfigurationViewModel();
 		
 		if(config.isCopyAsDefault())
 			FileSystem.copyFile(source, destinationRoot, destinationEnd);
@@ -101,7 +101,7 @@ public class ManualMoveController
 	private ManualMoveViewModel addMediaRoots(ManualMoveViewModel vm, HttpServletRequest request)
 	{
 		Data data = new Data(request);
-		ConfigurationViewModel config = data.getConfiguration();
+		ConfigurationViewModel config = data.getConfigurationViewModel();
 		
 		vm.getRootPaths().add(config.getMovieRootDirectory());
 		vm.getRootPaths().add(config.getTvRootDirectory());

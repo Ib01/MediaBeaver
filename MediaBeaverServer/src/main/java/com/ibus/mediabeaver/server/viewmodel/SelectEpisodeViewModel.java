@@ -8,15 +8,10 @@ import com.ibus.tvdb.client.domain.Episode;
 public class SelectEpisodeViewModel 
 {
 	private List<EpisodeViewModel> episodes = new ArrayList<EpisodeViewModel>();
-	private int selectedEpisodeId;
+	private int selectedEpisodeNumber;
 	private String selectedFile;
 	
-	public int getSelectedEpisodeId() {
-		return selectedEpisodeId;
-	}
-	public void setSelectedEpisodeId(int selectedEpisodeId) {
-		this.selectedEpisodeId = selectedEpisodeId;
-	}
+	
 	public String getSelectedFile() {
 		return selectedFile;
 	}
@@ -28,6 +23,12 @@ public class SelectEpisodeViewModel
 	}
 	public void setEpisodes(List<EpisodeViewModel> episodes) {
 		this.episodes = episodes;
+	}
+	public int getSelectedEpisodeNumber() {
+		return selectedEpisodeNumber;
+	}
+	public void setSelectedEpisodeNumber(int selectedEpisodeNumber) {
+		this.selectedEpisodeNumber = selectedEpisodeNumber;
 	}
 	
 	

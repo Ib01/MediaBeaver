@@ -242,41 +242,6 @@ public abstract class FileSystem
 		return false;
 	}
 	
-	
-	/*private boolean siblingExistsWithAlternateCasing(Path filePath) throws IOException   
-	{
-		Path parentPath = filePath.getParent();
-		
-		if(!Files.exists(parentPath))
-			return false; 
-			
-		
-		//cache sibling files and directories if we have not already done so
-		if(!cachedPaths.containsKey(parentPath.toString()))
-		{
-			File parentFile = parentPath.toFile(); 
-			
-			List<String> paths = new ArrayList<String>();
-			for (File sibling : parentFile.listFiles())
-			{
-				paths.add(sibling.getAbsolutePath());
-			}
-			cachedPaths.put(parentPath.toString(), paths);
-		}
-		
-		//check if there is a case insensitive version of sourceString
-		List<String> paths = cachedPaths.get(parentPath.toString());
-		for(String cachedPath : paths)
-		{
-			String cached = cachedPath.toString().replaceFirst("[\\\\/]$", ""); 
-			String path = filePath.toString().replaceFirst("[\\\\/]$", "");
-			
-			if(!path.equals(cached) && path.equalsIgnoreCase(cached))
-				return true;
-		}
-		
-		return false;
-	}*/
 }
 
 

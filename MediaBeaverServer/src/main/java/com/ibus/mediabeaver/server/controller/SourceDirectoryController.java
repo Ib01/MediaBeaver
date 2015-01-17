@@ -35,19 +35,19 @@ public class SourceDirectoryController
 	public ModelAndView viewDirectory(HttpServletRequest request)
 	{
 		Data data = new Data(request);
-		ConfigurationViewModel config = data.getConfiguration();
+		ConfigurationViewModel config = data.getConfigurationViewModel();
 		FileViewModel filevm = data.getFileViewModel(config.getSourceDirectory());
 		
 		return new ModelAndView("SourceDirectory","directory", filevm);
 	}
 
-	@RequestMapping(value="/serviceMove", method = RequestMethod.POST)
+	@RequestMapping(value="/matchMedia", method = RequestMethod.POST)
 	public ModelAndView serviceMove(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request) throws IOException, XmlRpcException
 	{
 		List<String> files = viewModel.getSelectedPaths(true);
-		request.getSession().setAttribute(ServiceMoverController.FilesToMoveSessionKey, files);
+		request.getSession().setAttribute(MediaMatcherController.FilesToMoveSessionKey, files);
 		
-		return new ModelAndView("redirect:/serviceMover");
+		return new ModelAndView("redirect:/mediaMatcher");
 	}
 	
 	@RequestMapping(value="/deleteFile", method = RequestMethod.POST)

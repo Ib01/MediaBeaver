@@ -26,7 +26,7 @@ public class ConfigurationController
 	public ModelAndView viewConfig(HttpServletRequest request)
 	{
 		Data data = new Data(request);
-		return new ModelAndView("Configuration","configuration", data.getConfiguration());
+		return new ModelAndView("Configuration","configuration", data.getConfigurationViewModel());
 	}
 	
 	

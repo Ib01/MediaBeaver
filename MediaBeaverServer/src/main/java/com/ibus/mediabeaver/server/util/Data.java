@@ -25,7 +25,13 @@ public class Data
 	//-configuration --------------------------------------------------------------------//
 	
 	
-	public ConfigurationViewModel getConfiguration()
+	public Configuration getConfiguration()
+	{
+		Configuration config = Repository.getFirstEntity(Configuration.class);
+		return config;
+	}
+	
+	public ConfigurationViewModel getConfigurationViewModel()
 	{
 		ConfigurationViewModel configvm =  (ConfigurationViewModel) request.getAttribute(ConfigurationSessionKey);	
 		if(configvm == null)
@@ -61,11 +67,6 @@ public class Data
 		Repository.mergeEntity(config);
 		request.setAttribute(ConfigurationSessionKey, model);
 	}
-	
-	
-	//-Events --------------------------------------------------------------------//
-	
-	
 	
 	
 	//-Files  --------------------------------------------------------------------//

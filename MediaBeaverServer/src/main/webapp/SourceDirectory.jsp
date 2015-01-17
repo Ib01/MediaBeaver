@@ -50,7 +50,7 @@
 				
 				if($('.selectedCheckbox:checked').length > 0)
 				{
-					$("form:first").attr("action", "/source/serviceMove");
+					$("form:first").attr("action", "/source/matchMedia");
 					$("form:first").submit();
 					return false;
 				}

@@ -14,7 +14,7 @@
 			{  
 				if($("form:first").validationEngine('validate'))
 				{
-					$("form:first").attr("action", "/serviceMover/searchMedia");
+					$("form:first").attr("action", "/mediaMatcher/searchMedia");
 					$("form:first").submit();
 				}
 			});

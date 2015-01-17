@@ -30,7 +30,7 @@ public class RequestInterceptor implements HandlerInterceptor
 				!request.getRequestURI().toString().endsWith("/configuration/initialise"))
 		{
 			Data data = new Data(request);
-			ConfigurationViewModel configvm =  data.getConfiguration();
+			ConfigurationViewModel configvm =  data.getConfigurationViewModel();
 			
 			if(configvm == null)
 			{

@@ -10,15 +10,39 @@
 		{	
 			$(".SelectEpisode").click(function() 
 			{
-				$("#selectedFile").val($(this).siblings(".FilePath").val());
-				
-				$("form:first").attr("action", "/serviceMover/selectEpisode");
-				$("form:first").submit();
-				
+				selectEpisode(this);
 			});
+			$(".ChangeEpisode").click(function() 
+			{
+				selectEpisode(this);
+			});
+		
+			$("#Finish").click(function() 
+			{
+				return ($(".SelectEpisode").length == 0);
+			});
+			
+			
+			
+			if($(".SelectEpisode").length == 0)
+			{
+				$("#Finish").attr("class", "mainButton");
+			}
 			
 		}); 
 		
+		function selectEpisode(caller)
+		{
+			$("#selectedFile").val($(caller).siblings(".FilePath").val());
+			
+			$("form:first").attr("action", "/mediaMatcher/SelectEpisode");
+			$("form:first").submit();
+		}
+		
+		
+		
+		
+
 	</script>
 	
 	<h2>Match files to episodes</h2>
@@ -48,7 +72,7 @@
 	            	</c:if>
 					<c:if test="${not empty match.episode}">
 						
-						<a href="#" style="float:right;">Change episode selection</a>
+						<a href="#" class="ChangeEpisode" style="float:right;">Change episode selection</a>
 						
 						<h2 style="font-weight: bold; font-size: 18px; font-style: italic; margin-top: 0px">
 							Episode ${match.episode.episodeNumber}: ${match.episode.episodeName}
@@ -74,7 +98,7 @@
 		</c:forEach>
 	
 		<br>
-		<a class="dissabledMainButton" href="#" id="Next">Finish</a><a class="mainButton" href="/serviceMover/selectSeason" id="Previous">Previous</a>
+		<a class="dissabledMainButton" href="/mediaMatcher/matchFiles_Match" id="Finish">Finish</a><a class="mainButton" href="/mediaMatcher/selectSeason" id="Previous">Previous</a>
 		<br>
 	</form:form> 
 	

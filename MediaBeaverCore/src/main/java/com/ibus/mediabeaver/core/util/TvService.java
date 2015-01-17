@@ -110,11 +110,11 @@ public class TvService
 			//so we need to use season and episode numbers from OST Service 
 			log.debug(String.format("Successfully acquired episode data for %s.", file.getAbsolutePath()));
 			
-			String  destinationPathEnd = episodeParser.parseEpisodePath(seriesDto, tvdbEpisode);
+			String  destinationPathEnd = episodeParser.parseEpisodePath(seriesDto.getSeriesName(), 
+					tvdbEpisode.getSeasonNumber(),tvdbEpisode.getEpisodeNumber(),tvdbEpisode.getEpisodeName());
 			destinationPathEnd += "." + FilenameUtils.getExtension(file.getAbsolutePath());
 			
 			return destinationPathEnd;
-			
 		}
 		catch (PathParseException e)
 		{

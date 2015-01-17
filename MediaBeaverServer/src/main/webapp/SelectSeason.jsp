@@ -26,7 +26,7 @@
 					var number = $(".itemRadio:checked").siblings(".seasonNumber").val();
 					$("#selectedSeasonNumber").val(number);
 					
-					$("form:first").attr("action", "/serviceMover/matchFiles");
+					$("form:first").attr("action", "/mediaMatcher/matchFiles");
 					$("form:first").submit();
 				}
 			});
@@ -94,7 +94,7 @@
 		
 		
 		<br>
-		<a class="dissabledMainButton" href="#" id="Next">Next</a><a class="mainButton" href="/serviceMover/searchTvSeries" id="Previous">Previous</a>
+		<a class="dissabledMainButton" href="#" id="Next">Next</a><a class="mainButton" href="/mediaMatcher/searchTvSeries" id="Previous">Previous</a>
 		<br>
 	</form:form>
 	
