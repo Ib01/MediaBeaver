@@ -136,7 +136,6 @@ public class MediaMover
 	{
 		foundMedia = 0;
 		processedMedia = 0;
-		log.debug("******************************************************");
 		log.debug("Commencing Movement of files");
 	}
 
@@ -144,6 +143,7 @@ public class MediaMover
 	protected void afterProcess() 
 	{
 		log.debug("");
+		log.debug("******************************************************");
 		log.debug("File movement is complete");
 		log.debug(String.format("Media found= %d", foundMedia));
 		log.debug(String.format("Media moved= %d", processedMedia));

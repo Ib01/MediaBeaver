@@ -1988,3 +1988,723 @@
 2015-01-03 16:50:21,703 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Media found= 17
 2015-01-03 16:50:21,703 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Media moved= 11
 2015-01-03 16:50:21,703 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - ******************************************************
+2015-01-20 17:28:46,879 DEBUG main com.ibus.mediabeaver.cli.Main - Retreiving Media Configuration Items
+2015-01-20 17:28:46,924 DEBUG main org.jboss.logging - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+2015-01-20 17:28:46,944 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration boolean -> org.hibernate.type.BooleanType@1815a349
+2015-01-20 17:28:46,944 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration boolean -> org.hibernate.type.BooleanType@1815a349
+2015-01-20 17:28:46,944 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Boolean -> org.hibernate.type.BooleanType@1815a349
+2015-01-20 17:28:46,945 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration numeric_boolean -> org.hibernate.type.NumericBooleanType@50d8dc5a
+2015-01-20 17:28:46,947 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration true_false -> org.hibernate.type.TrueFalseType@5790d004
+2015-01-20 17:28:46,947 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration yes_no -> org.hibernate.type.YesNoType@61c45280
+2015-01-20 17:28:46,949 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration byte -> org.hibernate.type.ByteType@28d11816
+2015-01-20 17:28:46,949 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration byte -> org.hibernate.type.ByteType@28d11816
+2015-01-20 17:28:46,949 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Byte -> org.hibernate.type.ByteType@28d11816
+2015-01-20 17:28:46,951 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration character -> org.hibernate.type.CharacterType@b6a6597
+2015-01-20 17:28:46,951 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration char -> org.hibernate.type.CharacterType@b6a6597
+2015-01-20 17:28:46,951 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Character -> org.hibernate.type.CharacterType@b6a6597
+2015-01-20 17:28:46,953 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration short -> org.hibernate.type.ShortType@4da7e04f
+2015-01-20 17:28:46,953 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration short -> org.hibernate.type.ShortType@4da7e04f
+2015-01-20 17:28:46,953 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Short -> org.hibernate.type.ShortType@4da7e04f
+2015-01-20 17:28:46,954 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration integer -> org.hibernate.type.IntegerType@30c01f1c
+2015-01-20 17:28:46,954 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration int -> org.hibernate.type.IntegerType@30c01f1c
+2015-01-20 17:28:46,954 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Integer -> org.hibernate.type.IntegerType@30c01f1c
+2015-01-20 17:28:46,956 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration long -> org.hibernate.type.LongType@8232a5d
+2015-01-20 17:28:46,956 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration long -> org.hibernate.type.LongType@8232a5d
+2015-01-20 17:28:46,956 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Long -> org.hibernate.type.LongType@8232a5d
+2015-01-20 17:28:46,958 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration float -> org.hibernate.type.FloatType@4749fee8
+2015-01-20 17:28:46,958 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration float -> org.hibernate.type.FloatType@4749fee8
+2015-01-20 17:28:46,958 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Float -> org.hibernate.type.FloatType@4749fee8
+2015-01-20 17:28:46,960 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration double -> org.hibernate.type.DoubleType@3b237a89
+2015-01-20 17:28:46,960 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration double -> org.hibernate.type.DoubleType@3b237a89
+2015-01-20 17:28:46,960 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Double -> org.hibernate.type.DoubleType@3b237a89
+2015-01-20 17:28:46,962 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration big_decimal -> org.hibernate.type.BigDecimalType@5900d6ea
+2015-01-20 17:28:46,962 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.math.BigDecimal -> org.hibernate.type.BigDecimalType@5900d6ea
+2015-01-20 17:28:46,964 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration big_integer -> org.hibernate.type.BigIntegerType@5163c85b
+2015-01-20 17:28:46,964 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.math.BigInteger -> org.hibernate.type.BigIntegerType@5163c85b
+2015-01-20 17:28:46,965 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration string -> org.hibernate.type.StringType@6665696b
+2015-01-20 17:28:46,965 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.String -> org.hibernate.type.StringType@6665696b
+2015-01-20 17:28:46,966 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration url -> org.hibernate.type.UrlType@529df6cf
+2015-01-20 17:28:46,966 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.net.URL -> org.hibernate.type.UrlType@529df6cf
+2015-01-20 17:28:46,968 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration date -> org.hibernate.type.DateType@4af42ea0
+2015-01-20 17:28:46,968 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.sql.Date -> org.hibernate.type.DateType@4af42ea0
+2015-01-20 17:28:46,970 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration time -> org.hibernate.type.TimeType@331c9ba1
+2015-01-20 17:28:46,970 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.sql.Time -> org.hibernate.type.TimeType@331c9ba1
+2015-01-20 17:28:46,972 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration timestamp -> org.hibernate.type.TimestampType@6deb59b1
+2015-01-20 17:28:46,972 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.sql.Timestamp -> org.hibernate.type.TimestampType@6deb59b1
+2015-01-20 17:28:46,972 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.util.Date -> org.hibernate.type.TimestampType@6deb59b1
+2015-01-20 17:28:46,974 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration dbtimestamp -> org.hibernate.type.DbTimestampType@5dbdedf8
+2015-01-20 17:28:46,975 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration calendar -> org.hibernate.type.CalendarType@309e7e21
+2015-01-20 17:28:46,975 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.util.Calendar -> org.hibernate.type.CalendarType@309e7e21
+2015-01-20 17:28:46,975 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.util.GregorianCalendar -> org.hibernate.type.CalendarType@309e7e21
+2015-01-20 17:28:46,976 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration calendar_date -> org.hibernate.type.CalendarDateType@258bd34e
+2015-01-20 17:28:46,977 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration locale -> org.hibernate.type.LocaleType@154045de
+2015-01-20 17:28:46,977 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.util.Locale -> org.hibernate.type.LocaleType@154045de
+2015-01-20 17:28:46,978 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration currency -> org.hibernate.type.CurrencyType@4dc7f150
+2015-01-20 17:28:46,978 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.util.Currency -> org.hibernate.type.CurrencyType@4dc7f150
+2015-01-20 17:28:46,979 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration timezone -> org.hibernate.type.TimeZoneType@55ba70e5
+2015-01-20 17:28:46,979 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.util.TimeZone -> org.hibernate.type.TimeZoneType@55ba70e5
+2015-01-20 17:28:46,980 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration class -> org.hibernate.type.ClassType@58c08b39
+2015-01-20 17:28:46,980 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Class -> org.hibernate.type.ClassType@58c08b39
+2015-01-20 17:28:46,982 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration uuid-binary -> org.hibernate.type.UUIDBinaryType@65e7c41f
+2015-01-20 17:28:46,983 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.util.UUID -> org.hibernate.type.UUIDBinaryType@65e7c41f
+2015-01-20 17:28:46,983 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration uuid-char -> org.hibernate.type.UUIDCharType@1dbcf620
+2015-01-20 17:28:46,984 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration pg-uuid -> org.hibernate.type.PostgresUUIDType@4efaf4ec
+2015-01-20 17:28:46,985 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration binary -> org.hibernate.type.BinaryType@601ae40f
+2015-01-20 17:28:46,985 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration byte[] -> org.hibernate.type.BinaryType@601ae40f
+2015-01-20 17:28:46,985 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration [B -> org.hibernate.type.BinaryType@601ae40f
+2015-01-20 17:28:46,986 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration wrapper-binary -> org.hibernate.type.WrapperBinaryType@75c267d1
+2015-01-20 17:28:46,987 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration Byte[] -> org.hibernate.type.WrapperBinaryType@75c267d1
+2015-01-20 17:28:46,987 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration [Ljava.lang.Byte; -> org.hibernate.type.WrapperBinaryType@75c267d1
+2015-01-20 17:28:46,988 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration image -> org.hibernate.type.ImageType@7330f1a2
+2015-01-20 17:28:46,989 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration characters -> org.hibernate.type.CharArrayType@4a4e63f9
+2015-01-20 17:28:46,989 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration char[] -> org.hibernate.type.CharArrayType@4a4e63f9
+2015-01-20 17:28:46,989 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration [C -> org.hibernate.type.CharArrayType@4a4e63f9
+2015-01-20 17:28:46,990 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration wrapper-characters -> org.hibernate.type.CharacterArrayType@7f301d8d
+2015-01-20 17:28:46,990 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration [Ljava.lang.Character; -> org.hibernate.type.CharacterArrayType@7f301d8d
+2015-01-20 17:28:46,990 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration Character[] -> org.hibernate.type.CharacterArrayType@7f301d8d
+2015-01-20 17:28:46,991 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration text -> org.hibernate.type.TextType@7224ccce
+2015-01-20 17:28:46,999 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration blob -> org.hibernate.type.BlobType@284bd160
+2015-01-20 17:28:46,999 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.sql.Blob -> org.hibernate.type.BlobType@284bd160
+2015-01-20 17:28:47,000 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration materialized_blob -> org.hibernate.type.MaterializedBlobType@5203e0c6
+2015-01-20 17:28:47,004 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration clob -> org.hibernate.type.ClobType@6859ed1f
+2015-01-20 17:28:47,004 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.sql.Clob -> org.hibernate.type.ClobType@6859ed1f
+2015-01-20 17:28:47,005 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration materialized_clob -> org.hibernate.type.MaterializedClobType@1cb2e0be
+2015-01-20 17:28:47,006 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration serializable -> org.hibernate.type.SerializableType@420b8aff
+2015-01-20 17:28:47,009 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration object -> org.hibernate.type.ObjectType@787a1f99
+2015-01-20 17:28:47,009 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Object -> org.hibernate.type.ObjectType@787a1f99
+2015-01-20 17:28:47,010 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration imm_date -> org.hibernate.type.AdaptedImmutableType@72d9ceea
+2015-01-20 17:28:47,010 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration imm_time -> org.hibernate.type.AdaptedImmutableType@399f9f8e
+2015-01-20 17:28:47,010 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration imm_timestamp -> org.hibernate.type.AdaptedImmutableType@1ea44130
+2015-01-20 17:28:47,010 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration imm_dbtimestamp -> org.hibernate.type.AdaptedImmutableType@31b3c607
+2015-01-20 17:28:47,010 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration imm_calendar -> org.hibernate.type.AdaptedImmutableType@118e0f0f
+2015-01-20 17:28:47,010 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration imm_calendar_date -> org.hibernate.type.AdaptedImmutableType@57eaaca
+2015-01-20 17:28:47,010 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration imm_binary -> org.hibernate.type.AdaptedImmutableType@3efeb697
+2015-01-20 17:28:47,010 DEBUG main org.hibernate.type.BasicTypeRegistry - Adding type registration imm_serializable -> org.hibernate.type.AdaptedImmutableType@448593d0
+2015-01-20 17:28:47,033 INFO main org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {4.0.1.Final}
+2015-01-20 17:28:47,041 INFO main org.hibernate.Version - HHH000412: Hibernate Core {4.1.9.Final}
+2015-01-20 17:28:47,043 INFO main org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2015-01-20 17:28:47,044 INFO main org.hibernate.cfg.Environment - HHH000021: Bytecode provider name : javassist
+2015-01-20 17:28:47,058 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [uuid2] -> [org.hibernate.id.UUIDGenerator]
+2015-01-20 17:28:47,059 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [guid] -> [org.hibernate.id.GUIDGenerator]
+2015-01-20 17:28:47,060 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [uuid] -> [org.hibernate.id.UUIDHexGenerator]
+2015-01-20 17:28:47,060 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [uuid.hex] -> [org.hibernate.id.UUIDHexGenerator]
+2015-01-20 17:28:47,061 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [hilo] -> [org.hibernate.id.TableHiLoGenerator]
+2015-01-20 17:28:47,062 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [assigned] -> [org.hibernate.id.Assigned]
+2015-01-20 17:28:47,063 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [identity] -> [org.hibernate.id.IdentityGenerator]
+2015-01-20 17:28:47,064 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [select] -> [org.hibernate.id.SelectGenerator]
+2015-01-20 17:28:47,065 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [sequence] -> [org.hibernate.id.SequenceGenerator]
+2015-01-20 17:28:47,065 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [seqhilo] -> [org.hibernate.id.SequenceHiLoGenerator]
+2015-01-20 17:28:47,066 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [increment] -> [org.hibernate.id.IncrementGenerator]
+2015-01-20 17:28:47,067 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [foreign] -> [org.hibernate.id.ForeignGenerator]
+2015-01-20 17:28:47,068 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [sequence-identity] -> [org.hibernate.id.SequenceIdentityGenerator]
+2015-01-20 17:28:47,069 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [enhanced-sequence] -> [org.hibernate.id.enhanced.SequenceStyleGenerator]
+2015-01-20 17:28:47,070 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [enhanced-table] -> [org.hibernate.id.enhanced.TableGenerator]
+2015-01-20 17:28:47,073 INFO main org.hibernate.cfg.Configuration - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-01-20 17:28:47,073 INFO main org.hibernate.cfg.Configuration - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-01-20 17:28:47,116 DEBUG main org.hibernate.internal.util.xml.DTDEntityResolver - Trying to resolve system-id [http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd]
+2015-01-20 17:28:47,116 WARN main org.hibernate.internal.util.xml.DTDEntityResolver - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-01-20 17:28:47,116 DEBUG main org.hibernate.internal.util.xml.DTDEntityResolver - Attempting to resolve on classpath under org/hibernate/
+2015-01-20 17:28:47,116 DEBUG main org.hibernate.internal.util.xml.DTDEntityResolver - Located [http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd] in classpath
+2015-01-20 17:28:47,133 DEBUG main org.hibernate.cfg.Configuration - hibernate.connection.driver_class=org.h2.Driver
+2015-01-20 17:28:47,133 DEBUG main org.hibernate.cfg.Configuration - hibernate.connection.url=jdbc:h2:~/MediaBeaver;AUTO_SERVER=TRUE
+2015-01-20 17:28:47,133 DEBUG main org.hibernate.cfg.Configuration - hibernate.default_schema=PUBLIC
+2015-01-20 17:28:47,133 DEBUG main org.hibernate.cfg.Configuration - hibernate.dialect=org.hibernate.dialect.H2Dialect
+2015-01-20 17:28:47,134 DEBUG main org.hibernate.cfg.Configuration - show_sql=true
+2015-01-20 17:28:47,134 DEBUG main org.hibernate.cfg.Configuration - hbm2ddl.auto=update
+2015-01-20 17:28:47,134 DEBUG main org.hibernate.cfg.Configuration - current_session_context_class=thread
+2015-01-20 17:28:47,134 DEBUG main org.hibernate.cfg.Configuration - Session-factory config [null] named class [com.ibus.mediabeaver.core.entity.Configuration] for mapping
+2015-01-20 17:28:47,143 DEBUG main org.hibernate.cfg.Configuration - Session-factory config [null] named class [com.ibus.mediabeaver.core.entity.Activity] for mapping
+2015-01-20 17:28:47,143 INFO main org.hibernate.cfg.Configuration - HHH000041: Configured SessionFactory: null
+2015-01-20 17:28:47,143 DEBUG main org.hibernate.cfg.Configuration - Properties: {java.runtime.name=Java(TM) SE Runtime Environment, hibernate.default_schema=PUBLIC, sun.boot.library.path=C:\Program Files\Java\jre7\bin, java.vm.version=24.45-b08, java.vm.vendor=Oracle Corporation, java.vendor.url=http://java.oracle.com/, path.separator=;, java.vm.name=Java HotSpot(TM) 64-Bit Server VM, file.encoding.pkg=sun.io, user.script=, user.country=AU, sun.java.launcher=SUN_STANDARD, sun.os.patch.level=Service Pack 1, java.vm.specification.name=Java Virtual Machine Specification, user.dir=C:\git\MediaBeaver\MediaBeaverCli, java.runtime.version=1.7.0_45-b18, java.awt.graphicsenv=sun.awt.Win32GraphicsEnvironment, hbm2ddl.auto=update, hibernate.current_session_context_class=thread, java.endorsed.dirs=C:\Program Files\Java\jre7\lib\endorsed, os.arch=amd64, java.io.tmpdir=C:\Users\Ib\AppData\Local\Temp\, line.separator=
+, java.vm.specification.vendor=Oracle Corporation, user.variant=, os.name=Windows 7, sun.jnu.encoding=Cp1252, java.library.path=C:\Program Files\Java\jre7\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files (x86)\apache-maven-3.2.1\bin;%JAVA_HOME%\bin;C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.0\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;., java.specification.name=Java Platform API Specification, java.class.version=51.0, sun.management.compiler=HotSpot 64-Bit Tiered Compilers, os.version=6.1, user.home=C:\Users\Ib, user.timezone=Australia/Sydney, java.awt.printerjob=sun.awt.windows.WPrinterJob, file.encoding=Cp1252, java.specification.version=1.7, hibernate.connection.driver_class=org.h2.Driver, show_sql=true, java.class.path=C:\git\MediaBeaver\MediaBeaverCli\target\classes;C:\git\MediaBeaver\MediaBeaverCore\target\classes;C:\git\MediaBeaver\OpenSubtitles\target\classes;C:\git\MediaBeaver\MovitoTMDBApi\target\classes;C:\Users\Ib\.m2\repository\org\slf4j\slf4j-api\1.7.5\slf4j-api-1.7.5.jar;C:\Users\Ib\.m2\repository\org\yamj\api-common\1.1\api-common-1.1.jar;C:\Users\Ib\.m2\repository\commons-dbcp\commons-dbcp\1.4\commons-dbcp-1.4.jar;C:\Users\Ib\.m2\repository\commons-pool\commons-pool\1.6\commons-pool-1.6.jar;C:\Users\Ib\.m2\repository\commons-codec\commons-codec\1.8\commons-codec-1.8.jar;C:\Users\Ib\.m2\repository\org\apache\httpcomponents\httpclient\4.2.6\httpclient-4.2.6.jar;C:\Users\Ib\.m2\repository\org\apache\httpcomponents\httpcore\4.2.5\httpcore-4.2.5.jar;C:\Users\Ib\.m2\repository\commons-logging\commons-logging\1.1.1\commons-logging-1.1.1.jar;C:\git\MediaBeaver\TVDBClient\target\classes;C:\Users\Ib\.m2\repository\com\sun\jersey\jersey-client\1.8\jersey-client-1.8.jar;C:\Users\Ib\.m2\repository\com\sun\jersey\jersey-core\1.8\jersey-core-1.8.jar;C:\Users\Ib\.m2\repository\org\apache\xmlrpc\xmlrpc-client\3.1.3\xmlrpc-client-3.1.3.jar;C:\Users\Ib\.m2\repository\org\apache\xmlrpc\xmlrpc-common\3.1.3\xmlrpc-common-3.1.3.jar;C:\Users\Ib\.m2\repository\org\apache\ws\commons\util\ws-commons-util\1.0.2\ws-commons-util-1.0.2.jar;C:\Users\Ib\.m2\repository\xml-apis\xml-apis\1.0.b2\xml-apis-1.0.b2.jar;C:\Users\Ib\.m2\repository\com\h2database\h2\1.3.175\h2-1.3.175.jar;C:\Users\Ib\.m2\repository\org\hibernate\hibernate-core\4.1.9.Final\hibernate-core-4.1.9.Final.jar;C:\Users\Ib\.m2\repository\antlr\antlr\2.7.7\antlr-2.7.7.jar;C:\Users\Ib\.m2\repository\org\jboss\logging\jboss-logging\3.1.0.GA\jboss-logging-3.1.0.GA.jar;C:\Users\Ib\.m2\repository\org\javassist\javassist\3.17.1-GA\javassist-3.17.1-GA.jar;C:\Users\Ib\.m2\repository\org\jboss\spec\javax\transaction\jboss-transaction-api_1.1_spec\1.0.0.Final\jboss-transaction-api_1.1_spec-1.0.0.Final.jar;C:\Users\Ib\.m2\repository\dom4j\dom4j\1.6.1\dom4j-1.6.1.jar;C:\Users\Ib\.m2\repository\org\hibernate\javax\persistence\hibernate-jpa-2.0-api\1.0.1.Final\hibernate-jpa-2.0-api-1.0.1.Final.jar;C:\Users\Ib\.m2\repository\org\hibernate\common\hibernate-commons-annotations\4.0.1.Final\hibernate-commons-annotations-4.0.1.Final.jar;C:\Users\Ib\.m2\repository\org\hibernate\hibernate-validator\4.2.0.Final\hibernate-validator-4.2.0.Final.jar;C:\Users\Ib\.m2\repository\javax\validation\validation-api\1.0.0.GA\validation-api-1.0.0.GA.jar;C:\Users\Ib\.m2\repository\log4j\log4j\1.2.17\log4j-1.2.17.jar;C:\Users\Ib\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\Ib\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\Ib\.m2\repository\commons-io\commons-io\2.0.1\commons-io-2.0.1.jar;C:\Users\Ib\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.2.3\jackson-core-2.2.3.jar;C:\Users\Ib\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.2.3\jackson-databind-2.2.3.jar;C:\Users\Ib\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.2.3\jackson-annotations-2.2.3.jar;C:\Users\Ib\.m2\repository\org\modelmapper\modelmapper\0.6.5\modelmapper-0.6.5.jar;C:\Users\Ib\.m2\repository\org\apache\commons\commons-lang3\3.0\commons-lang3-3.0.jar, user.name=Ib, hibernate.bytecode.use_reflection_optimizer=false, hibernate.show_sql=true, current_session_context_class=thread, java.vm.specification.version=1.7, sun.java.command=com.ibus.mediabeaver.cli.Main -move, java.home=C:\Program Files\Java\jre7, sun.arch.data.model=64, hibernate.dialect=org.hibernate.dialect.H2Dialect, hibernate.connection.url=jdbc:h2:~/MediaBeaver;AUTO_SERVER=TRUE, user.language=en, java.specification.vendor=Oracle Corporation, awt.toolkit=sun.awt.windows.WToolkit, java.vm.info=mixed mode, java.version=1.7.0_45, java.ext.dirs=C:\Program Files\Java\jre7\lib\ext;C:\Windows\Sun\Java\lib\ext, sun.boot.class.path=C:\Program Files\Java\jre7\lib\resources.jar;C:\Program Files\Java\jre7\lib\rt.jar;C:\Program Files\Java\jre7\lib\sunrsasign.jar;C:\Program Files\Java\jre7\lib\jsse.jar;C:\Program Files\Java\jre7\lib\jce.jar;C:\Program Files\Java\jre7\lib\charsets.jar;C:\Program Files\Java\jre7\lib\jfr.jar;C:\Program Files\Java\jre7\classes, java.vendor=Oracle Corporation, file.separator=\, hibernate.hbm2ddl.auto=update, java.vendor.url.bug=http://bugreport.sun.com/bugreport/, sun.io.unicode.encoding=UnicodeLittle, sun.cpu.endian=little, sun.desktop=windows, sun.cpu.isalist=amd64}
+2015-01-20 17:28:47,153 DEBUG main org.hibernate.integrator.internal.IntegratorServiceImpl - Adding Integrator [org.hibernate.cfg.beanvalidation.BeanValidationIntegrator].
+2015-01-20 17:28:47,180 DEBUG main org.hibernate.cfg.Configuration - Preparing to build session factory with filters : {}
+2015-01-20 17:28:47,212 DEBUG main org.hibernate.cfg.Configuration - Processing hbm.xml files
+2015-01-20 17:28:47,212 DEBUG main org.hibernate.cfg.Configuration - Process annotated classes
+2015-01-20 17:28:47,224 DEBUG main org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: com.ibus.mediabeaver.core.entity.Configuration
+2015-01-20 17:28:47,242 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
+2015-01-20 17:28:47,245 DEBUG main org.hibernate.cfg.AnnotationBinder - No value specified for 'javax.persistence.sharedCache.mode'; using UNSPECIFIED
+2015-01-20 17:28:47,252 DEBUG main org.hibernate.cfg.annotations.EntityBinder - Import with entity name Configuration
+2015-01-20 17:28:47,256 DEBUG main org.hibernate.cfg.annotations.EntityBinder - Bind entity com.ibus.mediabeaver.core.entity.Configuration on table Configuration
+2015-01-20 17:28:47,286 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Configuration), mappingColumn=id, insertable=true, updatable=false, unique=false}
+2015-01-20 17:28:47,290 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property id with lazy=false
+2015-01-20 17:28:47,292 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for id
+2015-01-20 17:28:47,293 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property id
+2015-01-20 17:28:47,297 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Configuration), mappingColumn=lastUpdate, insertable=true, updatable=true, unique=false}
+2015-01-20 17:28:47,297 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property lastUpdate with lazy=false
+2015-01-20 17:28:47,297 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for lastUpdate
+2015-01-20 17:28:47,297 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property lastUpdate
+2015-01-20 17:28:47,297 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Configuration), mappingColumn=copyAsDefault, insertable=true, updatable=true, unique=false}
+2015-01-20 17:28:47,298 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property copyAsDefault with lazy=false
+2015-01-20 17:28:47,298 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for copyAsDefault
+2015-01-20 17:28:47,298 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property copyAsDefault
+2015-01-20 17:28:47,298 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Configuration), mappingColumn=episodeFormatPath, insertable=true, updatable=true, unique=false}
+2015-01-20 17:28:47,298 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property episodeFormatPath with lazy=false
+2015-01-20 17:28:47,298 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for episodeFormatPath
+2015-01-20 17:28:47,298 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property episodeFormatPath
+2015-01-20 17:28:47,298 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Configuration), mappingColumn=movieFormatPath, insertable=true, updatable=true, unique=false}
+2015-01-20 17:28:47,298 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property movieFormatPath with lazy=false
+2015-01-20 17:28:47,298 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for movieFormatPath
+2015-01-20 17:28:47,298 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property movieFormatPath
+2015-01-20 17:28:47,299 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Configuration), mappingColumn=movieRootDirectory, insertable=true, updatable=true, unique=false}
+2015-01-20 17:28:47,299 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property movieRootDirectory with lazy=false
+2015-01-20 17:28:47,299 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for movieRootDirectory
+2015-01-20 17:28:47,299 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property movieRootDirectory
+2015-01-20 17:28:47,299 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Configuration), mappingColumn=sourceDirectory, insertable=true, updatable=true, unique=false}
+2015-01-20 17:28:47,299 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property sourceDirectory with lazy=false
+2015-01-20 17:28:47,299 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for sourceDirectory
+2015-01-20 17:28:47,299 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property sourceDirectory
+2015-01-20 17:28:47,299 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Configuration), mappingColumn=tvRootDirectory, insertable=true, updatable=true, unique=false}
+2015-01-20 17:28:47,299 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property tvRootDirectory with lazy=false
+2015-01-20 17:28:47,299 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for tvRootDirectory
+2015-01-20 17:28:47,300 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property tvRootDirectory
+2015-01-20 17:28:47,300 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Configuration), mappingColumn=videoExtensionFilter, insertable=true, updatable=true, unique=false}
+2015-01-20 17:28:47,300 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property videoExtensionFilter with lazy=false
+2015-01-20 17:28:47,300 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for videoExtensionFilter
+2015-01-20 17:28:47,300 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property videoExtensionFilter
+2015-01-20 17:28:47,301 DEBUG main org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: com.ibus.mediabeaver.core.entity.Activity
+2015-01-20 17:28:47,301 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
+2015-01-20 17:28:47,301 DEBUG main org.hibernate.cfg.AnnotationBinder - No value specified for 'javax.persistence.sharedCache.mode'; using UNSPECIFIED
+2015-01-20 17:28:47,301 DEBUG main org.hibernate.cfg.annotations.EntityBinder - Import with entity name Event
+2015-01-20 17:28:47,302 DEBUG main org.hibernate.cfg.annotations.EntityBinder - Bind entity com.ibus.mediabeaver.core.entity.Activity on table Event
+2015-01-20 17:28:47,303 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Event), mappingColumn=id, insertable=true, updatable=false, unique=false}
+2015-01-20 17:28:47,303 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property id with lazy=false
+2015-01-20 17:28:47,303 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for id
+2015-01-20 17:28:47,304 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property id
+2015-01-20 17:28:47,304 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Event), mappingColumn=lastUpdate, insertable=true, updatable=true, unique=false}
+2015-01-20 17:28:47,304 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property lastUpdate with lazy=false
+2015-01-20 17:28:47,304 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for lastUpdate
+2015-01-20 17:28:47,304 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property lastUpdate
+2015-01-20 17:28:47,304 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Event), mappingColumn=destinationPath, insertable=true, updatable=true, unique=false}
+2015-01-20 17:28:47,304 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property destinationPath with lazy=false
+2015-01-20 17:28:47,304 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for destinationPath
+2015-01-20 17:28:47,304 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property destinationPath
+2015-01-20 17:28:47,304 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Event), mappingColumn=errorDescription, insertable=true, updatable=true, unique=false}
+2015-01-20 17:28:47,304 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property errorDescription with lazy=false
+2015-01-20 17:28:47,305 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for errorDescription
+2015-01-20 17:28:47,305 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property errorDescription
+2015-01-20 17:28:47,305 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Event), mappingColumn=eventTime, insertable=true, updatable=true, unique=false}
+2015-01-20 17:28:47,305 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property eventTime with lazy=false
+2015-01-20 17:28:47,305 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for eventTime
+2015-01-20 17:28:47,305 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property eventTime
+2015-01-20 17:28:47,305 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Event), mappingColumn=eventType, insertable=true, updatable=true, unique=false}
+2015-01-20 17:28:47,305 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property eventType with lazy=false
+2015-01-20 17:28:47,307 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for eventType
+2015-01-20 17:28:47,307 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property eventType
+2015-01-20 17:28:47,307 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Event), mappingColumn=result, insertable=true, updatable=true, unique=false}
+2015-01-20 17:28:47,307 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property result with lazy=false
+2015-01-20 17:28:47,307 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for result
+2015-01-20 17:28:47,307 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property result
+2015-01-20 17:28:47,307 DEBUG main org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(Event), mappingColumn=sourcePath, insertable=true, updatable=true, unique=false}
+2015-01-20 17:28:47,307 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property sourcePath with lazy=false
+2015-01-20 17:28:47,307 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for sourcePath
+2015-01-20 17:28:47,308 DEBUG main org.hibernate.cfg.annotations.PropertyBinder - Building property sourcePath
+2015-01-20 17:28:47,308 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for id
+2015-01-20 17:28:47,308 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for lastUpdate
+2015-01-20 17:28:47,308 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for copyAsDefault
+2015-01-20 17:28:47,308 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for episodeFormatPath
+2015-01-20 17:28:47,308 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for movieFormatPath
+2015-01-20 17:28:47,308 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for movieRootDirectory
+2015-01-20 17:28:47,308 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for sourceDirectory
+2015-01-20 17:28:47,308 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for tvRootDirectory
+2015-01-20 17:28:47,308 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for videoExtensionFilter
+2015-01-20 17:28:47,309 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for id
+2015-01-20 17:28:47,309 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for lastUpdate
+2015-01-20 17:28:47,309 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for destinationPath
+2015-01-20 17:28:47,309 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for errorDescription
+2015-01-20 17:28:47,309 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for eventTime
+2015-01-20 17:28:47,309 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for eventType
+2015-01-20 17:28:47,309 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for result
+2015-01-20 17:28:47,309 DEBUG main org.hibernate.cfg.annotations.SimpleValueBinder - Setting SimpleValue typeName for sourcePath
+2015-01-20 17:28:47,309 DEBUG main org.hibernate.cfg.Configuration - Processing fk mappings (*ToOne and JoinedSubclass)
+2015-01-20 17:28:47,310 DEBUG main org.hibernate.cfg.Configuration - Processing extends queue
+2015-01-20 17:28:47,310 DEBUG main org.hibernate.cfg.Configuration - Processing extends queue
+2015-01-20 17:28:47,310 DEBUG main org.hibernate.cfg.Configuration - Processing collection mappings
+2015-01-20 17:28:47,310 DEBUG main org.hibernate.cfg.Configuration - Processing native query and ResultSetMapping mappings
+2015-01-20 17:28:47,310 DEBUG main org.hibernate.cfg.Configuration - Processing association property references
+2015-01-20 17:28:47,310 DEBUG main org.hibernate.cfg.Configuration - Processing foreign key constraints
+2015-01-20 17:28:47,328 INFO main org.hibernate.service.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-01-20 17:28:47,330 INFO main org.hibernate.service.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20
+2015-01-20 17:28:47,331 INFO main org.hibernate.service.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000006: Autocommit mode: false
+2015-01-20 17:28:47,331 INFO main org.hibernate.service.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000401: using driver [org.h2.Driver] at URL [jdbc:h2:~/MediaBeaver;AUTO_SERVER=TRUE]
+2015-01-20 17:28:47,331 INFO main org.hibernate.service.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000046: Connection properties: {}
+2015-01-20 17:28:47,345 DEBUG main org.hibernate.service.jdbc.connections.internal.DriverManagerConnectionProviderImpl - Opening new JDBC connection
+2015-01-20 17:28:47,420 DEBUG main org.hibernate.service.jdbc.connections.internal.DriverManagerConnectionProviderImpl - Created connection to: jdbc:h2:~/MediaBeaver;AUTO_SERVER=TRUE, Isolation Level: 2
+2015-01-20 17:28:47,423 DEBUG main org.hibernate.engine.jdbc.internal.JdbcServicesImpl - Database ->
+       name : H2
+    version : 1.3.175 (2014-01-18)
+      major : 1
+      minor : 3
+2015-01-20 17:28:47,423 DEBUG main org.hibernate.engine.jdbc.internal.JdbcServicesImpl - Driver ->
+       name : H2 JDBC Driver
+    version : 1.3.175 (2014-01-18)
+      major : 1
+      minor : 3
+2015-01-20 17:28:47,423 DEBUG main org.hibernate.engine.jdbc.internal.JdbcServicesImpl - JDBC version : 4.0
+2015-01-20 17:28:47,445 INFO main org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2015-01-20 17:28:47,470 DEBUG main org.hibernate.cfg.SettingsFactory - Automatic flush during beforeCompletion(): disabled
+2015-01-20 17:28:47,470 DEBUG main org.hibernate.cfg.SettingsFactory - Automatic session close at end of transaction: disabled
+2015-01-20 17:28:47,470 DEBUG main org.hibernate.cfg.SettingsFactory - JDBC batch size: 15
+2015-01-20 17:28:47,470 DEBUG main org.hibernate.cfg.SettingsFactory - JDBC batch updates for versioned data: disabled
+2015-01-20 17:28:47,470 DEBUG main org.hibernate.cfg.SettingsFactory - Scrollable result sets: enabled
+2015-01-20 17:28:47,470 DEBUG main org.hibernate.cfg.SettingsFactory - Wrap result sets: disabled
+2015-01-20 17:28:47,470 DEBUG main org.hibernate.cfg.SettingsFactory - JDBC3 getGeneratedKeys(): enabled
+2015-01-20 17:28:47,470 DEBUG main org.hibernate.cfg.SettingsFactory - multi-tenancy strategy : NONE
+2015-01-20 17:28:47,470 DEBUG main org.hibernate.cfg.SettingsFactory - Connection release mode: auto
+2015-01-20 17:28:47,470 INFO main org.hibernate.engine.transaction.internal.TransactionFactoryInitiator - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-01-20 17:28:47,473 DEBUG main org.hibernate.cfg.SettingsFactory - Default schema: PUBLIC
+2015-01-20 17:28:47,473 DEBUG main org.hibernate.cfg.SettingsFactory - Default batch fetch size: 1
+2015-01-20 17:28:47,473 DEBUG main org.hibernate.cfg.SettingsFactory - Generate SQL with comments: disabled
+2015-01-20 17:28:47,473 DEBUG main org.hibernate.cfg.SettingsFactory - Order SQL updates by primary key: disabled
+2015-01-20 17:28:47,473 DEBUG main org.hibernate.cfg.SettingsFactory - Order SQL inserts for batching: disabled
+2015-01-20 17:28:47,473 DEBUG main org.hibernate.cfg.SettingsFactory - Query translator: org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory
+2015-01-20 17:28:47,475 INFO main org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory - HHH000397: Using ASTQueryTranslatorFactory
+2015-01-20 17:28:47,475 DEBUG main org.hibernate.cfg.SettingsFactory - Query language substitutions: {}
+2015-01-20 17:28:47,475 DEBUG main org.hibernate.cfg.SettingsFactory - JPA-QL strict compliance: disabled
+2015-01-20 17:28:47,475 DEBUG main org.hibernate.cfg.SettingsFactory - Second-level cache: enabled
+2015-01-20 17:28:47,475 DEBUG main org.hibernate.cfg.SettingsFactory - Query cache: disabled
+2015-01-20 17:28:47,475 DEBUG main org.hibernate.cfg.SettingsFactory - Cache region factory : org.hibernate.cache.internal.NoCachingRegionFactory
+2015-01-20 17:28:47,476 DEBUG main org.hibernate.cfg.SettingsFactory - org.hibernate.cache.internal.NoCachingRegionFactory did not provide constructor accepting java.util.Properties; attempting no-arg constructor.
+2015-01-20 17:28:47,476 DEBUG main org.hibernate.cfg.SettingsFactory - Optimize cache for minimal puts: disabled
+2015-01-20 17:28:47,476 DEBUG main org.hibernate.cfg.SettingsFactory - Structured second-level cache entries: disabled
+2015-01-20 17:28:47,476 DEBUG main org.hibernate.cfg.SettingsFactory - Statistics: disabled
+2015-01-20 17:28:47,476 DEBUG main org.hibernate.cfg.SettingsFactory - Deleted entity synthetic identifier rollback: disabled
+2015-01-20 17:28:47,476 DEBUG main org.hibernate.cfg.SettingsFactory - Default entity-mode: pojo
+2015-01-20 17:28:47,476 DEBUG main org.hibernate.cfg.SettingsFactory - Named query checking : enabled
+2015-01-20 17:28:47,476 DEBUG main org.hibernate.cfg.SettingsFactory - Check Nullability in Core (should be disabled when Bean Validation is on): enabled
+2015-01-20 17:28:47,476 DEBUG main org.hibernate.cfg.SettingsFactory - Allow initialization of lazy state outside session : : disabled
+2015-01-20 17:28:47,484 DEBUG main org.hibernate.internal.SessionFactoryImpl - Building session factory
+2015-01-20 17:28:47,493 DEBUG main org.hibernate.internal.SessionFactoryImpl - Session factory constructed with filter configurations : {}
+2015-01-20 17:28:47,493 DEBUG main org.hibernate.internal.SessionFactoryImpl - Instantiating session factory with properties: {java.runtime.name=Java(TM) SE Runtime Environment, sun.boot.library.path=C:\Program Files\Java\jre7\bin, hibernate.default_schema=PUBLIC, java.vm.version=24.45-b08, java.vm.vendor=Oracle Corporation, java.vendor.url=http://java.oracle.com/, path.separator=;, java.vm.name=Java HotSpot(TM) 64-Bit Server VM, file.encoding.pkg=sun.io, user.script=, user.country=AU, sun.java.launcher=SUN_STANDARD, sun.os.patch.level=Service Pack 1, java.vm.specification.name=Java Virtual Machine Specification, user.dir=C:\git\MediaBeaver\MediaBeaverCli, java.runtime.version=1.7.0_45-b18, java.awt.graphicsenv=sun.awt.Win32GraphicsEnvironment, hbm2ddl.auto=update, hibernate.current_session_context_class=thread, java.endorsed.dirs=C:\Program Files\Java\jre7\lib\endorsed, os.arch=amd64, java.io.tmpdir=C:\Users\Ib\AppData\Local\Temp\, line.separator=
+, java.vm.specification.vendor=Oracle Corporation, user.variant=, os.name=Windows 7, sun.jnu.encoding=Cp1252, java.library.path=C:\Program Files\Java\jre7\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files (x86)\apache-maven-3.2.1\bin;%JAVA_HOME%\bin;C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.0\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;., java.specification.name=Java Platform API Specification, java.class.version=51.0, sun.management.compiler=HotSpot 64-Bit Tiered Compilers, os.version=6.1, user.home=C:\Users\Ib, user.timezone=Australia/Sydney, java.awt.printerjob=sun.awt.windows.WPrinterJob, java.specification.version=1.7, file.encoding=Cp1252, hibernate.connection.driver_class=org.h2.Driver, show_sql=true, user.name=Ib, java.class.path=C:\git\MediaBeaver\MediaBeaverCli\target\classes;C:\git\MediaBeaver\MediaBeaverCore\target\classes;C:\git\MediaBeaver\OpenSubtitles\target\classes;C:\git\MediaBeaver\MovitoTMDBApi\target\classes;C:\Users\Ib\.m2\repository\org\slf4j\slf4j-api\1.7.5\slf4j-api-1.7.5.jar;C:\Users\Ib\.m2\repository\org\yamj\api-common\1.1\api-common-1.1.jar;C:\Users\Ib\.m2\repository\commons-dbcp\commons-dbcp\1.4\commons-dbcp-1.4.jar;C:\Users\Ib\.m2\repository\commons-pool\commons-pool\1.6\commons-pool-1.6.jar;C:\Users\Ib\.m2\repository\commons-codec\commons-codec\1.8\commons-codec-1.8.jar;C:\Users\Ib\.m2\repository\org\apache\httpcomponents\httpclient\4.2.6\httpclient-4.2.6.jar;C:\Users\Ib\.m2\repository\org\apache\httpcomponents\httpcore\4.2.5\httpcore-4.2.5.jar;C:\Users\Ib\.m2\repository\commons-logging\commons-logging\1.1.1\commons-logging-1.1.1.jar;C:\git\MediaBeaver\TVDBClient\target\classes;C:\Users\Ib\.m2\repository\com\sun\jersey\jersey-client\1.8\jersey-client-1.8.jar;C:\Users\Ib\.m2\repository\com\sun\jersey\jersey-core\1.8\jersey-core-1.8.jar;C:\Users\Ib\.m2\repository\org\apache\xmlrpc\xmlrpc-client\3.1.3\xmlrpc-client-3.1.3.jar;C:\Users\Ib\.m2\repository\org\apache\xmlrpc\xmlrpc-common\3.1.3\xmlrpc-common-3.1.3.jar;C:\Users\Ib\.m2\repository\org\apache\ws\commons\util\ws-commons-util\1.0.2\ws-commons-util-1.0.2.jar;C:\Users\Ib\.m2\repository\xml-apis\xml-apis\1.0.b2\xml-apis-1.0.b2.jar;C:\Users\Ib\.m2\repository\com\h2database\h2\1.3.175\h2-1.3.175.jar;C:\Users\Ib\.m2\repository\org\hibernate\hibernate-core\4.1.9.Final\hibernate-core-4.1.9.Final.jar;C:\Users\Ib\.m2\repository\antlr\antlr\2.7.7\antlr-2.7.7.jar;C:\Users\Ib\.m2\repository\org\jboss\logging\jboss-logging\3.1.0.GA\jboss-logging-3.1.0.GA.jar;C:\Users\Ib\.m2\repository\org\javassist\javassist\3.17.1-GA\javassist-3.17.1-GA.jar;C:\Users\Ib\.m2\repository\org\jboss\spec\javax\transaction\jboss-transaction-api_1.1_spec\1.0.0.Final\jboss-transaction-api_1.1_spec-1.0.0.Final.jar;C:\Users\Ib\.m2\repository\dom4j\dom4j\1.6.1\dom4j-1.6.1.jar;C:\Users\Ib\.m2\repository\org\hibernate\javax\persistence\hibernate-jpa-2.0-api\1.0.1.Final\hibernate-jpa-2.0-api-1.0.1.Final.jar;C:\Users\Ib\.m2\repository\org\hibernate\common\hibernate-commons-annotations\4.0.1.Final\hibernate-commons-annotations-4.0.1.Final.jar;C:\Users\Ib\.m2\repository\org\hibernate\hibernate-validator\4.2.0.Final\hibernate-validator-4.2.0.Final.jar;C:\Users\Ib\.m2\repository\javax\validation\validation-api\1.0.0.GA\validation-api-1.0.0.GA.jar;C:\Users\Ib\.m2\repository\log4j\log4j\1.2.17\log4j-1.2.17.jar;C:\Users\Ib\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\Ib\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\Ib\.m2\repository\commons-io\commons-io\2.0.1\commons-io-2.0.1.jar;C:\Users\Ib\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.2.3\jackson-core-2.2.3.jar;C:\Users\Ib\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.2.3\jackson-databind-2.2.3.jar;C:\Users\Ib\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.2.3\jackson-annotations-2.2.3.jar;C:\Users\Ib\.m2\repository\org\modelmapper\modelmapper\0.6.5\modelmapper-0.6.5.jar;C:\Users\Ib\.m2\repository\org\apache\commons\commons-lang3\3.0\commons-lang3-3.0.jar, hibernate.bytecode.use_reflection_optimizer=false, hibernate.show_sql=true, current_session_context_class=thread, java.vm.specification.version=1.7, sun.arch.data.model=64, java.home=C:\Program Files\Java\jre7, sun.java.command=com.ibus.mediabeaver.cli.Main -move, hibernate.connection.url=jdbc:h2:~/MediaBeaver;AUTO_SERVER=TRUE, hibernate.dialect=org.hibernate.dialect.H2Dialect, java.specification.vendor=Oracle Corporation, user.language=en, awt.toolkit=sun.awt.windows.WToolkit, java.vm.info=mixed mode, java.version=1.7.0_45, java.ext.dirs=C:\Program Files\Java\jre7\lib\ext;C:\Windows\Sun\Java\lib\ext, sun.boot.class.path=C:\Program Files\Java\jre7\lib\resources.jar;C:\Program Files\Java\jre7\lib\rt.jar;C:\Program Files\Java\jre7\lib\sunrsasign.jar;C:\Program Files\Java\jre7\lib\jsse.jar;C:\Program Files\Java\jre7\lib\jce.jar;C:\Program Files\Java\jre7\lib\charsets.jar;C:\Program Files\Java\jre7\lib\jfr.jar;C:\Program Files\Java\jre7\classes, java.vendor=Oracle Corporation, file.separator=\, java.vendor.url.bug=http://bugreport.sun.com/bugreport/, hibernate.hbm2ddl.auto=update, sun.cpu.endian=little, sun.io.unicode.encoding=UnicodeLittle, sun.desktop=windows, sun.cpu.isalist=amd64}
+2015-01-20 17:28:47,596 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Setting dialect [org.hibernate.dialect.H2Dialect]
+2015-01-20 17:28:47,596 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Setting dialect [org.hibernate.dialect.H2Dialect]
+2015-01-20 17:28:47,686 DEBUG main org.hibernate.persister.entity.AbstractEntityPersister - Static SQL for entity: com.ibus.mediabeaver.core.entity.Activity
+2015-01-20 17:28:47,686 DEBUG main org.hibernate.persister.entity.AbstractEntityPersister -  Version select: select id from PUBLIC.Event where id =?
+2015-01-20 17:28:47,686 DEBUG main org.hibernate.persister.entity.AbstractEntityPersister -  Snapshot select: select activity_.id, activity_.lastUpdate as lastUpdate1_, activity_.destinationPath as destinat3_1_, activity_.errorDescription as errorDes4_1_, activity_.eventTime as eventTime1_, activity_.eventType as eventType1_, activity_.result as result1_, activity_.sourcePath as sourcePath1_ from PUBLIC.Event activity_ where activity_.id=?
+2015-01-20 17:28:47,686 DEBUG main org.hibernate.persister.entity.AbstractEntityPersister -  Insert 0: insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:28:47,686 DEBUG main org.hibernate.persister.entity.AbstractEntityPersister -  Update 0: update PUBLIC.Event set lastUpdate=?, destinationPath=?, errorDescription=?, eventTime=?, eventType=?, result=?, sourcePath=? where id=?
+2015-01-20 17:28:47,686 DEBUG main org.hibernate.persister.entity.AbstractEntityPersister -  Delete 0: delete from PUBLIC.Event where id=?
+2015-01-20 17:28:47,692 DEBUG main org.hibernate.persister.entity.AbstractEntityPersister - Static SQL for entity: com.ibus.mediabeaver.core.entity.Configuration
+2015-01-20 17:28:47,692 DEBUG main org.hibernate.persister.entity.AbstractEntityPersister -  Version select: select id from PUBLIC.Configuration where id =?
+2015-01-20 17:28:47,692 DEBUG main org.hibernate.persister.entity.AbstractEntityPersister -  Snapshot select: select configurat_.id, configurat_.lastUpdate as lastUpdate0_, configurat_.copyAsDefault as copyAsDe3_0_, configurat_.episodeFormatPath as episodeF4_0_, configurat_.movieFormatPath as movieFor5_0_, configurat_.movieRootDirectory as movieRoo6_0_, configurat_.sourceDirectory as sourceDi7_0_, configurat_.tvRootDirectory as tvRootDi8_0_, configurat_.videoExtensionFilter as videoExt9_0_ from PUBLIC.Configuration configurat_ where configurat_.id=?
+2015-01-20 17:28:47,692 DEBUG main org.hibernate.persister.entity.AbstractEntityPersister -  Insert 0: insert into PUBLIC.Configuration (lastUpdate, copyAsDefault, episodeFormatPath, movieFormatPath, movieRootDirectory, sourceDirectory, tvRootDirectory, videoExtensionFilter, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:28:47,693 DEBUG main org.hibernate.persister.entity.AbstractEntityPersister -  Update 0: update PUBLIC.Configuration set lastUpdate=?, copyAsDefault=?, episodeFormatPath=?, movieFormatPath=?, movieRootDirectory=?, sourceDirectory=?, tvRootDirectory=?, videoExtensionFilter=? where id=?
+2015-01-20 17:28:47,693 DEBUG main org.hibernate.persister.entity.AbstractEntityPersister -  Delete 0: delete from PUBLIC.Configuration where id=?
+2015-01-20 17:28:47,711 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Activity [NONE]: select activity0_.id as id1_0_, activity0_.lastUpdate as lastUpdate1_0_, activity0_.destinationPath as destinat3_1_0_, activity0_.errorDescription as errorDes4_1_0_, activity0_.eventTime as eventTime1_0_, activity0_.eventType as eventType1_0_, activity0_.result as result1_0_, activity0_.sourcePath as sourcePath1_0_ from PUBLIC.Event activity0_ where activity0_.id=?
+2015-01-20 17:28:47,711 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Activity [READ]: select activity0_.id as id1_0_, activity0_.lastUpdate as lastUpdate1_0_, activity0_.destinationPath as destinat3_1_0_, activity0_.errorDescription as errorDes4_1_0_, activity0_.eventTime as eventTime1_0_, activity0_.eventType as eventType1_0_, activity0_.result as result1_0_, activity0_.sourcePath as sourcePath1_0_ from PUBLIC.Event activity0_ where activity0_.id=?
+2015-01-20 17:28:47,711 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Activity [UPGRADE]: select activity0_.id as id1_0_, activity0_.lastUpdate as lastUpdate1_0_, activity0_.destinationPath as destinat3_1_0_, activity0_.errorDescription as errorDes4_1_0_, activity0_.eventTime as eventTime1_0_, activity0_.eventType as eventType1_0_, activity0_.result as result1_0_, activity0_.sourcePath as sourcePath1_0_ from PUBLIC.Event activity0_ where activity0_.id=? for update
+2015-01-20 17:28:47,712 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Activity [UPGRADE_NOWAIT]: select activity0_.id as id1_0_, activity0_.lastUpdate as lastUpdate1_0_, activity0_.destinationPath as destinat3_1_0_, activity0_.errorDescription as errorDes4_1_0_, activity0_.eventTime as eventTime1_0_, activity0_.eventType as eventType1_0_, activity0_.result as result1_0_, activity0_.sourcePath as sourcePath1_0_ from PUBLIC.Event activity0_ where activity0_.id=? for update
+2015-01-20 17:28:47,712 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Activity [FORCE]: select activity0_.id as id1_0_, activity0_.lastUpdate as lastUpdate1_0_, activity0_.destinationPath as destinat3_1_0_, activity0_.errorDescription as errorDes4_1_0_, activity0_.eventTime as eventTime1_0_, activity0_.eventType as eventType1_0_, activity0_.result as result1_0_, activity0_.sourcePath as sourcePath1_0_ from PUBLIC.Event activity0_ where activity0_.id=? for update
+2015-01-20 17:28:47,712 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Activity [PESSIMISTIC_READ]: select activity0_.id as id1_0_, activity0_.lastUpdate as lastUpdate1_0_, activity0_.destinationPath as destinat3_1_0_, activity0_.errorDescription as errorDes4_1_0_, activity0_.eventTime as eventTime1_0_, activity0_.eventType as eventType1_0_, activity0_.result as result1_0_, activity0_.sourcePath as sourcePath1_0_ from PUBLIC.Event activity0_ where activity0_.id=? for update
+2015-01-20 17:28:47,712 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Activity [PESSIMISTIC_WRITE]: select activity0_.id as id1_0_, activity0_.lastUpdate as lastUpdate1_0_, activity0_.destinationPath as destinat3_1_0_, activity0_.errorDescription as errorDes4_1_0_, activity0_.eventTime as eventTime1_0_, activity0_.eventType as eventType1_0_, activity0_.result as result1_0_, activity0_.sourcePath as sourcePath1_0_ from PUBLIC.Event activity0_ where activity0_.id=? for update
+2015-01-20 17:28:47,712 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Activity [PESSIMISTIC_FORCE_INCREMENT]: select activity0_.id as id1_0_, activity0_.lastUpdate as lastUpdate1_0_, activity0_.destinationPath as destinat3_1_0_, activity0_.errorDescription as errorDes4_1_0_, activity0_.eventTime as eventTime1_0_, activity0_.eventType as eventType1_0_, activity0_.result as result1_0_, activity0_.sourcePath as sourcePath1_0_ from PUBLIC.Event activity0_ where activity0_.id=? for update
+2015-01-20 17:28:47,713 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Activity [OPTIMISTIC]: select activity0_.id as id1_0_, activity0_.lastUpdate as lastUpdate1_0_, activity0_.destinationPath as destinat3_1_0_, activity0_.errorDescription as errorDes4_1_0_, activity0_.eventTime as eventTime1_0_, activity0_.eventType as eventType1_0_, activity0_.result as result1_0_, activity0_.sourcePath as sourcePath1_0_ from PUBLIC.Event activity0_ where activity0_.id=?
+2015-01-20 17:28:47,713 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Activity [OPTIMISTIC_FORCE_INCREMENT]: select activity0_.id as id1_0_, activity0_.lastUpdate as lastUpdate1_0_, activity0_.destinationPath as destinat3_1_0_, activity0_.errorDescription as errorDes4_1_0_, activity0_.eventTime as eventTime1_0_, activity0_.eventType as eventType1_0_, activity0_.result as result1_0_, activity0_.sourcePath as sourcePath1_0_ from PUBLIC.Event activity0_ where activity0_.id=?
+2015-01-20 17:28:47,718 DEBUG main org.hibernate.loader.Loader - Static select for action ACTION_MERGE on entity com.ibus.mediabeaver.core.entity.Activity: select activity0_.id as id1_0_, activity0_.lastUpdate as lastUpdate1_0_, activity0_.destinationPath as destinat3_1_0_, activity0_.errorDescription as errorDes4_1_0_, activity0_.eventTime as eventTime1_0_, activity0_.eventType as eventType1_0_, activity0_.result as result1_0_, activity0_.sourcePath as sourcePath1_0_ from PUBLIC.Event activity0_ where activity0_.id=?
+2015-01-20 17:28:47,718 DEBUG main org.hibernate.loader.Loader - Static select for action ACTION_REFRESH on entity com.ibus.mediabeaver.core.entity.Activity: select activity0_.id as id1_0_, activity0_.lastUpdate as lastUpdate1_0_, activity0_.destinationPath as destinat3_1_0_, activity0_.errorDescription as errorDes4_1_0_, activity0_.eventTime as eventTime1_0_, activity0_.eventType as eventType1_0_, activity0_.result as result1_0_, activity0_.sourcePath as sourcePath1_0_ from PUBLIC.Event activity0_ where activity0_.id=?
+2015-01-20 17:28:47,718 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Configuration [NONE]: select configurat0_.id as id0_0_, configurat0_.lastUpdate as lastUpdate0_0_, configurat0_.copyAsDefault as copyAsDe3_0_0_, configurat0_.episodeFormatPath as episodeF4_0_0_, configurat0_.movieFormatPath as movieFor5_0_0_, configurat0_.movieRootDirectory as movieRoo6_0_0_, configurat0_.sourceDirectory as sourceDi7_0_0_, configurat0_.tvRootDirectory as tvRootDi8_0_0_, configurat0_.videoExtensionFilter as videoExt9_0_0_ from PUBLIC.Configuration configurat0_ where configurat0_.id=?
+2015-01-20 17:28:47,718 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Configuration [READ]: select configurat0_.id as id0_0_, configurat0_.lastUpdate as lastUpdate0_0_, configurat0_.copyAsDefault as copyAsDe3_0_0_, configurat0_.episodeFormatPath as episodeF4_0_0_, configurat0_.movieFormatPath as movieFor5_0_0_, configurat0_.movieRootDirectory as movieRoo6_0_0_, configurat0_.sourceDirectory as sourceDi7_0_0_, configurat0_.tvRootDirectory as tvRootDi8_0_0_, configurat0_.videoExtensionFilter as videoExt9_0_0_ from PUBLIC.Configuration configurat0_ where configurat0_.id=?
+2015-01-20 17:28:47,719 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Configuration [UPGRADE]: select configurat0_.id as id0_0_, configurat0_.lastUpdate as lastUpdate0_0_, configurat0_.copyAsDefault as copyAsDe3_0_0_, configurat0_.episodeFormatPath as episodeF4_0_0_, configurat0_.movieFormatPath as movieFor5_0_0_, configurat0_.movieRootDirectory as movieRoo6_0_0_, configurat0_.sourceDirectory as sourceDi7_0_0_, configurat0_.tvRootDirectory as tvRootDi8_0_0_, configurat0_.videoExtensionFilter as videoExt9_0_0_ from PUBLIC.Configuration configurat0_ where configurat0_.id=? for update
+2015-01-20 17:28:47,719 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Configuration [UPGRADE_NOWAIT]: select configurat0_.id as id0_0_, configurat0_.lastUpdate as lastUpdate0_0_, configurat0_.copyAsDefault as copyAsDe3_0_0_, configurat0_.episodeFormatPath as episodeF4_0_0_, configurat0_.movieFormatPath as movieFor5_0_0_, configurat0_.movieRootDirectory as movieRoo6_0_0_, configurat0_.sourceDirectory as sourceDi7_0_0_, configurat0_.tvRootDirectory as tvRootDi8_0_0_, configurat0_.videoExtensionFilter as videoExt9_0_0_ from PUBLIC.Configuration configurat0_ where configurat0_.id=? for update
+2015-01-20 17:28:47,719 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Configuration [FORCE]: select configurat0_.id as id0_0_, configurat0_.lastUpdate as lastUpdate0_0_, configurat0_.copyAsDefault as copyAsDe3_0_0_, configurat0_.episodeFormatPath as episodeF4_0_0_, configurat0_.movieFormatPath as movieFor5_0_0_, configurat0_.movieRootDirectory as movieRoo6_0_0_, configurat0_.sourceDirectory as sourceDi7_0_0_, configurat0_.tvRootDirectory as tvRootDi8_0_0_, configurat0_.videoExtensionFilter as videoExt9_0_0_ from PUBLIC.Configuration configurat0_ where configurat0_.id=? for update
+2015-01-20 17:28:47,719 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Configuration [PESSIMISTIC_READ]: select configurat0_.id as id0_0_, configurat0_.lastUpdate as lastUpdate0_0_, configurat0_.copyAsDefault as copyAsDe3_0_0_, configurat0_.episodeFormatPath as episodeF4_0_0_, configurat0_.movieFormatPath as movieFor5_0_0_, configurat0_.movieRootDirectory as movieRoo6_0_0_, configurat0_.sourceDirectory as sourceDi7_0_0_, configurat0_.tvRootDirectory as tvRootDi8_0_0_, configurat0_.videoExtensionFilter as videoExt9_0_0_ from PUBLIC.Configuration configurat0_ where configurat0_.id=? for update
+2015-01-20 17:28:47,720 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Configuration [PESSIMISTIC_WRITE]: select configurat0_.id as id0_0_, configurat0_.lastUpdate as lastUpdate0_0_, configurat0_.copyAsDefault as copyAsDe3_0_0_, configurat0_.episodeFormatPath as episodeF4_0_0_, configurat0_.movieFormatPath as movieFor5_0_0_, configurat0_.movieRootDirectory as movieRoo6_0_0_, configurat0_.sourceDirectory as sourceDi7_0_0_, configurat0_.tvRootDirectory as tvRootDi8_0_0_, configurat0_.videoExtensionFilter as videoExt9_0_0_ from PUBLIC.Configuration configurat0_ where configurat0_.id=? for update
+2015-01-20 17:28:47,720 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Configuration [PESSIMISTIC_FORCE_INCREMENT]: select configurat0_.id as id0_0_, configurat0_.lastUpdate as lastUpdate0_0_, configurat0_.copyAsDefault as copyAsDe3_0_0_, configurat0_.episodeFormatPath as episodeF4_0_0_, configurat0_.movieFormatPath as movieFor5_0_0_, configurat0_.movieRootDirectory as movieRoo6_0_0_, configurat0_.sourceDirectory as sourceDi7_0_0_, configurat0_.tvRootDirectory as tvRootDi8_0_0_, configurat0_.videoExtensionFilter as videoExt9_0_0_ from PUBLIC.Configuration configurat0_ where configurat0_.id=? for update
+2015-01-20 17:28:47,720 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Configuration [OPTIMISTIC]: select configurat0_.id as id0_0_, configurat0_.lastUpdate as lastUpdate0_0_, configurat0_.copyAsDefault as copyAsDe3_0_0_, configurat0_.episodeFormatPath as episodeF4_0_0_, configurat0_.movieFormatPath as movieFor5_0_0_, configurat0_.movieRootDirectory as movieRoo6_0_0_, configurat0_.sourceDirectory as sourceDi7_0_0_, configurat0_.tvRootDirectory as tvRootDi8_0_0_, configurat0_.videoExtensionFilter as videoExt9_0_0_ from PUBLIC.Configuration configurat0_ where configurat0_.id=?
+2015-01-20 17:28:47,720 DEBUG main org.hibernate.loader.Loader - Static select for entity com.ibus.mediabeaver.core.entity.Configuration [OPTIMISTIC_FORCE_INCREMENT]: select configurat0_.id as id0_0_, configurat0_.lastUpdate as lastUpdate0_0_, configurat0_.copyAsDefault as copyAsDe3_0_0_, configurat0_.episodeFormatPath as episodeF4_0_0_, configurat0_.movieFormatPath as movieFor5_0_0_, configurat0_.movieRootDirectory as movieRoo6_0_0_, configurat0_.sourceDirectory as sourceDi7_0_0_, configurat0_.tvRootDirectory as tvRootDi8_0_0_, configurat0_.videoExtensionFilter as videoExt9_0_0_ from PUBLIC.Configuration configurat0_ where configurat0_.id=?
+2015-01-20 17:28:47,720 DEBUG main org.hibernate.loader.Loader - Static select for action ACTION_MERGE on entity com.ibus.mediabeaver.core.entity.Configuration: select configurat0_.id as id0_0_, configurat0_.lastUpdate as lastUpdate0_0_, configurat0_.copyAsDefault as copyAsDe3_0_0_, configurat0_.episodeFormatPath as episodeF4_0_0_, configurat0_.movieFormatPath as movieFor5_0_0_, configurat0_.movieRootDirectory as movieRoo6_0_0_, configurat0_.sourceDirectory as sourceDi7_0_0_, configurat0_.tvRootDirectory as tvRootDi8_0_0_, configurat0_.videoExtensionFilter as videoExt9_0_0_ from PUBLIC.Configuration configurat0_ where configurat0_.id=?
+2015-01-20 17:28:47,720 DEBUG main org.hibernate.loader.Loader - Static select for action ACTION_REFRESH on entity com.ibus.mediabeaver.core.entity.Configuration: select configurat0_.id as id0_0_, configurat0_.lastUpdate as lastUpdate0_0_, configurat0_.copyAsDefault as copyAsDe3_0_0_, configurat0_.episodeFormatPath as episodeF4_0_0_, configurat0_.movieFormatPath as movieFor5_0_0_, configurat0_.movieRootDirectory as movieRoo6_0_0_, configurat0_.sourceDirectory as sourceDi7_0_0_, configurat0_.tvRootDirectory as tvRootDi8_0_0_, configurat0_.videoExtensionFilter as videoExt9_0_0_ from PUBLIC.Configuration configurat0_ where configurat0_.id=?
+2015-01-20 17:28:47,742 DEBUG main org.hibernate.internal.SessionFactoryRegistry - Initializing SessionFactoryRegistry : org.hibernate.internal.SessionFactoryRegistry@1abf3adc
+2015-01-20 17:28:47,743 DEBUG main org.hibernate.internal.SessionFactoryRegistry - Registering SessionFactory: 7782c52f-fab1-4d26-add9-cf3c05a10c72 (<unnamed>)
+2015-01-20 17:28:47,743 DEBUG main org.hibernate.internal.SessionFactoryRegistry - Not binding SessionFactory to JNDI, no JNDI name configured
+2015-01-20 17:28:47,743 DEBUG main org.hibernate.internal.SessionFactoryImpl - Instantiated session factory
+2015-01-20 17:28:47,747 INFO main org.hibernate.tool.hbm2ddl.SchemaUpdate - HHH000228: Running hbm2ddl schema update
+2015-01-20 17:28:47,747 INFO main org.hibernate.tool.hbm2ddl.SchemaUpdate - HHH000102: Fetching database metadata
+2015-01-20 17:28:47,749 INFO main org.hibernate.tool.hbm2ddl.SchemaUpdate - HHH000396: Updating schema
+2015-01-20 17:28:47,749 DEBUG main org.hibernate.cfg.Configuration - Processing hbm.xml files
+2015-01-20 17:28:47,749 DEBUG main org.hibernate.cfg.Configuration - Process annotated classes
+2015-01-20 17:28:47,749 DEBUG main org.hibernate.cfg.Configuration - Processing fk mappings (*ToOne and JoinedSubclass)
+2015-01-20 17:28:47,749 DEBUG main org.hibernate.cfg.Configuration - Processing extends queue
+2015-01-20 17:28:47,749 DEBUG main org.hibernate.cfg.Configuration - Processing extends queue
+2015-01-20 17:28:47,749 DEBUG main org.hibernate.cfg.Configuration - Processing collection mappings
+2015-01-20 17:28:47,749 DEBUG main org.hibernate.cfg.Configuration - Processing native query and ResultSetMapping mappings
+2015-01-20 17:28:47,749 DEBUG main org.hibernate.cfg.Configuration - Processing association property references
+2015-01-20 17:28:47,749 DEBUG main org.hibernate.cfg.Configuration - Processing foreign key constraints
+2015-01-20 17:28:47,761 INFO main org.hibernate.tool.hbm2ddl.TableMetadata - HHH000261: Table found: MEDIABEAVER.PUBLIC.CONFIGURATION
+2015-01-20 17:28:47,761 INFO main org.hibernate.tool.hbm2ddl.TableMetadata - HHH000037: Columns: [movieformatpath, id, copyasdefault, lastupdate, sourcedirectory, episodeformatpath, tvrootdirectory, videoextensionfilter, movierootdirectory]
+2015-01-20 17:28:47,761 INFO main org.hibernate.tool.hbm2ddl.TableMetadata - HHH000108: Foreign keys: []
+2015-01-20 17:28:47,761 INFO main org.hibernate.tool.hbm2ddl.TableMetadata - HHH000126: Indexes: [primary_key_2]
+2015-01-20 17:28:47,767 INFO main org.hibernate.tool.hbm2ddl.TableMetadata - HHH000261: Table found: MEDIABEAVER.PUBLIC.EVENT
+2015-01-20 17:28:47,767 INFO main org.hibernate.tool.hbm2ddl.TableMetadata - HHH000037: Columns: [eventtime, id, result, lastupdate, errordescription, destinationpath, sourcepath, eventtype]
+2015-01-20 17:28:47,767 INFO main org.hibernate.tool.hbm2ddl.TableMetadata - HHH000108: Foreign keys: []
+2015-01-20 17:28:47,768 INFO main org.hibernate.tool.hbm2ddl.TableMetadata - HHH000126: Indexes: [primary_key_3]
+2015-01-20 17:28:47,768 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Setting dialect [org.hibernate.dialect.H2Dialect]
+2015-01-20 17:28:47,768 DEBUG main org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Setting dialect [org.hibernate.dialect.H2Dialect]
+2015-01-20 17:28:47,768 INFO main org.hibernate.tool.hbm2ddl.SchemaUpdate - HHH000232: Schema update complete
+2015-01-20 17:28:47,771 DEBUG main org.hibernate.internal.SessionFactoryImpl - Checking 0 named HQL queries
+2015-01-20 17:28:47,771 DEBUG main org.hibernate.internal.SessionFactoryImpl - Checking 0 named SQL queries
+2015-01-20 17:28:47,776 DEBUG main org.hibernate.stat.internal.StatisticsInitiator - Statistics initialized [enabled=false]
+2015-01-20 17:28:47,832 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:28:47,832 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:28:47,832 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:28:47,832 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:28:47,856 DEBUG main org.hibernate.SQL - select this_.id as id0_0_, this_.lastUpdate as lastUpdate0_0_, this_.copyAsDefault as copyAsDe3_0_0_, this_.episodeFormatPath as episodeF4_0_0_, this_.movieFormatPath as movieFor5_0_0_, this_.movieRootDirectory as movieRoo6_0_0_, this_.sourceDirectory as sourceDi7_0_0_, this_.tvRootDirectory as tvRootDi8_0_0_, this_.videoExtensionFilter as videoExt9_0_0_ from PUBLIC.Configuration this_
+2015-01-20 17:28:47,880 DEBUG main org.hibernate.loader.Loader - Result set row: 0
+2015-01-20 17:28:47,882 DEBUG main org.hibernate.loader.Loader - Result row: EntityKey[com.ibus.mediabeaver.core.entity.Configuration#29f6528b-a340-4c88-b8a0-3b1c1b5df8a8]
+2015-01-20 17:28:47,887 DEBUG main org.hibernate.engine.internal.TwoPhaseLoad - Resolving associations for [com.ibus.mediabeaver.core.entity.Configuration#29f6528b-a340-4c88-b8a0-3b1c1b5df8a8]
+2015-01-20 17:28:47,889 DEBUG main org.hibernate.engine.internal.TwoPhaseLoad - Done materializing entity [com.ibus.mediabeaver.core.entity.Configuration#29f6528b-a340-4c88-b8a0-3b1c1b5df8a8]
+2015-01-20 17:28:47,891 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:28:47,891 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:28:47,892 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:28:47,894 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:28:47,894 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:28:47,895 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:28:47,895 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Configuration{id=29f6528b-a340-4c88-b8a0-3b1c1b5df8a8, movieFormatPath={MovieName}.replaceAll("[/\?<>\\:\*\|\"\^]", " ").normalizeSpace()({ReleaseDate}.substring("0","4"))\{MovieName}.replaceAll("[/\?<>\\:\*\|\"\^]", " ").normalizeSpace()({ReleaseDate}.substring("0","4")), tvRootDirectory=D:\MediabeaverTests\Destination\TV\, episodeFormatPath={SeriesName}.replaceAll("[/\?<>\\:\*\|\"\^]", " ").normalizeSpace()\Season {SeasonNumber}\{SeriesName}.replaceAll("[/\?<>\\:\*\|\"\^]", " ").normalizeSpace() S{SeasonNumber}.leftPad("2","0")E{EpisodeNumber}.leftPad("2","0"), copyAsDefault=false, videoExtensionFilter=.3g2, .3gp, .asf, .avi, .drc, .flv, .flv, .m4v, .mkv, .mng, .mov, .qt, .mp4, .m4p, .m4v, .mpg, .mp2, .mpeg, .mpg, .mpe, .mpv, .mpg, .mpeg, .m2, .mxf, .nsv, .ogv, .ogg, .rm, .rmvb, .roq, .svi, .webm, .wmv, lastUpdate=null, sourceDirectory=D:\MediabeaverTests\Source, movieRootDirectory=D:\MediabeaverTests\Destination\Movies\}
+2015-01-20 17:28:47,895 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:28:47,896 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:28:47,896 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:28:47,896 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:28:47,906 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - ******************************************************
+2015-01-20 17:28:47,906 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Commencing Movement of files
+2015-01-20 17:28:47,906 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Inspecting file system object: D:\MediabeaverTests\Source\Blackadder - S02E05 - Beer [digitaldistractions].avi
+2015-01-20 17:28:50,298 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:28:50,298 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:28:50,298 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:28:50,298 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:28:50,302 DEBUG main org.hibernate.event.internal.AbstractSaveEventListener - Generated identifier: 65ff052f-cfc7-41ad-a7c8-dbf7d50452e4, using strategy: org.hibernate.id.Assigned
+2015-01-20 17:28:50,304 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:28:50,304 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:28:50,304 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:28:50,305 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:28:50,305 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:28:50,305 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:28:50,307 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Activity{id=65ff052f-cfc7-41ad-a7c8-dbf7d50452e4, result=0, destinationPath=null, lastUpdate=null, sourcePath=D:\MediabeaverTests\Source\Blackadder - S02E05 - Beer [digitaldistractions].avi, errorDescription=Failed to get valid series data from the TVDB service., eventType=0, eventTime=Tue Jan 20 17:28:50 EST 2015}
+2015-01-20 17:28:50,321 DEBUG main org.hibernate.SQL - insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:28:50,327 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:28:50,327 DEBUG main org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl - HHH000420: Closing un-released batch
+2015-01-20 17:28:50,327 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:28:50,327 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:28:50,327 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:28:50,327 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Aborting path generation for D:\MediabeaverTests\Source\Blackadder - S02E05 - Beer [digitaldistractions].avi. Failed to get valid series data from the TVDB service.
+2015-01-20 17:28:50,327 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Inspecting file system object: D:\MediabeaverTests\Source\Blakes.7.2x02 - Shadow.avi
+2015-01-20 17:28:50,684 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:28:50,684 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:28:50,684 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:28:50,684 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:28:50,684 DEBUG main org.hibernate.event.internal.AbstractSaveEventListener - Generated identifier: 9cdf51f6-93b7-4568-9ab2-23e8fde9da9f, using strategy: org.hibernate.id.Assigned
+2015-01-20 17:28:50,684 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:28:50,685 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:28:50,685 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:28:50,685 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:28:50,685 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:28:50,685 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:28:50,685 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Activity{id=9cdf51f6-93b7-4568-9ab2-23e8fde9da9f, result=0, destinationPath=null, lastUpdate=null, sourcePath=D:\MediabeaverTests\Source\Blakes.7.2x02 - Shadow.avi, errorDescription=Could not find title for thumbprint, eventType=0, eventTime=Tue Jan 20 17:28:50 EST 2015}
+2015-01-20 17:28:50,686 DEBUG main org.hibernate.SQL - insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:28:50,688 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:28:50,688 DEBUG main org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl - HHH000420: Closing un-released batch
+2015-01-20 17:28:50,689 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:28:50,689 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:28:50,689 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:28:50,689 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Open Subtitles thumbprint search on file D:\MediabeaverTests\Source\Blakes.7.2x02 - Shadow.avi failed. No results were returned by the service
+2015-01-20 17:28:50,689 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:28:50,689 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:28:50,689 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:28:50,689 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:28:50,690 DEBUG main org.hibernate.event.internal.AbstractSaveEventListener - Generated identifier: 0e03570e-cf41-4d26-96ba-485226aed0cc, using strategy: org.hibernate.id.Assigned
+2015-01-20 17:28:50,690 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:28:50,690 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:28:50,690 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:28:50,691 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:28:50,691 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:28:50,691 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:28:50,691 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Activity{id=0e03570e-cf41-4d26-96ba-485226aed0cc, result=0, destinationPath=null, lastUpdate=null, sourcePath=D:\MediabeaverTests\Source\Blakes.7.2x02 - Shadow.avi, errorDescription=Could not move file.  could not identify the type of video the file represents using the open subtitles service, eventType=0, eventTime=Tue Jan 20 17:28:50 EST 2015}
+2015-01-20 17:28:50,692 DEBUG main org.hibernate.SQL - insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:28:50,693 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:28:50,693 DEBUG main org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl - HHH000420: Closing un-released batch
+2015-01-20 17:28:50,694 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:28:50,694 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:28:50,694 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:28:50,694 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Could not move file D:\MediabeaverTests\Source\Blakes.7.2x02 - Shadow.avi. Could not identify the type of video the file represents using the open subtitles service
+2015-01-20 17:28:50,694 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Inspecting file system object: D:\MediabeaverTests\Source\Boardwalk.Empire.S02E06.mp4
+2015-01-20 17:29:45,314 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Successfully acquired episode data for D:\MediabeaverTests\Source\Boardwalk.Empire.S02E06.mp4.
+2015-01-20 17:29:45,315 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Destination path generated D:\MediabeaverTests\Destination\TV\Boardwalk Empire\Season 2\Boardwalk Empire S02E06.mp4
+2015-01-20 17:29:45,318 DEBUG main com.ibus.mediabeaver.core.filesystem.FileSystem - >>> Succesfully renamed or moved file from D:\MediabeaverTests\Source\Boardwalk.Empire.S02E06.mp4 to Boardwalk Empire\Season 2\Boardwalk Empire S02E06.mp4
+2015-01-20 17:29:45,319 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:29:45,319 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:29:45,319 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:29:45,319 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:29:45,319 DEBUG main org.hibernate.event.internal.AbstractSaveEventListener - Generated identifier: 25226b4a-aaae-49ab-928a-721f4d7df186, using strategy: org.hibernate.id.Assigned
+2015-01-20 17:29:45,319 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:29:45,319 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:29:45,319 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:29:45,319 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:29:45,319 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:29:45,319 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:29:45,320 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Activity{id=25226b4a-aaae-49ab-928a-721f4d7df186, result=1, destinationPath=D:\MediabeaverTests\Destination\TV\Boardwalk Empire\Season 2\Boardwalk Empire S02E06.mp4, lastUpdate=null, sourcePath=D:\MediabeaverTests\Source\Boardwalk.Empire.S02E06.mp4, errorDescription=Successfully moved file, eventType=0, eventTime=Tue Jan 20 17:29:45 EST 2015}
+2015-01-20 17:29:45,320 DEBUG main org.hibernate.SQL - insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:29:45,321 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:29:45,321 DEBUG main org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl - HHH000420: Closing un-released batch
+2015-01-20 17:29:45,321 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:29:45,321 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:29:45,321 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:29:45,321 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - File D:\MediabeaverTests\Source\Boardwalk.Empire.S02E06.mp4 was successfully moved to D:\MediabeaverTests\Destination\TV\Boardwalk Empire\Season 2\Boardwalk Empire S02E06.mp4
+2015-01-20 17:29:45,321 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Inspecting file system object: D:\MediabeaverTests\Source\I Claudius (S01E06, Queen of Heaven).avi
+2015-01-20 17:29:46,386 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:29:46,386 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:29:46,386 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:29:46,386 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:29:46,386 DEBUG main org.hibernate.event.internal.AbstractSaveEventListener - Generated identifier: 0961d77c-8d39-4d1b-b51d-578adfbac2b4, using strategy: org.hibernate.id.Assigned
+2015-01-20 17:29:46,386 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:29:46,387 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:29:46,387 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:29:46,387 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:29:46,387 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:29:46,387 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:29:46,387 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Activity{id=0961d77c-8d39-4d1b-b51d-578adfbac2b4, result=0, destinationPath=null, lastUpdate=null, sourcePath=D:\MediabeaverTests\Source\I Claudius (S01E06, Queen of Heaven).avi, errorDescription=Failed to get valid series data from the TVDB service., eventType=0, eventTime=Tue Jan 20 17:29:46 EST 2015}
+2015-01-20 17:29:46,388 DEBUG main org.hibernate.SQL - insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:29:46,391 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:29:46,391 DEBUG main org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl - HHH000420: Closing un-released batch
+2015-01-20 17:29:46,391 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:29:46,391 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:29:46,391 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:29:46,391 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Aborting path generation for D:\MediabeaverTests\Source\I Claudius (S01E06, Queen of Heaven).avi. Failed to get valid series data from the TVDB service.
+2015-01-20 17:29:46,392 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Inspecting file system object: D:\MediabeaverTests\Source\New folder
+2015-01-20 17:29:46,394 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Inspecting file system object: D:\MediabeaverTests\Source\New folder\Black Books S03E04 A Little Flutter.avi
+2015-01-20 17:29:47,865 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Successfully acquired episode data for D:\MediabeaverTests\Source\New folder\Black Books S03E04 A Little Flutter.avi.
+2015-01-20 17:29:47,865 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Destination path generated D:\MediabeaverTests\Destination\TV\Black Books\Season 3\Black Books S03E04.avi
+2015-01-20 17:29:47,867 DEBUG main com.ibus.mediabeaver.core.filesystem.FileSystem - >>> Succesfully renamed or moved file from D:\MediabeaverTests\Source\New folder\Black Books S03E04 A Little Flutter.avi to Black Books\Season 3\Black Books S03E04.avi
+2015-01-20 17:29:47,867 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:29:47,867 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:29:47,868 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:29:47,868 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:29:47,868 DEBUG main org.hibernate.event.internal.AbstractSaveEventListener - Generated identifier: e8503afb-d51b-4ca4-bd33-630c936b28cc, using strategy: org.hibernate.id.Assigned
+2015-01-20 17:29:47,868 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:29:47,868 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:29:47,868 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:29:47,868 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:29:47,868 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:29:47,868 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:29:47,868 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Activity{id=e8503afb-d51b-4ca4-bd33-630c936b28cc, result=1, destinationPath=D:\MediabeaverTests\Destination\TV\Black Books\Season 3\Black Books S03E04.avi, lastUpdate=null, sourcePath=D:\MediabeaverTests\Source\New folder\Black Books S03E04 A Little Flutter.avi, errorDescription=Successfully moved file, eventType=0, eventTime=Tue Jan 20 17:29:47 EST 2015}
+2015-01-20 17:29:47,869 DEBUG main org.hibernate.SQL - insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:29:47,870 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:29:47,870 DEBUG main org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl - HHH000420: Closing un-released batch
+2015-01-20 17:29:47,870 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:29:47,870 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:29:47,870 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:29:47,870 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - File D:\MediabeaverTests\Source\New folder\Black Books S03E04 A Little Flutter.avi was successfully moved to D:\MediabeaverTests\Destination\TV\Black Books\Season 3\Black Books S03E04.avi
+2015-01-20 17:29:47,870 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Inspecting file system object: D:\MediabeaverTests\Source\New folder\New folder
+2015-01-20 17:29:47,870 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Inspecting file system object: D:\MediabeaverTests\Source\New folder\New folder\The Newsroom 2012 S01E01 We Just Decided To 720p BRRip x264 AAC DD5.1-PSYPHER.mp4
+2015-01-20 17:29:48,217 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:29:48,218 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:29:48,218 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:29:48,218 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:29:48,218 DEBUG main org.hibernate.event.internal.AbstractSaveEventListener - Generated identifier: 4728d109-fafa-4436-a29f-699660debf72, using strategy: org.hibernate.id.Assigned
+2015-01-20 17:29:48,218 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:29:48,218 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:29:48,218 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:29:48,219 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:29:48,219 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:29:48,219 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:29:48,219 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Activity{id=4728d109-fafa-4436-a29f-699660debf72, result=0, destinationPath=null, lastUpdate=null, sourcePath=D:\MediabeaverTests\Source\New folder\New folder\The Newsroom 2012 S01E01 We Just Decided To 720p BRRip x264 AAC DD5.1-PSYPHER.mp4, errorDescription=Could not find title for thumbprint, eventType=0, eventTime=Tue Jan 20 17:29:48 EST 2015}
+2015-01-20 17:29:48,220 DEBUG main org.hibernate.SQL - insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:29:48,229 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:29:48,229 DEBUG main org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl - HHH000420: Closing un-released batch
+2015-01-20 17:29:48,229 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:29:48,230 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:29:48,230 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:29:48,230 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Open Subtitles thumbprint search on file D:\MediabeaverTests\Source\New folder\New folder\The Newsroom 2012 S01E01 We Just Decided To 720p BRRip x264 AAC DD5.1-PSYPHER.mp4 failed. No results were returned by the service
+2015-01-20 17:29:48,230 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:29:48,230 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:29:48,230 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:29:48,230 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:29:48,230 DEBUG main org.hibernate.event.internal.AbstractSaveEventListener - Generated identifier: e2110c7e-7acc-4a11-8a43-f9236904fccb, using strategy: org.hibernate.id.Assigned
+2015-01-20 17:29:48,231 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:29:48,231 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:29:48,231 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:29:48,231 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:29:48,231 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:29:48,231 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:29:48,231 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Activity{id=e2110c7e-7acc-4a11-8a43-f9236904fccb, result=0, destinationPath=null, lastUpdate=null, sourcePath=D:\MediabeaverTests\Source\New folder\New folder\The Newsroom 2012 S01E01 We Just Decided To 720p BRRip x264 AAC DD5.1-PSYPHER.mp4, errorDescription=Could not move file.  could not identify the type of video the file represents using the open subtitles service, eventType=0, eventTime=Tue Jan 20 17:29:48 EST 2015}
+2015-01-20 17:29:48,232 DEBUG main org.hibernate.SQL - insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:29:48,234 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:29:48,234 DEBUG main org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl - HHH000420: Closing un-released batch
+2015-01-20 17:29:48,234 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:29:48,234 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:29:48,234 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:29:48,234 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Could not move file D:\MediabeaverTests\Source\New folder\New folder\The Newsroom 2012 S01E01 We Just Decided To 720p BRRip x264 AAC DD5.1-PSYPHER.mp4. Could not identify the type of video the file represents using the open subtitles service
+2015-01-20 17:29:48,234 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Inspecting file system object: D:\MediabeaverTests\Source\Northern.Exposure.-.3x09.-.Get.Real.avi
+2015-01-20 17:29:49,773 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Successfully acquired episode data for D:\MediabeaverTests\Source\Northern.Exposure.-.3x09.-.Get.Real.avi.
+2015-01-20 17:29:49,774 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Destination path generated D:\MediabeaverTests\Destination\TV\Northern Exposure\Season 3\Northern Exposure S03E09.avi
+2015-01-20 17:29:49,777 DEBUG main com.ibus.mediabeaver.core.filesystem.FileSystem - >>> Succesfully renamed or moved file from D:\MediabeaverTests\Source\Northern.Exposure.-.3x09.-.Get.Real.avi to Northern Exposure\Season 3\Northern Exposure S03E09.avi
+2015-01-20 17:29:49,777 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:29:49,777 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:29:49,777 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:29:49,778 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:29:49,778 DEBUG main org.hibernate.event.internal.AbstractSaveEventListener - Generated identifier: df990c52-a86e-4bbf-9072-5e88ab2e0834, using strategy: org.hibernate.id.Assigned
+2015-01-20 17:29:49,778 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:29:49,778 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:29:49,778 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:29:49,778 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:29:49,779 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:29:49,779 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:29:49,779 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Activity{id=df990c52-a86e-4bbf-9072-5e88ab2e0834, result=1, destinationPath=D:\MediabeaverTests\Destination\TV\Northern Exposure\Season 3\Northern Exposure S03E09.avi, lastUpdate=null, sourcePath=D:\MediabeaverTests\Source\Northern.Exposure.-.3x09.-.Get.Real.avi, errorDescription=Successfully moved file, eventType=0, eventTime=Tue Jan 20 17:29:49 EST 2015}
+2015-01-20 17:29:49,780 DEBUG main org.hibernate.SQL - insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:29:49,781 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:29:49,781 DEBUG main org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl - HHH000420: Closing un-released batch
+2015-01-20 17:29:49,781 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:29:49,782 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:29:49,782 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:29:49,782 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - File D:\MediabeaverTests\Source\Northern.Exposure.-.3x09.-.Get.Real.avi was successfully moved to D:\MediabeaverTests\Destination\TV\Northern Exposure\Season 3\Northern Exposure S03E09.avi
+2015-01-20 17:29:49,782 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Inspecting file system object: D:\MediabeaverTests\Source\S01E01 .avi
+2015-01-20 17:29:51,343 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Successfully acquired episode data for D:\MediabeaverTests\Source\S01E01 .avi.
+2015-01-20 17:29:51,344 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Destination path generated D:\MediabeaverTests\Destination\TV\Game of Thrones\Season 1\Game of Thrones S01E01.avi
+2015-01-20 17:29:51,345 DEBUG main com.ibus.mediabeaver.core.filesystem.FileSystem - >>> Succesfully renamed or moved file from D:\MediabeaverTests\Source\S01E01 .avi to Game of Thrones\Season 1\Game of Thrones S01E01.avi
+2015-01-20 17:29:51,346 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:29:51,346 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:29:51,346 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:29:51,346 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:29:51,346 DEBUG main org.hibernate.event.internal.AbstractSaveEventListener - Generated identifier: bd7392a8-6daa-46e1-a380-cd956a73b2f5, using strategy: org.hibernate.id.Assigned
+2015-01-20 17:29:51,346 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:29:51,346 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:29:51,346 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:29:51,346 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:29:51,346 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:29:51,346 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:29:51,346 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Activity{id=bd7392a8-6daa-46e1-a380-cd956a73b2f5, result=1, destinationPath=D:\MediabeaverTests\Destination\TV\Game of Thrones\Season 1\Game of Thrones S01E01.avi, lastUpdate=null, sourcePath=D:\MediabeaverTests\Source\S01E01 .avi, errorDescription=Successfully moved file, eventType=0, eventTime=Tue Jan 20 17:29:51 EST 2015}
+2015-01-20 17:29:51,347 DEBUG main org.hibernate.SQL - insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:29:51,348 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:29:51,348 DEBUG main org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl - HHH000420: Closing un-released batch
+2015-01-20 17:29:51,348 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:29:51,348 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:29:51,348 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:29:51,348 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - File D:\MediabeaverTests\Source\S01E01 .avi was successfully moved to D:\MediabeaverTests\Destination\TV\Game of Thrones\Season 1\Game of Thrones S01E01.avi
+2015-01-20 17:29:51,349 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Inspecting file system object: D:\MediabeaverTests\Source\Star Trek Enterprise [1x09] Civilization.avi
+2015-01-20 17:29:52,667 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Successfully acquired episode data for D:\MediabeaverTests\Source\Star Trek Enterprise [1x09] Civilization.avi.
+2015-01-20 17:29:52,668 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Destination path generated D:\MediabeaverTests\Destination\TV\Star Trek Enterprise\Season 1\Star Trek Enterprise S01E09.avi
+2015-01-20 17:29:52,671 DEBUG main com.ibus.mediabeaver.core.filesystem.FileSystem - >>> Succesfully renamed or moved file from D:\MediabeaverTests\Source\Star Trek Enterprise [1x09] Civilization.avi to Star Trek Enterprise\Season 1\Star Trek Enterprise S01E09.avi
+2015-01-20 17:29:52,672 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:29:52,672 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:29:52,672 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:29:52,672 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:29:52,672 DEBUG main org.hibernate.event.internal.AbstractSaveEventListener - Generated identifier: 410a6a96-dfb3-42f9-a8b2-83e0a0be791c, using strategy: org.hibernate.id.Assigned
+2015-01-20 17:29:52,672 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:29:52,673 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:29:52,673 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:29:52,673 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:29:52,673 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:29:52,673 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:29:52,673 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Activity{id=410a6a96-dfb3-42f9-a8b2-83e0a0be791c, result=1, destinationPath=D:\MediabeaverTests\Destination\TV\Star Trek Enterprise\Season 1\Star Trek Enterprise S01E09.avi, lastUpdate=null, sourcePath=D:\MediabeaverTests\Source\Star Trek Enterprise [1x09] Civilization.avi, errorDescription=Successfully moved file, eventType=0, eventTime=Tue Jan 20 17:29:52 EST 2015}
+2015-01-20 17:29:52,674 DEBUG main org.hibernate.SQL - insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:29:52,676 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:29:52,676 DEBUG main org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl - HHH000420: Closing un-released batch
+2015-01-20 17:29:52,676 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:29:52,676 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:29:52,676 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:29:52,677 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - File D:\MediabeaverTests\Source\Star Trek Enterprise [1x09] Civilization.avi was successfully moved to D:\MediabeaverTests\Destination\TV\Star Trek Enterprise\Season 1\Star Trek Enterprise S01E09.avi
+2015-01-20 17:29:52,677 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Inspecting file system object: D:\MediabeaverTests\Source\The Newsroom 2012 S01E04 I'll Try to Fix You 720p BRRip x264 AAC DD5.1-PSYPHER.mp4
+2015-01-20 17:29:53,047 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:29:53,047 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:29:53,047 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:29:53,047 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:29:53,047 DEBUG main org.hibernate.event.internal.AbstractSaveEventListener - Generated identifier: 1db95619-bf58-4e0c-a731-da555b7f0474, using strategy: org.hibernate.id.Assigned
+2015-01-20 17:29:53,047 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:29:53,047 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:29:53,048 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:29:53,048 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:29:53,048 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:29:53,048 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:29:53,048 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Activity{id=1db95619-bf58-4e0c-a731-da555b7f0474, result=0, destinationPath=null, lastUpdate=null, sourcePath=D:\MediabeaverTests\Source\The Newsroom 2012 S01E04 I'll Try to Fix You 720p BRRip x264 AAC DD5.1-PSYPHER.mp4, errorDescription=Could not find title for thumbprint, eventType=0, eventTime=Tue Jan 20 17:29:53 EST 2015}
+2015-01-20 17:29:53,049 DEBUG main org.hibernate.SQL - insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:29:53,051 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:29:53,051 DEBUG main org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl - HHH000420: Closing un-released batch
+2015-01-20 17:29:53,051 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:29:53,051 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:29:53,051 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:29:53,051 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Open Subtitles thumbprint search on file D:\MediabeaverTests\Source\The Newsroom 2012 S01E04 I'll Try to Fix You 720p BRRip x264 AAC DD5.1-PSYPHER.mp4 failed. No results were returned by the service
+2015-01-20 17:29:53,052 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:29:53,052 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:29:53,052 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:29:53,052 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:29:53,052 DEBUG main org.hibernate.event.internal.AbstractSaveEventListener - Generated identifier: aa505203-82c8-4d0d-a6bd-fd8ca4bc2308, using strategy: org.hibernate.id.Assigned
+2015-01-20 17:29:53,052 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:29:53,053 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:29:53,053 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:29:53,053 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:29:53,053 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:29:53,053 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:29:53,053 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Activity{id=aa505203-82c8-4d0d-a6bd-fd8ca4bc2308, result=0, destinationPath=null, lastUpdate=null, sourcePath=D:\MediabeaverTests\Source\The Newsroom 2012 S01E04 I'll Try to Fix You 720p BRRip x264 AAC DD5.1-PSYPHER.mp4, errorDescription=Could not move file.  could not identify the type of video the file represents using the open subtitles service, eventType=0, eventTime=Tue Jan 20 17:29:53 EST 2015}
+2015-01-20 17:29:53,054 DEBUG main org.hibernate.SQL - insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:29:53,056 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:29:53,056 DEBUG main org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl - HHH000420: Closing un-released batch
+2015-01-20 17:29:53,056 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:29:53,056 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:29:53,056 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:29:53,056 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Could not move file D:\MediabeaverTests\Source\The Newsroom 2012 S01E04 I'll Try to Fix You 720p BRRip x264 AAC DD5.1-PSYPHER.mp4. Could not identify the type of video the file represents using the open subtitles service
+2015-01-20 17:29:53,056 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Inspecting file system object: D:\MediabeaverTests\Source\The Newsroom 2012 S01E05 Amen 720p BRRip x264 AAC DD5.1-PSYPHER.mp4
+2015-01-20 17:29:53,407 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:29:53,407 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:29:53,407 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:29:53,407 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:29:53,408 DEBUG main org.hibernate.event.internal.AbstractSaveEventListener - Generated identifier: b2af1c31-b1fa-4858-abbb-e9014011b627, using strategy: org.hibernate.id.Assigned
+2015-01-20 17:29:53,408 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:29:53,408 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:29:53,408 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:29:53,408 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:29:53,408 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:29:53,408 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:29:53,409 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Activity{id=b2af1c31-b1fa-4858-abbb-e9014011b627, result=0, destinationPath=null, lastUpdate=null, sourcePath=D:\MediabeaverTests\Source\The Newsroom 2012 S01E05 Amen 720p BRRip x264 AAC DD5.1-PSYPHER.mp4, errorDescription=Could not find title for thumbprint, eventType=0, eventTime=Tue Jan 20 17:29:53 EST 2015}
+2015-01-20 17:29:53,409 DEBUG main org.hibernate.SQL - insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:29:53,411 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:29:53,411 DEBUG main org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl - HHH000420: Closing un-released batch
+2015-01-20 17:29:53,411 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:29:53,411 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:29:53,411 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:29:53,412 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Open Subtitles thumbprint search on file D:\MediabeaverTests\Source\The Newsroom 2012 S01E05 Amen 720p BRRip x264 AAC DD5.1-PSYPHER.mp4 failed. No results were returned by the service
+2015-01-20 17:29:53,413 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:29:53,413 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:29:53,413 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:29:53,413 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:29:53,413 DEBUG main org.hibernate.event.internal.AbstractSaveEventListener - Generated identifier: 9feba17d-59ff-401d-97a9-0fe48297ad9c, using strategy: org.hibernate.id.Assigned
+2015-01-20 17:29:53,413 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:29:53,413 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:29:53,413 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:29:53,414 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:29:53,414 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:29:53,414 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:29:53,414 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Activity{id=9feba17d-59ff-401d-97a9-0fe48297ad9c, result=0, destinationPath=null, lastUpdate=null, sourcePath=D:\MediabeaverTests\Source\The Newsroom 2012 S01E05 Amen 720p BRRip x264 AAC DD5.1-PSYPHER.mp4, errorDescription=Could not move file.  could not identify the type of video the file represents using the open subtitles service, eventType=0, eventTime=Tue Jan 20 17:29:53 EST 2015}
+2015-01-20 17:29:53,415 DEBUG main org.hibernate.SQL - insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:29:53,417 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:29:53,417 DEBUG main org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl - HHH000420: Closing un-released batch
+2015-01-20 17:29:53,417 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:29:53,417 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:29:53,418 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:29:53,418 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Could not move file D:\MediabeaverTests\Source\The Newsroom 2012 S01E05 Amen 720p BRRip x264 AAC DD5.1-PSYPHER.mp4. Could not identify the type of video the file represents using the open subtitles service
+2015-01-20 17:29:53,418 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Inspecting file system object: D:\MediabeaverTests\Source\The Sopranos Season 5 Episode 06 - Sentimental Education.avi
+2015-01-20 17:29:54,738 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Successfully acquired episode data for D:\MediabeaverTests\Source\The Sopranos Season 5 Episode 06 - Sentimental Education.avi.
+2015-01-20 17:29:54,739 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Destination path generated D:\MediabeaverTests\Destination\TV\The Sopranos\Season 5\The Sopranos S05E06.avi
+2015-01-20 17:29:54,742 DEBUG main com.ibus.mediabeaver.core.filesystem.FileSystem - >>> Succesfully renamed or moved file from D:\MediabeaverTests\Source\The Sopranos Season 5 Episode 06 - Sentimental Education.avi to The Sopranos\Season 5\The Sopranos S05E06.avi
+2015-01-20 17:29:54,743 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - begin
+2015-01-20 17:29:54,743 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtaining JDBC connection
+2015-01-20 17:29:54,743 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Obtained JDBC connection
+2015-01-20 17:29:54,743 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - initial autocommit status: false
+2015-01-20 17:29:54,744 DEBUG main org.hibernate.event.internal.AbstractSaveEventListener - Generated identifier: db11f260-3e66-4369-bd01-a734ab4c2711, using strategy: org.hibernate.id.Assigned
+2015-01-20 17:29:54,744 DEBUG main org.hibernate.engine.transaction.spi.AbstractTransactionImpl - committing
+2015-01-20 17:29:54,744 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Processing flush-time cascades
+2015-01-20 17:29:54,744 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Dirty checking collections
+2015-01-20 17:29:54,744 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2015-01-20 17:29:54,744 DEBUG main org.hibernate.event.internal.AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2015-01-20 17:29:54,745 DEBUG main org.hibernate.internal.util.EntityPrinter - Listing entities:
+2015-01-20 17:29:54,745 DEBUG main org.hibernate.internal.util.EntityPrinter - com.ibus.mediabeaver.core.entity.Activity{id=db11f260-3e66-4369-bd01-a734ab4c2711, result=1, destinationPath=D:\MediabeaverTests\Destination\TV\The Sopranos\Season 5\The Sopranos S05E06.avi, lastUpdate=null, sourcePath=D:\MediabeaverTests\Source\The Sopranos Season 5 Episode 06 - Sentimental Education.avi, errorDescription=Successfully moved file, eventType=0, eventTime=Tue Jan 20 17:29:54 EST 2015}
+2015-01-20 17:29:54,745 DEBUG main org.hibernate.SQL - insert into PUBLIC.Event (lastUpdate, destinationPath, errorDescription, eventTime, eventType, result, sourcePath, id) values (?, ?, ?, ?, ?, ?, ?, ?)
+2015-01-20 17:29:54,748 DEBUG main org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction - committed JDBC Connection
+2015-01-20 17:29:54,748 DEBUG main org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl - HHH000420: Closing un-released batch
+2015-01-20 17:29:54,749 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Releasing JDBC connection
+2015-01-20 17:29:54,749 DEBUG main org.hibernate.engine.jdbc.internal.LogicalConnectionImpl - Released JDBC connection
+2015-01-20 17:29:54,749 DEBUG main org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler - HHH000163: Logical connection releasing its physical connection
+2015-01-20 17:29:54,749 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - File D:\MediabeaverTests\Source\The Sopranos Season 5 Episode 06 - Sentimental Education.avi was successfully moved to D:\MediabeaverTests\Destination\TV\The Sopranos\Season 5\The Sopranos S05E06.avi
+2015-01-20 17:29:54,749 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - 
+2015-01-20 17:29:54,749 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - File movement is complete
+2015-01-20 17:29:54,749 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Media found= 12
+2015-01-20 17:29:54,750 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - Media moved= 6
+2015-01-20 17:29:54,750 DEBUG main com.ibus.mediabeaver.core.filesystem.MediaMover - ******************************************************
