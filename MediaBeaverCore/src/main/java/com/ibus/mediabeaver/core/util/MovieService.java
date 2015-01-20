@@ -22,13 +22,13 @@ public class MovieService
 	Logger log = Logger.getLogger(MediaMover.class.getName());
 	EventLogger eventLogger;
 	Configuration userConfiguration;
-	MoviePathParser movieParser; 
+	MoviePathParser pathParser; 
 	
 	public MovieService(EventLogger eventLogger, Configuration configuration, MoviePathParser movieParser)
 	{
 		this.eventLogger = eventLogger;
 		this.userConfiguration = configuration;
-		this.movieParser = movieParser;
+		this.pathParser = movieParser;
 	}
 	
 	public String getMoviePath(Map<String,String> ostTitle, File file) 
@@ -40,7 +40,8 @@ public class MovieService
 			String imdbId = OstTitleDto.parseImdbId(ostTitle.get(OpenSubtitlesField.IDMovieImdb.toString()));
 			FindResults result = Factory.getTmdbClient().getFind().find(imdbId, TmdbFind.ExternalSource.imdb_id, null);
 			
-			String destinationPathEnd = movieParser.parseMoviePath(result.getMovieResults().get(0));
+			String destinationPathEnd = pathParser.parseMoviePath(result.getMovieResults().get(0).getTitle(), 
+					result.getMovieResults().get(0).getReleaseDate());
 			destinationPathEnd += "." + FilenameUtils.getExtension(file.getAbsolutePath());
 			
 			return destinationPathEnd;

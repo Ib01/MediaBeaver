@@ -1,16 +1,14 @@
 package com.ibus.mediabeaver.server.controller;
 
-import info.movito.themoviedbapi.TmdbSearch;
+import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.config.TmdbConfiguration;
 import info.movito.themoviedbapi.model.core.MovieResults;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Controller;
@@ -21,13 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.entity.ResultType;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
 import com.ibus.mediabeaver.core.exception.PathParseException;
 import com.ibus.mediabeaver.core.filesystem.EpisodePathParser;
 import com.ibus.mediabeaver.core.filesystem.FileSystem;
+import com.ibus.mediabeaver.core.filesystem.MoviePathParser;
 import com.ibus.mediabeaver.core.util.EventLogger;
 import com.ibus.mediabeaver.core.util.Factory;
 import com.ibus.mediabeaver.core.util.Platform;
@@ -36,6 +34,7 @@ import com.ibus.mediabeaver.server.util.Mapper;
 import com.ibus.mediabeaver.server.viewmodel.EpisodeViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MatchFilesViewModel;
 import com.ibus.mediabeaver.server.viewmodel.MatchFilesViewModel.FileMatchViewModel;
+import com.ibus.mediabeaver.server.viewmodel.MoviePartViewModel;
 import com.ibus.mediabeaver.server.viewmodel.SearchMoviesViewModel;
 import com.ibus.mediabeaver.server.viewmodel.SearchSeriesViewModel;
 import com.ibus.mediabeaver.server.viewmodel.SelectEpisodeViewModel;
@@ -97,32 +96,119 @@ public class MediaMatcherController
 		}
 		else
 		{
+			//TODO: Research how best to process multipart movie files!!
+			
+			/*List<String> srcPaths = (List<String>) request.getSession().getAttribute(FilesToMoveSessionKey);
+			if(srcPaths.size() > 1)
+			{
+				List<MoviePartViewModel> vm = new ArrayList<MoviePartViewModel>();
+				for(String p : srcPaths)
+				{
+					vm.add(new MoviePartViewModel(p));
+				}
+				
+				ModelAndView mav = new ModelAndView("EnterMoviePartNumbers", "EnterMoviePartNumbers", vm);
+				addSelectedFiles(mav,request);
+				return mav;
+			}
+			*/
 			ModelAndView mav =new ModelAndView("SearchMovies","SearchMovies", new SearchMoviesViewModel()); 
 			mav = addSelectedFiles(mav, request);
 			return mav; 			
 		}
 	}
 
+	//---enterMoviePartNumbers View ------------------------------------------------------------------------//
+	
+	
+	
 	//---SearchMovies View ------------------------------------------------------------------------//
+	
 	
 	@RequestMapping(value="/SearchMovies_Search", method = RequestMethod.POST)
 	public ModelAndView searchMoviesSearch(@ModelAttribute("SearchMovies") @Validated SearchMoviesViewModel viewModel, 
 			BindingResult result, 
 			HttpServletRequest request)
 	{
-		TmdbSearch search = Factory.getTmdbClient().getSearch();
-		
 		int movieYear = 0;
 		if(viewModel.getMovieYear() != null && viewModel.getMovieYear().trim().length() > 0) //TODO: still need to validate is empty or number on client
 			movieYear =Integer.parseInt(viewModel.getMovieYear());
 		
-		MovieResults results = search.searchMovie(viewModel.getMovieName(), movieYear, null, true, 0);
-		viewModel.setBaseImageUrl(getTmdbConfiguration().getBaseUrl() + "/w185/");
+		int currentPage = viewModel.getCurrentPage();
+		if(viewModel.getCurrentPage() == 0)
+			currentPage = 1;
 		
+		MovieResults results = Factory.getTmdbClient().getSearch().searchMovie(viewModel.getMovieName(), movieYear, "en", true, currentPage);
+		
+		viewModel.getSearchResults().clear();
+		for(MovieDb m : results.getResults())
+		{
+			//Factory.getTmdbClient().getSearch().searchMovie does not return movie overview, so we need to do a more detailed call.
+			MovieDb fullMovie = Factory.getTmdbClient().getMovies().getMovie(m.getId(), null);
+			viewModel.getSearchResults().add(fullMovie);
+		}
+		
+		viewModel.setTotalPages(results.getTotalPages());
+		viewModel.setCurrentPage(results.getPage());
+		
+		viewModel.setBaseImageUrl(getTmdbConfiguration().getBaseUrl() + "/w185/");
 		return new ModelAndView("SearchMovies","SearchMovies",viewModel);
 		
-		
+		//http://api.themoviedb.org/3/configuration?api_key=e482b9df13cbf32a25570c09174a1d84
+		//https://image.tmdb.org/t/p/w185/5li3ZIIPrjb6bmSFy7wp6J0Z8no.jpg		
+		//http://api.themoviedb.org/3/search/movie?query=fury&year=2014&api_key=e482b9df13cbf32a25570c09174a1d84
+		//http://api.themoviedb.org/3/movie/228150?api_key=e482b9df13cbf32a25570c09174a1d84
 	}
+	
+/*	@RequestMapping(value="/SearchMovies_ChangePage", method = RequestMethod.POST)
+	public ModelAndView SearchMoviesChangePage(@ModelAttribute("SearchMovies") @Validated SearchMoviesViewModel viewModel, 
+			BindingResult result, 
+			HttpServletRequest request)
+	{
+		int movieYear = 0;
+		if(viewModel.getMovieYear() != null && viewModel.getMovieYear().trim().length() > 0) //TODO: still need to validate is empty or number on client
+			movieYear =Integer.parseInt(viewModel.getMovieYear());
+		
+		MovieResults results = Factory.getTmdbClient().getSearch().searchMovie(viewModel.getMovieName(), movieYear, "en", true, viewModel.getCurrentPage());
+		
+		
+		
+		
+		return new ModelAndView("SearchMovies","SearchMovies",viewModel);
+	}*/
+	
+	@RequestMapping(value="/SearchMovies_Select", method = RequestMethod.POST)
+	public ModelAndView SearchMoviesSelect(@ModelAttribute("SearchMovies") @Validated SearchMoviesViewModel viewModel, 
+			BindingResult result, 
+			HttpServletRequest request) throws Exception
+	{
+		try 
+		{
+			Configuration config = new Data(request).getConfiguration(); 
+			MoviePathParser pathParser = new MoviePathParser(config.getMovieFormatPath());
+			
+			String srcPath = ((List<String>) request.getSession().getAttribute(FilesToMoveSessionKey)).get(0);
+			MovieDb movie = viewModel.getSelectedMovie();
+			String destPathEnd = pathParser.parseMoviePath(movie.getTitle(), movie.getReleaseDate());
+			destPathEnd += "." + FilenameUtils.getExtension(srcPath);
+			
+			if(config.isCopyAsDefault())
+				FileSystem.copyFile(srcPath, config.getMovieRootDirectory(), destPathEnd);
+			else
+				FileSystem.moveFile(srcPath, config.getMovieRootDirectory(), destPathEnd);
+			
+			eventLogger.logEvent(srcPath, Paths.get(config.getMovieRootDirectory(), destPathEnd).toString(), 
+					ResultType.Succeeded, "Successfully moved file");
+			
+			return new ModelAndView("redirect:/source/");
+		
+		} catch (IOException | DuplicateFileException | PathParseException e) 
+		{
+			// TODO Auto-generated catch block
+			throw e;
+		}
+	}
+	
 	
 	//---SearchTvSeries View ------------------------------------------------------------------------//
 	

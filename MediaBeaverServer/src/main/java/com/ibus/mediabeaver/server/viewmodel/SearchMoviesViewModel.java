@@ -14,8 +14,29 @@ public class SearchMoviesViewModel
 	private String movieYear;
 	private List<MovieDb> searchResults = new ArrayList<MovieDb>();
 	private String baseImageUrl;
+	private int selectedMovieId;
+	private int currentPage;
+	private int totalPages;
 	
 	
+	public int getTotalPages() {
+		return totalPages;
+	}
+	public void setTotalPages(int totalPages) {
+		this.totalPages = totalPages;
+	}
+	public int getCurrentPage() {
+		return currentPage;
+	}
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
+	}
+	public int getSelectedMovieId() {
+		return selectedMovieId;
+	}
+	public void setSelectedMovieId(int selectedMovieId) {
+		this.selectedMovieId = selectedMovieId;
+	}
 	public List<MovieDb> getSearchResults() {
 		return searchResults;
 	}
@@ -40,18 +61,18 @@ public class SearchMoviesViewModel
 	public void setBaseImageUrl(String baseImageUrl) {
 		this.baseImageUrl = baseImageUrl;
 	}
-	
 
-	/*public Series getSelectedSeries()
+	public MovieDb getSelectedMovie()
 	{
-		Series selected = null;
-		for(Series s : searchResults)
+		MovieDb selected = null;
+		for(MovieDb s : searchResults)
 		{
-			if(s.getId().equals(selectedSeriesId))
+			if(s.getId() == getSelectedMovieId())
 				selected = s;
 		}
 		
 		return selected;
-	}*/
+	}
+	
 
 }

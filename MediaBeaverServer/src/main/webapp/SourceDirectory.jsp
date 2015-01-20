@@ -43,17 +43,20 @@
 			{
 				e.stopPropagation();
 			});
-				
+			
 			$("#moveManually").click(function() 
 			{
 				if(!uiEnabled || !moveManuallyEnabled) return;
 				
-				if($('.selectedCheckbox:checked').length > 0)
+				var selectedLis = $(".selectedCheckbox:checked").siblings("input[name$='file'][value='true']").parent("li");
+				
+				var vms = [];
+				$(selectedLis).each(function(index) 
 				{
-					$("form:first").attr("action", "/source/matchMedia");
-					$("form:first").submit();
-					return false;
-				}
+					vms[index] = getFileViewModel(this);
+				});
+				
+				doAjaxCall('/source/matchMedia', vms, matchMediaSuccess, operationError);
 			});
 			
 			$("#deleteFiles").click(function() 
@@ -396,6 +399,11 @@
 			}
 		}
 		
+		function matchMediaSuccess(data)
+		{
+			window.location = "/mediaMatcher"; 
+		}
+		
 		function showMessages(data, operation)
 		{
 			if(data.operationSuccess)
@@ -461,7 +469,6 @@
 		{
 			return $(openAllRoot).find(".folderName").siblings("input[name$='open'][value='false']").parent("li").first();
 		}
-		
 		
 	</script>
 	

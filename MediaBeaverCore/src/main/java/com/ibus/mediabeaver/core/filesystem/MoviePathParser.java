@@ -10,12 +10,12 @@ import com.ibus.mediabeaver.core.exception.PathParseException;
 public class MoviePathParser 
 {
 	List<PathToken> moviePathTokens;
-	String moviePath;
+	String movieFormatPath;
 	
-	public MoviePathParser(String moviePath)
+	public MoviePathParser(String movieFormatPath)
 	{
-		this.moviePath = moviePath;
-		moviePathTokens = PathParser.getTokens(moviePath);
+		this.movieFormatPath = movieFormatPath;
+		moviePathTokens = PathParser.getTokens(movieFormatPath);
 	}
 	
 	
@@ -31,20 +31,20 @@ public class MoviePathParser
 	 * @return
 	 * @throws PathParseException
 	 */
-	public String parseMoviePath(MovieDb movie) throws PathParseException
+	public String parseMoviePath(String title, String releaseDate) throws PathParseException
 	{
-		String rawMoviePath =  moviePath; //path with tokens in it
+		String rawMoviePath =  movieFormatPath; //path with tokens in it
 		
 		for(PathToken token : moviePathTokens)
 		{
 			PathToken parsedToken = null;
 			if(token.getName().equals("MovieName"))
 			{
-				parsedToken = PathParser.parseToken(token, movie.getTitle());
+				parsedToken = PathParser.parseToken(token, title);
 			}
 			else if(token.getName().equals("ReleaseDate"))
 			{
-				parsedToken = PathParser.parseToken(token, movie.getReleaseDate());
+				parsedToken = PathParser.parseToken(token, releaseDate); 
 			}
 			
 			rawMoviePath = PathParser.parsePath(parsedToken, rawMoviePath);
@@ -55,4 +55,16 @@ public class MoviePathParser
 		
 		return rawMoviePath;
 	}
-}
+}  
+
+
+
+
+
+
+
+
+
+
+
+

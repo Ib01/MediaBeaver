@@ -1,11 +1,14 @@
 package com.ibus.mediabeaver.server.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.xmlrpc.XmlRpcException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.Repository;
@@ -41,14 +45,30 @@ public class SourceDirectoryController
 		return new ModelAndView("SourceDirectory","directory", filevm);
 	}
 
-	@RequestMapping(value="/matchMedia", method = RequestMethod.POST)
-	public ModelAndView serviceMove(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request) throws IOException, XmlRpcException
+	/*@RequestMapping(value="/matchMedia", method = RequestMethod.POST)
+	public ModelAndView matchMedia(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request) throws IOException, XmlRpcException
 	{
 		List<String> files = viewModel.getSelectedPaths(true);
 		request.getSession().setAttribute(MediaMatcherController.FilesToMoveSessionKey, files);
 		
 		return new ModelAndView("redirect:/mediaMatcher");
+	}*/
+	
+	@RequestMapping(value="/matchMedia", method = RequestMethod.POST)
+	public @ResponseBody FileViewModel matchMedia(@RequestBody List<FileViewModel> viewModelList, HttpServletRequest request) 
+	{
+		List<String> paths = new ArrayList<String>();
+		for(FileViewModel vm :  viewModelList)
+		{
+			paths.add(vm.getPath());
+		}
+		request.getSession().setAttribute(MediaMatcherController.FilesToMoveSessionKey, paths);
+		
+		//becasuse of this stupid fucking spring framework we have to return a model object even though we dont need it. grrr
+		return new FileViewModel();
 	}
+	
+	
 	
 	@RequestMapping(value="/deleteFile", method = RequestMethod.POST)
 	public @ResponseBody FileViewModel deleteFile(@RequestBody FileViewModel model, HttpServletRequest request) 
