@@ -1,6 +1,6 @@
 ### Introduction##
 
-Media Beaver is or will be a comprehensive tool for managing media: Movies, Tv Episodes and Music. It is written in Java and is platform independent. It also runs in a browser so it can be accessed either locally or remotely. 
+Media Beaver is or will be a comprehensive tool for managing Movies, Tv Episodes and Music. It is written in Java, is platform independent and runs in a browser so it can manage your media either locally or remotely. 
 
 ### Master Build Status ###
 
