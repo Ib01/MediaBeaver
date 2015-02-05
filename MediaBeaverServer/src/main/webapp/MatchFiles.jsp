@@ -19,6 +19,7 @@
 		
 			$("#Finish").click(function() 
 			{
+				$("#Finish").attr("class", "dissabledMainButton");
 				return ($(".SelectEpisode").length == 0);
 			});
 			

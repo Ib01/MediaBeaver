@@ -47,6 +47,7 @@
 			{
 				if($(".itemRadio:checked").length == 1)
 				{
+					$("#Next").attr("class", "dissabledMainButton");
 					var id = $(".itemRadio:checked").siblings(".itemId").val();
 					$("#selectedMovieId").val(id);
 					
