@@ -170,7 +170,7 @@
 		<!-- </div> -->
 	 
 	 	<!-- <div class="roundedPanel"> -->
-	 		<form:label path="copyAsDefault">Move action</form:label>
+	 		<form:label path="copyAsDefault">Copy when moving</form:label>
 	 		<form:checkbox path="copyAsDefault" /> (Set copy as default move action)
 		 	<br>
 		<!-- </div> -->
