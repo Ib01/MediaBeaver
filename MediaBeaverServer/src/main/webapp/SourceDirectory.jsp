@@ -41,6 +41,7 @@
 				
 			$( "body" ).delegate( ".highlightableLi input:checkbox", "click", function()  
 			{
+				setMenuState();
 				e.stopPropagation();
 			});
 			
