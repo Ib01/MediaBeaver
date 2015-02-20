@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Configuration;
+import com.ibus.mediabeaver.core.entity.MediaType;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
 import com.ibus.mediabeaver.core.filesystem.MediaRemover;
 import com.ibus.mediabeaver.core.util.Factory;
@@ -31,28 +33,36 @@ import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
 import com.ibus.mediabeaver.server.viewmodel.FileViewModel;
 
 @Controller
-@RequestMapping(value = "/source")
-public class SourceDirectoryController 
+@RequestMapping(value = "/mediaDirectory")
+public class MediaDirectoryController 
 {
 	
 	@RequestMapping
-	public ModelAndView viewDirectory(HttpServletRequest request)
+	public ModelAndView viewDirectory(@RequestParam(value="type", required=false) String dirtype, HttpServletRequest request)
 	{
 		Data data = new Data(request);
 		ConfigurationViewModel config = data.getConfigurationViewModel();
-		FileViewModel filevm = data.getFileViewModel(config.getSourceDirectory());
 		
-		return new ModelAndView("SourceDirectory","directory", filevm);
+		FileViewModel filevm = null;
+		
+		if(dirtype.equals("source"))
+		{
+			filevm = data.getFileViewModel(config.getSourceDirectory());
+		}
+		else if(dirtype.equals("tv"))
+		{
+			filevm = data.getFileViewModel(config.getTvRootDirectory());
+		}
+		else if(dirtype.equals("movie"))
+		{
+			filevm = data.getFileViewModel(config.getMovieRootDirectory());
+		}
+		
+		//throw???????????
+		
+		filevm.setRootDirMediaType(dirtype);
+		return new ModelAndView("MediaDirectory","directory", filevm);
 	}
-
-	/*@RequestMapping(value="/matchMedia", method = RequestMethod.POST)
-	public ModelAndView matchMedia(@ModelAttribute("directory") @Validated FileViewModel viewModel, BindingResult result, HttpServletRequest request) throws IOException, XmlRpcException
-	{
-		List<String> files = viewModel.getSelectedPaths(true);
-		request.getSession().setAttribute(MediaMatcherController.FilesToMoveSessionKey, files);
-		
-		return new ModelAndView("redirect:/mediaMatcher");
-	}*/
 	
 	@RequestMapping(value="/matchMedia", method = RequestMethod.POST)
 	public @ResponseBody FileViewModel matchMedia(@RequestBody List<FileViewModel> viewModelList, HttpServletRequest request) 
@@ -67,8 +77,6 @@ public class SourceDirectoryController
 		//becasuse of this stupid fucking spring framework we have to return a model object even though we dont need it. grrr
 		return new FileViewModel();
 	}
-	
-	
 	
 	@RequestMapping(value="/deleteFile", method = RequestMethod.POST)
 	public @ResponseBody FileViewModel deleteFile(@RequestBody FileViewModel model, HttpServletRequest request) 

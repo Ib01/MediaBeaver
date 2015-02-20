@@ -35,7 +35,7 @@
 		Media Beaver
 		
 		<div id="menu" style="">
-			<a href="/source">Source Directory</a> | <a href="/configuration">Configuration</a> | <a href="/activity">Activity</a> 
+			<a href="/mediaDirectory?type=movie">Movies</a> | <a href="/mediaDirectory?type=tv">TV</a> | <a href="/mediaDirectory?type=source">Source</a> | <a href="/configuration">Configuration</a> | <a href="/activity">Activity</a> 
 		</div>
 	</div>
 	

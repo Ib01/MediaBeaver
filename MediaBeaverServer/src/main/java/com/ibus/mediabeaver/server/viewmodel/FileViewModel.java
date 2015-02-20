@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.ibus.mediabeaver.core.entity.Activity;
+import com.ibus.mediabeaver.core.entity.MediaType;
 
 public class FileViewModel
 {
+	private String rootDirMediaType;
 	public String OpenAllAction = "open all";
 	public String SelectAllAction = "select all";
 	
@@ -18,7 +20,6 @@ public class FileViewModel
 	private boolean isSelected;
 	private boolean isOpen;
 	private List<FileViewModel> files = new ArrayList<FileViewModel>();
-	
 	private Map<String, FileViewModel> cache = null;
 	private boolean openAll;
 	private boolean selectAll;
@@ -27,6 +28,14 @@ public class FileViewModel
 	private List<Activity> failures = new ArrayList<Activity>();
 	private boolean operationSuccess = false;
 
+
+	public String getRootDirMediaType() {
+		return rootDirMediaType;
+	}
+	public void setRootDirMediaType(String rootDirMediaType) {
+		this.rootDirMediaType = rootDirMediaType;
+	}
+	
 	public boolean isOperationSuccess() {
 		return operationSuccess;
 	}
@@ -34,7 +43,6 @@ public class FileViewModel
 		this.operationSuccess = operationSuccess;
 	}
 
-	
 	public List<Activity> getFailures()
 	{
 		return failures;

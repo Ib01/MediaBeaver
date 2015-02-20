@@ -57,7 +57,7 @@
 					vms[index] = getFileViewModel(this);
 				});
 				
-				doAjaxCall('/source/matchMedia', vms, matchMediaSuccess, operationError);
+				doAjaxCall('/mediaDirectory/matchMedia', vms, matchMediaSuccess, operationError);
 			});
 			
 			$("#deleteFiles").click(function() 
@@ -254,27 +254,27 @@
 		
 		function callOpenFromRoot(viewModel)
 		{
-			 doAjaxCall('/source/openFolder', viewModel, openFromRootSuccess, operationError);
+			 doAjaxCall('/mediaDirectory/openFolder', viewModel, openFromRootSuccess, operationError);
 		}
 		
 		function callOpenAll(viewModel)
 		{
-			 doAjaxCall('/source/openFolder', viewModel, openAllSuccess, operationError);
+			 doAjaxCall('/mediaDirectory/openFolder', viewModel, openAllSuccess, operationError);
 		}
 		
 		function callOpen(viewModel)
 		{
-			 doAjaxCall('/source/openFolder', viewModel, openSuccess, operationError);
+			 doAjaxCall('/mediaDirectory/openFolder', viewModel, openSuccess, operationError);
 		}
 		
 		function callMove(viewModel)
 		{
-			 doAjaxCall('/source/moveFile', viewModel, moveSuccess, operationError);
+			 doAjaxCall('/mediaDirectory/moveFile', viewModel, moveSuccess, operationError);
 		}
 		
 		function callDelete(viewModel)
 		{
-			 doAjaxCall('/source/deleteFile', viewModel, deleteSuccess, operationError);
+			 doAjaxCall('/mediaDirectory/deleteFile', viewModel, deleteSuccess, operationError);
 		}
 		
 		function openFromRootSuccess(data)
@@ -511,18 +511,45 @@
 	
 	
 	<form:form method="POST" commandName="directory">
-		<h2>Source Directory</h2>
+		 
+		<c:if test="${directory.rootDirMediaType == 'source'}">
+			<h2>Source Directory</h2>
+		</c:if>
+		<c:if test="${directory.rootDirMediaType == 'tv'}">
+			<h2>TV Episode Directory</h2>
+		</c:if>
+		<c:if test="${directory.rootDirMediaType == 'movie'}">
+			<h2>Movie Directory</h2>
+		</c:if>
 		
 		<div style="border: solid 1px #F1F1F1">
 			<div style="background-color: #F1F1F1; padding: 3px;height: 20px">
 				<form:hidden path="action"/>
-				
+		
 				<div style="float: right" id="folderMenu">
-					<a href="#" id="selectAll" style="font-size: 14px;"> Select All </a><a href="#" id="deselectAll" style="font-size: 14px; display: none;"> Deselect All </a> |
-					<a href="#" id="expandAll" style="font-size: 14px"> Expand All </a><a href="#" id="colapseAll" style="font-size: 14px; display: none;"> Colapse All </a> |
-					<a href="#" id="deleteFiles">Delete</a> | 
-					<a href="#" id="moveManually">Match and Move</a> |
-					<a href="#" id="moveFiles">Move</a> 
+				
+					<c:if test="${directory.rootDirMediaType == 'source'}">
+						<a href="#" id="selectAll" style="font-size: 14px;"> Select All </a><a href="#" id="deselectAll" style="font-size: 14px; display: none;"> Deselect All </a> |
+						<a href="#" id="expandAll" style="font-size: 14px"> Expand All </a><a href="#" id="colapseAll" style="font-size: 14px; display: none;"> Colapse All </a> |
+						<a href="#" id="deleteFiles">Delete</a> | 
+						<a href="#" id="moveManually">Match and Move</a> |
+						<a href="#" id="moveFiles">Move</a>
+					</c:if>
+					<c:if test="${directory.rootDirMediaType == 'tv'}">
+						<a href="#" id="selectAll" style="font-size: 14px;"> Select All </a><a href="#" id="deselectAll" style="font-size: 14px; display: none;"> Deselect All </a> |
+						<a href="#" id="expandAll" style="font-size: 14px"> Expand All </a><a href="#" id="colapseAll" style="font-size: 14px; display: none;"> Colapse All </a> |
+						<a href="#" id="deleteFiles">Delete</a>  
+						<!-- <a href="#" id="moveManually">Match and Move</a> |
+						<a href="#" id="moveFiles">Move</a> -->
+					</c:if>
+					<c:if test="${directory.rootDirMediaType == 'movie'}">
+						<a href="#" id="selectAll" style="font-size: 14px;"> Select All </a><a href="#" id="deselectAll" style="font-size: 14px; display: none;"> Deselect All </a> |
+						<a href="#" id="expandAll" style="font-size: 14px"> Expand All </a><a href="#" id="colapseAll" style="font-size: 14px; display: none;"> Colapse All </a> |
+						<a href="#" id="deleteFiles">Delete</a>  
+						<!-- <a href="#" id="moveManually">Match and Move</a> |
+						<a href="#" id="moveFiles">Move</a> -->
+					</c:if>
+				
 				</div> 
 			</div>
 			
