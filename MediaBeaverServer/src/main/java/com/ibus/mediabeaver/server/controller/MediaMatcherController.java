@@ -200,7 +200,7 @@ public class MediaMatcherController
 			eventLogger.logEvent(srcPath, Paths.get(config.getMovieRootDirectory(), destPathEnd).toString(), 
 					ResultType.Succeeded, "Successfully moved file");
 			
-			return new ModelAndView("redirect:/source/");
+			return new ModelAndView("redirect:/mediaDirectory?type=source");
 		
 		} catch (IOException | DuplicateFileException | PathParseException e) 
 		{
@@ -352,7 +352,7 @@ public class MediaMatcherController
 		
 		}
 		
-		return new ModelAndView("redirect:/source/");
+		return new ModelAndView("redirect:/mediaDirectory?type=source");
 	}
 	
 	

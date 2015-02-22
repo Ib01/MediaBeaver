@@ -16,16 +16,22 @@
 				$("form:first").submit(); 
 				
 			});
+			
+			$( "#earlistDate" ).datepicker();
 		}); 
 
 	</script>
 	
 	<h2>System Activity</h2>
-  
+	
 	<form:form method="POST" commandName="activity" class="formLayout">
-		
 		<form:hidden path="selectedPath"/>
 	
+		<form:label path="earlistDate">Earliest Date</form:label>
+		<form:input path="earlistDate" class="validate[required]"/>
+		<br>
+		
+		
 
 		<c:forEach items="${activity.activities}" var="event" varStatus="i">
 			<div class="roundedPanel">

@@ -1,6 +1,7 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.ibus.mediabeaver.core.entity.Activity;
@@ -9,7 +10,16 @@ public class ActivityViewModel extends ViewModel
 {
 	private List<Activity> activities = new ArrayList<Activity>();
 	private String selectedPath;
+	private Date earlistDate;
 	
+
+	public Date getEarlistDate() {
+		return earlistDate;
+	}
+
+	public void setEarlistDate(Date earlistDate) {
+		this.earlistDate = earlistDate;
+	}
 
 	public List<Activity> getActivities()
 	{

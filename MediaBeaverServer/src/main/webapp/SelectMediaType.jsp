@@ -43,7 +43,7 @@
 		
 		
 		<br>
-		<a class="mainButton" href="#" id="Next">Next</a><a class="mainButton" href="/source" id="Cancel">Cancel</a>
+		<a class="mainButton" href="#" id="Next">Next</a><a class="mainButton" href="/mediaDirectory?type=source" id="Cancel">Cancel</a>
 		<br>
 	</form:form>
 	
