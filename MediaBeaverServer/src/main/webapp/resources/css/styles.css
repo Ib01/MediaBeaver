@@ -202,6 +202,14 @@ input[type="text"], textarea
 	}
 
 
+.angledPanel{
+	background-color: #F1F1F1;
+	padding: 10px;
+	padding-bottom: 15px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
 .roundedPanel{
 	border-radius: 8px;
 	background-color: #F1F1F1;
