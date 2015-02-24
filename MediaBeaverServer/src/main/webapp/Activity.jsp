@@ -1,8 +1,11 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="myTags" %>
 
 <%@include file="includes/header.jsp"%>
+
+	<myTags:ErrorDisplay modelObject="activity"/>
 
  	<script type="text/javascript" >
 	
@@ -17,8 +20,17 @@
 				
 			});
 			
-			$( "#earlistDate" ).datepicker();
+			$("#filter").click(function() 
+			{
+				$("form:first").attr("action", "/activity/filter");
+				$("form:first").submit(); 
+				
+			});
+			
+			$( "#earlistDate" ).datepicker({ dateFormat: 'dd MM yy' });
+			
 		}); 
+		
 
 	</script>
 	
@@ -28,7 +40,8 @@
 		<form:hidden path="selectedPath"/>
 	
 		<form:label path="earlistDate">Earliest Date</form:label>
-		<form:input path="earlistDate" class="validate[required]"/>
+		<form:input path="earlistDate"/>
+		<a class="button" href="#" id="filter">Filter</a>
 		<br>
 		
 		

@@ -8,7 +8,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+
+import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
+import com.ibus.mediabeaver.core.entity.Activity;
 import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
 import com.ibus.mediabeaver.server.viewmodel.FileViewModel;
@@ -111,15 +118,44 @@ public class Data
 	
 	//-Activities --------------------------------------------------------------------//
 	
-	private FileViewModel getActivities(Date date)
+	public List<Activity> getActivities(Date date)
 	{
-		return null;
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		
+		Criteria criteria = s.createCriteria(Activity.class);
+		
+		@SuppressWarnings("unchecked")
+		List<Activity> results = criteria.add(Restrictions.ge("eventTime", date)).addOrder(Order.desc("eventTime")).list();
+		
+		return results;
+	}
+	
+	public List<Activity> getActivities()
+	{
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		
+		Criteria criteria = s.createCriteria(Activity.class);
+		
+		@SuppressWarnings("unchecked")
+		List<Activity> results = criteria.addOrder(Order.desc("eventTime")).list();
+		
+		return results;
 	}
 	
 	
-	
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

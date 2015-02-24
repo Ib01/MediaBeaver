@@ -15,7 +15,7 @@
 				if($("form:first").validationEngine('validate'))
 				{
 					$("form:first").attr("action", "/configuration/save");
-					$("form:first").submit() 
+					$("form:first").submit();
 				}
 			});
 			

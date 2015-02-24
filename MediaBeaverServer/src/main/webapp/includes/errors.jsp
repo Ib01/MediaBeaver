@@ -2,7 +2,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-	
+	<!-- in errors tag --> 
+	...
 <spring:hasBindErrors name="configuration">
 		
 	<c:out value='<script type="text/javascript" >' escapeXml='false'/>
@@ -17,4 +18,4 @@
       <c:out value='});' escapeXml='false'/>
       <c:out value='</script>' escapeXml='false'/>
       
-   </spring:hasBindErrors>
+</spring:hasBindErrors>

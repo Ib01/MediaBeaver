@@ -4,6 +4,8 @@
 <%-- <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%> --%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 	
+	...
+	
 <spring:hasBindErrors name="${modelObject}">
 		
 	<c:out value='<script type="text/javascript" >' escapeXml='false'/>

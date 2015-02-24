@@ -4,15 +4,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.ibus.mediabeaver.core.entity.Activity;
 
 public class ActivityViewModel extends ViewModel
 {
 	private List<Activity> activities = new ArrayList<Activity>();
 	private String selectedPath;
+	
+	//@DateTimeFormat(pattern = "dd MMMMM yyyy")
+	@NotNull
 	private Date earlistDate;
 	
-
 	public Date getEarlistDate() {
 		return earlistDate;
 	}
