@@ -18,11 +18,13 @@
 			</c:if>
 			
 			<c:if test="${file.file}">
-				<img src="/resources/images/document_24.png">
+				<img src="/resources/images/page_white_text.png">
+				<!-- <img src="/resources/images/document_24.png"> -->
 				<c:out value="${file.name}"/>
 			</c:if>		
 			<c:if test="${!file.file}">
-				<img src="/resources/images/folder_24.png">
+				<img src="/resources/images/folder_vertical_open.png">
+				<!-- <img src="/resources/images/folder_24.png"> -->
 				<span class="folderName"><c:out value="${file.name}"/></span>
 			</c:if>
 			

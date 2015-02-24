@@ -68,6 +68,9 @@
 				<c:if test="${event.result == 'Succeeded'}">
 					<img src="/resources/images/tick.png" style="float: right;">
 				</c:if>
+				<c:if test="${event.result == 'Failed'}">
+					<img src="/resources/images/cross.png" style="float: right;">
+				</c:if>
 				
 				
 				<div style="margin-left: 22px; padding-top: 7px; clear: both;" >

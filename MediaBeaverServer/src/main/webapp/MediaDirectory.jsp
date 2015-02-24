@@ -486,9 +486,9 @@
 						<input type="checkbox" name="selected" class="selectedCheckbox">
 					
 						{{#if file}}
-							<img src="/resources/images/document_24.png"> {{name}}
+							<img src="/resources/images/page_white_text.png"> {{name}}
 						{{else}}
-							<img src="/resources/images/folder_24.png"> <span class="folderName">{{name}}</span>
+							<img src="/resources/images/folder_vertical_open.png"> <span class="folderName">{{name}}</span>
 						{{/if}}
 				
 						<input type="hidden" value="false" class="operationTried" >
@@ -559,7 +559,9 @@
 					<form:hidden path="name"/>
 					<form:hidden path="file"/>                           
 					<form:hidden path="open"/>
-					<img src="/resources/images/folder_24.png" style="padding-left: 10px;"><c:out value="${directory.path}"/> 
+					
+					<img src="/resources/images/folder_vertical_open.png" style="padding-left: 10px;"><c:out value="${directory.path}"/>
+					<%-- <img src="/resources/images/folder_24.png" style="padding-left: 10px;"><c:out value="${directory.path}"/> --%> 
 				</li>
 				<li>
 				 
