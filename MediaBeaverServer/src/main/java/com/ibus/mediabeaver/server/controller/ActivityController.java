@@ -1,5 +1,6 @@
 package com.ibus.mediabeaver.server.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,6 +17,7 @@ import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Activity;
 import com.ibus.mediabeaver.server.util.Data;
 import com.ibus.mediabeaver.server.viewmodel.ActivityViewModel;
+import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
 
 @Controller
 @RequestMapping(value = "/activity")
@@ -23,32 +26,38 @@ public class ActivityController
 	@RequestMapping
 	public ModelAndView showEvents(HttpServletRequest request)
 	{
-		List<Activity> events = Repository.getAllEntities(Activity.class, "eventTime");
+		Data data = new Data(request);
+		long DAY_IN_MS = 1000 * 60 * 60 * 24;
+		Date initialDate = new Date(System.currentTimeMillis() - (7 * DAY_IN_MS));
+		
+		List<Activity> activities = data.getActivities(initialDate);
 		ActivityViewModel vm = new ActivityViewModel();
-		vm.setActivities(events);
+		vm.setActivities(activities);
+		
+		vm.setEarlistDate(initialDate);
 		
 		return new ModelAndView("Activity","activity", vm);
 	}
 	
 	
+	/*@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public ModelAndView save(@ModelAttribute("configuration") @Validated ConfigurationViewModel configViewModel, BindingResult result, HttpServletRequest request)*/
+	
 	@RequestMapping(value = "/filter", method = RequestMethod.POST)
-	public ModelAndView filter(@Validated ActivityViewModel viewModel, BindingResult result,  HttpServletRequest request)
+	public ModelAndView filter(@ModelAttribute("activity") @Validated ActivityViewModel viewModel, BindingResult result,  HttpServletRequest request)
 	{
-		boolean h =result.hasErrors();
+		//boolean h =result.hasErrors();
 		
-		/*if(!result.hasErrors())
-		{*/
-			/*Data data = new Data(request);
-			
-			List<Activity> activities;
-			if(viewModel.getEarlistDate() == null)
-				activities = data.getActivities();
-			else
-				activities = data.getActivities(viewModel.getEarlistDate());
-			
-			viewModel.setActivities(activities);*/
-		//}
-			
+		Data data = new Data(request);
+		
+		List<Activity> activities;
+		if(viewModel.getEarlistDate() == null)
+			activities = data.getActivities();
+		else
+			activities = data.getActivities(viewModel.getEarlistDate());
+		
+		viewModel.setActivities(activities);
+		
 		return new ModelAndView("Activity","activity", viewModel);
 	}
 	
