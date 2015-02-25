@@ -43,6 +43,8 @@ public class MediaDirectoryController
 		Data data = new Data(request);
 		ConfigurationViewModel config = data.getConfigurationViewModel();
 		
+		//config.getVideoExtensionFilter()
+		
 		FileViewModel filevm = null;
 		
 		if(dirtype.equals("source"))

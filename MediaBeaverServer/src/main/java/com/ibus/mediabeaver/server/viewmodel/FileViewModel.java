@@ -185,7 +185,6 @@ public class FileViewModel
 		return l;
 	}
 	
-	
 	private void cacheFiles()
 	{
 		if(cache == null)
@@ -204,9 +203,6 @@ public class FileViewModel
 			cache.put(f.getPath(), f);
 		}
 	}
-	
-	
-	
 	
 	
 	

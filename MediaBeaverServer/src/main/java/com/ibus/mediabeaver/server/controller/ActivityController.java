@@ -40,14 +40,9 @@ public class ActivityController
 	}
 	
 	
-	/*@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ModelAndView save(@ModelAttribute("configuration") @Validated ConfigurationViewModel configViewModel, BindingResult result, HttpServletRequest request)*/
-	
 	@RequestMapping(value = "/filter", method = RequestMethod.POST)
 	public ModelAndView filter(@ModelAttribute("activity") @Validated ActivityViewModel viewModel, BindingResult result,  HttpServletRequest request)
 	{
-		//boolean h =result.hasErrors();
-		
 		Data data = new Data(request);
 		
 		List<Activity> activities;
