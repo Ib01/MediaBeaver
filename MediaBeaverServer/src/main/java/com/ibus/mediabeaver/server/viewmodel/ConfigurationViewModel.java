@@ -1,5 +1,6 @@
 package com.ibus.mediabeaver.server.viewmodel;
 
+import com.ibus.mediabeaver.core.entity.ConfigurationBehaviour;
 import com.ibus.mediabeaver.server.validation.PathExists;
 
 /*@MultipartPathExists.List({
@@ -96,6 +97,11 @@ public class ConfigurationViewModel extends ViewModel
 	public void setCopyAsDefault(boolean copyAsDefault)
 	{
 		this.copyAsDefault = copyAsDefault;
+	}
+	
+	public boolean isVideoExtension(String extension)
+	{
+		return ConfigurationBehaviour.isVideoExtension(extension, videoExtensionFilter);
 	}
 
 	

@@ -169,7 +169,9 @@ public class Configuration extends PersistentObject
 	
 	public boolean isVideoExtension(String extension)
 	{
-		String[] extensions = videoExtensionFilter.split("\\s*,\\s*");
+		return ConfigurationBehaviour.isVideoExtension(extension, videoExtensionFilter);
+		
+		/*String[] extensions = videoExtensionFilter.split("\\s*,\\s*");
 		
 		for(String allowedExtension : extensions)
 		{
@@ -180,7 +182,7 @@ public class Configuration extends PersistentObject
 				return true;
 		}
 		
-		return false;
+		return false;*/
 	}
 
 
