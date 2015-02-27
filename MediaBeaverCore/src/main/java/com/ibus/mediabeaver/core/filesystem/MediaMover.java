@@ -2,6 +2,7 @@ package com.ibus.mediabeaver.core.filesystem;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +17,7 @@ import com.ibus.mediabeaver.core.entity.ResultType;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
 import com.ibus.mediabeaver.core.util.EventLogger;
 import com.ibus.mediabeaver.core.util.Factory;
+import com.ibus.mediabeaver.core.util.FileSysUtil;
 import com.ibus.mediabeaver.core.util.MovieService;
 import com.ibus.mediabeaver.core.util.TvService;
 import com.ibus.opensubtitles.client.dto.OstTitleDto;
@@ -152,9 +154,11 @@ public class MediaMover
 	
 	protected boolean processFile(File file)  
 	{
-		String extension = FilenameUtils.getExtension(file.getAbsolutePath());
+		String extension = FileSysUtil.getExtension(file.getAbsolutePath());
 		
-		if(config.isVideoExtension(extension))
+		//String extension = FilenameUtils.getExtension(file.getAbsolutePath());
+		
+		if(FileSysUtil.isVideoExtension(extension, config.getVideoExtensionFilter()))
 		{
 			++foundMedia;
 			return moveVideo(file);

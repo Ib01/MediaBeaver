@@ -13,7 +13,6 @@ public class FileViewModel
 	private String rootDirMediaType;
 	public String OpenAllAction = "open all";
 	public String SelectAllAction = "select all";
-	
 	private String name;
 	private String path;
 	private boolean isFile;
@@ -27,8 +26,16 @@ public class FileViewModel
 	private List<Activity> successes = new ArrayList<Activity>();
 	private List<Activity> failures = new ArrayList<Activity>();
 	private boolean operationSuccess = false;
+	private MediaType mediaType = MediaType.Unknown;
 
-
+	
+	public MediaType getMediaType() {
+		return mediaType;
+	}
+	public void setMediaType(MediaType mediaType) {
+		this.mediaType = mediaType;
+	}
+	
 	public String getRootDirMediaType() {
 		return rootDirMediaType;
 	}
@@ -139,8 +146,6 @@ public class FileViewModel
 		this.selectAll = selectAll;
 	}
 	
-	
-	
 	public boolean isOpen(String path)
 	{
 		cacheFiles();
@@ -203,6 +208,7 @@ public class FileViewModel
 			cache.put(f.getPath(), f);
 		}
 	}
+	
 	
 	
 	

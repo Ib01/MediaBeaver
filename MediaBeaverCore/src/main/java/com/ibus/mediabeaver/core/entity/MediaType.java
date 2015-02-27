@@ -4,5 +4,7 @@ public enum MediaType
 {
 	Movie,
 	TvEpisode,
-	Song
+	Song, 
+	Video,
+	Unknown
 }

@@ -15,6 +15,7 @@
 	
 		$(function ()
 		{	
+			registerHandleBarIfCond();
 			
 			$( "body" ).delegate( ".highlightableLi", "mouseover", function()  
 			{
@@ -325,6 +326,8 @@
 		
 		function openSuccess(data)
 		{
+			//alert(JSON.stringify(data));
+			
 			var source = $("#folderTemplate").html(); 
 			var template = Handlebars.compile(source); 
 			var s = template(data);
@@ -486,7 +489,15 @@
 						<input type="checkbox" name="selected" class="selectedCheckbox">
 					
 						{{#if file}}
-							<img src="/resources/images/page_white_text.png"> {{name}}
+
+							{{#ifCond mediaType '==' 'Video'}}
+								<img src="/resources/images/movies.png"> {{name}}
+							{{/ifCond}}
+							
+							{{#ifCond mediaType '==' 'Unknown'}}
+								<img src="/resources/images/page_white_text.png"> {{name}}
+							{{/ifCond}}
+							
 						{{else}}
 							<img src="/resources/images/folder_vertical_open.png"> <span class="folderName">{{name}}</span>
 						{{/if}}

@@ -17,6 +17,8 @@ import com.ibus.mediabeaver.core.data.HibernateUtil;
 import com.ibus.mediabeaver.core.data.Repository;
 import com.ibus.mediabeaver.core.entity.Activity;
 import com.ibus.mediabeaver.core.entity.Configuration;
+import com.ibus.mediabeaver.core.entity.MediaType;
+import com.ibus.mediabeaver.core.util.FileSysUtil;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
 import com.ibus.mediabeaver.server.viewmodel.FileViewModel;
 
@@ -84,8 +86,8 @@ public class Data
 	{
 		File file = new File(path);
 		FileViewModel filevm  = getFileVM(file);
-		filevm.setFiles(getChildren(file));
 		
+		filevm.setFiles(getChildren(file));
 		return filevm;
 	}
 	
@@ -106,12 +108,16 @@ public class Data
 	
 	private FileViewModel getFileVM(File file)
 	{
+		ConfigurationViewModel config = getConfigurationViewModel();
 		FileViewModel filevm = new FileViewModel();
 		
 		filevm.setFile(file.isFile());
 		filevm.setName(file.getName());
 		filevm.setPath(file.getAbsolutePath());
-			
+		
+		if(FileSysUtil.isVideoExtension(FileSysUtil.getExtension(file.getAbsolutePath()), config.getVideoExtensionFilter()))
+			filevm.setMediaType(MediaType.Video);
+		
 		return filevm;
 	}
 	

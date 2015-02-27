@@ -23,8 +23,9 @@ public class ConfigurationIT
 		s.getTransaction().commit();
 	}
 	
-	@Test
-	public void hasVideoExtensionTest()
+	
+	/*@Test
+	 * public void hasVideoExtensionTest()
 	{
 		StartTransaction();
 		
@@ -36,5 +37,5 @@ public class ConfigurationIT
 		assertTrue(!hasExtension);
 		
 		EndTransaction();
-	}
+	}*/
 }

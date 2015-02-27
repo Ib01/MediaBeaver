@@ -1,8 +1,9 @@
-package com.ibus.mediabeaver.core.entity;
+package com.ibus.mediabeaver.core.util;
 
-public class ConfigurationBehaviour 
+import org.apache.commons.io.FilenameUtils;
+
+public class FileSysUtil 
 {
-	
 	public static boolean isVideoExtension(String extension, String videoExtensionFilter)
 	{
 		String[] extensions = videoExtensionFilter.split("\\s*,\\s*");
@@ -17,5 +18,10 @@ public class ConfigurationBehaviour
 		}
 		
 		return false;
+	}
+	
+	public static String getExtension(String path)
+	{
+		return FilenameUtils.getExtension(path);
 	}
 }
