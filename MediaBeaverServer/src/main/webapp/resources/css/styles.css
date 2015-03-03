@@ -201,20 +201,13 @@ input[type="text"], textarea
 	color: #3399FF; 
 	}
 
+/* border-radius: 8px; */
 
-.angledPanel{
-	background-color: #F1F1F1;
-	padding: 10px;
-	padding-bottom: 15px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-.roundedPanel{
+.level1Panel
+{
 	border-radius: 8px;
 	background-color: #F1F1F1;
-	padding: 10px;
-	padding-bottom: 15px;
+	padding: 7px;
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
@@ -222,14 +215,14 @@ input[type="text"], textarea
 	width: 150px;
 }
 
-.roundedPanelLevel1Box{
+/* .level1PanelLevel1Box{
 	background-color: white; 
 	padding:7px;
 	border-radius: 8px;
 	margin-bottom: 6px;
-}
+} */
 
-.roundedPanel H3{
+.level1Panel H3{
 	color:#1F1F1F;
 	margin-top: 2px;
 	font-size: 14px;

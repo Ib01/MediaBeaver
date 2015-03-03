@@ -43,8 +43,6 @@ public class MediaDirectoryController
 		Data data = new Data(request);
 		ConfigurationViewModel config = data.getConfigurationViewModel();
 		
-		//config.getVideoExtensionFilter()
-		
 		FileViewModel filevm = null;
 		
 		if(dirtype.equals("source"))
@@ -75,6 +73,8 @@ public class MediaDirectoryController
 			paths.add(vm.getPath());
 		}
 		request.getSession().setAttribute(MediaMatcherController.FilesToMoveSessionKey, paths);
+		request.getSession().setAttribute(MediaMatcherController.ReffererSessionKey, "/mediaDirectory?type=source");
+		
 		
 		//becasuse of this stupid fucking spring framework we have to return a model object even though we dont need it. grrr
 		return new FileViewModel();

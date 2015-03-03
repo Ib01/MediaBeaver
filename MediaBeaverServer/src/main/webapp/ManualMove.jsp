@@ -28,7 +28,7 @@
   
 	<form:form method="POST" commandName="movedata" class="formLayout">
 
-		<div class="roundedPanel">
+		<div class="level1Panel">
 			<form:label path="selectedRoot">Source File</form:label>
 			<span>${movedata.sourceFile}</span>
 			<form:hidden path="sourceFile"/>

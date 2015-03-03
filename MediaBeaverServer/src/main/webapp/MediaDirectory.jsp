@@ -533,33 +533,23 @@
 			<h2>Movie Directory</h2>
 		</c:if>
 		
-		<div style="border: solid 1px #F1F1F1">
+		<div style="border: solid 1px #F1F1F1; border-radius: 8px;">
 			<div style="background-color: #F1F1F1; padding: 3px;height: 20px">
 				<form:hidden path="action"/>
 		
 				<div style="float: right" id="folderMenu">
-				
+					<a href="#" id="selectAll" style="font-size: 14px;"> Select All </a><a href="#" id="deselectAll" style="font-size: 14px; display: none;"> Deselect All </a> |
+					<a href="#" id="expandAll" style="font-size: 14px"> Expand All </a><a href="#" id="colapseAll" style="font-size: 14px; display: none;"> Colapse All </a> |
+					<a href="#" id="deleteFiles">Delete</a> 
+					 
 					<c:if test="${directory.rootDirMediaType == 'source'}">
-						<a href="#" id="selectAll" style="font-size: 14px;"> Select All </a><a href="#" id="deselectAll" style="font-size: 14px; display: none;"> Deselect All </a> |
-						<a href="#" id="expandAll" style="font-size: 14px"> Expand All </a><a href="#" id="colapseAll" style="font-size: 14px; display: none;"> Colapse All </a> |
-						<a href="#" id="deleteFiles">Delete</a> | 
-						<a href="#" id="moveManually">Match and Move</a> |
-						<a href="#" id="moveFiles">Move</a>
+						| <a href="#" id="moveManually">Match</a> 
+						| <a href="#" id="moveFiles">Move</a>
 					</c:if>
-					<c:if test="${directory.rootDirMediaType == 'tv'}">
-						<a href="#" id="selectAll" style="font-size: 14px;"> Select All </a><a href="#" id="deselectAll" style="font-size: 14px; display: none;"> Deselect All </a> |
-						<a href="#" id="expandAll" style="font-size: 14px"> Expand All </a><a href="#" id="colapseAll" style="font-size: 14px; display: none;"> Colapse All </a> |
-						<a href="#" id="deleteFiles">Delete</a>  
-						<!-- <a href="#" id="moveManually">Match and Move</a> |
-						<a href="#" id="moveFiles">Move</a> -->
+					<%-- <c:if test="${directory.rootDirMediaType == 'tv'}">					
 					</c:if>
 					<c:if test="${directory.rootDirMediaType == 'movie'}">
-						<a href="#" id="selectAll" style="font-size: 14px;"> Select All </a><a href="#" id="deselectAll" style="font-size: 14px; display: none;"> Deselect All </a> |
-						<a href="#" id="expandAll" style="font-size: 14px"> Expand All </a><a href="#" id="colapseAll" style="font-size: 14px; display: none;"> Colapse All </a> |
-						<a href="#" id="deleteFiles">Delete</a>  
-						<!-- <a href="#" id="moveManually">Match and Move</a> |
-						<a href="#" id="moveFiles">Move</a> -->
-					</c:if>
+					</c:if> --%>
 				
 				</div> 
 			</div>

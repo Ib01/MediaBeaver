@@ -20,12 +20,19 @@ public class SelectMediaViewModel
 	}
 	
 	private String selectedMediaType;
+	private String refferer;
 	
 	public String getSelectedMediaType() {
 		return selectedMediaType;
 	}
 	public void setSelectedMediaType(String selectedMediaType) {
 		this.selectedMediaType = selectedMediaType;
+	}
+	public String getRefferer() {
+		return refferer;
+	}
+	public void setRefferer(String refferer) {
+		this.refferer = refferer;
 	}
 
 }

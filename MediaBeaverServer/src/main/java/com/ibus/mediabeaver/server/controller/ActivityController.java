@@ -1,5 +1,6 @@
 package com.ibus.mediabeaver.server.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,23 +19,32 @@ import com.ibus.mediabeaver.core.entity.Activity;
 import com.ibus.mediabeaver.server.util.Data;
 import com.ibus.mediabeaver.server.viewmodel.ActivityViewModel;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
+import com.ibus.mediabeaver.server.viewmodel.FileViewModel;
 
 @Controller
 @RequestMapping(value = "/activity")
 public class ActivityController
 {
+	public static String LastDateSessionKey = "ActivityController_LastDate";
+	
 	@RequestMapping
 	public ModelAndView showEvents(HttpServletRequest request)
 	{
 		Data data = new Data(request);
-		long DAY_IN_MS = 1000 * 60 * 60 * 24;
-		Date initialDate = new Date(System.currentTimeMillis() - (7 * DAY_IN_MS));
+		Date lastDate = (Date) request.getSession().getAttribute(LastDateSessionKey);
 		
-		List<Activity> activities = data.getActivities(initialDate);
+		if(lastDate == null)
+		{
+			long DAY_IN_MS = 1000 * 60 * 60 * 24;
+			lastDate = new Date(System.currentTimeMillis() - (7 * DAY_IN_MS));
+			
+			request.getSession().setAttribute(LastDateSessionKey, lastDate);
+		}
+		
+		List<Activity> activities = data.getActivities(lastDate);
 		ActivityViewModel vm = new ActivityViewModel();
 		vm.setActivities(activities);
-		
-		vm.setEarlistDate(initialDate);
+		vm.setEarlistDate(lastDate);
 		
 		return new ModelAndView("Activity","activity", vm);
 	}
@@ -50,22 +60,53 @@ public class ActivityController
 			activities = data.getActivities();
 		else
 			activities = data.getActivities(viewModel.getEarlistDate());
-		
 		viewModel.setActivities(activities);
+		
+		request.getSession().setAttribute(LastDateSessionKey, viewModel.getEarlistDate());
 		
 		return new ModelAndView("Activity","activity", viewModel);
 	}
 	
 	
-	@RequestMapping(value = "/manualMove", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/manualMove", method = RequestMethod.POST)
 	public ModelAndView manualMove(@Validated ActivityViewModel viewModel, HttpServletRequest request)
 	{
 		request.getSession().setAttribute(ManualMoveController.SourcePathSessionKey, viewModel.getSelectedPath());
 		request.getSession().setAttribute(ManualMoveController.ReferrerSessionKey, "/activity");
 		
 		return new ModelAndView("redirect:/manualmove/");
+	}*/
+	
+	@RequestMapping(value = "/match", method = RequestMethod.POST)
+	public ModelAndView manualMove(@Validated ActivityViewModel viewModel, HttpServletRequest request)
+	{
+		List<String> paths = new ArrayList<String>();
+		paths.add(viewModel.getSelectedPath());
+		
+		request.getSession().setAttribute(MediaMatcherController.FilesToMoveSessionKey, paths);
+		request.getSession().setAttribute(MediaMatcherController.ReffererSessionKey, "/activity");
+		
+		return new ModelAndView("redirect:/mediaMatcher/");
 	}
-	
-	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

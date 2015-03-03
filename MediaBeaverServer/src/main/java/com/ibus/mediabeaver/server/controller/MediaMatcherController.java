@@ -51,6 +51,7 @@ import com.ibus.tvdb.client.exception.TvdbException;
 @SessionAttributes({"SelectMediaType", "SearchSeries", "SelectSeason", "SelectEpisode", "SearchMovies"})
 public class MediaMatcherController 
 {
+	public static final String ReffererSessionKey = "mediaMatcherReffererKey";
 	public static final String FilesToMoveSessionKey = "filesToResolve";
 	EventLogger eventLogger = new EventLogger(Platform.Web);
 	private static TmdbConfiguration tmdbConfiguration;
@@ -74,6 +75,8 @@ public class MediaMatcherController
 		SelectMediaViewModel vm = new SelectMediaViewModel();
 		if(request.getSession().getAttribute("SelectMediaType") != null)
 			vm = (SelectMediaViewModel) request.getSession().getAttribute("SelectMediaType");
+		
+		vm.setRefferer((String) request.getSession().getAttribute(ReffererSessionKey));
 		
 		ModelAndView mav = new ModelAndView("SelectMediaType","SelectMediaType", vm);
 		mav = addSelectedFiles(mav, request);
