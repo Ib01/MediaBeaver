@@ -494,6 +494,10 @@
 								<img src="/resources/images/movies.png"> {{name}}
 							{{/ifCond}}
 							
+							{{#ifCond mediaType '==' 'Music'}}
+								<img src="/resources/images/file_extension_m4b.png"> {{name}}
+							{{/ifCond}}
+
 							{{#ifCond mediaType '==' 'Unknown'}}
 								<img src="/resources/images/page_white_text.png"> {{name}}
 							{{/ifCond}}

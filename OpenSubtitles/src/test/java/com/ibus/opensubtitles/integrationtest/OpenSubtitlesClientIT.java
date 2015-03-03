@@ -19,11 +19,15 @@ import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashGenerator;
 
 public class OpenSubtitlesClientIT
 {
-	private static String userName = "";
-	private static String password = "";
-	private static String useragent = "OS Test User Agent";
-	private static String host = "http://api.opensubtitles.org/xml-rpc";
-	private static String sublanguageid = "eng";
+	public static String OstUserName = "";
+	public static String OstPassword = "";
+	public static String OstUseragent = "MediaBeaver V0.1";
+	//private static String ostUseragent = "FileBot v4.5";
+	//private static String ostUseragent = "OS Test User Agent";
+	//private static String ostUseragent = "OSTestUserAgent";
+	public static String OstHost = "http://api.opensubtitles.org/xml-rpc";
+	public static String OstSublanguageid = "eng";
+	
 	private OpenSubtitlesToken token = new OpenSubtitlesToken();
 	
 	
@@ -45,7 +49,7 @@ public class OpenSubtitlesClientIT
 	@Test
 	public void logonLogoutTest() throws OpenSubtitlesLoginException, OpenSubtitlesResponseException, OpenSubtitlesException
 	{
-		OpenSubtitlesClient osClient = new OpenSubtitlesClient(host,useragent,userName, password,sublanguageid);
+		OpenSubtitlesClient osClient = new OpenSubtitlesClient(OstHost,OstUseragent,OstUserName, OstPassword,OstSublanguageid);
 		
 		osClient.login();
 		osClient.logOut();
@@ -55,7 +59,7 @@ public class OpenSubtitlesClientIT
 	public void getTitleForHashTest() throws IOException, OpenSubtitlesLoginException, OpenSubtitlesResponseException, OpenSubtitlesException 
 	{
 		OpenSubtitlesHashData data = OpenSubtitlesHashGenerator.computeHash(new File("D:\\MediabeaverTests\\Aliens (1986) Special Edition.avi"));
-		OpenSubtitlesClient osClient = new OpenSubtitlesClient(host,useragent,userName, password,sublanguageid);
+		OpenSubtitlesClient osClient = new OpenSubtitlesClient(OstHost,OstUseragent,OstUserName, OstPassword,OstSublanguageid);
 		
 		osClient.login();
 		OstTitleDto dto = osClient.getTitleForHash(data);

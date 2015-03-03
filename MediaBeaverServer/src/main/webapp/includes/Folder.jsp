@@ -21,11 +21,17 @@
 			
 				<c:if test="${file.mediaType == 'Video'}">
 						<img src="/resources/images/movies.png">
-				</c:if>		
+				</c:if>
+				<c:if test="${file.mediaType == 'Music'}">
+						<img src="/resources/images/file_extension_m4b.png">
+				</c:if>
+						
 				<c:if test="${file.mediaType == 'Unknown'}">
 					<img src="/resources/images/page_white_text.png">
 					<!-- <img src="/resources/images/document_24.png"> -->
 				</c:if>
+				
+				
 			
 				<c:out value="${file.name}"/>
 			</c:if>		
