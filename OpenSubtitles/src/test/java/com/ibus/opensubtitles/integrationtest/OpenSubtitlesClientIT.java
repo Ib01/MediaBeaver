@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.junit.Test;
-
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 import com.ibus.opensubtitles.client.OpenSubtitlesToken;
 import com.ibus.opensubtitles.client.dto.OstTitleDto;
