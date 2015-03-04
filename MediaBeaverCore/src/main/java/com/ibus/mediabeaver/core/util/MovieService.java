@@ -42,6 +42,7 @@ public class MovieService
 			
 			String destinationPathEnd = pathParser.parseMoviePath(result.getMovieResults().get(0).getTitle(), 
 					result.getMovieResults().get(0).getReleaseDate());
+			
 			destinationPathEnd += "." + FilenameUtils.getExtension(file.getAbsolutePath());
 			
 			return destinationPathEnd;
