@@ -40,9 +40,6 @@ public abstract class FileSystem
 		createAllDirectoriesInPath(destinationPath);
 		
 		Files.move(sourcePath, destinationPath);
-		
-		log.debug(String.format(">>> Succesfully renamed or moved file from %s to %s", source, destinationEnd));
-				
 		return true;
 	}
 	
@@ -69,9 +66,6 @@ public abstract class FileSystem
 		createAllDirectoriesInPath(destinationPath);
 		
 		Files.copy(sourcePath, destinationPath);
-		
-		log.debug(String.format(">>> Succesfully copied file from %s to %s", source, destinationEnd));
-		
 		return true;
 	}
 	
