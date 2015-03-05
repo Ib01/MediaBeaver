@@ -3,6 +3,7 @@ package com.ibus.mediabeaver.core.filesystem;
 import java.util.List;
 
 import com.ibus.mediabeaver.core.entity.PathToken;
+import com.ibus.mediabeaver.core.exception.MetadataException;
 import com.ibus.mediabeaver.core.exception.PathParseException;
 import com.ibus.tvdb.client.domain.Episode;
 import com.ibus.tvdb.client.domain.Series;
@@ -29,8 +30,9 @@ public class EpisodePathParser
 	 * @param tvdbEpisode
 	 * @return
 	 * @throws PathParseException
+	 * @throws MetadataException 
 	 */
-	public String parseEpisodePath(String seriesName, String seasonNumber, String episodeNumber, String episodeName) throws PathParseException
+	public String parseEpisodePath(String seriesName, String seasonNumber, String episodeNumber, String episodeName) throws PathParseException, MetadataException
 	{
 		String rawEpisodePath =  episodePath; //path with tokens in it
 		
@@ -39,28 +41,39 @@ public class EpisodePathParser
 			PathToken parsedToken = null;
 			if(token.getName().equals("SeriesName"))
 			{
+				if(seriesName == null || seriesName.length() == 0)
+					throw new MetadataException("Series name is null or empty");
+				
 				parsedToken = PathParser.parseToken(token, seriesName);
 			}
 			else if(token.getName().equals("SeasonNumber"))
 			{
+				if(seasonNumber == null || seasonNumber.length() == 0)
+					throw new MetadataException("Season number is null or empty");
+				
 				parsedToken = PathParser.parseToken(token, seasonNumber);
 			}
 			else if(token.getName().equals("EpisodeNumber"))
 			{
+				if(episodeNumber == null || episodeNumber.length() == 0)
+					throw new MetadataException("Episode Number is null or empty");
+				
 				parsedToken = PathParser.parseToken(token, episodeNumber);
 			}
 			else if(token.getName().equals("EpisodeName"))
 			{
+				if(episodeName == null || episodeName.length() == 0)
+					throw new MetadataException("Episode name is null or empty");
+				
 				parsedToken = PathParser.parseToken(token, episodeName);
 			}
-			
 			
 			rawEpisodePath = PathParser.parsePath(parsedToken, rawEpisodePath);
 		}
 		
 		
-		if(PathParser.containsTokens(rawEpisodePath))
-			throw new PathParseException(String.format("Episode path is malformed. Path contains tokens after being parsed: %s", rawEpisodePath));
+		/*if(PathParser.containsTokens(rawEpisodePath))
+			throw new PathParseException(String.format("Episode path is malformed. Path contains tokens after being parsed: %s", rawEpisodePath));*/
 		
 		return rawEpisodePath;
 	}

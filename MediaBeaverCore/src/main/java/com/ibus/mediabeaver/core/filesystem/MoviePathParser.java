@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.exception.PathParseException;
-import com.ibus.mediabeaver.core.exception.ServiceDataException;
+import com.ibus.mediabeaver.core.exception.MetadataException;
 
 public class MoviePathParser 
 {
@@ -30,9 +30,10 @@ public class MoviePathParser
 	 * @param seriesDto
 	 * @param tvdbEpisode
 	 * @return
+	 * @throws MetadataException 
 	 * @throws PathParseException
 	 */
-	public String parseMoviePath(String title, String releaseDate) throws PathParseException
+	public String parseMoviePath(String title, String releaseDate) throws MetadataException, PathParseException 
 	{
 		String rawMoviePath =  movieFormatPath; //path with tokens in it
 		
@@ -42,22 +43,24 @@ public class MoviePathParser
 			if(token.getName().equals("MovieName"))
 			{
 				if(title == null || title.length() == 0)
-					throw new ServiceDataException("The TMDB Service returned empty or null for the movie title");
-				
+					throw new MetadataException("Movie title or name is null or empty");					
+
 				parsedToken = PathParser.parseToken(token, title);
 			}
 			else if(token.getName().equals("ReleaseDate"))
 			{
-				parsedToken = PathParser.parseToken(token, releaseDate); 
 				if(releaseDate == null || releaseDate.length() == 0)
-					throw new ServiceDataException("The TMDB Service returned empty or null for the releaseDate");
+					throw new MetadataException("Movie release date is null or empty");
+				
+				parsedToken = PathParser.parseToken(token, releaseDate); 
 			}
 			
 			rawMoviePath = PathParser.parsePath(parsedToken, rawMoviePath);
 		}
 		
-		if(PathParser.containsTokens(rawMoviePath))
-			throw new PathParseException(String.format("Episode path is malformed. Path contains tokens after being parsed: %s", rawMoviePath));
+		//TODO: this should not be necessary anymore as we throw an error if any token is not parsed above
+		/*if(PathParser.containsTokens(rawMoviePath))
+			throw new PathParseException(String.format("Episode path is malformed. Path contains tokens after being parsed: %s", rawMoviePath));*/
 		
 		return rawMoviePath;
 	}
