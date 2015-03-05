@@ -3,12 +3,15 @@ package com.ibus.mediabeaver.server.controller;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.config.TmdbConfiguration;
 import info.movito.themoviedbapi.model.core.MovieResults;
+
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Controller;
@@ -19,9 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.ibus.mediabeaver.core.entity.Configuration;
+import com.ibus.mediabeaver.core.entity.EventType;
 import com.ibus.mediabeaver.core.entity.ResultType;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
+import com.ibus.mediabeaver.core.exception.MetadataException;
 import com.ibus.mediabeaver.core.exception.PathParseException;
 import com.ibus.mediabeaver.core.filesystem.EpisodePathParser;
 import com.ibus.mediabeaver.core.filesystem.FileSystem;
@@ -200,7 +206,7 @@ public class MediaMatcherController
 			else
 				FileSystem.moveFile(srcPath, config.getMovieRootDirectory(), destPathEnd);
 			
-			eventLogger.logMoveEvent(srcPath, Paths.get(config.getMovieRootDirectory(), destPathEnd).toString(), 
+			eventLogger.logEvent(EventType.Move, srcPath, Paths.get(config.getMovieRootDirectory(), destPathEnd).toString(), 
 					ResultType.Succeeded, "Successfully moved file");
 			
 			return new ModelAndView("redirect:/mediaDirectory?type=source");
@@ -316,7 +322,7 @@ public class MediaMatcherController
 	
 	
 	@RequestMapping(value="/matchFiles_Match")
-	public ModelAndView matchFilesMatch(HttpServletRequest request) throws PathParseException, IOException, DuplicateFileException
+	public ModelAndView matchFilesMatch(HttpServletRequest request) throws PathParseException, IOException, DuplicateFileException, MetadataException
 	{
 		MatchFilesViewModel mfvm = (MatchFilesViewModel) request.getSession().getAttribute("MatchFiles");
 		for(FileMatchViewModel m : mfvm.getMatches())
@@ -342,12 +348,12 @@ public class MediaMatcherController
 					FileSystem.moveFile(m.getFile(), config.getTvRootDirectory(), pathEnd);
 			
 				String fullDestinationPath = Paths.get(config.getTvRootDirectory(), pathEnd).toString();
-				eventLogger.logMoveEvent(m.getFile(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
+				eventLogger.logEvent(EventType.Move, m.getFile(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
 				
 				//log.debug(String.format("File %s was successfully moved to %s", file.getAbsolutePath(), fullDestinationPath));
 				
 				
-			} catch (PathParseException | IOException | DuplicateFileException e) 
+			} catch (PathParseException | IOException | DuplicateFileException | MetadataException e) 
 			{
 				//TODO: ?
 				throw e;

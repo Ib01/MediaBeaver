@@ -30,6 +30,8 @@ import com.ibus.opensubtitles.client.exception.OpenSubtitlesException;
 import com.ibus.opensubtitles.client.exception.OpenSubtitlesLoginException;
 import com.ibus.opensubtitles.client.exception.OpenSubtitlesResponseException;
 import com.ibus.opensubtitles.client.utilities.OpenSubtitlesHashGenerator;
+import com.ibus.tvdb.client.exception.TvdbConnectionException;
+import com.ibus.tvdb.client.exception.TvdbException;
 
 public class MediaMover 
 {	
@@ -230,18 +232,13 @@ public class MediaMover
 			
 			return true;
 		
-		} catch (IOException e)
+		} 
+		catch (IOException e)
 		{
 			log.error(String.format("Could not move %s. An unspecified error occured while moving the file", file.getAbsolutePath()), e);	
 			eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, "An unspecified error occured while moving file");
 		} 
-		catch (DuplicateFileException e)
-		{
-			log.error(String.format("Could not move %s. Destination file already exists or part of the path exists with different casing", 
-					file.getAbsolutePath(), fullDestinationPath), e);	
-			eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, 
-					"Destination file already exists");
-		} catch (MetadataException e) 
+		catch (MetadataException e) 
 		{
 			log.error(String.format("Could not move %s. Metadata required to name and move the file could not be acquired from the media services used", 
 					file.getAbsolutePath(), fullDestinationPath), e);	
@@ -253,14 +250,23 @@ public class MediaMover
 					file.getAbsolutePath(), fullDestinationPath), e);	
 			eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, 
 					"Unable to parse media format path");
-		} 
+		}
+		catch (DuplicateFileException e)
+		{
+			log.error(String.format("Could not move %s. Destination file already exists or part of the path exists with different casing", 
+					file.getAbsolutePath(), fullDestinationPath), e);	
+			eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, 
+					"Destination file already exists");
+		}
+		
+		
 		
 		return false;
 	}
 	
 	
 	
-	protected boolean moveTvEpisode(Map<String,String> ostTitle, File file)
+	protected boolean moveTvEpisode(Map<String,String> ostTitle, File file) 
 	{
 		String fullDestinationPath = null;
 		try
@@ -272,25 +278,42 @@ public class MediaMover
 			
 			moveFile(file.getAbsolutePath(), config.getTvRootDirectory(), pathEnd);
 			
-			eventLogger.logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
+			eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
 			log.debug(String.format("File %s was successfully moved to %s", file.getAbsolutePath(), fullDestinationPath));
 			
 			return true;
-			
 		} 
 		catch (IOException e)
 		{
-			log.error(String.format("An unspecified error occured while moving the file %s", file.getAbsolutePath()), e);	
-			eventLogger.logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, "An unspecified error occured while moving file");
-			
+			log.error(String.format("Could not move %s. An unspecified error occured while moving the file", file.getAbsolutePath()), e);	
+			eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, "An unspecified error occured while moving file");
 		} 
+		catch (MetadataException e) 
+		{
+			log.error(String.format("Could not move %s. Metadata required to name and move the file could not be acquired from the media services used", 
+					file.getAbsolutePath(), fullDestinationPath), e);	
+			eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, 
+					"Media services responded with missing metadata");
+		} 
+		catch (PathParseException e) 
+		{
+			log.error(String.format("Could not move %s. Could not parse service metadata to a valid path.  It is likely that the media format path used is malfomred", 
+					file.getAbsolutePath(), fullDestinationPath), e);	
+			eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, 
+					"Unable to parse media format path");
+		}
 		catch (DuplicateFileException e)
 		{
-			log.error(String.format("An error occured moving file: %s. Destination file %s already exists or part of the path exists with different casing", 
+			log.error(String.format("Could not move %s. Destination file already exists or part of the path exists with different casing", 
 					file.getAbsolutePath(), fullDestinationPath), e);	
-			eventLogger.logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, 
-					"Destination file already exists or part of the path exists with different casing");
+			eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, 
+					"Destination file already exists");
 		} 
+		catch (TvdbException | TvdbConnectionException e) 
+		{
+			eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), ResultType.Failed, "Could not move %s. The TVDB service appears to be unavailable.");
+			log.error(String.format("TVDB Service appears to be unavailable.", file.getAbsolutePath()));
+		}
 		
 		return false;
 	}
