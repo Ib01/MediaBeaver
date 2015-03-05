@@ -160,7 +160,7 @@ public class MediaMover
 	protected boolean processFile(File file)  
 	{
 		boolean moveSuccess = false;
-		log.debug("<<< Commencing attempt to move file >>>");
+		log.debug("<<< Attempting to move file >>>");
 		
 		String extension = FileSysUtil.getExtension(file.getAbsolutePath());
 		if(FileSysUtil.isVideoExtension(extension, config.getVideoExtensionFilter()))
@@ -176,7 +176,7 @@ public class MediaMover
 			log.debug(String.format("Could not move %s.  The file is not a valid media type", file.getAbsolutePath()));
 		}
 		
-		log.debug("<<< Attempt to move file complete >>>");
+		log.debug("<<< File movement attempt complete >>>");
 		return moveSuccess;
 	}
 	
