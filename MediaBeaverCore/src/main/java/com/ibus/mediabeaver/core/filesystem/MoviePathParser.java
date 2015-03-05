@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.ibus.mediabeaver.core.entity.PathToken;
 import com.ibus.mediabeaver.core.exception.PathParseException;
+import com.ibus.mediabeaver.core.exception.ServiceDataException;
 
 public class MoviePathParser 
 {
@@ -40,11 +41,16 @@ public class MoviePathParser
 			PathToken parsedToken = null;
 			if(token.getName().equals("MovieName"))
 			{
+				if(title == null || title.length() == 0)
+					throw new ServiceDataException("The TMDB Service returned empty or null for the movie title");
+				
 				parsedToken = PathParser.parseToken(token, title);
 			}
 			else if(token.getName().equals("ReleaseDate"))
 			{
 				parsedToken = PathParser.parseToken(token, releaseDate); 
+				if(releaseDate == null || releaseDate.length() == 0)
+					throw new ServiceDataException("The TMDB Service returned empty or null for the releaseDate");
 			}
 			
 			rawMoviePath = PathParser.parsePath(parsedToken, rawMoviePath);

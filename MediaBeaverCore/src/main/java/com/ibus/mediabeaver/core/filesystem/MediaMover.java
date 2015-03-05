@@ -13,8 +13,10 @@ import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
 
 import com.ibus.mediabeaver.core.entity.Configuration;
+import com.ibus.mediabeaver.core.entity.EventType;
 import com.ibus.mediabeaver.core.entity.ResultType;
 import com.ibus.mediabeaver.core.exception.DuplicateFileException;
+import com.ibus.mediabeaver.core.exception.ServiceDataException;
 import com.ibus.mediabeaver.core.util.EventLogger;
 import com.ibus.mediabeaver.core.util.Factory;
 import com.ibus.mediabeaver.core.util.FileSysUtil;
@@ -154,23 +156,25 @@ public class MediaMover
 	
 	protected boolean processFile(File file)  
 	{
+		boolean moveSuccess = false;
+		log.debug("<<< Commencing attempt to move file >>>");
+		
 		String extension = FileSysUtil.getExtension(file.getAbsolutePath());
-		
-		//String extension = FilenameUtils.getExtension(file.getAbsolutePath());
-		
 		if(FileSysUtil.isVideoExtension(extension, config.getVideoExtensionFilter()))
 		{
 			++foundMedia;
-			return moveVideo(file);
+			moveSuccess = moveVideo(file);
+		}
+		else
+		{
+			//TODO: dont report attempts on non media files???
+			/*eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), null, ResultType.Failed, 
+					"Could not move file.  The file is not a valid media type");*/
+			log.debug(String.format("Could not move %s.  The file is not a valid media type", file.getAbsolutePath()));
 		}
 		
-		eventLogger.logEvent(file.getAbsolutePath(), null, ResultType.Failed, 
-				"Could not move file.  The file is not a valid media type");
-		log.debug(String.format(
-				"Could not move %s.  The file is not a valid media type", 
-				file.getAbsolutePath()));
-		
-		return false;
+		log.debug("<<< Attempt to move file complete >>>");
+		return moveSuccess;
 	}
 	
 	protected boolean moveVideo(File file) 
@@ -179,23 +183,32 @@ public class MediaMover
 		Map<String,String> ostTitle = getOpenSubtitlesTitle(file);
 		if(ostTitle != null)
 		{
-			//let the OST Service identify what kind of file we have 
-			if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("episode") || ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("tv series"))
+			String mediaType = ostTitle.get(OpenSubtitlesField.MovieKind.toString());
+			if(mediaType != null)
 			{
-				return moveTvEpisode(ostTitle, file);
+				//let the OST Service identify what kind of file we have 
+				if(mediaType.equals("episode") || mediaType.equals("tv series"))
+				{
+					return moveTvEpisode(ostTitle, file);
+				}
+				else if(mediaType.equals("movie"))
+				{
+					return moveMovie(ostTitle, file);
+				}
+				else
+				{
+					log.debug(String.format("Could not move %s. The Open Subtitles service returned an unknown media type in its MovieKind field", file.getAbsolutePath()));
+				}
 			}
-			else if(ostTitle.get(OpenSubtitlesField.MovieKind.toString()).equals("movie"))
+			else
 			{
-				return moveMovie(ostTitle, file);
+				log.debug(String.format("Could not move %s. The Open Subtitles service returned null in its MovieKind field", file.getAbsolutePath()));
 			}
+			
+			eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), null, ResultType.Failed, "Could not determine media type for file");
 		}
 		
-		eventLogger.logEvent(file.getAbsolutePath(), null, ResultType.Failed, 
-				"Could not move file.  could not identify the type of video the file represents using the open subtitles service");
-		log.debug(String.format(
-				"Could not move file %s. Could not identify the type of video the file represents using the open subtitles service", 
-				file.getAbsolutePath()));
-		
+		//errors logged in getOpenSubtitlesTitle
 		return false;
 	}
 	
@@ -206,6 +219,7 @@ public class MediaMover
 		try
 		{
 			String pathEnd = movieService.getMoviePath(ostTitle, file);
+			
 			if(pathEnd != null)
 			{
 				fullDestinationPath = Paths.get(config.getMovieRootDirectory(), pathEnd).toString();
@@ -226,6 +240,12 @@ public class MediaMover
 		catch (DuplicateFileException e)
 		{
 			log.error(String.format("An error occured moving file: %s. Destination file %s already exists or part of the path exists with different casing", 
+					file.getAbsolutePath(), fullDestinationPath), e);	
+			eventLogger.logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, 
+					"Destination file already exists or part of the path exists with different casing");
+		} catch (ServiceDataException e) 
+		{
+			log.error(String.format("An error occured moving file: %s. ", 
 					file.getAbsolutePath(), fullDestinationPath), e);	
 			eventLogger.logEvent(file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, 
 					"Destination file already exists or part of the path exists with different casing");
@@ -282,67 +302,66 @@ public class MediaMover
 	 */
 	private Map<String,String> getOpenSubtitlesTitle(File file) 
 	{
-		//get media information from Open Subtitles Service using file thumbprint 
-		OpenSubtitlesHashData fileThumbprint;
-		try
-		{
-			fileThumbprint = OpenSubtitlesHashGenerator.computeHash(file);
-			
-			if(!fileThumbprint.isValid())
-			{
-				eventLogger.logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Could not generate thumbprint for file");
-				log.debug(String.format("File %s could not be moved. thumbprint for file is invalid", file.getAbsolutePath()));
-				return null;
-			}
-		} 
-		catch (IOException e)
-		{
-			eventLogger.logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Could not generate thumbprint for file");
-			log.error(String.format("File %s could not be moved. could not acquire a thumbprint for the file", file.getAbsolutePath()), e);
+		OpenSubtitlesHashData fileThumbprint = getOpenSubtitlesHash(file);
+		return getOpenSubtitlesDto(file, fileThumbprint);
+	}
+	
+	private Map<String,String> getOpenSubtitlesDto(File file, OpenSubtitlesHashData fileThumbprint)
+	{
+		if(fileThumbprint == null)
 			return null;
-		}
 		
-		
-		OstTitleDto dto = null;
 		try
 		{
-			dto = Factory.getOpenSubtitlesClient().getTitleForHash(fileThumbprint);
+			OstTitleDto dto = Factory.getOpenSubtitlesClient().getTitleForHash(fileThumbprint);
 			
-			if(dto == null || dto.getPossibleTitles().size() == 0)
+			if(dto != null || dto.getPossibleTitles().size() != 0)
 			{
-				eventLogger.logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Could not find title for thumbprint");
-				log.debug(String.format("Open Subtitles thumbprint search on file %s failed. No results were returned by the service", 
-						file.getAbsolutePath()));
-				return null;
+				//TODO: Can we do better than this. eg could we get the highest rated items
+				return dto.getFirstMovieOrEpisodeTitleWithImdb();
 			}
 			
-			//TODO: Can we do better than this. eg could we get the highest rated items
-			return dto.getFirstMovieOrEpisodeTitleWithImdb();
+			log.debug(String.format("Could not move %s. A thumbprint search was performed against the Open Subtitles service and the service did not return any results.", 
+					file.getAbsolutePath()));
+
 		} 
 		catch (OpenSubtitlesResponseException e) 
 		{
-			eventLogger.logEvent(file.getAbsolutePath(), null, ResultType.Failed, 
-					"While attempting to perform a thumbprint search against the file the Open Subtitles service returned an error in its response");
-			
-			log.error(String.format("While attempting to perform a thumbprint search against %s the Open Subtitles service returned an error in its response", 
+			log.error(String.format("Could not move %s. A thumbprint search was performed against the Open Subtitles service and an error was returned in the response", 
 					file.getAbsolutePath()), e);
-			return null;
 		}
 		catch (OpenSubtitlesException e) 
 		{
-			eventLogger.logEvent(file.getAbsolutePath(), null, ResultType.Failed, "An unknown error occured while performing a thumbprint search against the Open Subtitles web service. See system logs for details");
-			log.error(String.format("Open Subtitles thumbprint search on file %s failed. An unknown error occured while performing a thumbprint search against the service", 
+			log.error(String.format("Could not move %s. An unknown error occured while attempting to perform a thumbprint search against the Open Subtitles service", 
 					file.getAbsolutePath()), e);
-			return null;
 		} 
 		catch (OpenSubtitlesLoginException e) 
 		{
-			eventLogger.logEvent(file.getAbsolutePath(), null, ResultType.Failed, "Could not login to the Opensubtitles service");
-			log.debug(String.format("Open Subtitles thumbprint search on file %s failed. Could not login to the Opensubtitles service.", 
-					file.getAbsolutePath()));
-			return null;
+			log.error(String.format("Could not move %s. Could not login to the Opensubtitles service.", 
+					file.getAbsolutePath()), e);
 		}
 		
+		eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), null, ResultType.Failed, "Could not find metadata for file");
+		return null;
+	}
+	
+	private OpenSubtitlesHashData getOpenSubtitlesHash(File file)
+	{
+		try
+		{
+			OpenSubtitlesHashData fileThumbprint = OpenSubtitlesHashGenerator.computeHash(file);
+			if(fileThumbprint.isValid())
+				return fileThumbprint;
+			
+			log.error(String.format("Could not move %s. The thumbprint generated from the file is not valid", file.getAbsolutePath()));	
+		} 
+		catch (IOException e)
+		{
+			log.error(String.format("Could not move %s. An IO Exception occured while generating a thumbprint for the file", file.getAbsolutePath()), e);
+		}
+		
+		eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), ResultType.Failed, "Could not generate thumbprint for file");
+		return null;
 	}
 	
 

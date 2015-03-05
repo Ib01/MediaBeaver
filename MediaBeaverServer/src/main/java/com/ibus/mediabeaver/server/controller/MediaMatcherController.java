@@ -200,7 +200,7 @@ public class MediaMatcherController
 			else
 				FileSystem.moveFile(srcPath, config.getMovieRootDirectory(), destPathEnd);
 			
-			eventLogger.logEvent(srcPath, Paths.get(config.getMovieRootDirectory(), destPathEnd).toString(), 
+			eventLogger.logMoveEvent(srcPath, Paths.get(config.getMovieRootDirectory(), destPathEnd).toString(), 
 					ResultType.Succeeded, "Successfully moved file");
 			
 			return new ModelAndView("redirect:/mediaDirectory?type=source");
@@ -342,7 +342,7 @@ public class MediaMatcherController
 					FileSystem.moveFile(m.getFile(), config.getTvRootDirectory(), pathEnd);
 			
 				String fullDestinationPath = Paths.get(config.getTvRootDirectory(), pathEnd).toString();
-				eventLogger.logEvent(m.getFile(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
+				eventLogger.logMoveEvent(m.getFile(), fullDestinationPath, ResultType.Succeeded, "Successfully moved file");
 				
 				//log.debug(String.format("File %s was successfully moved to %s", file.getAbsolutePath(), fullDestinationPath));
 				

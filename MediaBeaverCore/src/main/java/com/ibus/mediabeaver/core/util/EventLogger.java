@@ -17,16 +17,22 @@ public class EventLogger
 		this.platform = platform;
 	}
 
-	public Activity logEvent(String source, String destination, ResultType result, String errorDescription)
+	
+	public Activity logEvent(EventType eventType, String source, ResultType result, String description)
+	{
+		return logEvent(eventType, source, null, result, description);
+	}
+	
+	public Activity logEvent(EventType eventType, String source, String destination, ResultType result, String description)
 	{
 		Activity event = new Activity();
 		
 		event.setEventTime(new Date());
-		event.setEventType(EventType.Move);
+		event.setEventType(eventType);
 		event.setDestinationPath(destination);
 		event.setResult(result);
 		event.setSourcePath(source);
-		event.setErrorDescription(errorDescription);
+		event.setErrorDescription(description);
 		
 		logEvent(event);
 		
