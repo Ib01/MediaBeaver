@@ -24,12 +24,14 @@
 			
 			$( "body" ).delegate( ".highlightableLi", "mouseout", function()  
 			{
-				
 				$(this).css("background-color", "");
 			});
 			
 			$( "body" ).delegate( ".highlightableLi", "click", function()  
 			{
+				//<<<---- here
+				alert("1");
+				
 				if(!uiEnabled) return;
 				
 				$(this).find("input:checkbox").prop(
@@ -42,6 +44,9 @@
 				
 			$( "body" ).delegate( ".highlightableLi input:checkbox", "click", function()  
 			{
+				//<<<---- here
+				alert("2");
+				
 				setMenuState();
 				e.stopPropagation();
 			});
@@ -50,7 +55,8 @@
 			{
 				if(!uiEnabled || !moveManuallyEnabled) return;
 				
-				var selectedLis = $(".selectedCheckbox:checked").siblings("input[name$='file'][value='true']").parent("li");
+				//var selectedLis = $(".selectedCheckbox:checked").siblings("input[name$='file'][value='true']").parent("li");
+				var selectedLis = $(".selectedCheckbox:checked").siblings("input[name$='mediaType'][value='Video']").parent("li");
 				
 				var vms = [];
 				$(selectedLis).each(function(index) 
@@ -188,7 +194,7 @@
 			});
 			
 			
-			setMenuState();
+			initialiseForm();
 		}); 
 		
 		
@@ -196,13 +202,32 @@
 		//---------------------------------------------------------------------------------//
 		//---------------------------------------------------------------------------------//
 	
+		//<<<---- here
+		function openFolderTree(li) 
+		{	
+			selectedLi = li;
+			
+			var vm = getFileViewModel(li);
+			dissableInterface();
+			//callOpenAll(vm);
+		}
+		
+		function initialiseForm()
+		{
+			
+			selectedLi = $("#rootLi");
+			var vm = getFileViewModel(selectedLi);
+			dissableInterface();
+			callOpen(vm);
+		}
 		
 		function setMenuState()
 		{
-			var numSelectedFiles = $(".selectedCheckbox:checked").siblings("input[name$='file'][value='true']").length;
+			var numSelectedVideos = $(".selectedCheckbox:checked").siblings("input[name$='mediaType'][value='Video']").length;
+			//var numSelectedFiles = $(".selectedCheckbox:checked").siblings("input[name$='file'][value='true']").length;
 			var numSelectedItems = $(".selectedCheckbox:checked").length;
 		
-			if(numSelectedFiles > 0)
+			if(numSelectedVideos > 0)
 			{
 				$("#moveManually").css("color", "");
 				$("#moveFiles").css("color", "");
@@ -324,10 +349,56 @@
 			}
 		}
 		
+		
+		//<<<---- here
+		function openFolderTreeSuccess(data)
+		{
+			var source = $("#folderTemplate").html(); 
+			var template = Handlebars.compile(source); 
+			var s = template(data);
+			
+			$(selectedLi).find("input[name$='open']").val("true");
+			$(selectedLi).after(s);
+			
+			
+			$()
+			
+			
+			
+			selectedLi =  getNextUnopenedFolderLi();
+			if(selectedLi.length > 0)
+			{
+				var vm = getFileViewModel(selectedLi);
+				callOpenAll(vm);
+			}
+			else
+			{
+				$("#expandAll").hide();
+				$("#colapseAll").show();
+				enableInterface();
+				setMenuState();
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		function openSuccess(data)
 		{
-			//alert(JSON.stringify(data));
-			
 			var source = $("#folderTemplate").html(); 
 			var template = Handlebars.compile(source); 
 			var s = template(data);
@@ -451,21 +522,28 @@
 			//"selected": $(checkbox).parent("li").find("input:nth-child(5)").val()
 		}
 		
+		
 		/* get the first li that has a checked checkbox and an input indicating it is a file */
 		function getNextSelectedFileLi()
 		{
 			return  $(".selectedCheckbox:checked").siblings("input[name$='file'][value='true']").siblings(".operationTried[value='false']").parent("li").first();
 		}
 		
-		/* get next file or folder that does not have a selected parent folder*/
+		/* get the first checked li that we have not already tried to move / delete */
 		function getNextSelectedLi()
 		{
-			//get the first checked li that we have not already tried to move / delete 
 			return $('.selectedCheckbox:checked').siblings(".operationTried[value='false']").parent("li").first();
 		}
 		
 		function getNextUnopenedFolderLi()
 		{
+			return $(".folderName").siblings("input[name$='open'][value='false']").parent("li").first();
+		}
+		
+		function getNextUnopenedChildFolderLi()
+		{
+			$(".folderName").c
+			
 			return $(".folderName").siblings("input[name$='open'][value='false']").parent("li").first();
 		}
 		
@@ -485,7 +563,8 @@
 						<input name="name" type="hidden" value="{{name}}">
 						<input name="file" type="hidden" value="{{#if file}}true{{else}}false{{/if}}">
 						<input name="open" type="hidden" value="{{#if open}}true{{else}}false{{/if}}" class="openHiddenInput">
-					
+						<input name="mediaType" type="hidden" value="{{mediaType}}">					
+
 						<input type="checkbox" name="selected" class="selectedCheckbox">
 					
 						{{#if file}}
@@ -512,9 +591,6 @@
 			</ul>
 		</li>	
 	</script>	
-	
-	
-	
 	
 	
 	<style>
@@ -559,7 +635,7 @@
 			</div>
 			
 			<ul style="list-style: none; padding-left: 0px;">
-				<li> 
+				<li id="rootLi"> 
 					<form:hidden path="path"/>
 					<form:hidden path="name"/>
 					<form:hidden path="file"/>                           
@@ -568,22 +644,20 @@
 					<img src="/resources/images/folder_vertical_open.png" style="padding-left: 10px;"><c:out value="${directory.path}"/>
 					<%-- <img src="/resources/images/folder_24.png" style="padding-left: 10px;"><c:out value="${directory.path}"/> --%> 
 				</li>
-				<li>
+				<%-- <li>
 				 
 				 	<!-- have to pass directory in request scope as it is an object.--> 
 					<c:set var="CurrentFolder" value="${directory}" scope="request"/>
 					<jsp:include page="includes/Folder.jsp" >
 					    <jsp:param name="ReferenceString" value="files" />
 					</jsp:include>
-				</li>
+				</li> --%>
 			</ul>
 		</div>
 		
 	
 		<div style="border: 1px solid #F1F1F1; display:none; " id="messageBoard">
 			<div style="background-color: #919191;  margin: 3px; color: white; padding: 5px; ">
-				
-				
 			</div>
 		</div>
 		

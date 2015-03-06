@@ -86,14 +86,14 @@ public class Data
 	{
 		File file = new File(path);
 		FileViewModel filevm  = getFileVM(file);
-		
-		filevm.setFiles(getChildren(file));
 		return filevm;
 	}
 	
 	
-	private List<FileViewModel> getChildren(File rootFile)
+	public List<FileViewModel> getChildFileViewmodels(String path)
 	{
+		File rootFile = new File(path);
+		
 		List<File> subFiles = Arrays.asList(rootFile.listFiles());
 		List<FileViewModel> filevms = new ArrayList<FileViewModel>();
 		

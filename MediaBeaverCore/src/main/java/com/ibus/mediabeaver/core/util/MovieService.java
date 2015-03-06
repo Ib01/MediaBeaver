@@ -35,9 +35,11 @@ public class MovieService
 	
 	public String getMoviePath(Map<String,String> ostTitle, File file) throws MetadataException, PathParseException 
 	{
-		String imdbId = OstTitleDto.parseImdbId(ostTitle.get(OpenSubtitlesField.IDMovieImdb.toString()));
-		if(imdbId == null)
+		String imdbId = ostTitle.get(OpenSubtitlesField.IDMovieImdb.toString());
+		if(imdbId == null || imdbId.trim().length() == 0)
 			throw new MetadataException("The Open Subtitles service did not return a valid IMDB Id");
+		
+		imdbId = OstTitleDto.parseImdbId(imdbId);
 		
 		FindResults result = Factory.getTmdbClient().getFind().find(imdbId, TmdbFind.ExternalSource.imdb_id, null);
 		
@@ -46,6 +48,11 @@ public class MovieService
 			throw new MetadataException("The TMDB Service returned <> 1 result when searching for a movie with imdbId: " + imdbId);
 		
 		String destinationPathEnd = pathParser.parseMoviePath(result.getMovieResults().get(0).getTitle(), result.getMovieResults().get(0).getReleaseDate());
+		
+		//TODO: Give user the option to determine the format of the CD numbering??
+		String cdNum = ostTitle.get(OpenSubtitlesField.SubActualCD.toString());
+		if(cdNum != null && cdNum.trim().length() > 0)
+			destinationPathEnd += String.format("(CD%s)", cdNum.trim());
 		
 		destinationPathEnd += "." + FilenameUtils.getExtension(file.getAbsolutePath());
 		return destinationPathEnd;

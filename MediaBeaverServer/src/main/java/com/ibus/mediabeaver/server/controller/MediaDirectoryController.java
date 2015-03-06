@@ -110,6 +110,8 @@ public class MediaDirectoryController
 	{
 		Data data = new Data(request);
 		FileViewModel filevm = data.getFileViewModel(model.getPath());
+		filevm.setFiles(data.getChildFileViewmodels(model.getPath()));
+		
 		filevm.setOpen(true);
 		return filevm;
 	}

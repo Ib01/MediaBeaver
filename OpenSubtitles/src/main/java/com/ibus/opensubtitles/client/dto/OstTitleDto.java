@@ -57,7 +57,7 @@ public class OstTitleDto
 	
 	public static String parseImdbId(String imdbId)
 	{
-		if(imdbId == null || imdbId.length() == 0)
+		if(imdbId == null || imdbId.trim().length() == 0)
 			return null;
 		return "tt" + StringUtils.leftPad(imdbId, 7, "0");	
 	}
