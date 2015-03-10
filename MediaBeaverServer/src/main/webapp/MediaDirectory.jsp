@@ -40,6 +40,8 @@
 				);
 			
 				setMenuState();
+				
+				openFolderTree($(this)); 
 			});
 				
 			$( "body" ).delegate( ".highlightableLi input:checkbox", "click", function()  
@@ -49,6 +51,8 @@
 				
 				setMenuState();
 				e.stopPropagation();
+				
+				openFolderTree($(this).parent("li")); 
 			});
 			
 			$("#moveManually").click(function() 
@@ -209,7 +213,7 @@
 			
 			var vm = getFileViewModel(li);
 			dissableInterface();
-			//callOpenAll(vm);
+			callOpenFolderTree(vm);
 		}
 		
 		function initialiseForm()
@@ -276,6 +280,12 @@
 			$(".selectedCheckbox").removeAttr("disabled");
 			$("#folderMenu a").css("color", "");
 			$("li").css("color", "");
+		}
+		
+		//<<<---- here
+		function callOpenFolderTree(viewModel)
+		{
+			 doAjaxCall('/mediaDirectory/openFolder', viewModel, openFolderTreeSuccess, operationError);
 		}
 		
 		function callOpenFromRoot(viewModel)
