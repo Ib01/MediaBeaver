@@ -27,7 +27,7 @@
 			
 			if($(".SelectEpisode").length == 0)
 			{
-				$("#Finish").attr("class", "mainButton");
+				$("#Finish").attr("class", "mainButton"); 
 			}
 			
 		}); 

@@ -12,6 +12,7 @@
 		var moveFilesEnabled;
 		var selectedLi;
 		var openAllRoot;
+		var openFolderRoot;
 	
 		$(function ()
 		{	
@@ -29,9 +30,6 @@
 			
 			$( "body" ).delegate( ".highlightableLi", "click", function()  
 			{
-				//<<<---- here
-				alert("1");
-				
 				if(!uiEnabled) return;
 				
 				$(this).find("input:checkbox").prop(
@@ -41,18 +39,24 @@
 			
 				setMenuState();
 				
-				openFolderTree($(this)); 
+				if(isFolder($(this)) && isChecked($(this)))				
+				{
+					//removeChildren($(this));
+					openFolderTree($(this));
+				}
 			});
 				
 			$( "body" ).delegate( ".highlightableLi input:checkbox", "click", function()  
 			{
-				//<<<---- here
-				alert("2");
-				
 				setMenuState();
-				e.stopPropagation();
 				
-				openFolderTree($(this).parent("li")); 
+				if(isFolder($(this).parent("li")) && isChecked($(this).parent("li")))
+				{
+					//removeChildren($(this).parent("li"));
+					openFolderTree($(this).parent("li"));
+				}
+				
+				e.stopPropagation();
 			});
 			
 			$("#moveManually").click(function() 
@@ -210,6 +214,7 @@
 		function openFolderTree(li) 
 		{	
 			selectedLi = li;
+			openFolderRoot = null;
 			
 			var vm = getFileViewModel(li);
 			dissableInterface();
@@ -362,37 +367,47 @@
 		
 		//<<<---- here
 		function openFolderTreeSuccess(data)
-		{
-			var source = $("#folderTemplate").html(); 
-			var template = Handlebars.compile(source); 
-			var s = template(data);
+		{			
+			/* if(data.files.length > 0)
+			{ */
+				var source = $("#folderTemplate").html(); 
+				var template = Handlebars.compile(source); 
+				var s = template(data);
+				$(selectedLi).find("input[name$='open']").val("true");
+				$(selectedLi).after(s);
+			//}
+	
+			if(openFolderRoot == null)
+			{
+				openFolderRoot = $(selectedLi).next("li");
+			}
+
+			selectedLi = getNextUnopenedChildFolderLi(openFolderRoot); 
 			
-			$(selectedLi).find("input[name$='open']").val("true");
-			$(selectedLi).after(s);
 			
+			//alert($(selectedLi).length);
 			
-			$()
-			
-			
-			
-			selectedLi =  getNextUnopenedFolderLi();
 			if(selectedLi.length > 0)
 			{
 				var vm = getFileViewModel(selectedLi);
-				callOpenAll(vm);
+				callOpenFolderTree(vm);
 			}
 			else
 			{
-				$("#expandAll").hide();
-				$("#colapseAll").show();
 				enableInterface();
 				setMenuState();
-			}
+			}   
 		}
 		
 		
 		
 		
+	/* 	li
+		li
+		  f
+		  d
+		  f
+		  d */
 		
 		
 		
@@ -550,17 +565,36 @@
 			return $(".folderName").siblings("input[name$='open'][value='false']").parent("li").first();
 		}
 		
-		function getNextUnopenedChildFolderLi()
+		function getNextUnopenedChildFolderLi(rootLi)
 		{
-			$(".folderName").c
-			
-			return $(".folderName").siblings("input[name$='open'][value='false']").parent("li").first();
+			return $(rootLi).find(".folderName").siblings("input[name$='open'][value='false']").parent("li").first();
 		}
 		
 		function getNextUnopenedFolderLiOfRoot()
 		{
 			return $(openAllRoot).find(".folderName").siblings("input[name$='open'][value='false']").parent("li").first();
 		}
+		
+		function isFolder(li)
+		{
+			return ($(li).children(".folderName").length > 0);
+		}
+		function isOpen(li)
+		{
+			return ($(li).children("input[name$='open'][value='true']").length > 0);
+		}
+		function isChecked(li)
+		{
+			return ($(li).children(".selectedCheckbox:checked").length > 0);
+		}
+		
+		
+		function removeChildren(li)
+		{
+			$(li).next("li").remove();
+		}
+		
+		
 		
 	</script>
 	
