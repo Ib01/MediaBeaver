@@ -13,7 +13,8 @@
 		var selectedLi;
 		var openFromRootLi;
 		var checkAfterOpenFromRoot;
-	
+		var dialog;
+		
 		$(function ()
 		{	
 			registerHandleBarIfCond();
@@ -150,6 +151,8 @@
 					$("#colapseAll").show();
 				}
 				
+				$("#dialog").dialog("open");
+				
 				e.stopPropagation();
 			});
 			
@@ -165,6 +168,9 @@
 				$("#colapseAll").hide();
 				
 				setMenuState();
+				
+				$("#dialog").dialog("open");
+				
 				e.stopPropagation();
 			});
 			
@@ -192,6 +198,18 @@
 			
 			
 			initialiseForm();
+			
+		    $("#dialog").dialog({
+		    	autoOpen : false, 
+    			modal : true, 
+    			width: 400, 
+    			height: 200, 
+    			show : "blind", 
+    			hide : "blind", 
+    			position: { my: "center", at: "center", of: "body" }
+			});
+		    
+			
 		}); 
 		
 		function initialiseForm()
@@ -255,12 +273,6 @@
 		function openAllSuccess(data)
 		{
 			addChildItems(data, selectedLi);
-			/* var source = $("#folderTemplate").html(); 
-			var template = Handlebars.compile(source); 
-			var s = template(data);
-			
-			$(selectedLi).find("input[name$='open']").val("true");
-			$(selectedLi).after(s); */
 			
 			selectedLi =  getNextUnopenedFolderLi();
 			if(selectedLi.length > 0)
@@ -282,12 +294,6 @@
 		function openFromRootSuccess(data)
 		{
 			addChildItems(data, selectedLi);
-			/* var source = $("#folderTemplate").html(); 
-			var template = Handlebars.compile(source); 
-			var s = template(data);
-			
-			$(selectedLi).find("input[name$='open']").val("true");
-			$(selectedLi).after(s); */
 			
 			//first time itteration of this method
 			if(openFromRootLi == null)
@@ -317,13 +323,6 @@
 		function openSuccess(data)
 		{
 			addChildItems(data, selectedLi);
-		/* 	var source = $("#folderTemplate").html(); 
-			var template = Handlebars.compile(source); 
-			var s = template(data);
-			
-			$(selectedLi).find("input[name$='open']").val("true");
-			$(selectedLi).after(s); */
-			
 			enableInterface();
 			setMenuState();
 		}
@@ -660,6 +659,13 @@
 		</div>
 		
 		<br>
+		
+		
+		<div id="dialog" title="Basic dialog">
+		  <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+		</div>
+		
+		
 		
 	</form:form>
 		
