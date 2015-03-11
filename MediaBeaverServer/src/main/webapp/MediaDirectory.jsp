@@ -11,8 +11,8 @@
 		var moveManuallyEnabled;
 		var moveFilesEnabled;
 		var selectedLi;
-		var openAllRoot;
-		var openFolderRoot;
+		var openFromRootLi;
+		var checkAfterOpenFromRoot;
 	
 		$(function ()
 		{	
@@ -28,7 +28,7 @@
 				$(this).css("background-color", "");
 			});
 			
-			$( "body" ).delegate( ".highlightableLi", "click", function()  
+		    $( "body" ).delegate( ".highlightableLi", "click", function()  
 			{
 				if(!uiEnabled) return;
 				
@@ -36,26 +36,16 @@
 						'checked', 
 						!$(this).find("input:checkbox").is(':checked')
 				);
-			
 				setMenuState();
-				
-				if(isFolder($(this)) && isChecked($(this)))				
-				{
-					//removeChildren($(this));
-					openFolderTree($(this));
-				}
+				openFromRoot($(this)); 
 			});
 				
-			$( "body" ).delegate( ".highlightableLi input:checkbox", "click", function()  
+			$("body").delegate(".highlightableLi input:checkbox", "click", function()  
 			{
+				if(!uiEnabled) return;
+				
 				setMenuState();
-				
-				if(isFolder($(this).parent("li")) && isChecked($(this).parent("li")))
-				{
-					//removeChildren($(this).parent("li"));
-					openFolderTree($(this).parent("li"));
-				}
-				
+				openFromRoot($(this).parent("li"));
 				e.stopPropagation();
 			});
 			
@@ -63,7 +53,6 @@
 			{
 				if(!uiEnabled || !moveManuallyEnabled) return;
 				
-				//var selectedLis = $(".selectedCheckbox:checked").siblings("input[name$='file'][value='true']").parent("li");
 				var selectedLis = $(".selectedCheckbox:checked").siblings("input[name$='mediaType'][value='Video']").parent("li");
 				
 				var vms = [];
@@ -205,94 +194,19 @@
 			initialiseForm();
 		}); 
 		
-		
-		//---------------------------------------------------------------------------------//
-		//---------------------------------------------------------------------------------//
-		//---------------------------------------------------------------------------------//
-	
-		//<<<---- here
-		function openFolderTree(li) 
-		{	
-			selectedLi = li;
-			openFolderRoot = null;
-			
-			var vm = getFileViewModel(li);
-			dissableInterface();
-			callOpenFolderTree(vm);
-		}
-		
 		function initialiseForm()
 		{
-			
 			selectedLi = $("#rootLi");
 			var vm = getFileViewModel(selectedLi);
 			dissableInterface();
 			callOpen(vm);
 		}
 		
-		function setMenuState()
-		{
-			var numSelectedVideos = $(".selectedCheckbox:checked").siblings("input[name$='mediaType'][value='Video']").length;
-			//var numSelectedFiles = $(".selectedCheckbox:checked").siblings("input[name$='file'][value='true']").length;
-			var numSelectedItems = $(".selectedCheckbox:checked").length;
 		
-			if(numSelectedVideos > 0)
-			{
-				$("#moveManually").css("color", "");
-				$("#moveFiles").css("color", "");
-				moveManuallyEnabled = true;
-				moveFilesEnabled = true;
-			}
-			else
-			{
-				$("#moveManually").css("color", "grey");
-				$("#moveFiles").css("color", "grey");
-				moveManuallyEnabled = false;
-				moveFilesEnabled = false;
-			}
-			
-			if(numSelectedItems > 0)
-			{
-				$("#deleteFiles").css("color", "");
-				deleteFilesEnabled = true;
-			}
-			else
-			{
-				$("#deleteFiles").css("color", "grey");
-				deleteFilesEnabled = false;
-			}
-		}
-		
-		function dissableInterface()
-		{
-			uiEnabled = false;
-			deleteFilesEnabled = false;
-			moveManuallyEnabled = false;
-			moveFilesEnabled = false;
-			
-			$(".selectedCheckbox").attr("disabled", "disabled");
-			$("#folderMenu a").css("color", "grey");
-			$("li").css("color", "grey");
-		}
-		
-		function enableInterface()
-		{
-			uiEnabled = true;
-			deleteFilesEnabled = true;
-			moveManuallyEnabled = true;
-			moveFilesEnabled = true;
-			
-			$(".selectedCheckbox").removeAttr("disabled");
-			$("#folderMenu a").css("color", "");
-			$("li").css("color", "");
-		}
-		
-		//<<<---- here
-		function callOpenFolderTree(viewModel)
-		{
-			 doAjaxCall('/mediaDirectory/openFolder', viewModel, openFolderTreeSuccess, operationError);
-		}
-		
+		//-----------------------------------------------------------------------------------//
+		//-- AJAX Callbacks 															----//
+		//---------------------------------------------------------------------------------//
+	
 		function callOpenFromRoot(viewModel)
 		{
 			 doAjaxCall('/mediaDirectory/openFolder', viewModel, openFromRootSuccess, operationError);
@@ -318,36 +232,35 @@
 			 doAjaxCall('/mediaDirectory/deleteFile', viewModel, deleteSuccess, operationError);
 		}
 		
-		function openFromRootSuccess(data)
+		function openFromRoot(li) 
 		{
-			var source = $("#folderTemplate").html(); 
-			var template = Handlebars.compile(source); 
-			var s = template(data);
-			
-			$(selectedLi).find("input[name$='open']").val("true");
-			$(selectedLi).after(s);
-			
-			selectedLi =  getNextUnopenedFolderLiOfRoot();
-			if(selectedLi.length > 0)
+			if(isFolder(li) && isChecked(li))				
 			{
-				var vm = getFileViewModel(selectedLi);
-				callOpenAll(vm);
-			}
-			else
-			{
-				enableInterface();
-				setMenuState();
-			}
+				checkAfterOpenFromRoot = true;
+				
+				if(hasChildren(li))
+				{
+					removeChildren(li);
+				}
+				
+				openFromRootLi = null;
+				selectedLi = li;
+			
+				var vm = getFileViewModel(li);
+				dissableInterface();
+				callOpenFromRoot(vm);
+			}  
 		}
 		
 		function openAllSuccess(data)
 		{
-			var source = $("#folderTemplate").html(); 
+			addChildItems(data, selectedLi);
+			/* var source = $("#folderTemplate").html(); 
 			var template = Handlebars.compile(source); 
 			var s = template(data);
 			
 			$(selectedLi).find("input[name$='open']").val("true");
-			$(selectedLi).after(s);
+			$(selectedLi).after(s); */
 			
 			selectedLi =  getNextUnopenedFolderLi();
 			if(selectedLi.length > 0)
@@ -365,71 +278,52 @@
 		}
 		
 		
-		//<<<---- here
-		function openFolderTreeSuccess(data)
-		{			
-			/* if(data.files.length > 0)
-			{ */
-				var source = $("#folderTemplate").html(); 
-				var template = Handlebars.compile(source); 
-				var s = template(data);
-				$(selectedLi).find("input[name$='open']").val("true");
-				$(selectedLi).after(s);
-			//}
-	
-			if(openFolderRoot == null)
-			{
-				openFolderRoot = $(selectedLi).next("li");
-			}
-
-			selectedLi = getNextUnopenedChildFolderLi(openFolderRoot); 
-			
-			
-			//alert($(selectedLi).length);
-			
-			if(selectedLi.length > 0)
-			{
-				var vm = getFileViewModel(selectedLi);
-				callOpenFolderTree(vm);
-			}
-			else
-			{
-				enableInterface();
-				setMenuState();
-			}   
-		}
 		
-		
-		
-		
-	/* 	li
-		li
-		  f
-		  d
-		  f
-		  d */
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		function openSuccess(data)
+		function openFromRootSuccess(data)
 		{
-			var source = $("#folderTemplate").html(); 
+			addChildItems(data, selectedLi);
+			/* var source = $("#folderTemplate").html(); 
 			var template = Handlebars.compile(source); 
 			var s = template(data);
 			
 			$(selectedLi).find("input[name$='open']").val("true");
-			$(selectedLi).after(s);
+			$(selectedLi).after(s); */
+			
+			//first time itteration of this method
+			if(openFromRootLi == null)
+			{
+				openFromRootLi = $(selectedLi).next("li");
+			}
+			
+			selectedLi =  getNextUnopenedFolderLiOfRoot();
+			if(selectedLi.length > 0)
+			{
+				var vm = getFileViewModel(selectedLi);
+				callOpenFromRoot(vm);
+			}
+			else
+			{
+				if(checkAfterOpenFromRoot)
+				{
+					$(openFromRootLi).find("input:checkbox").prop('checked', true);
+				}
+				checkAfterOpenFromRoot = false;
+				
+				enableInterface();
+				setMenuState();
+			}
+		}
+		
+		function openSuccess(data)
+		{
+			addChildItems(data, selectedLi);
+		/* 	var source = $("#folderTemplate").html(); 
+			var template = Handlebars.compile(source); 
+			var s = template(data);
+			
+			$(selectedLi).find("input[name$='open']").val("true");
+			$(selectedLi).after(s); */
+			
 			enableInterface();
 			setMenuState();
 		}
@@ -504,16 +398,9 @@
 			window.location = "/mediaMatcher"; 
 		}
 		
-		function showMessages(data, operation)
+		function operationError(data, status, er)
 		{
-			if(data.operationSuccess)
-			{
-				$("#messageBoard  > div").append("<a href=\"/activity\">" + data.path + "</a> <span style=\"\">"+operation+" successfully<span></br>");
-			}
-			else
-			{
-				$("#messageBoard  > div").append("<a href=\"/activity\">" + data.path + "</a> <span style=\"\">"+operation+" unsuccessfully<span></br>");
-			}
+			alert("error");
 		}
 		
 		function doAjaxCall(url, viewModel, successFunction, errorFunction)
@@ -530,9 +417,31 @@
             });
 		}
 		
-		function operationError(data, status, er)
+		
+		//-----------------------------------------------------------------------------------//
+		//-- Utilities 															        ----//
+		//---------------------------------------------------------------------------------//
+		
+		function addChildItems(data, li)
 		{
-			alert("error");
+			var source = $("#folderTemplate").html(); 
+			var template = Handlebars.compile(source); 
+			var s = template(data);
+			
+			$(li).find("input[name$='open']").val("true");
+			$(li).after(s);
+		}
+		
+		function showMessages(data, operation)
+		{
+			if(data.operationSuccess)
+			{
+				$("#messageBoard  > div").append("<a href=\"/activity\">" + data.path + "</a> <span style=\"\">"+operation+" successfully<span></br>");
+			}
+			else
+			{
+				$("#messageBoard  > div").append("<a href=\"/activity\">" + data.path + "</a> <span style=\"\">"+operation+" unsuccessfully<span></br>");
+			}
 		}
 
 		function getFileViewModel(li)
@@ -543,8 +452,62 @@
 				"file": $(li).find("input:nth-child(3)").val(),
 				"open": $(li).find("input:nth-child(4)").val()
 			};
+		}
+		
+		function setMenuState()
+		{
+			var numSelectedVideos = $(".selectedCheckbox:checked").siblings("input[name$='mediaType'][value='Video']").length;
+			var numSelectedItems = $(".selectedCheckbox:checked").length;
+		
+			if(numSelectedVideos > 0)
+			{
+				$("#moveManually").css("color", "");
+				$("#moveFiles").css("color", "");
+				moveManuallyEnabled = true;
+				moveFilesEnabled = true;
+			}
+			else
+			{
+				$("#moveManually").css("color", "grey");
+				$("#moveFiles").css("color", "grey");
+				moveManuallyEnabled = false;
+				moveFilesEnabled = false;
+			}
 			
-			//"selected": $(checkbox).parent("li").find("input:nth-child(5)").val()
+			if(numSelectedItems > 0)
+			{
+				$("#deleteFiles").css("color", "");
+				deleteFilesEnabled = true;
+			}
+			else
+			{
+				$("#deleteFiles").css("color", "grey");
+				deleteFilesEnabled = false;
+			}
+		}
+		
+		function dissableInterface()
+		{
+			uiEnabled = false;
+			deleteFilesEnabled = false;
+			moveManuallyEnabled = false;
+			moveFilesEnabled = false;
+			
+			$(".selectedCheckbox").attr("disabled", "disabled");
+			$("#folderMenu a").css("color", "grey");
+			$("li").css("color", "grey");
+		}
+		
+		function enableInterface()
+		{
+			uiEnabled = true;
+			deleteFilesEnabled = true;
+			moveManuallyEnabled = true;
+			moveFilesEnabled = true;
+			
+			$(".selectedCheckbox").removeAttr("disabled");
+			$("#folderMenu a").css("color", "");
+			$("li").css("color", "");
 		}
 		
 		
@@ -553,28 +516,19 @@
 		{
 			return  $(".selectedCheckbox:checked").siblings("input[name$='file'][value='true']").siblings(".operationTried[value='false']").parent("li").first();
 		}
-		
 		/* get the first checked li that we have not already tried to move / delete */
 		function getNextSelectedLi()
 		{
 			return $('.selectedCheckbox:checked').siblings(".operationTried[value='false']").parent("li").first();
 		}
-		
 		function getNextUnopenedFolderLi()
 		{
 			return $(".folderName").siblings("input[name$='open'][value='false']").parent("li").first();
 		}
-		
-		function getNextUnopenedChildFolderLi(rootLi)
-		{
-			return $(rootLi).find(".folderName").siblings("input[name$='open'][value='false']").parent("li").first();
-		}
-		
 		function getNextUnopenedFolderLiOfRoot()
 		{
-			return $(openAllRoot).find(".folderName").siblings("input[name$='open'][value='false']").parent("li").first();
+			return $(openFromRootLi).find(".folderName").siblings("input[name$='open'][value='false']").parent("li").first();
 		}
-		
 		function isFolder(li)
 		{
 			return ($(li).children(".folderName").length > 0);
@@ -587,14 +541,14 @@
 		{
 			return ($(li).children(".selectedCheckbox:checked").length > 0);
 		}
-		
-		
 		function removeChildren(li)
 		{
 			$(li).next("li").remove();
+		}	
+		function hasChildren(li)
+		{
+			return ($(li).next("li").children("ul").length > 0);
 		}
-		
-		
 		
 	</script>
 	
