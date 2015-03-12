@@ -339,7 +339,7 @@ public class MediaMover
 		{
 			OstTitleDto dto = Factory.getOpenSubtitlesClient().getTitleForHash(fileThumbprint);
 			
-			if(dto != null || dto.getPossibleTitles().size() != 0)
+			if(dto != null && dto.getPossibleTitles().size() > 0)
 			{
 				//TODO: Can we do better than this. eg could we get the highest rated items
 				return dto.getFirstMovieOrEpisodeTitleWithImdb();
@@ -365,7 +365,7 @@ public class MediaMover
 					file.getAbsolutePath()), e);
 		}
 		
-		eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), null, ResultType.Failed, "Could not find metadata for file");
+		eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), null, ResultType.Failed, "Could not find metadata for file using media services");
 		return null;
 	}
 	

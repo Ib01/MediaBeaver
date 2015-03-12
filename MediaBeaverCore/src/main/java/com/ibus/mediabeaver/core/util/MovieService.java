@@ -48,14 +48,42 @@ public class MovieService
 			throw new MetadataException("The TMDB Service returned <> 1 result when searching for a movie with imdbId: " + imdbId);
 		
 		String destinationPathEnd = pathParser.parseMoviePath(result.getMovieResults().get(0).getTitle(), result.getMovieResults().get(0).getReleaseDate());
+
 		
 		//TODO: Give user the option to determine the format of the CD numbering??
-		String cdNum = ostTitle.get(OpenSubtitlesField.SubActualCD.toString());
-		if(cdNum != null && cdNum.trim().length() > 0)
-			destinationPathEnd += String.format("(CD%s)", cdNum.trim());
+		try
+		{
+			if(ostTitle.get(OpenSubtitlesField.SubSumCD.toString()) != null && ostTitle.get(OpenSubtitlesField.SubSumCD.toString()).trim().length() > 0)
+			{
+				int cdSum = Integer.parseInt(ostTitle.get(OpenSubtitlesField.SubSumCD.toString()));
+				if(cdSum > 1)
+				{
+					if(ostTitle.get(OpenSubtitlesField.SubActualCD.toString()) != null && ostTitle.get(OpenSubtitlesField.SubActualCD.toString()).trim().length() > 0)
+					{
+						int cdNum = Integer.parseInt(ostTitle.get(OpenSubtitlesField.SubActualCD.toString()));
+						destinationPathEnd += String.format("(CD%d)", cdNum);	
+					}
+				}
+			}
+		}
+		catch(NumberFormatException ex){}
+		
 		
 		destinationPathEnd += "." + FilenameUtils.getExtension(file.getAbsolutePath());
 		return destinationPathEnd;
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
