@@ -14,6 +14,7 @@
 		var openFromRootLi;
 		var checkAfterOpenFromRoot;
 		var dialog;
+		var operationErrorOccured;
 		
 		$(function ()
 		{	
@@ -74,12 +75,11 @@
 				
 				if(selectedLi.length > 0)
 				{
-					$("#messageBoard").show("slow", function()
-					{
-						var viewModel = getFileViewModel(selectedLi);
-						dissableInterface();
-						callDelete(viewModel);
-					});
+					operationErrorOccured = false;
+					
+					var viewModel = getFileViewModel(selectedLi);
+					dissableInterface();
+					callDelete(viewModel);
 				}
 			});
 			
@@ -92,12 +92,11 @@
 				
 				if(selectedLi.length > 0)
 				{
-					$("#messageBoard").show("slow", function()
-					{
-						var vm = getFileViewModel(selectedLi);
-						dissableInterface();
-						callMove(vm);
-					});
+					operationErrorOccured = false;
+					
+					var vm = getFileViewModel(selectedLi);
+					dissableInterface();
+					callMove(vm);
 				}
 					
 			});
@@ -151,8 +150,6 @@
 					$("#colapseAll").show();
 				}
 				
-				$("#dialog").dialog("open");
-				
 				e.stopPropagation();
 			});
 			
@@ -168,8 +165,6 @@
 				$("#colapseAll").hide();
 				
 				setMenuState();
-				
-				$("#dialog").dialog("open");
 				
 				e.stopPropagation();
 			});
@@ -203,13 +198,13 @@
 		    	autoOpen : false, 
     			modal : true, 
     			width: 400, 
-    			height: 200, 
+    			height: 220, 
     			show : "blind", 
     			hide : "blind", 
-    			position: { my: "center", at: "center", of: "body" }
+    			position: { my: "center", at: "center", of: "body" },
+    			buttons: [{text: "Ok", click: function() {$( this ).dialog( "close" );}}]
 			});
 		    
-			
 		}); 
 		
 		function initialiseForm()
@@ -289,8 +284,6 @@
 			}
 		}
 		
-		
-		
 		function openFromRootSuccess(data)
 		{
 			addChildItems(data, selectedLi);
@@ -339,10 +332,8 @@
 			{
 				//ensure we dont reprocess this item
 				$(selectedLi).find(".operationTried").val("true");
+				operationErrorOccured = true;
 			}
-			
-			//show message
-			showMessages(data, "moved");
 			
 			//move next selected item
 			selectedLi = getNextSelectedFileLi();
@@ -355,6 +346,12 @@
 			{
 				enableInterface();
 				setMenuState();
+				
+				if(operationErrorOccured)
+				{
+					$("#operationErrorMessage").text("An error occured while attempting to move one or more files.");					
+					$("#dialog").dialog("open");
+				}
 			}
 			
 		}
@@ -373,10 +370,8 @@
 			{
 				//ensure we dont reprocess this item again
 				$(selectedLi).find(".operationTried").val("true");
+				operationErrorOccured = true;
 			}
-			
-			//show message
-			showMessages(data, "deleted");
 			
 			//delete next selected item
 			selectedLi = getNextSelectedLi();
@@ -389,6 +384,12 @@
 			{
 				enableInterface();
 				setMenuState();
+				
+				if(operationErrorOccured)
+				{
+					$("#operationErrorMessage").text("An error occured while attempting to delete one or more files.");
+					$("#dialog").dialog("open");
+				}
 			}
 		}
 		
@@ -399,7 +400,10 @@
 		
 		function operationError(data, status, er)
 		{
-			alert("error");
+			$("#operationErrorMessage").text("An unspecified error occured communicating with the server.  It is possible that the mediabeaver website is down.");
+			$("#dialog").dialog("open");
+			enableInterface();
+			setMenuState();
 		}
 		
 		function doAjaxCall(url, viewModel, successFunction, errorFunction)
@@ -431,18 +435,6 @@
 			$(li).after(s);
 		}
 		
-		function showMessages(data, operation)
-		{
-			if(data.operationSuccess)
-			{
-				$("#messageBoard  > div").append("<a href=\"/activity\">" + data.path + "</a> <span style=\"\">"+operation+" successfully<span></br>");
-			}
-			else
-			{
-				$("#messageBoard  > div").append("<a href=\"/activity\">" + data.path + "</a> <span style=\"\">"+operation+" unsuccessfully<span></br>");
-			}
-		}
-
 		function getFileViewModel(li)
 		{
 			return {
@@ -637,35 +629,15 @@
 					<form:hidden path="name"/>
 					<form:hidden path="file"/>                           
 					<form:hidden path="open"/>
-					
 					<img src="/resources/images/folder_vertical_open.png" style="padding-left: 10px;"><c:out value="${directory.path}"/>
-					<%-- <img src="/resources/images/folder_24.png" style="padding-left: 10px;"><c:out value="${directory.path}"/> --%> 
 				</li>
-				<%-- <li>
-				 
-				 	<!-- have to pass directory in request scope as it is an object.--> 
-					<c:set var="CurrentFolder" value="${directory}" scope="request"/>
-					<jsp:include page="includes/Folder.jsp" >
-					    <jsp:param name="ReferenceString" value="files" />
-					</jsp:include>
-				</li> --%>
 			</ul>
 		</div>
-		
-	
-		<div style="border: 1px solid #F1F1F1; display:none; " id="messageBoard">
-			<div style="background-color: #919191;  margin: 3px; color: white; padding: 5px; ">
-			</div>
-		</div>
-		
 		<br>
 		
-		
 		<div id="dialog" title="Basic dialog">
-		  <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+		  <p><span id="operationErrorMessage"></span> Please see <a href="/activity">system activity</a> for further details</p>
 		</div>
-		
-		
 		
 	</form:form>
 		

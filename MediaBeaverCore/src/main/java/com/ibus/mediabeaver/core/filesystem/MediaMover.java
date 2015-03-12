@@ -208,7 +208,7 @@ public class MediaMover
 				log.debug(String.format("Could not move %s. The Open Subtitles service returned null in its MovieKind field", file.getAbsolutePath()));
 			}
 			
-			eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), null, ResultType.Failed, "Could not determine media type for file");
+			eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), null, ResultType.Failed, "Media services responded with missing metadata");
 		}
 		
 		//errors logged in getOpenSubtitlesTitle
@@ -258,8 +258,6 @@ public class MediaMover
 			eventLogger.logEvent(EventType.Move, file.getAbsolutePath(), fullDestinationPath, ResultType.Failed, 
 					"Destination file already exists");
 		}
-		
-		
 		
 		return false;
 	}

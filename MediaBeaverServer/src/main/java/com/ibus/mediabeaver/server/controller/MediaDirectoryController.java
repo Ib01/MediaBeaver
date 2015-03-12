@@ -96,8 +96,6 @@ public class MediaDirectoryController
 		Configuration config = Repository.getFirstEntity(Configuration.class);
 		
 		MediaMover mm = Factory.getMediaMover(Platform.Web, config);
-		//MediaMover mm = new MediaMover(Platform.Web, config);
-		
 		boolean success = mm.moveFile(model.getPath());
 		model.setOperationSuccess(success);
 		

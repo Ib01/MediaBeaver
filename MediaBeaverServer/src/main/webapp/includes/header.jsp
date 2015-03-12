@@ -32,10 +32,14 @@
 			<td>Media Beaver</td>
 		</tr>
 		</table> -->
-		Media Beaver
+		
+		
 		
 		<div id="menu" style="">
 			<a href="/mediaDirectory?type=movie">Movies</a> | <a href="/mediaDirectory?type=tv">TV</a> | <a href="/mediaDirectory?type=source">Source</a> | <a href="/configuration">Configuration</a> | <a href="/activity">Activity</a> 
+		</div>
+		<div style="margin-left: 20px; ">
+			Media Beaver
 		</div>
 	</div>
 	
