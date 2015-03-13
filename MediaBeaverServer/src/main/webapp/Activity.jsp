@@ -11,7 +11,7 @@
 	
 		$(function ()
 		{	
-			$("#match").click(function() 
+			$(".match").click(function() 
 			{
 				$("#selectedPath").val($(this).siblings(".sourcePath").val());
 				
@@ -21,14 +21,15 @@
 			});
 			
 			
-			$(".manualMoveButton").click(function() 
+			$(".move").click(function() 
 			{
 				$("#selectedPath").val($(this).siblings(".sourcePath").val());
 				
-				$("form:first").attr("action", "/activity/manualMove");
+				$("form:first").attr("action", "/activity/move");
 				$("form:first").submit(); 
 				
 			});
+
 			
 			$("#filter").click(function() 
 			{
@@ -110,15 +111,31 @@
 					</tr>
 				</c:if>
 				
-				<%-- <c:if test="${event.eventType == 'Move'}"> --%>
-				<c:if test="${event.eventType == 'Delete'}">
+				<c:if test="${event.eventType == 'Move' && event.result == 'Failed'}">
 					<tr>
 						<td>&nbsp;</td>
 						<td>Available actions:</td>
-						<td><a href="#" id="match">Match and move</a><input type="hidden" class="sourcePath" value="${event.sourcePath}"></td>
+						<td>
+						<a href="#" class="move">Attempt move again</a> |
+						<a href="#" class="match">Manually match to media</a>
+						<input type="hidden" class="sourcePath" value="${event.sourcePath}">
+						</td>
 						<td>&nbsp;</td>
 					</tr>
 				</c:if>
+				
+				
+				<%-- <c:if test="${event.eventType == 'Move' && event.result == 'Succeeded'}">
+					<tr>
+						<td>&nbsp;</td>
+						<td>Available actions:</td>
+						<td>
+						<a href="#" class="match">Match file to another title</a>
+						<input type="hidden" class="sourcePath" value="${event.sourcePath}">
+						</td>
+						<td>&nbsp;</td>
+					</tr>
+				</c:if> --%>
 				
 			</table>
 		</c:forEach>

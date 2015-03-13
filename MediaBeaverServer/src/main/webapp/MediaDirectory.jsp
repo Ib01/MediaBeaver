@@ -13,7 +13,6 @@
 		var selectedLi;
 		var openFromRootLi;
 		var checkAfterOpenFromRoot;
-		var dialog;
 		var operationErrorOccured;
 		
 		$(function ()
@@ -70,17 +69,7 @@
 			{	
 				if(!uiEnabled || !deleteFilesEnabled) return;
 				
-				$(".operationTried").val("false");
-				selectedLi = getNextSelectedLi();
-				
-				if(selectedLi.length > 0)
-				{
-					operationErrorOccured = false;
-					
-					var viewModel = getFileViewModel(selectedLi);
-					dissableInterface();
-					callDelete(viewModel);
-				}
+				$("#deleteConfirmationDialog").dialog("open");
 			});
 			
 			$("#moveFiles").click(function() 
@@ -194,7 +183,7 @@
 			
 			initialiseForm();
 			
-		    $("#dialog").dialog({
+		    $("#operationErrorDialog").dialog({
 		    	autoOpen : false, 
     			modal : true, 
     			width: 400, 
@@ -205,7 +194,51 @@
     			buttons: [{text: "Ok", click: function() {$( this ).dialog( "close" );}}]
 			});
 		    
+		    $("#deleteConfirmationDialog").dialog({
+		    	autoOpen : false, 
+    			modal : true, 
+    			width: 300, 
+    			height: 220, 
+    			show : "blind", 
+    			hide : "blind", 
+    			position: { my: "center", at: "center", of: "body" },
+    			buttons: [
+    			          {text: "No", click: function() {$( this ).dialog( "close" );}},
+    			          {text: "Yes", click: function() {$( this ).dialog( "close" ); doDeleteFiles();}}
+    			          ]
+			});
+		    
+		    $("#unspecifiedErrorDialog").dialog({
+		    	autoOpen : false, 
+    			modal : true, 
+    			width: 400, 
+    			height: 220, 
+    			show : "blind", 
+    			hide : "blind", 
+    			position: { my: "center", at: "center", of: "body" },
+    			buttons: [{text: "Ok", click: function() {$( this ).dialog( "close" );}}]
+			});
+		    
+		    
+		    
 		}); 
+		
+		
+		
+		function doDeleteFiles()
+		{
+			$(".operationTried").val("false");
+			selectedLi = getNextSelectedLi();
+			
+			if(selectedLi.length > 0)
+			{
+				operationErrorOccured = false;
+				
+				var viewModel = getFileViewModel(selectedLi);
+				dissableInterface();
+				callDelete(viewModel);
+			}
+		}
 		
 		function initialiseForm()
 		{
@@ -350,7 +383,7 @@
 				if(operationErrorOccured)
 				{
 					$("#operationErrorMessage").text("An error occured while attempting to move one or more files.");					
-					$("#dialog").dialog("open");
+					$("#operationErrorDialog").dialog("open");
 				}
 			}
 			
@@ -388,7 +421,7 @@
 				if(operationErrorOccured)
 				{
 					$("#operationErrorMessage").text("An error occured while attempting to delete one or more files.");
-					$("#dialog").dialog("open");
+					$("#operationErrorDialog").dialog("open");
 				}
 			}
 		}
@@ -400,8 +433,7 @@
 		
 		function operationError(data, status, er)
 		{
-			$("#operationErrorMessage").text("An unspecified error occured communicating with the server.  It is possible that the mediabeaver website is down.");
-			$("#dialog").dialog("open");
+			$("#unspecifiedErrorDialog").dialog("open");
 			enableInterface();
 			setMenuState();
 		}
@@ -635,8 +667,17 @@
 		</div>
 		<br>
 		
-		<div id="dialog" title="Basic dialog">
+		<div id="operationErrorDialog" title="Operation error">
 		  <p><span id="operationErrorMessage"></span> Please see <a href="/activity">system activity</a> for further details</p>
+		</div>
+		
+		<div id="unspecifiedErrorDialog" title="Unspecified error">
+		  <p>An unspecified error occured communicating with the server. It is possible that the mediabeaver website is down.</p>
+		</div>
+		
+		
+		<div id="deleteConfirmationDialog" title="Confirm delete">
+		  <p>Are you sure that you wish to delete the selected files. This action cannot be undone.</p>
 		</div>
 		
 	</form:form>
