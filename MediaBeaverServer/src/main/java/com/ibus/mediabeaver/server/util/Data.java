@@ -94,7 +94,10 @@ public class Data
 	{
 		File rootFile = new File(path);
 		
-		List<File> subFiles = Arrays.asList(rootFile.listFiles());
+		File[] subFilesArray = rootFile.listFiles();
+		Arrays.sort(subFilesArray);
+		List<File> subFiles = Arrays.asList(subFilesArray);
+		
 		List<FileViewModel> filevms = new ArrayList<FileViewModel>();
 		
 		for(File file : subFiles)
