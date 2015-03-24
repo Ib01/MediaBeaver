@@ -22,39 +22,32 @@ import com.ibus.mediabeaver.core.util.Factory;
 import com.ibus.mediabeaver.core.util.Platform;
 import com.ibus.mediabeaver.server.util.Data;
 import com.ibus.mediabeaver.server.viewmodel.ActivityViewModel;
+import com.ibus.mediabeaver.server.viewmodel.CleanOptionsViewModel;
 import com.ibus.mediabeaver.server.viewmodel.ConfigurationViewModel;
 import com.ibus.mediabeaver.server.viewmodel.FileViewModel;
 
 @Controller
-@RequestMapping(value = "/activity")
-public class ActivityController
+@RequestMapping(value = "/cleanDirectory")
+public class CleanDirectoryController
 {
-	public static String LastDateSessionKey = "ActivityController_LastDate";
+	public static String DirectoryToClean = "CleanDirectoryController_DirectoryToClean";
 	
 	@RequestMapping
-	public ModelAndView showEvents(HttpServletRequest request)
+	public ModelAndView showOptions(HttpServletRequest request)
 	{
 		Data data = new Data(request);
-		Date lastDate = (Date) request.getSession().getAttribute(LastDateSessionKey);
+		String cleanDirectory = (String) request.getSession().getAttribute(DirectoryToClean);
 		
-		if(lastDate == null)
-		{
-			long DAY_IN_MS = 1000 * 60 * 60 * 24;
-			lastDate = new Date(System.currentTimeMillis() - (7 * DAY_IN_MS));
-			
-			request.getSession().setAttribute(LastDateSessionKey, lastDate);
-		}
+		CleanOptionsViewModel vm = new CleanOptionsViewModel();
+		vm.setDirectoryToClean(cleanDirectory);
+		vm.setShowExecutionPlan(true);
 		
-		List<Activity> activities = data.getActivities(lastDate);
-		ActivityViewModel vm = new ActivityViewModel();
-		vm.setActivities(activities);
-		vm.setEarlistDate(lastDate);
 		
-		return new ModelAndView("Activity","activity", vm);
+		return new ModelAndView("CleanDirectoryOptions","CleanOptions", vm);
 	}
 	
 	
-	@RequestMapping(value = "/filter", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/filter", method = RequestMethod.POST)
 	public ModelAndView filter(@ModelAttribute("activity") @Validated ActivityViewModel viewModel, BindingResult result,  HttpServletRequest request)
 	{
 		return getFilteredViewModel(request, viewModel);
@@ -98,7 +91,7 @@ public class ActivityController
 		request.getSession().setAttribute(LastDateSessionKey, viewModel.getEarlistDate());
 		
 		return new ModelAndView("Activity","activity", viewModel);
-	}
+	}*/
 	
 	
 }

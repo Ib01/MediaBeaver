@@ -65,6 +65,22 @@
 				doAjaxCall('/mediaDirectory/matchMedia', vms, matchMediaSuccess, operationError);
 			});
 			
+			$("#cleanFiles").click(function() 
+			{
+				if(!uiEnabled || !moveManuallyEnabled) return;
+				
+				var selectedLis = $(".selectedCheckbox:checked").siblings("input[name$='mediaType'][value='Video']").parent("li");
+				
+				var vms = [];
+				$(selectedLis).each(function(index) 
+				{
+					vms[index] = getFileViewModel(this);
+				});
+				
+				doAjaxCall('/mediaDirectory/matchMedia', vms, matchMediaSuccess, operationError);
+			});
+			
+			
 			$("#deleteFiles").click(function() 
 			{	
 				if(!uiEnabled || !deleteFilesEnabled) return;
@@ -647,10 +663,13 @@
 						| <a href="#" id="moveManually">Match</a> 
 						| <a href="#" id="moveFiles">Move</a>
 					</c:if>
-					<%-- <c:if test="${directory.rootDirMediaType == 'tv'}">					
+					
+					<c:if test="${directory.rootDirMediaType == 'tv'}">
+						| <a href="#" id="cleanFiles">Clean</a> 				
 					</c:if>
 					<c:if test="${directory.rootDirMediaType == 'movie'}">
-					</c:if> --%>
+						| <a href="#" id="cleanFiles">Clean</a> 
+					</c:if>
 				
 				</div> 
 			</div>
