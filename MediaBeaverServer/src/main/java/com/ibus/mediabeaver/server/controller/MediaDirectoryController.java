@@ -114,6 +114,26 @@ public class MediaDirectoryController
 		return filevm;
 	}
 	
+	
+	
+	
+	
+	/*@RequestMapping(value="/cleanFiles", method = RequestMethod.POST)
+	public @ResponseBody FileViewModel matchMedia(@RequestBody List<FileViewModel> viewModelList, HttpServletRequest request) 
+	{
+		List<String> paths = new ArrayList<String>();
+		for(FileViewModel vm :  viewModelList)
+		{
+			paths.add(vm.getPath());
+		}
+		request.getSession().setAttribute(MediaMatcherController.FilesToMoveSessionKey, paths);
+		request.getSession().setAttribute(MediaMatcherController.ReffererSessionKey, "/mediaDirectory?type=source");
+		
+		
+		//becasuse of this stupid fucking spring framework we have to return a model object even though we dont need it. grrr
+		return new FileViewModel();
+	}*/
+	
 }
 
 

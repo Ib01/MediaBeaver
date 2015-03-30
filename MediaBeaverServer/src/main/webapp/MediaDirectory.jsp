@@ -665,10 +665,16 @@
 					</c:if>
 					
 					<c:if test="${directory.rootDirMediaType == 'tv'}">
-						| <a href="#" id="cleanFiles">Clean</a> 				
+						| <!-- <a href="#" id="cleanFiles">Clean</a> --> 
+						<select id="cleanOptions">
+							<option>Rename Selected Files</option>
+							<option>Delete Empty Directories</option>
+							<option>Delete Non Media Files</option>
+						</select>
+										
 					</c:if>
 					<c:if test="${directory.rootDirMediaType == 'movie'}">
-						| <a href="#" id="cleanFiles">Clean</a> 
+						| <!-- <a href="#" id="cleanFiles">Clean</a>  -->
 					</c:if>
 				
 				</div> 
