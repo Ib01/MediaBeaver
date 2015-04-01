@@ -138,7 +138,7 @@
 	<form:form method="POST" commandName="configuration" id="configForm" class="formLayout">
 		<form:hidden path="id"/>
 			<div class="level1Panel">
-				<form:label path="sourceDirectory">Source Directory</form:label>
+				<form:label path="sourceDirectory">Download Directory</form:label>
 				<form:input path="sourceDirectory" style="width: 750px" class="autoComplete validate[required]"/>
 				<br>
 			</div>

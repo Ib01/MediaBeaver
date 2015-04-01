@@ -67,11 +67,10 @@
 				<form:form method="POST" commandName="configuration" id="configForm" class="formLayout">
 		
 					<div class="level1Panel">
-						<form:label path="sourceDirectory">Source Directory</form:label>
+						<form:label path="sourceDirectory">Download Directory</form:label>
 						<form:input path="sourceDirectory" style="width: 550px" class="autoComplete validate[required]"/>
 						<br>
-						<p>This is the directory you use to store your media files before they are renamed and organised. If you download 
-						content regulalry you will probably want to make this your source directory.</p>
+						<p>This is the directory you use to store your media files before they are renamed and organised.</p>
 					</div>
 					<div class="level1Panel">
 						<form:label path="tvRootDirectory">Tv Directory</form:label>
