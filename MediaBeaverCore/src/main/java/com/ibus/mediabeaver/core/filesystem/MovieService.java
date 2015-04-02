@@ -1,4 +1,4 @@
-package com.ibus.mediabeaver.core.util;
+package com.ibus.mediabeaver.core.filesystem;
 
 import info.movito.themoviedbapi.TmdbFind;
 import info.movito.themoviedbapi.model.FindResults;
@@ -14,8 +14,8 @@ import com.ibus.mediabeaver.core.entity.EventType;
 import com.ibus.mediabeaver.core.entity.ResultType;
 import com.ibus.mediabeaver.core.exception.PathParseException;
 import com.ibus.mediabeaver.core.exception.MetadataException;
-import com.ibus.mediabeaver.core.filesystem.MediaMover;
-import com.ibus.mediabeaver.core.filesystem.MoviePathParser;
+import com.ibus.mediabeaver.core.util.EventLogger;
+import com.ibus.mediabeaver.core.util.Factory;
 import com.ibus.opensubtitles.client.dto.OstTitleDto;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesField;
 

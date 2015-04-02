@@ -21,8 +21,6 @@ import com.ibus.mediabeaver.core.exception.PathParseException;
 import com.ibus.mediabeaver.core.util.EventLogger;
 import com.ibus.mediabeaver.core.util.Factory;
 import com.ibus.mediabeaver.core.util.FileSysUtil;
-import com.ibus.mediabeaver.core.util.MovieService;
-import com.ibus.mediabeaver.core.util.TvService;
 import com.ibus.opensubtitles.client.dto.OstTitleDto;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesField;
 import com.ibus.opensubtitles.client.entity.OpenSubtitlesHashData;

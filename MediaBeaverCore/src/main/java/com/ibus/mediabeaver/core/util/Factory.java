@@ -6,6 +6,8 @@ import com.ibus.mediabeaver.core.entity.Configuration;
 import com.ibus.mediabeaver.core.filesystem.EpisodePathParser;
 import com.ibus.mediabeaver.core.filesystem.MediaMover;
 import com.ibus.mediabeaver.core.filesystem.MoviePathParser;
+import com.ibus.mediabeaver.core.filesystem.MovieService;
+import com.ibus.mediabeaver.core.filesystem.TvService;
 import com.ibus.opensubtitles.client.OpenSubtitlesClient;
 import com.ibus.tvdb.client.TvdbClient;
 
