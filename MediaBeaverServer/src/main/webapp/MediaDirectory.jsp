@@ -65,7 +65,7 @@
 				doAjaxCall('/mediaDirectory/matchMedia', vms, matchMediaSuccess, operationError);
 			});
 			
-			$("#cleanFiles").click(function() 
+			/* $("#cleanFiles").click(function() 
 			{
 				if(!uiEnabled || !moveManuallyEnabled) return;
 				
@@ -78,7 +78,7 @@
 				});
 				
 				doAjaxCall('/mediaDirectory/matchMedia', vms, matchMediaSuccess, operationError);
-			});
+			}); */
 			
 			
 			$("#deleteFiles").click(function() 
@@ -90,7 +90,16 @@
 			
 			$("#moveFiles").click(function() 
 			{
+				/* $("#reportDialog").dialog("open");
+				return;  */
+				
 				if(!uiEnabled || !moveFilesEnabled) return;
+				
+				$("#reportDialog").dialog("open");
+				$("#reportDialogMessage").remove("P");
+				$("#reportDialogWorkingIndicator").show();
+				
+				return;
 				
 				$(".operationTried").val("false");
 				selectedLi = getNextSelectedFileLi();
@@ -198,6 +207,20 @@
 			
 			
 			initialiseForm();
+			
+			
+			
+			$("#reportDialog").dialog({
+		    	autoOpen : false, 
+    			modal : true, 
+    			width: 750, 
+    			height: 400, 
+    			show : "blind", 
+    			hide : "blind", 
+    			position: { my: "center", at: "center", of: "body" },
+    			buttons: [{text: "Ok", click: function() {$( this ).dialog( "close" );}}]
+			});
+			
 			
 		    $("#operationErrorDialog").dialog({
 		    	autoOpen : false, 
@@ -376,12 +399,14 @@
 			if(data.operationSuccess)
 			{
 				$(selectedLi).remove();
+				$("#reportDialogWorkingIndicator").before("<p>"+data.path+" <span style=\"color: green\">moved successfully<span></p>");
 			}
 			else
 			{
 				//ensure we dont reprocess this item
 				$(selectedLi).find(".operationTried").val("true");
 				operationErrorOccured = true;
+				$("#reportDialogWorkingIndicator").before("<p>"+data.path+" <span style=\"color: red\">moved unsuccessfully<span></p>");
 			}
 			
 			//move next selected item
@@ -396,10 +421,14 @@
 				enableInterface();
 				setMenuState();
 				
+				$("#reportDialogWorkingIndicator").hide();
+				
 				if(operationErrorOccured)
 				{
-					$("#operationErrorMessage").text("An error occured while attempting to move one or more files.");					
-					$("#operationErrorDialog").dialog("open");
+					$("#reportDialogWorkingIndicator").before("<p>One or more files moved unsuccessfully. Please see <a href=\"/activity\">system activity</a> for further details</p>");
+					
+					/* $("#operationErrorMessage").text("An error occured while attempting to move one or more files.");					
+					$("#operationErrorDialog").dialog("open"); */
 				}
 			}
 			
@@ -664,18 +693,10 @@
 						| <a href="#" id="moveFiles">Move</a>
 					</c:if>
 					
-					<c:if test="${directory.rootDirMediaType == 'tv'}">
-						| <!-- <a href="#" id="cleanFiles">Clean</a> --> 
-						<select id="cleanOptions">
-							<option>Rename Selected Files</option>
-							<option>Delete Empty Directories</option>
-							<option>Delete Non Media Files</option>
-						</select>
-										
+					<%-- <c:if test="${directory.rootDirMediaType == 'tv'}">
 					</c:if>
 					<c:if test="${directory.rootDirMediaType == 'movie'}">
-						| <!-- <a href="#" id="cleanFiles">Clean</a>  -->
-					</c:if>
+					</c:if> --%>
 				
 				</div> 
 			</div>
@@ -704,6 +725,14 @@
 		<div id="deleteConfirmationDialog" title="Confirm delete">
 		  <p>Are you sure that you wish to delete the selected files. This action cannot be undone.</p>
 		</div>
+		
+		<div id="reportDialog" title="Confirm delete">
+		  <div id="reportDialogMessage" style="overflow-y: scroll; background-color: #3F3F41; color: white; height:265px; border-radius: 4px; padding: 3px">
+		
+		  	<p id="reportDialogWorkingIndicator">... Working</p>
+		  </div>
+		</div>
+		
 		
 	</form:form>
 		
